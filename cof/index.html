@@ -11,8 +11,6 @@
   gtag('config', 'G-X4YNW0E3XG');
   </script>
   <title>Cost of Fund (COF) Calculation – Online v6</title>
-  <link rel="canonical" href="https://ablatif.com/cof/" />
-  <meta name="description" content="Agrani Bank PLC staff tool to calculate Cost of Fund (COF) for classified/bad loans using T24 statement CSV format. Supports interest waiver scenarios and banking reporting." />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <!-- Required libraries (must be in same folder) -->
@@ -20,7 +18,8 @@
   <script src="html2pdf.bundle.min.js"></script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3608304969182163"
      crossorigin="anonymous"></script>
-  <style>:root{
+  <style>
+    :root{
       --bg:#f5f7fb;--card:#fff;--accent:#2563eb;--border:#e5e7eb;--muted:#6b7280;--danger:#b91c1c
     }
     *{box-sizing:border-box;font-family:system-ui,sans-serif}
@@ -61,8 +60,16 @@
       body{background:#fff}
       .card{box-shadow:none}
     }
+    /* ===============================
+   TOPBAR + CONTENT UI (NSS STYLE)
+=============================== */
 
-/* ✅ AdSense UI additions (Topbar + Accordions + Footer) */
+.container{
+  max-width:1000px;
+  margin:auto;
+  padding:20px;
+}
+
 .topbar{
   background:#fff;
   border:1px solid rgba(0,0,0,.08);
@@ -75,181 +82,204 @@
   gap:12px;
   position:sticky;
   top:10px;
-  z-index:10;
-  margin-bottom:14px;
+  z-index:9999;
 }
+
 .brand h1{
   margin:0;
   font-size:18px;
-  font-weight:700;
+  font-weight:800;
   color:#1a2b4c;
 }
+
 .brand p{
   margin:0;
   font-size:13px;
   color:#64748b;
 }
-.btn-top{
+
+.btn{
   border:1px solid rgba(0,0,0,.12);
   background:transparent;
   padding:10px 12px;
   border-radius:12px;
   cursor:pointer;
-  font-weight:700;
+  font-weight:800;
   font-size:14px;
   text-decoration:none;
   color:#1a2b4c;
   display:inline-block;
-  margin-left:8px;
 }
-.btn-top:hover{opacity:.9}
+.btn:hover{opacity:.9}
 
-details.acc{
+/* ✅ Optional ad placeholder box */
+.ad-box{
+  margin-top:18px;
+  background:#fff;
+  border:1px dashed rgba(0,0,0,.15);
+  border-radius:14px;
+  padding:10px;
+}
+
+/* ✅ Card Blocks */
+.card{
+  background:#fff;
+  padding:18px;
+  border-radius:14px;
+  box-shadow:0 4px 12px rgba(0,0,0,.06);
+  margin-top:18px;
+  border:1px solid rgba(0,0,0,.08);
+}
+
+.card h3{
+  margin:0 0 12px;
+  font-size:18px;
+  font-weight:800;
+  color:#1a2b4c;
+  border-left:4px solid #2563eb;
+  padding-left:10px;
+}
+
+/* ✅ Accordion Expandable */
+details{
   border:1px solid rgba(0,0,0,.08);
   border-radius:12px;
   margin-bottom:12px;
   background:#fff;
   overflow:hidden;
 }
-details.acc summary{
+
+summary{
   cursor:pointer;
   padding:12px 14px;
-  font-weight:700;
+  font-weight:800;
   color:#1a2b4c;
   list-style:none;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
-details.acc summary::-webkit-details-marker{display:none}
-details.acc summary:after{
-  content:"+";
-  float:right;
+
+summary::-webkit-details-marker{display:none;}
+
+summary span{
+  color:#2563eb;
   font-size:18px;
   font-weight:900;
-  color:#2563eb;
+  transition:.2s;
 }
-details.acc[open] summary:after{content:"–"}
+
+details[open] summary span{
+  transform:rotate(45deg);
+}
+
 .acc-body{
   padding:14px;
   border-top:1px solid rgba(0,0,0,.08);
   color:#334155;
   font-size:14px;
-  line-height:1.75;
+  line-height:1.7;
 }
+
+.acc-body ul{
+  margin:8px 0 0;
+  padding-left:18px;
+}
+.acc-body li{
+  margin-bottom:8px;
+}
+
+/* ✅ Footer Trust Section */
 .footer{
-  margin-top:22px;
+  margin-top:25px;
   text-align:center;
-  font-size:13px;
   color:#64748b;
-  padding:16px 0;
+  font-size:13px;
+  line-height:1.8;
+  padding:18px 10px;
+  border-top:1px solid rgba(0,0,0,.08);
 }
+
 .footer a{
   color:#2563eb;
-  font-weight:700;
   text-decoration:none;
-  margin:0 6px;
+  font-weight:700;
 }
-.footer a:hover{text-decoration:underline}
-</style>
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="COF Calculator – Agrani Bank PLC Staff Tool" />
-  <meta property="og:description" content="Calculate cost of fund for classified/bad loans using T24 statement CSV format. Interest waiver oriented calculation." />
-  <meta property="og:url" content="https://ablatif.com/cof/" />
-  <meta property="og:type" content="website" />
+.footer a:hover{
+  text-decoration:underline;
+}
 
-
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"WebPage",
-    "name":"Cost of Fund (COF) Calculator – Agrani Bank PLC",
-    "url":"https://ablatif.com/cof/",
-    "description":"Agrani Bank PLC staff tool to calculate Cost of Fund (COF) for classified/bad loans using T24 statement CSV format, supporting interest waiver scenarios.",
-    "publisher":{"@type":"Person","name":"Abdul Latif","url":"https://ablatif.com/"}
+/* ✅ Responsive */
+@media(max-width:768px){
+  .topbar{
+    flex-direction:column;
+    align-items:flex-start;
   }
-  </script>
+}
 
+  </style>
 </head>
 <body>
 <div class="container">
-
-  <!-- ✅ Top Bar -->
+  <!-- Top Bar -->
   <div class="topbar">
     <div class="brand">
-      <h1>Abdul Latif – NSS Tools</h1>
-      <p>Online NSS form → PDF → Print → Bank Submission</p>
+      <h1>Cost of Fund (COF) Calculation – Online </h1>
+      <p>Agrani Bank PLC + Bangladesh Bank (BB) – Practical Reference</p>
     </div>
     <div>
-      <a class="btn-top" href="https://ablatif.com/">&larr; Main Site</a>
-      <a class="btn-top" href="https://ablatif.com/blog/">Blog</a>
+      <a class="btn" href="../index.html">&larr; Main Site</a>
+      <a class="btn" href="interest-waiver-circulars.html">&larr; Circular Summary</a>
     </div>
   </div>
+  <!-- ADS placeholder -->
+  <div class="ad-box">
+    <!-- Insert AdSense ad unit here later if needed -->
+    <small style="color:#64748b;">Ad Placeholder (optional)</small>
+  </div>
 
-  <!-- ✅ AdSense-friendly information (Educational + Instruction) -->
-  <details class="acc" open>
-    <summary>📌 About This COF Tool (Agrani Bank PLC Staff Use)</summary>
-    <div class="acc-body">
-      <p>
-        This is a specialized internal-use tool created for <b>Agrani Bank PLC</b> staff to calculate <b>Cost of Fund (COF)</b>
-        for <b>classified / bad loans</b>, especially where <b>interest waiver</b> or <b>interest reduction</b> may apply.
-      </p>
-      <p>
-        It is designed to work with <b>T24 Core Banking statement export</b> in <b>CSV format</b>.
-        The logic supports advanced loan staff dealing with credit monitoring, SMA/classification, waiver proposal, and reporting.
-      </p>
-      <p style="margin-top:12px;font-weight:800;color:#b91c1c;">
-        ⚠️ Disclaimer: Final COF/interest waiver approval depends on official Agrani Bank PLC circulars and Bangladesh Bank guidelines.
-        This tool provides calculation support only and does not replace official policy interpretation.
-      </p>
-    </div>
-  </details>
+  <!-- Agrani Bank Summary -->
+  <div class="card">
+    <h3>Agrani Bank PLC – Internal Practice Summary</h3>
 
-  <details class="acc">
-    <summary>📘 Instructions (How to Use)</summary>
-    <div class="acc-body">
-      <p><b>Download #.csv file from T24 software and upload it here.</b></p>
-      <p>
-        Every column and row of the CSV file is important here. So no column or row can be omitted or changed.
-        Then the calculation will be wrong or the report will show wrong.
-      </p>
-      <p style="font-weight:800;color:#b91c1c;">
-        ✅ If there is any mistake in the CSV file, change it efficiently or fix it from T24 software and upload it.
-      </p>
-      <ul>
-        <li>Upload the CSV statement from T24 (do not edit format).</li>
-        <li>Set classification date & reporting date correctly.</li>
-        <li>Review auto category mapping and adjust manually if needed.</li>
-        <li>Generate summary and export PDF/CSV for reporting.</li>
-      </ul>
-      <p style="font-size:13px;color:#64748b;">
-        Tip: Always verify results using the latest bank circulars and cross-check with your loan file and ledger records.
-      </p>
-    </div>
-  </details>
+    <details>
+      <summary>✅ When waiver/reduction is usually considered <span>+</span></summary>
+      <div class="acc-body">
+        <ul>
+          <li>To recover principal from long overdue / classified loans</li>
+          <li>To settle cases where borrower is paying but cannot bear full penal interest</li>
+          <li>To close legal cases or reduce litigation cost</li>
+          <li>For realistic adjustment of loan liability for negotiation or compromise settlement</li>
+        </ul>
+      </div>
+    </details>
 
-  <details class="acc">
-    <summary>📄 Interest Waiver Circular Summary (Agrani Bank + Bangladesh Bank)</summary>
-    <div class="acc-body">
-      <p>
-        Interest waiver or interest reduction for classified loans is governed by internal bank policies and Bangladesh Bank directives.
-        Circulars may change over time; however common principles usually include:
-      </p>
-      <ul>
-        <li><b>Waiver is not automatic</b> — competent authority approval is required.</li>
-        <li><b>Borrower settlement</b> must follow approved terms (principal recovery / down payment / schedule).</li>
-        <li><b>Interest calculation basis</b> (360-day year, rate slabs, waiver period) should follow circular instructions.</li>
-        <li><b>Provisioning & reporting</b> must be considered before final approval.</li>
-      </ul>
-      <p style="margin-top:10px;">
-        ✅ This tool allows updating the General Rate and Special Rate to match the relevant waiver rules for the period.
-      </p>
-      <p style="margin-top:10px;font-weight:800;color:#b91c1c;">
-        ⚠️ Always verify current circulars from Agrani Bank PLC & Bangladesh Bank before submitting final COF report.
-      </p>
-    </div>
-  </details>
+    <details>
+      <summary>📌 Common internal conditions used in waiver proposals <span>+</span></summary>
+      <div class="acc-body">
+        <ul>
+          <li>Borrower must pay minimum principal portion before waiver approval</li>
+          <li>Waiver is normally applied only for classified period interest (not always for regular period)</li>
+          <li>Waiver is linked with settlement schedule and borrower ability</li>
+          <li>Approval authority depends on amount and classification category</li>
+        </ul>
+      </div>
+    </details>
 
-
-  <h1>Cost of Fund (COF) Calculator – v6</h1>
+    <details>
+      <summary>📄 Waiver proposal structure (typical format) <span>+</span></summary>
+      <div class="acc-body">
+        <ul>
+          <li>Loan liability breakdown (principal + interest + charges)</li>
+          <li>Recovery position (deposit, cash, collateral, security value)</li>
+          <li>Cost of Fund (COF) calculation and justification</li>
+          <li>Borrower commitment letter / settlement agreement</li>
+          <li>Credit risk notes + legal status</li>
+        </ul>
+      </div>
+    </details>
+  </div>
 
   <!-- 1. Upload CSV -->
   <div class="card no-print">
@@ -351,6 +381,16 @@ details.acc[open] summary:after{content:"–"}
       <div style="font-weight:600">Authorized Officer</div>
     </div>
   </div>
+
+<!-- ✅ Footer (AdSense trust) -->
+  <div class="footer">
+    <a href="/privacy-policy.html">Privacy Policy</a> |
+    <a href="/terms.html">Terms</a> |
+    <a href="/cookie-policy.html">Cookie Policy</a> |
+    <a href="/disclaimer.html">Disclaimer</a> |
+    <a href="/contact.html">Contact</a>
+    <div style="margin-top:6px;">© 2026 Abdul Latif — All Rights Reserved.</div>
+  </div>
 </div>
 
 <!-- Special Interest Sheet Template -->
@@ -400,6 +440,8 @@ details.acc[open] summary:after{content:"–"}
     </div>
   </div>
 </template>
+ 
+
 
 <script>
 // ================= STRICT CSV LOADER =================
@@ -798,35 +840,7 @@ function openPrintWindow(title, bodyHtml){
     .injected-row{background:#fff7ed;font-weight:700}
   </style></head><body>
   ${bodyHtml}
-  
-<script>
-/* ✅ CSV format warning (does not affect calculation) */
-document.addEventListener("change", function(e){
-  if(e.target && e.target.id==="csvFile"){
-    const warnBox=document.getElementById("csvWarn");
-    if(!warnBox) return;
-    warnBox.style.display="none";
-    warnBox.textContent="";
-    const file=e.target.files && e.target.files[0];
-    if(!file) return;
-
-    const reader=new FileReader();
-    reader.onload=function(){
-      const text=reader.result || "";
-      const firstLine=(text.split(/\r?\n/)[0] || "").toLowerCase();
-      const required=["trans", "debit", "credit", "balance"];
-      const missing=required.filter(k=>!firstLine.includes(k));
-      if(missing.length){
-        warnBox.style.display="block";
-        warnBox.textContent="⚠️ Warning: Your CSV may not match the standard T24 statement export. Missing: " + missing.join(", ") + ". Please export again from T24 without changing columns/rows.";
-      }
-    };
-    reader.readAsText(file);
-  }
-});
-</script>
-
-</body></html>`);
+  </body></html>`);
   w.document.close();
   w.focus();
   w.print();
@@ -1198,33 +1212,5 @@ downloadCsvBtn.onclick=()=>{
   URL.revokeObjectURL(url);
 };
 </script>
-
-<script>
-/* ✅ CSV format warning (does not affect calculation) */
-document.addEventListener("change", function(e){
-  if(e.target && e.target.id==="csvFile"){
-    const warnBox=document.getElementById("csvWarn");
-    if(!warnBox) return;
-    warnBox.style.display="none";
-    warnBox.textContent="";
-    const file=e.target.files && e.target.files[0];
-    if(!file) return;
-
-    const reader=new FileReader();
-    reader.onload=function(){
-      const text=reader.result || "";
-      const firstLine=(text.split(/\r?\n/)[0] || "").toLowerCase();
-      const required=["trans", "debit", "credit", "balance"];
-      const missing=required.filter(k=>!firstLine.includes(k));
-      if(missing.length){
-        warnBox.style.display="block";
-        warnBox.textContent="⚠️ Warning: Your CSV may not match the standard T24 statement export. Missing: " + missing.join(", ") + ". Please export again from T24 without changing columns/rows.";
-      }
-    };
-    reader.readAsText(file);
-  }
-});
-</script>
-
 </body>
 </html>
