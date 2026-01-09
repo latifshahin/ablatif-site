@@ -1,0 +1,17 @@
+
+# Logs
+error_log
+**/error_log
+
+# Zip backups
+*.zip
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
