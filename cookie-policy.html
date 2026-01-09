@@ -1,30 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Cookie Policy – ablatif.com</title>
-  <meta name="description" content="Cookie Policy explaining how ablatif.com uses cookies and similar technologies through Google Analytics, AdSense, and performance tracking." />
-  <link rel="canonical" href="https://ablatif.com/cookie-policy.html" />
+  <title>Cookie Policy | ablatif.com</title>
+  <meta name="description" content="Cookie Policy for ablatif.com. Learn how cookies are used for Google Analytics and Google AdSense advertising, and how to manage your cookie preferences.">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://ablatif.com/cookie-policy.html">
+
+  <!-- Google Analytics (ONLY ONCE) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X4YNW0E3XG"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-X4YNW0E3XG');
+  </script>
+
+  <!-- Google AdSense (ONLY ONCE PER PAGE) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3608304969182163"
+    crossorigin="anonymous"></script>
 
   <style>
+    :root{
+      --bg:#f5f9ff;
+      --card:#ffffff;
+      --text:#0b1a33;
+      --muted:#33415c;
+      --accent:#007bff;
+      --border:rgba(0,0,0,.08);
+    }
     body{
-      font-family:Segoe UI, Arial, sans-serif;
       margin:0;
-      background:#f1f5f9;
-      color:#111;
-      line-height:1.75;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.8;
     }
     .container{
-      max-width:950px;
+      max-width:980px;
       margin:auto;
-      padding:20px;
+      padding:22px;
     }
     .topbar{
-      background:#fff;
-      border:1px solid rgba(0,0,0,.08);
-      box-shadow:0 4px 12px rgba(0,0,0,.06);
+      background:var(--card);
+      border:1px solid var(--border);
       border-radius:14px;
       padding:14px 16px;
       display:flex;
@@ -34,17 +56,18 @@
       position:sticky;
       top:10px;
       z-index:10;
+      box-shadow:0 4px 12px rgba(0,0,0,.06);
     }
     .brand h1{
       margin:0;
       font-size:18px;
       font-weight:800;
-      color:#1a2b4c;
+      color:var(--text);
     }
     .brand p{
       margin:0;
       font-size:13px;
-      color:#64748b;
+      color:var(--muted);
       font-weight:600;
     }
     .btn{
@@ -56,162 +79,229 @@
       font-weight:800;
       font-size:14px;
       text-decoration:none;
-      color:#1a2b4c;
+      color:var(--text);
+      display:inline-block;
+      margin-left:6px;
     }
-    .btn:hover{opacity:.9}
-
+    .btn:hover{opacity:.9;}
     .card{
-      background:#fff;
+      background:var(--card);
+      border:1px solid var(--border);
       border-radius:14px;
       padding:18px;
+      box-shadow:0 4px 12px rgba(0,0,0,.06);
       margin-top:18px;
-      box-shadow:0 6px 18px rgba(0,0,0,.10);
     }
-
     h2{
-      margin:0 0 10px;
+      margin:18px 0 10px;
       font-size:22px;
-      color:#0f172a;
     }
     h3{
-      margin-top:18px;
-      margin-bottom:8px;
+      margin:16px 0 8px;
       font-size:18px;
-      color:#0f172a;
-      border-left:4px solid #2563eb;
-      padding-left:10px;
     }
-    p{margin:0 0 12px;color:#334155;font-weight:600}
-    ul{padding-left:18px;margin:0 0 14px}
-    li{margin-bottom:8px;color:#334155;font-weight:600}
-
-    .notice{
-      background:#ecfeff;
-      border-left:4px solid #0284c7;
-      padding:12px;
+    ul{padding-left:20px;}
+    .highlight{
+      background:#f1f5ff;
+      border:1px solid rgba(0,123,255,.25);
+      padding:14px;
       border-radius:12px;
-      color:#0f172a;
-      font-weight:800;
-      margin:15px 0;
+      margin:12px 0;
+      color:var(--muted);
+      font-weight:600;
+    }
+    .note{
       font-size:14px;
+      color:var(--muted);
+      margin-top:8px;
     }
-
     .footer{
-      margin:25px 0 10px;
+      margin-top:25px;
       text-align:center;
+      color:var(--muted);
       font-size:13px;
-      font-weight:800;
-      color:#64748b;
+      padding:18px 0;
     }
-    .footer a{
-      color:#2563eb;
-      text-decoration:none;
-      margin:0 6px;
+    .footer a{color:var(--accent); text-decoration:none; font-weight:700;}
+    .footer a:hover{text-decoration:underline;}
+    @media(max-width:700px){
+      .topbar{flex-direction:column; align-items:flex-start;}
+      .btn{margin-left:0; margin-right:8px; margin-top:6px;}
     }
-    .footer a:hover{text-decoration:underline}
+    code{
+      background:#f1f5f9;
+      padding:2px 6px;
+      border-radius:6px;
+      font-family: Consolas, monospace;
+      font-size: 13px;
+    }
   </style>
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebPage",
+    "name":"Cookie Policy | ablatif.com",
+    "url":"https://ablatif.com/cookie-policy.html",
+    "description":"Cookie Policy explaining Analytics and AdSense cookies used on ablatif.com.",
+    "publisher":{"@type":"Person","name":"Abdul Latif","url":"https://ablatif.com/"}
+  }
+  </script>
+
 </head>
 
 <body>
+
 <div class="container">
 
-  <!-- ✅ Top Bar -->
+  <!-- ✅ Floating Header -->
   <div class="topbar">
     <div class="brand">
-      <h1>Abdul Latif – Banking Tools</h1>
-      <p>Practical finance tools, calculators & guidance for Bangladesh</p>
+      <h1>Cookie Policy</h1>
+      <p>ablatif.com — Banking Tools, Blog & Financial Guidance</p>
     </div>
     <div>
       <a class="btn" href="https://ablatif.com/">&larr; Main Site</a>
       <a class="btn" href="https://ablatif.com/blog/">Blog</a>
+      <a class="btn" href="https://ablatif.com/contact.html">Contact</a>
     </div>
   </div>
 
   <div class="card">
-    <h2>Cookie Policy</h2>
-    <p><b>Last Updated:</b> January 2026</p>
+    <p><strong>Last Updated:</strong> January 2026</p>
 
     <p>
-      This Cookie Policy explains how <b>ablatif.com</b> uses cookies and similar technologies
-      to improve user experience, monitor performance, and display relevant advertisements.
+      This Cookie Policy explains what cookies are, how <strong>ablatif.com</strong> uses cookies,
+      and how you can manage cookie preferences. By continuing to use this website, you agree
+      to the use of cookies as described in this policy.
     </p>
 
-    <div class="notice">
-      ✅ By using this Website, you agree to the use of cookies as described below.
-      You can disable cookies in your browser settings at any time.
+    <div class="highlight">
+      <strong>Short Summary:</strong><br>
+      We use cookies to measure website traffic (Google Analytics) and to display ads (Google AdSense).
+      You can disable cookies anytime in your browser settings.
     </div>
 
-    <h3>1) What Are Cookies?</h3>
+    <h2>1) What Are Cookies?</h2>
     <p>
-      Cookies are small text files stored in your browser. They help websites remember preferences, measure performance,
-      and improve user experience. Cookies do not usually contain personal identity information such as your name or password.
+      Cookies are small text files stored on your browser or device when you visit a website.
+      They help websites remember information such as preferences, page settings, and browsing behavior.
     </p>
 
-    <h3>2) Why We Use Cookies</h3>
-    <ul>
-      <li>To understand how visitors use this Website (Analytics)</li>
-      <li>To improve performance and functionality</li>
-      <li>To measure and display advertising (AdSense)</li>
-      <li>To help protect the Website from spam and abuse</li>
-    </ul>
-
-    <h3>3) Google Analytics Cookies</h3>
+    <h2>2) Why We Use Cookies</h2>
     <p>
-      We use Google Analytics to measure website traffic and user behavior.
-      Google Analytics may store cookies to collect anonymous data such as:
+      Cookies help us:
     </p>
     <ul>
-      <li>Pages you visit</li>
-      <li>Time spent on pages</li>
-      <li>Device and browser type</li>
-      <li>General location (city-level, not exact address)</li>
+      <li>Understand how people use our website (traffic analytics)</li>
+      <li>Improve tools, blog content, and website performance</li>
+      <li>Serve advertisements through Google AdSense</li>
+      <li>Measure ad performance and user engagement</li>
     </ul>
 
-    <h3>4) Google AdSense Cookies</h3>
+    <h2>3) Types of Cookies We Use</h2>
+
+    <h3>a) Essential Cookies</h3>
     <p>
-      This Website may show advertisements served by Google AdSense. Google may use cookies to:
+      These cookies support basic website functionality such as navigation and security.
+      Without these cookies, some parts of the website may not work properly.
+    </p>
+
+    <h3>b) Analytics Cookies (Google Analytics)</h3>
+    <p>
+      We use <strong>Google Analytics</strong> to understand user behavior such as:
     </p>
     <ul>
-      <li>Display relevant ads based on browsing behavior</li>
-      <li>Prevent showing the same ad repeatedly</li>
-      <li>Measure ad performance and user interactions</li>
+      <li>Which pages are visited most frequently</li>
+      <li>How long users stay on a page</li>
+      <li>Device type and browser usage</li>
+      <li>Traffic sources (Google Search, Facebook, etc.)</li>
     </ul>
-    <p>
-      Google and its partners may use personalized advertising cookies. You can control ad personalization using Google Ads Settings.
+    <p class="note">
+      Google Analytics may store cookies and use anonymized data to generate traffic reports.
+      We do not receive personal identity data from Analytics.
     </p>
 
-    <h3>5) Managing Cookies</h3>
+    <h3>c) Advertising Cookies (Google AdSense)</h3>
     <p>
-      You can choose to disable cookies through your browser settings.
-      Please note that disabling cookies may affect how certain tools and features work.
+      This website may show ads served by <strong>Google AdSense</strong>.
+      Google and its advertising partners may use cookies to:
     </p>
     <ul>
-      <li>Chrome: Settings → Privacy and Security → Cookies</li>
-      <li>Firefox: Settings → Privacy & Security</li>
-      <li>Edge: Settings → Cookies and site permissions</li>
-      <li>Safari: Preferences → Privacy</li>
+      <li>Show ads relevant to the user’s interests</li>
+      <li>Limit repetitive ad display (frequency control)</li>
+      <li>Measure ad performance and clicks</li>
+      <li>Provide personalized or non-personalized ads</li>
     </ul>
 
-    <h3>6) Updates to This Cookie Policy</h3>
+    <div class="highlight">
+      <strong>Ad Personalization:</strong><br>
+      Google may show personalized ads based on your browsing history.  
+      If you do not want personalized ads, you can turn off ad personalization using Google Ads Settings.
+    </div>
+
+    <h2>4) Third-Party Cookies</h2>
     <p>
-      We may update this Cookie Policy from time to time to reflect changes in technology, legal requirements, or services.
-      Updated versions will be posted on this page.
+      Third-party services (Google, embedded content, social media links, etc.) may set cookies in your browser.
+      These cookies are controlled by third-party providers and governed by their privacy policies.
     </p>
 
-    <h3>7) Contact</h3>
+    <h2>5) How to Control Cookies</h2>
     <p>
-      If you have any questions about this Cookie Policy, contact:
-      <br><b>Email:</b> <a href="mailto:latifshahin@gmail.com">latifshahin@gmail.com</a>
+      You can control or disable cookies through your browser settings. Most browsers allow you to:
+    </p>
+    <ul>
+      <li>View cookies stored on your device</li>
+      <li>Delete cookies</li>
+      <li>Block all cookies</li>
+      <li>Block third-party cookies only</li>
+    </ul>
+
+    <p class="note">
+      Please note: disabling cookies may affect the functionality of some website features.
     </p>
 
-    <div class="footer">
-      <a href="/privacy-policy.html">Privacy Policy</a> |
-      <a href="/terms.html">Terms</a> |
-      <a href="/disclaimer.html">Disclaimer</a> |
-      <a href="/contact.html">Contact</a>
+    <h2>6) Useful Links (Google Cookie & Ad Controls)</h2>
+    <ul>
+      <li><strong>Google Ads Settings:</strong> <span>adssettings.google.com</span></li>
+      <li><strong>Google Privacy Policy:</strong> <span>policies.google.com/privacy</span></li>
+      <li><strong>Opt out of personalized ads:</strong> <span>www.aboutads.info</span></li>
+    </ul>
+
+    <h2>7) Updates to This Cookie Policy</h2>
+    <p>
+      We may update this policy occasionally to reflect changes in technology or legal requirements.
+      Updates will be posted on this page with the updated date.
+    </p>
+
+    <h2>8) Contact</h2>
+    <p>
+      If you have questions about this Cookie Policy, contact:
+    </p>
+    <ul>
+      <li><strong>Name:</strong> Abdul Latif</li>
+      <li><strong>Email:</strong> <a href="mailto:latifshahin@gmail.com">latifshahin@gmail.com</a></li>
+      <li><strong>Website:</strong> <a href="https://ablatif.com/">https://ablatif.com/</a></li>
+    </ul>
+
+    <div class="highlight">
+      <strong>Note:</strong> For full details about data handling, please read our
+      <a href="https://ablatif.com/privacy-policy.html"><strong>Privacy Policy</strong></a>.
     </div>
 
   </div>
+
+  <div class="footer">
+    <a href="https://ablatif.com/privacy-policy.html">Privacy Policy</a> |
+    <a href="https://ablatif.com/terms.html">Terms</a> |
+    <a href="https://ablatif.com/disclaimer.html">Disclaimer</a> |
+    <a href="https://ablatif.com/contact.html">Contact</a> |
+    <a href="https://ablatif.com/blog/">Blog</a>
+    <div style="margin-top:8px;">© 2026 Abdul Latif — All Rights Reserved.</div>
+  </div>
+
 </div>
+
 </body>
 </html>

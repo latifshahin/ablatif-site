@@ -1,76 +1,281 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Disclaimer | ablatif.com</title>
-  <meta name="description" content="Disclaimer for ablatif.com and its subpages, including the blog at /blog." />
+  <meta name="description" content="Disclaimer for ablatif.com. Banking tools and blog content are for educational purposes only. Learn limitations, accuracy notes, and liability details.">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://ablatif.com/disclaimer.html">
+
+  <!-- Google Analytics (ONLY ONCE) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X4YNW0E3XG"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-X4YNW0E3XG');
+  </script>
+
+  <!-- Google AdSense (ONLY ONCE PER PAGE) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3608304969182163"
+    crossorigin="anonymous"></script>
+
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.6;margin:0;background:#0b0f14;color:#e6edf3;}
-    .wrap{max-width:900px;margin:0 auto;padding:28px 18px;}
-    a{color:#7dd3fc;text-decoration:none}
-    a:hover{text-decoration:underline}
-    .card{background:#111827;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px}
-    .top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px}
-    .btn{display:inline-block;padding:10px 14px;border-radius:10px;background:rgba(125,211,252,.12);border:1px solid rgba(125,211,252,.35);color:#e6edf3}
-    .muted{color:rgba(230,237,243,.75)}
-    h1{margin:0 0 6px;font-size:28px}
-    h2{margin-top:20px}
-    ul{margin:8px 0 12px 18px}
-    footer{margin-top:20px;font-size:14px;text-align:center;color:rgba(230,237,243,.7)}
+    :root{
+      --bg:#f5f9ff;
+      --card:#ffffff;
+      --text:#0b1a33;
+      --muted:#33415c;
+      --accent:#007bff;
+      --border:rgba(0,0,0,.08);
+    }
+    body{
+      margin:0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.85;
+    }
+    .container{
+      max-width:980px;
+      margin:auto;
+      padding:22px;
+    }
+    .topbar{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:14px 16px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      position:sticky;
+      top:10px;
+      z-index:10;
+      box-shadow:0 4px 12px rgba(0,0,0,.06);
+    }
+    .brand h1{
+      margin:0;
+      font-size:18px;
+      font-weight:800;
+      color:var(--text);
+    }
+    .brand p{
+      margin:0;
+      font-size:13px;
+      color:var(--muted);
+      font-weight:600;
+    }
+    .btn{
+      border:1px solid rgba(0,0,0,.12);
+      background:transparent;
+      padding:10px 12px;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:800;
+      font-size:14px;
+      text-decoration:none;
+      color:var(--text);
+      display:inline-block;
+      margin-left:6px;
+    }
+    .btn:hover{opacity:.9;}
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:18px;
+      box-shadow:0 4px 12px rgba(0,0,0,.06);
+      margin-top:18px;
+    }
+    h2{
+      margin:18px 0 10px;
+      font-size:22px;
+    }
+    h3{
+      margin:16px 0 8px;
+      font-size:18px;
+    }
+    ul{padding-left:20px;}
+    .highlight{
+      background:#f1f5ff;
+      border:1px solid rgba(0,123,255,.25);
+      padding:14px;
+      border-radius:12px;
+      margin:12px 0;
+      color:var(--muted);
+      font-weight:650;
+    }
+    .warn{
+      background:#fff7ed;
+      border:1px solid rgba(249,115,22,.25);
+      padding:14px;
+      border-radius:12px;
+      margin:12px 0;
+      color:#7c2d12;
+      font-weight:700;
+    }
+    .footer{
+      margin-top:25px;
+      text-align:center;
+      color:var(--muted);
+      font-size:13px;
+      padding:18px 0;
+    }
+    .footer a{color:var(--accent); text-decoration:none; font-weight:700;}
+    .footer a:hover{text-decoration:underline;}
+    @media(max-width:700px){
+      .topbar{flex-direction:column; align-items:flex-start;}
+      .btn{margin-left:0; margin-right:8px; margin-top:6px;}
+    }
   </style>
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebPage",
+    "name":"Disclaimer | ablatif.com",
+    "url":"https://ablatif.com/disclaimer.html",
+    "description":"Disclaimer for ablatif.com regarding banking tools, blog content, and liability limitations.",
+    "publisher":{"@type":"Person","name":"Abdul Latif","url":"https://ablatif.com/"}
+  }
+  </script>
+
 </head>
+
 <body>
-  <div class="wrap">
-    <div class="top">
-      <div>
-        <h1>Disclaimer</h1>
-        <div class="muted">ablatif.com (including /blog)</div>
-      </div>
-      <a class="btn" href="/">← Back to Home</a>
+
+<div class="container">
+
+  <!-- ✅ Floating Header -->
+  <div class="topbar">
+    <div class="brand">
+      <h1>Disclaimer</h1>
+      <p>ablatif.com — Tools, Calculators & Banking Guidance</p>
     </div>
-
-    <div class="card">
-      <p class="muted"><strong>Last updated:</strong> 27 December 2025</p>
-
-      <p>
-        The content on <strong>ablatif.com</strong> (including the blog at <strong>/blog</strong>) is provided for informational
-        and educational purposes only. It does not constitute professional financial, legal, tax, or investment advice.
-      </p>
-
-      <h2>1) No Professional Advice</h2>
-      <p>
-        You should consult qualified professionals before making decisions. Any reliance on the information on this site is strictly at your own risk.
-      </p>
-
-      <h2>2) Accuracy</h2>
-      <p>
-        We try to keep information accurate and updated, but we make no warranties about completeness, reliability, or accuracy.
-        Information may change over time (rates, rules, policies, laws).
-      </p>
-
-      <h2>3) External Links</h2>
-      <p>
-        This site may contain links to external websites. We do not control or guarantee the content of those sites.
-      </p>
-
-      <h2>4) Advertising</h2>
-      <p>
-        This site may display advertisements via Google AdSense or other networks. We may earn revenue from ads shown on this site.
-        Advertising does not influence our editorial content.
-      </p>
-
-      <h2>5) Contact</h2>
-      <p>
-        Questions: <a href="mailto:latifshahin@gmail.com">latifshahin@gmail.com</a>
-      </p>
-
-      <p class="muted">
-        Related: <a href="/privacy-policy.html">Privacy Policy</a> • <a href="/contact.html">Contact</a>
-      </p>
+    <div>
+      <a class="btn" href="https://ablatif.com/">&larr; Main Site</a>
+      <a class="btn" href="https://ablatif.com/blog/">Blog</a>
+      <a class="btn" href="https://ablatif.com/contact.html">Contact</a>
     </div>
-
-    <footer>© 2025 Abdul Latif</footer>
   </div>
+
+  <div class="card">
+    <p><strong>Last Updated:</strong> January 2026</p>
+
+    <div class="warn">
+      ⚠️ <strong>Important Notice:</strong><br>
+      All tools and content on <strong>ablatif.com</strong> are provided for <strong>educational and informational purposes only</strong>.
+      They do not guarantee loan approval, banking eligibility, or official decisions of any bank or authority.
+    </div>
+
+    <h2>1) Educational Use Only</h2>
+    <p>
+      The calculators, tools, and articles on this website are created to help users understand banking concepts such as
+      EMI, loan affordability, DSCR, cost of funds (COF), account opening procedures, and financial planning.
+    </p>
+    <p>
+      However, the website does not provide professional financial advice, legal advice, tax advice, or investment advice.
+      Always consult your bank, a financial advisor, or a qualified professional before making decisions.
+    </p>
+
+    <h2>2) Tool Accuracy Disclaimer</h2>
+    <p>
+      While we try to keep tools accurate, real banking systems may calculate differently due to:
+    </p>
+    <ul>
+      <li>Bank-specific circulars and internal policies</li>
+      <li>Rounding rules and installment structures</li>
+      <li>Service charges, insurance, stamp duties, VAT, and fees</li>
+      <li>Borrower risk classification, credit score (CIB), and internal approval rules</li>
+      <li>Interest rate updates and regulatory changes</li>
+    </ul>
+
+    <div class="highlight">
+      ✅ <strong>Reminder:</strong> All calculations on this website should be treated as estimates, not official bank outputs.
+    </div>
+
+    <h2>3) No Guarantee of Results</h2>
+    <p>
+      We do not guarantee that the use of this website will result in:
+    </p>
+    <ul>
+      <li>Loan approval or eligibility confirmation</li>
+      <li>Acceptance of forms or documents by any bank</li>
+      <li>Financial profit or better credit decisions</li>
+      <li>Improved banking outcomes in Bangladesh or any country</li>
+    </ul>
+
+    <h2>4) External Links Disclaimer</h2>
+    <p>
+      This website may contain external links to banks, government portals, news sites, or third-party services.
+      We do not control those websites and are not responsible for:
+    </p>
+    <ul>
+      <li>Content accuracy on external websites</li>
+      <li>Security or privacy policies of third-party websites</li>
+      <li>Any loss caused by third-party services</li>
+    </ul>
+
+    <h2>5) Advertisement Disclaimer</h2>
+    <p>
+      ablatif.com may display advertisements through Google AdSense or other networks.
+      Ads shown on this website are served by third-party vendors and may be personalized or non-personalized depending on user settings.
+    </p>
+    <p>
+      You can learn more about ad-related cookies in our
+      <a href="https://ablatif.com/privacy-policy.html"><strong>Privacy Policy</strong></a> and
+      <a href="https://ablatif.com/cookie-policy.html"><strong>Cookie Policy</strong></a>.
+    </p>
+
+    <h2>6) Limitation of Liability</h2>
+    <p>
+      To the maximum extent permitted by law:
+    </p>
+    <ul>
+      <li>We are not responsible for financial loss, business loss, or missed opportunities.</li>
+      <li>We are not liable for errors, delays, or technical issues.</li>
+      <li>We are not responsible for any user decisions made based on the content or tool outputs.</li>
+      <li>We are not responsible for results from any bank, regulatory authority, or third-party decisions.</li>
+    </ul>
+
+    <div class="warn">
+      ⚠️ <strong>Use at Your Own Risk:</strong><br>
+      If you use any calculator or banking tool on this website, you accept full responsibility for how you use the output.
+    </div>
+
+    <h2>7) Contact</h2>
+    <p>
+      If you have questions regarding this disclaimer, please contact:
+    </p>
+    <ul>
+      <li><strong>Name:</strong> Abdul Latif</li>
+      <li><strong>Email:</strong> <a href="mailto:latifshahin@gmail.com">latifshahin@gmail.com</a></li>
+      <li><strong>Website:</strong> <a href="https://ablatif.com/">https://ablatif.com/</a></li>
+    </ul>
+
+    <div class="highlight">
+      ✅ This disclaimer is part of the terms for using ablatif.com. Please also read our
+      <a href="https://ablatif.com/terms.html"><strong>Terms & Conditions</strong></a>.
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <a href="https://ablatif.com/privacy-policy.html">Privacy Policy</a> |
+    <a href="https://ablatif.com/terms.html">Terms</a> |
+    <a href="https://ablatif.com/cookie-policy.html">Cookie Policy</a> |
+    <a href="https://ablatif.com/contact.html">Contact</a> |
+    <a href="https://ablatif.com/blog/">Blog</a>
+    <div style="margin-top:8px;">© 2026 Abdul Latif — All Rights Reserved.</div>
+  </div>
+
+</div>
+
 </body>
 </html>

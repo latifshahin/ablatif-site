@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Loan Eligibility & EMI Calculator (Bangladesh) – Salary Loan Tool</title>
-<meta name="description" content="Calculate loan eligibility and EMI for salary/personal loans in Bangladesh. Compare bank rates, check affordability, and download eligibility PDF. Educational tool only.">
-
+<title>Loan Eligibility Calculator Bangladesh | Salary Loan EMI Tool</title>
+<meta name="description" content="Calculate salary loan eligibility in Bangladesh. Check EMI, max loan amount based on salary rules (80% and 2/3), retirement age policy, and download a bank-ready PDF summary.">
 <link rel="canonical" href="https://ablatif.com/tools/Loan_Eligibility.html">
 
-<meta property="og:title" content="Loan Eligibility & EMI Calculator (Bangladesh)">
-<meta property="og:description" content="Estimate EMI, maximum loan amount based on salary, and download bank eligibility PDF.">
+<!-- Open Graph -->
+<meta property="og:title" content="Loan Eligibility Calculator (Bangladesh)">
+<meta property="og:description" content="Salary loan eligibility calculator with EMI, max loan estimation, and PDF export.">
 <meta property="og:url" content="https://ablatif.com/tools/Loan_Eligibility.html">
 <meta property="og:type" content="website">
 
@@ -23,32 +23,53 @@
   gtag('config', 'G-X4YNW0E3XG');
 </script>
 
-<!-- AdSense -->
+<!-- AdSense (ONLY ONCE PER PAGE) -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3608304969182163"
-crossorigin="anonymous"></script>
+  crossorigin="anonymous"></script>
 
-<!-- ✅ jsPDF with fallback -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
-  onerror="this.onerror=null;this.src='https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js';">
-</script>
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-<!-- ✅ Lightweight Schema -->
+<!-- Schema -->
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
   "@type":"WebPage",
-  "name":"Loan Eligibility & EMI Calculator (Bangladesh)",
+  "name":"Loan Eligibility Calculator Bangladesh",
   "url":"https://ablatif.com/tools/Loan_Eligibility.html",
-  "description":"Calculate loan eligibility and EMI for salary/personal loans in Bangladesh. Compare bank rates and download eligibility PDF.",
+  "description":"Salary loan eligibility and EMI calculator for Bangladesh with PDF export.",
   "publisher":{"@type":"Person","name":"Abdul Latif","url":"https://ablatif.com/"}
 }
 </script>
 
 <style>
-body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#f1f5f9}
+/* ===========================
+   ✅ MAIN PAGE STYLE (ORIGINAL)
+=========================== */
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#f1f5f9;color:#111;line-height:1.7}
 .container{max-width:900px;margin:auto;padding:12px}
+.card{background:#fff;border-radius:14px;padding:16px;margin-bottom:16px;box-shadow:0 6px 18px rgba(0,0,0,.12)}
+h2{margin:0 0 6px;font-size:20px}
+h1{margin:0 0 12px;font-size:22px}
+label{font-weight:600;font-size:14px}
+input,select{width:100%;padding:9px;margin:5px 0 10px;border-radius:8px;border:1px solid #cbd5e1}
+.inline{display:flex;gap:6px}
+button{flex:1;padding:9px;border:none;border-radius:8px;background:#2563eb;color:#fff;font-size:16px;cursor:pointer}
+button:active{transform:scale(.98)}
+.result{font-size:20px;font-weight:800;margin-top:8px}
+.notice{padding:12px;border-radius:10px;margin:8px 0;font-weight:800;display:none}
+.red{background:#fee2e2;color:#991b1b}
+.yellow{background:#fef9c3;color:#854d0e}
+.highlight{background:#ecfeff;border-left:5px solid #0284c7;padding:12px;border-radius:10px;margin-top:12px;font-size:16px;font-weight:700}
+.small-note{font-size:15px;font-weight:800;color:#065f46;margin-top:10px}
+@media(max-width:600px){
+h1{font-size:20px}
+.result{font-size:18px}
+}
 
-/* ✅ NSS-style Floating Topbar */
+/* ===========================
+   ✅ TOPBAR LIKE NSS PAGE
+=========================== */
 .topbar{
   background:#fff;
   border:1px solid rgba(0,0,0,.08);
@@ -62,7 +83,6 @@ body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#f1f5f9}
   position:sticky;
   top:10px;
   z-index:10;
-  margin-top:12px;
 }
 .brand h1{
   margin:0;
@@ -88,14 +108,15 @@ body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#f1f5f9}
 }
 .btn:hover{opacity:.9}
 
-/* ✅ Expandable Guide */
+/* ===========================
+   ✅ ACCORDION (ADSENSE CONTENT)
+=========================== */
 .acc{
   border:1px solid rgba(0,0,0,.08);
   border-radius:12px;
   margin-top:14px;
   background:#fff;
   overflow:hidden;
-  box-shadow:0 4px 10px rgba(0,0,0,0.06);
 }
 .acc summary{
   cursor:pointer;
@@ -118,56 +139,15 @@ body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#f1f5f9}
   border-top:1px solid rgba(0,0,0,.08);
   color:#334155;
   font-size:14px;
-  font-weight:600;
 }
-.acc-body ul{padding-left:18px;}
-.acc-body li{margin-bottom:8px;}
-.disclaimer{
-  margin-top:10px;
-  background:#fefce8;
-  border-left:4px solid #f59e0b;
-  padding:10px 12px;
-  border-radius:12px;
-  color:#854d0e;
-  font-weight:800;
-  font-size:13px;
-}
-
-/* ✅ Tool Card */
-.card{background:#fff;border-radius:14px;padding:16px;margin-bottom:16px;box-shadow:0 6px 18px rgba(0,0,0,.12);margin-top:16px}
-h2{margin:0 0 6px;font-size:20px}
-h1{margin:0 0 12px;font-size:22px}
-label{font-weight:600;font-size:14px}
-input,select{width:100%;padding:9px;margin:5px 0 10px;border-radius:8px;border:1px solid #cbd5e1}
-.inline{display:flex;gap:6px}
-button{flex:1;padding:9px;border:none;border-radius:8px;background:#2563eb;color:#fff;font-size:16px;font-weight:800}
-button:active{transform:scale(.98)}
-.result{font-size:20px;font-weight:800;margin-top:8px}
-.notice{padding:12px;border-radius:10px;margin:8px 0;font-weight:800;display:none}
-.red{background:#fee2e2;color:#991b1b}
-.yellow{background:#fef9c3;color:#854d0e}
-.highlight{background:#ecfeff;border-left:5px solid #0284c7;padding:12px;border-radius:10px;margin-top:12px;font-size:16px;font-weight:700}
-.small-note{font-size:15px;font-weight:800;color:#065f46;margin-top:10px}
-
-/* ✅ Footer Links */
 .footer{
-  margin:20px 0 10px;
   text-align:center;
   font-size:13px;
-  font-weight:800;
   color:#64748b;
+  margin:22px 0 10px;
 }
-.footer a{
-  color:#2563eb;
-  text-decoration:none;
-  margin:0 6px;
-}
-.footer a:hover{text-decoration:underline;}
-
-@media(max-width:600px){
-  h1{font-size:20px}
-  .result{font-size:18px}
-}
+.footer a{color:#2563eb;font-weight:800;text-decoration:none}
+.footer a:hover{text-decoration:underline}
 </style>
 </head>
 
@@ -186,30 +166,49 @@ button:active{transform:scale(.98)}
     </div>
   </div>
 
-  <!-- ✅ Guide Content -->
-  <details class="acc" open>
-    <summary>📌 Loan Eligibility Guide (Bangladesh) — Read Before Using</summary>
-    <div class="acc-body">
-      <p>
-        This tool estimates EMI and maximum loan amount based on net salary and bank rate.
-        Banks in Bangladesh often use income ratio rules (like 80% or 2/3 salary) and retirement age policy.
-      </p>
+  <!-- ✅ AdSense Friendly Content -->
+  <div class="card" style="margin-top:16px;">
+    <h2>Loan Eligibility Calculator (Bangladesh)</h2>
+    <p style="margin:0;color:#334155;font-size:15px;font-weight:600;">
+      This tool helps you estimate salary loan eligibility and EMI before applying in any bank in Bangladesh.
+      It uses standard banking affordability rules (80% and 2/3 salary policy) and warns if loan tenor exceeds retirement age.
+    </p>
 
-      <ul>
-        <li>Estimate EMI quickly and compare bank rates</li>
-        <li>See warnings if EMI becomes risky relative to salary</li>
-        <li>Check if loan tenure exceeds retirement age</li>
-        <li>Download a PDF summary for personal reference</li>
-      </ul>
-
-      <div class="disclaimer">
-        Disclaimer: This tool provides estimated calculations for educational purposes only.
-        Final approval depends on official bank policy, documents, and credit evaluation.
+    <details class="acc">
+      <summary>Why people take loans?</summary>
+      <div class="acc-body">
+        Loans help meet major financial needs such as home renovation, education, medical emergencies, business expansion, or personal investment.
+        A responsible loan strengthens your financial plan, but an excessive EMI can create long-term pressure.
       </div>
-    </div>
-  </details>
+    </details>
 
-  <!-- CARD 1 -->
+    <details class="acc">
+      <summary>For whom this calculator is useful?</summary>
+      <div class="acc-body">
+        This calculator is useful for salaried professionals, job holders, government employees, and private employees planning personal or salary loans.
+        If you are planning to apply for a loan, you should check EMI affordability first.
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary>Loan culture in Bangladesh (salary loans)</summary>
+      <div class="acc-body">
+        In Bangladesh, banks commonly use income-based eligibility rules. Many banks allow a maximum EMI around 80% of net salary,
+        while conservative evaluation often applies 2/3 of salary for safer debt coverage.
+        Final approval depends on CIB history, job stability, and bank policy.
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary>Important note about eligibility</summary>
+      <div class="acc-body">
+        This tool provides an estimate only. Actual bank eligibility may vary due to:
+        interest rate changes, service charges, insurance, employer category, CIB report, and bank-specific internal policy.
+      </div>
+    </details>
+  </div>
+
+  <!-- CARD 1 (✅ Your original tool code kept) -->
   <div class="card">
     <h2>Loan Eligibility</h2>
     <h1>Personal / Salary Loan</h1>
@@ -217,9 +216,9 @@ button:active{transform:scale(.98)}
     <label>Bank Name</label>
     <select id="bankName"></select>
 
-    <div id="emiRed" class="notice red">EMI exceeds 80% of salary</div>
-    <div id="emiYellow" class="notice yellow">EMI exceeds 2/3 of salary</div>
-    <div id="ageWarn" class="notice red">Loan tenure exceeds retirement age</div>
+    <div id="emiRed" class="notice red">🚨 EMI exceeds 80% of salary</div>
+    <div id="emiYellow" class="notice yellow">⚠ EMI exceeds 2/3 of salary</div>
+    <div id="ageWarn" class="notice red">🚨 Loan tenure exceeds retirement age</div>
 
     <label>Date of Birth</label>
     <input type="date" id="dob">
@@ -251,10 +250,10 @@ button:active{transform:scale(.98)}
       Max Loan @ 2/3 Salary: ৳ <span id="l66">0</span>
     </div>
 
-    <div class="small-note">Minimum Job Experience Required: 2 Years</div>
+    <div class="small-note">📌 Minimum Job Experience Required: 2 Years</div>
 
     <button onclick="downloadPDF()" style="margin-top:14px">
-      Download Bank Eligibility PDF
+      📄 Download Bank Eligibility PDF
     </button>
   </div>
 
@@ -270,12 +269,14 @@ button:active{transform:scale(.98)}
     </ul>
   </div>
 
-  <!-- Footer -->
+  <!-- ✅ Footer (AdSense trust) -->
   <div class="footer">
-    <a href="https://ablatif.com/privacy-policy.html">Privacy Policy</a> |
-    <a href="https://ablatif.com/disclaimer.html">Disclaimer</a> |
-    <a href="https://ablatif.com/contact.html">Contact</a> |
-    <a href="https://ablatif.com/blog/">Blog</a>
+    <a href="/privacy-policy.html">Privacy Policy</a> |
+    <a href="/terms.html">Terms</a> |
+    <a href="/cookie-policy.html">Cookie Policy</a> |
+    <a href="/disclaimer.html">Disclaimer</a> |
+    <a href="/contact.html">Contact</a>
+    <div style="margin-top:6px;">© 2026 Abdul Latif — All Rights Reserved.</div>
   </div>
 
 </div>
@@ -345,7 +346,7 @@ Object.keys(banks).forEach(b=>{
 });
 bankSelect.selectedIndex=0;
 
-const salary=document.getElementById("salary"),
+const salary=salaryEl=document.getElementById("salary"),
 loan=document.getElementById("loan"),
 months=document.getElementById("months"),
 rate=document.getElementById("rate"),
@@ -386,39 +387,32 @@ function chgAmt(v){loan.value=Math.max(0,+loan.value+v);calc()}
 function chgDur(v){months.value=Math.max(1,+months.value+v);calc()}
 document.querySelectorAll("input").forEach(i=>i.oninput=calc);
 
-// ✅ CLEAN PDF (BDT, no emoji, no ৳ inside PDF)
+// ===== PDF =====
 function downloadPDF(){
-  const jsPDF = (window.jspdf && window.jspdf.jsPDF) ? window.jspdf.jsPDF : window.jsPDF;
-
-  if(!jsPDF){
-    alert("PDF library failed to load. Please refresh the page and try again.");
-    return;
-  }
-
-  let pdf = new jsPDF();
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF();
   pdf.setFont("helvetica","normal");
   pdf.setFontSize(16);
 
-  let y=20;
+  let y=18;
   pdf.text(bankSelect.value,20,y);
   pdf.setFontSize(12);
   pdf.text("Loan Eligibility Summary",20,y+=10);
   pdf.text(`Date: ${new Date().toLocaleDateString()}`,140,y-10);
+
   pdf.line(20,y,190,y);
-
   y+=15;
-  pdf.text(`Salary: BDT ${salary.value.toString()}`,20,y);
-  pdf.text(`Loan Amount: BDT ${loan.value.toString()}`,20,y+=10);
-  pdf.text(`Duration: ${months.value} Months`,20,y+=10);
-  pdf.text(`Interest Rate: ${rate.value.toString()}%`,20,y+=10);
-  pdf.text(`EMI: BDT ${emiSpan.innerText.replace(/[^0-9]/g,'')}`,20,y+=10);
-  pdf.text(`Max Loan @80%: BDT ${l80.innerText.replace(/[^0-9]/g,'')}`,20,y+=10);
-  pdf.text(`Max Loan @2/3: BDT ${l66.innerText.replace(/[^0-9]/g,'')}`,20,y+=10);
 
-  pdf.line(20,150,80,150);
-  pdf.text("Applicant Signature",22,157);
-  pdf.line(120,150,180,150);
-  pdf.text("Bank Officer Signature",122,157);
+  pdf.text(`Salary: ৳ ${salary.value}`,20,y);
+  pdf.text(`Loan Amount: ৳ ${loan.value}`,20,y+=10);
+  pdf.text(`Duration: ${months.value} Months`,20,y+=10);
+  pdf.text(`Interest Rate: ${rate.value}%`,20,y+=10);
+  pdf.text(`EMI: ৳ ${emiSpan.innerText}`,20,y+=10);
+  pdf.text(`Max Loan @80%: ৳ ${l80.innerText}`,20,y+=10);
+  pdf.text(`Max Loan @2/3: ৳ ${l66.innerText}`,20,y+=10);
+
+  pdf.setFontSize(10);
+  pdf.text("Note: This PDF is for estimation only. Final eligibility depends on bank policy.",20,280);
 
   pdf.save("Bank_Loan_Eligibility.pdf");
 }

@@ -1,557 +1,292 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>EMI Guide (Agrani Bank) | Equal Principal vs Declining EMI</title>
+<title>EMI Calculator Bangladesh | Loan Installment & Interest Tool</title>
+<meta name="description" content="Calculate EMI for personal, salary, or business loans in Bangladesh. Enter loan amount, interest rate, and tenure to instantly get monthly EMI, total interest, and repayment summary.">
+<link rel="canonical" href="https://ablatif.com/emi-calculator.html">
 
-  <meta name="description" content="Agrani Bank সহ বাংলাদেশের সকল ব্যাংক গ্রাহকদের জন্য EMI গাইড। EMI কী, ফর্মুলা, Equal Principal বনাম Declining EMI তুলনা, Total Interest, 1st/Last month difference এবং cost-effective সিদ্ধান্ত।" />
-  <meta name="robots" content="index, follow">
+<!-- Open Graph -->
+<meta property="og:title" content="EMI Calculator Bangladesh">
+<meta property="og:description" content="Instant EMI calculator with total interest & repayment summary. Useful for salary and business loans in Bangladesh.">
+<meta property="og:url" content="https://ablatif.com/emi-calculator.html">
+<meta property="og:type" content="website">
 
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X4YNW0E3XG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-X4YNW0E3XG');
+</script>
 
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3608304969182163"
-    crossorigin="anonymous"></script>
+<!-- AdSense (ONLY ONCE PER PAGE) -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3608304969182163"
+  crossorigin="anonymous"></script>
 
-  <style>
-    :root{
-      --bg:#fff; --text:#111; --sub:#555;
-      --card:#fafafa; --accent:#000;
-      --border:rgba(0,0,0,0.12);
-    }
-    body{
-      font-family:"Inter",sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      padding-top:70px;
-      line-height:1.85;
-    }
-    a{text-decoration:none;}
-    .navbar{
-      background:var(--bg);
-      box-shadow:0 1px 10px rgba(0,0,0,0.06);
-      padding:12px 0;border:none;
-    }
-    .hero{
-      padding:55px 12px 35px;
-      text-align:center;
-      background:linear-gradient(to bottom,rgba(0,0,0,0.035),transparent);
-    }
-    .hero h1{font-size:40px;font-weight:800;margin-bottom:10px;}
-    .hero p{
-      max-width:980px;
-      margin:0 auto 18px;
-      color:var(--sub);
-      font-size:18px;
-    }
-    .wrap{max-width:1080px;margin:0 auto;padding:28px 15px 70px;}
-    .card-box{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:26px;
-      margin-bottom:20px;
-    }
-    .btn-modern,.btn-outline{
-      padding:12px 26px;border-radius:50px;
-      font-weight:700;border:1px solid var(--accent);
-      display:inline-block;margin:6px 5px;
-      transition:.25s ease;
-    }
-    .btn-modern{background:var(--accent);color:#fff!important;}
-    .btn-modern:hover{background:transparent;color:var(--accent)!important;}
-    .btn-outline{background:transparent;color:var(--accent)!important;}
-    .btn-outline:hover{background:var(--accent);color:#fff!important;}
+<!-- Schema -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebPage",
+  "name":"EMI Calculator Bangladesh",
+  "url":"https://ablatif.com/emi-calculator.html",
+  "description":"EMI calculator for Bangladesh loan borrowers including monthly installment, total interest, and repayment summary.",
+  "publisher":{"@type":"Person","name":"Abdul Latif","url":"https://ablatif.com/"}
+}
+</script>
 
-    .tag{
-      display:inline-block;font-size:12px;
-      padding:4px 10px;border:1px solid var(--border);
-      border-radius:999px;margin:3px 4px 0 0;
-      color:var(--sub);background:#fff;
-    }
-    h2{font-size:26px;font-weight:800;margin:0 0 10px;}
-    h3{font-size:20px;font-weight:800;margin:18px 0 10px;}
-    .muted{color:var(--sub);}
-    .small{font-size:14px;color:var(--sub);}
-    .pill-good{
-      background:#e8ffe8;border-left:6px solid #0a0;
-      padding:12px;border-radius:10px;font-weight:600;
-    }
-    .pill-warn{
-      background:#fff5e6;border-left:6px solid #f0a000;
-      padding:12px;border-radius:10px;font-weight:600;
-    }
-    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-    @media(max-width:900px){.grid2{grid-template-columns:1fr;}}
-    .formula{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
-      background:#fff;border:1px dashed var(--border);
-      padding:12px 14px;border-radius:12px;overflow-x:auto;
-    }
-    footer{
-      padding:30px 0 20px;border-top:1px solid #e5e5e5;
-      text-align:center;color:var(--sub);margin-top:40px;font-size:14px;
-    }
-  </style>
+<style>
+body{
+  margin:0;
+  font-family:Segoe UI, Arial, sans-serif;
+  background:#f1f5f9;
+  color:#111;
+  line-height:1.7;
+}
+.container{max-width:950px;margin:auto;padding:14px;}
+.card{
+  background:#fff;
+  border-radius:14px;
+  padding:18px;
+  margin-top:16px;
+  box-shadow:0 6px 18px rgba(0,0,0,.12);
+}
+h1{margin:0 0 10px;font-size:24px;}
+h2{margin:0 0 12px;font-size:20px;}
+label{font-weight:700;font-size:14px;}
+input{
+  width:100%;
+  padding:10px;
+  margin:6px 0 12px;
+  border-radius:10px;
+  border:1px solid #cbd5e1;
+  font-size:15px;
+}
+.result-box{
+  background:#ecfeff;
+  border-left:5px solid #0284c7;
+  padding:14px;
+  border-radius:12px;
+  margin-top:12px;
+  font-weight:800;
+  font-size:16px;
+}
+.result-row{margin-bottom:8px;}
+.small-note{
+  font-size:14px;
+  font-weight:700;
+  color:#065f46;
+  margin-top:14px;
+}
+
+/* ✅ Topbar like NSS */
+.topbar{
+  background:#fff;
+  border:1px solid rgba(0,0,0,.08);
+  box-shadow:0 4px 12px rgba(0,0,0,.06);
+  border-radius:14px;
+  padding:14px 16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  position:sticky;
+  top:10px;
+  z-index:10;
+}
+.brand h1{
+  margin:0;
+  font-size:18px;
+  font-weight:700;
+  color:#1a2b4c;
+}
+.brand p{
+  margin:0;
+  font-size:13px;
+  color:#64748b;
+}
+.btn{
+  border:1px solid rgba(0,0,0,.12);
+  background:transparent;
+  padding:10px 12px;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:700;
+  font-size:14px;
+  text-decoration:none;
+  color:#1a2b4c;
+}
+.btn:hover{opacity:.9}
+
+/* ✅ Accordion for AdSense content */
+.acc{
+  border:1px solid rgba(0,0,0,.08);
+  border-radius:12px;
+  margin-top:14px;
+  background:#fff;
+  overflow:hidden;
+}
+.acc summary{
+  cursor:pointer;
+  padding:12px 14px;
+  font-weight:800;
+  color:#1a2b4c;
+  list-style:none;
+}
+.acc summary::-webkit-details-marker{display:none;}
+.acc summary:after{
+  content:"+";
+  float:right;
+  font-size:18px;
+  font-weight:900;
+  color:#2563eb;
+}
+.acc[open] summary:after{content:"–";}
+.acc-body{
+  padding:14px;
+  border-top:1px solid rgba(0,0,0,.08);
+  color:#334155;
+  font-size:14px;
+}
+
+.footer{
+  text-align:center;
+  font-size:13px;
+  color:#64748b;
+  margin:22px 0 10px;
+}
+.footer a{color:#2563eb;font-weight:800;text-decoration:none}
+.footer a:hover{text-decoration:underline}
+
+@media(max-width:650px){
+  h1{font-size:20px;}
+}
+</style>
 </head>
 
 <body>
+<div class="container">
 
-<!-- NAV -->
-<nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="/" style="font-weight:900;">AL</a>
+  <!-- ✅ Top Bar -->
+  <div class="topbar">
+    <div class="brand">
+      <h1>Abdul Latif – NSS Tools</h1>
+      <p>Online NSS form → PDF → Print → Bank Submission</p>
     </div>
-    <ul class="nav navbar-nav navbar-right" style="display:flex; gap:16px; align-items:center; float:right; margin:15px 0;">
-      <li><a href="/blog/">Blog</a></li>
-      <li><a href="/#tools">Tools</a></li>
-      <li><a href="/privacy-policy.html">Privacy</a></li>
-      <li><a href="/contact.html">Contact</a></li>
-    </ul>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="container">
-    <h1 id="heroTitle"></h1>
-    <p id="heroDesc"></p>
-
     <div>
-      <span class="tag" id="tag1"></span>
-      <span class="tag" id="tag2"></span>
-      <span class="tag" id="tag3"></span>
-      <span class="tag" id="tag4"></span>
-      <span class="tag" id="tag5"></span>
-      <span class="tag" id="tag6"></span>
-    </div>
-
-    <div style="margin-top:14px;">
-      <button class="btn btn-outline-dark btn-sm" onclick="setLang('bn')">বাংলা</button>
-      <button class="btn btn-outline-dark btn-sm" onclick="setLang('en')">English</button>
-    </div>
-
-    <div style="margin-top:14px;">
-      <a href="/emi/loan_emi_full.html" class="btn-modern" target="_blank" id="btnToolTop"></a>
-      <a href="/tools/Loan_Eligibility.html" class="btn-outline" target="_blank" id="btnEligTop"></a>
-    </div>
-
-    <div class="small" style="margin-top:10px;" id="heroNote"></div>
-  </div>
-</section>
-
-<div class="wrap">
-
-  <!-- CARD 1 -->
-  <div class="card-box">
-    <h2 id="card1Title"></h2>
-    <p class="muted" id="card1Text"></p>
-    <div class="pill-good" id="card1Box"></div>
-  </div>
-
-  <!-- CARD 2 -->
-  <div class="card-box">
-    <h2 id="card2Title"></h2>
-    <p class="muted" id="card2Text"></p>
-    <ul class="muted" id="card2List"></ul>
-    <div class="pill-warn" id="card2Box"></div>
-  </div>
-
-  <!-- CARD 3 (FORMULA) -->
-  <div class="card-box">
-    <h2 id="card3Title"></h2>
-    <div class="grid2">
-      <div>
-        <h3 id="declTitle"></h3>
-        <div class="formula">
-          r = annualRate / 12<br>
-          EMI = P × r × (1+r)^n / ((1+r)^n − 1)
-        </div>
-      </div>
-      <div>
-        <h3 id="eqTitle"></h3>
-        <div class="formula">
-          Principal/month = P / n<br>
-          Interest(m) = Outstanding(m−1) × r<br>
-          Payment(m) = (P/n) + Interest(m)
-        </div>
-      </div>
-    </div>
-    <div class="pill-warn" style="margin-top:14px;" id="card3Box"></div>
-  </div>
-
-  <!-- CARD 4 (TABLE) -->
-  <div class="card-box">
-    <h2 id="card4Title"></h2>
-    <p class="muted" id="card4Text"></p>
-
-    <div class="row g-3 mt-2">
-      <div class="col-md-4">
-        <label class="fw-bold" id="lblPrincipal"></label>
-        <input id="pInput" class="form-control" value="100000">
-      </div>
-      <div class="col-md-4">
-        <label class="fw-bold" id="lblRate"></label>
-        <input id="rInput" class="form-control" value="13.40">
-      </div>
-      <div class="col-md-4">
-        <label class="fw-bold" id="lblMonths"></label>
-        <input id="nInput" class="form-control" value="60">
-      </div>
-    </div>
-
-    <div style="margin-top:14px;">
-      <button class="btn-modern" onclick="updateComparison()" id="btnUpdate"></button>
-      <button class="btn-outline" onclick="resetComparison()" id="btnReset"></button>
-    </div>
-
-    <div class="table-responsive mt-4">
-      <table class="table table-bordered table-striped">
-        <thead>
-          <tr>
-            <th id="thComp"></th>
-            <th id="thEq"></th>
-            <th id="thDec"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td id="rowAvg"><b></b></td>
-            <td id="eqMonthly">—</td>
-            <td id="decMonthly">—</td>
-          </tr>
-          <tr>
-            <td id="rowFirst"><b></b></td>
-            <td id="eqFirst">—</td>
-            <td id="decFirst">—</td>
-          </tr>
-          <tr>
-            <td id="rowLast"><b></b></td>
-            <td id="eqLast">—</td>
-            <td id="decLast">—</td>
-          </tr>
-          <tr>
-            <td id="rowPrin"><b></b></td>
-            <td id="eqPrincipal">—</td>
-            <td id="decPrincipal">—</td>
-          </tr>
-          <tr>
-            <td id="rowInt"><b></b></td>
-            <td id="eqInterest">—</td>
-            <td id="decInterest">—</td>
-          </tr>
-          <tr>
-            <td id="rowRatio"><b></b></td>
-            <td id="eqRatio">—</td>
-            <td id="decRatio">—</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="pill-good" style="margin-top:14px;" id="card4Box"></div>
-    <div class="small" style="margin-top:10px;" id="card4Note"></div>
-
-    <div style="margin-top:16px; text-align:center;">
-      <a href="/emi/loan_emi_full.html" class="btn-modern" target="_blank" id="btnToolBottom"></a>
+      <a class="btn" href="https://ablatif.com/">&larr; Main Site</a>
+      <a class="btn" href="https://ablatif.com/blog/">Blog</a>
     </div>
   </div>
 
-  <!-- CARD 5 -->
-  <div class="card-box">
-    <h2 id="card5Title"></h2>
-    <div class="grid2">
-      <div>
-        <h3 id="card5LeftTitle"></h3>
-        <ul class="muted" id="card5LeftList"></ul>
+  <!-- ✅ AdSense Rich Content -->
+  <div class="card">
+    <h2>EMI Calculator (Bangladesh)</h2>
+    <p style="margin:0;color:#334155;font-size:15px;font-weight:600;">
+      EMI (Equated Monthly Installment) is the fixed monthly payment for a loan.
+      This calculator helps you estimate your installment amount, total interest, and total repayment.
+    </p>
+
+    <details class="acc">
+      <summary>What is EMI and why is it important?</summary>
+      <div class="acc-body">
+        EMI means the fixed amount you pay every month to repay your loan. It includes both principal and interest portions.
+        Knowing EMI in advance helps you plan your monthly budget and avoid over-borrowing.
       </div>
-      <div>
-        <h3 id="card5RightTitle"></h3>
-        <ul class="muted" id="card5RightList"></ul>
+    </details>
+
+    <details class="acc">
+      <summary>How banks calculate EMI in Bangladesh</summary>
+      <div class="acc-body">
+        Most Bangladeshi banks use the standard reducing balance formula for EMI.
+        EMI depends on loan amount, annual interest rate, and loan tenure.
+        A higher interest rate or longer tenure increases total interest cost.
       </div>
+    </details>
+
+    <details class="acc">
+      <summary>Loan tips before applying</summary>
+      <div class="acc-body">
+        Before taking a loan, ensure your EMI is affordable.
+        A safe rule is to keep EMI within a reasonable portion of your monthly income (often 2/3 or 80% depends on bank policy).
+        Always compare multiple bank offers and check hidden charges.
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary>Disclaimer about results</summary>
+      <div class="acc-body">
+        This calculator provides an estimate only. Final EMI may vary due to processing fees, insurance, VAT, rounding rules,
+        and bank-specific loan policy. Always confirm final repayment schedule with your bank.
+      </div>
+    </details>
+  </div>
+
+  <!-- ✅ Calculator Card -->
+  <div class="card">
+    <h1>Loan EMI Calculator</h1>
+
+    <label>Loan Amount (৳)</label>
+    <input type="number" id="amount" value="500000" min="0">
+
+    <label>Interest Rate (% per year)</label>
+    <input type="number" id="rate" value="13.5" step="0.01" min="0">
+
+    <label>Loan Tenure (Months)</label>
+    <input type="number" id="months" value="60" min="1">
+
+    <div class="result-box">
+      <div class="result-row">Monthly EMI: ৳ <span id="emi">0</span></div>
+      <div class="result-row">Total Interest: ৳ <span id="interest">0</span></div>
+      <div class="result-row">Total Payment: ৳ <span id="total">0</span></div>
     </div>
+
+    <div class="small-note">📌 Tip: Lower tenure reduces total interest but increases EMI.</div>
+  </div>
+
+  <!-- ✅ Footer -->
+  <div class="footer">
+    <a href="/privacy-policy.html">Privacy Policy</a> |
+    <a href="/terms.html">Terms</a> |
+    <a href="/cookie-policy.html">Cookie Policy</a> |
+    <a href="/disclaimer.html">Disclaimer</a> |
+    <a href="/contact.html">Contact</a>
+    <div style="margin-top:6px;">© 2026 Abdul Latif — All Rights Reserved.</div>
   </div>
 
 </div>
 
-<footer>
-  <a href="/privacy-policy.html">Privacy Policy</a> |
-  <a href="/disclaimer.html">Disclaimer</a> |
-  <a href="/contact.html">Contact</a> |
-  <a href="/blog/">Blog</a>
-  <div style="margin-top:8px;">© 2025 Abdul Latif — All Rights Reserved.</div>
-</footer>
-
 <script>
-  let currentLang = localStorage.getItem("emiLandingLang") || "bn";
+function calcEMI(){
+  const P = parseFloat(document.getElementById("amount").value) || 0;
+  const annual = parseFloat(document.getElementById("rate").value) || 0;
+  const n = parseInt(document.getElementById("months").value) || 1;
 
-  const T = {
-    bn: {
-      heroTitle: "EMI Guide (Agrani Bank) — Comparison + Benefits",
-      heroDesc: "Loan Against Salary, Pensioner Loan, SME এবং Consumer Credit সহ সকল ব্যাংক গ্রাহকদের জন্য — EMI কী, কিভাবে হিসাব করবেন এবং Equal Principal বনাম Declining EMI তুলনা — সব এক জায়গায়।",
-      heroNote: "নোট: এটি শিক্ষামূলক উদ্দেশ্যে। ব্যাংকের ফি/চার্জ/রাউন্ডিং অনুযায়ী ফল ভিন্ন হতে পারে।",
-      tags: ["Agrani Bank Customers","Loan Against Salary","Pensioner Loan","SME Short Term","Consumer Credit","All Bank Customers"],
-      btnTool: "Open Full EMI Calculator Tool",
-      btnElig: "Loan Eligibility Tool",
+  const r = (annual / 100) / 12;
 
-      card1Title:"কেন EMI বুঝা জরুরি?",
-      card1Text:"EMI হলো ঋণের মাসিক কিস্তি। আপনি EMI ভালোভাবে বুঝলে ঋণের চাপ, মোট সুদ এবং মোট পরিশোধ আগেই জানা যায়। Agrani Bank-এর Salary Loan, Pensioner Loan, SME এবং Consumer Loan-এর ক্ষেত্রে এটি গুরুত্বপূর্ণ।",
-      card1Box:"✅ EMI বুঝলে আপনি সহজে বুঝতে পারবেন — কোন পদ্ধতিতে মোট খরচ কম এবং আপনার জন্য কোনটা নিরাপদ।",
-
-      card2Title:"EMI কী?",
-      card2Text:"EMI (Equated Monthly Installment) হলো ঋণ পরিশোধের জন্য প্রতি মাসে নির্দিষ্ট কিস্তি। এই কিস্তিতে থাকে:",
-      card2List:["মূলধন (Principal) — আপনার আসল ঋণের টাকা","সুদ (Interest) — ব্যাংকের চার্জ করা সুদ"],
-      card2Box:"⚠️ শুধু EMI জানা যথেষ্ট নয় — Total Interest এবং Total Repayment বুঝাও গুরুত্বপূর্ণ।",
-
-      card3Title:"EMI হিসাবের পদ্ধতি (Formula)",
-      declTitle:"Declining EMI Formula",
-      eqTitle:"Equal Principal Formula",
-      card3Box:"⚠️ Declining EMI সাধারণত স্থির থাকে, Equal Principal সময়ের সাথে কমে। দুটির Total Interest ভিন্ন হয়।",
-
-      card4Title:"Quick Summary: কোনটা বেশি cost-effective?",
-      card4Text:"এখানে একটি উদাহরণ ভিত্তিক তুলনা দেখানো হয়েছে। Principal, Rate ও Duration পরিবর্তন করে আপনার ভবিষ্যৎ খরচ অনুমান করুন।",
-      lblPrincipal:"Principal (ঋণের পরিমাণ)",
-      lblRate:"Interest Rate (%)",
-      lblMonths:"Duration (Months)",
-      btnUpdate:"Update Table",
-      btnReset:"Reset",
-      thComp:"Comparison",
-      thEq:"Equal Principal (সমান মূলধন)",
-      thDec:"Declining EMI (Reducing Balance)",
-      rowAvg:"গড় মাসিক কিস্তি",
-      rowFirst:"১ম মাসের কিস্তি",
-      rowLast:"শেষ মাসের কিস্তি",
-      rowPrin:"মোট মূলধন",
-      rowInt:"মোট সুদ",
-      rowRatio:"সুদ/মূলধন (%)",
-      card4Box:"✅ সাধারণ ধারণা: Equal Principal পদ্ধতিতে মূলধন দ্রুত কমে, তাই অনেক ক্ষেত্রে মোট সুদ কম হতে পারে। Declining EMI-এ মাসিক কিস্তি স্থির থাকে।",
-      card4Note:"নোট: এটি আনুমানিক। ব্যাংকের চার্জ/ফি/রাউন্ডিং অনুযায়ী ফল ভিন্ন হতে পারে। পূর্ণ হিসাব দেখতে টুল ব্যবহার করুন।",
-      btnToolBottom:"Full EMI Table + Print Tool খুলুন",
-
-      card5Title:"আপনার জন্য কোনটা ভালো?",
-      card5LeftTitle:"Equal Principal বেছে নিন যদি:",
-      card5LeftList:["আপনি শুরুতে বেশি কিস্তি দিতে পারবেন","মোট সুদ কমাতে চান","দ্রুত মূলধন কমাতে চান"],
-      card5RightTitle:"Declining EMI বেছে নিন যদি:",
-      card5RightList:["আপনি স্থির EMI চান","বাজেট প্ল্যানিং সহজ রাখতে চান","শুরুর দিকে বেশি কিস্তি চান না"]
-    },
-
-    en: {
-      heroTitle: "EMI Guide (Agrani Bank) — Comparison + Benefits",
-      heroDesc: "For Agrani Bank customers and all bank customers in Bangladesh — What is EMI, how to calculate it, and Equal Principal vs Declining EMI comparison on one page.",
-      heroNote: "Note: This guide is educational. Final bank calculation may vary due to policy, fees, and rounding.",
-      tags: ["Agrani Bank Customers","Loan Against Salary","Pensioner Loan","SME Short Term","Consumer Credit","All Bank Customers"],
-      btnTool: "Open Full EMI Calculator Tool",
-      btnElig: "Loan Eligibility Tool",
-
-      card1Title:"Why understanding EMI is important?",
-      card1Text:"EMI is your monthly installment for loan repayment. If you understand EMI properly, you can estimate monthly burden, total interest, and total repayment cost in advance. This is important for salary loans, pensioner loans, SME loans, and consumer credit.",
-      card1Box:"✅ EMI knowledge helps you compare repayment methods and choose a safer, more cost-effective option.",
-
-      card2Title:"What is EMI?",
-      card2Text:"EMI (Equated Monthly Installment) is the fixed monthly payment to repay your loan. It includes:",
-      card2List:["Principal — the actual loan amount","Interest — the bank’s interest charge"],
-      card2Box:"⚠️ Knowing EMI is not enough — total interest and total repayment also matter.",
-
-      card3Title:"EMI Calculation Methods (Formula)",
-      declTitle:"Declining EMI Formula",
-      eqTitle:"Equal Principal Formula",
-      card3Box:"⚠️ Declining EMI is usually fixed, while Equal Principal decreases over time. Total interest differs between them.",
-
-      card4Title:"Quick Summary: Which is more cost-effective?",
-      card4Text:"This section provides an example-based comparison. Change principal, rate, and duration to imagine your future cost.",
-      lblPrincipal:"Principal (Loan Amount)",
-      lblRate:"Interest Rate (%)",
-      lblMonths:"Duration (Months)",
-      btnUpdate:"Update Table",
-      btnReset:"Reset",
-      thComp:"Comparison",
-      thEq:"Equal Principal",
-      thDec:"Declining EMI",
-      rowAvg:"Average Monthly Installment",
-      rowFirst:"1st Month Installment",
-      rowLast:"Last Month Installment",
-      rowPrin:"Total Principal Payment",
-      rowInt:"Total Interest Payment",
-      rowRatio:"Interest Ratio to Principal (%)",
-      card4Box:"✅ General idea: Equal Principal often reduces total interest cost, while Declining EMI keeps EMI fixed monthly for easier budgeting.",
-      card4Note:"Note: This is an approximate summary. Final bank figures may vary due to fees, policy, and rounding. Use the tool for full schedule.",
-      btnToolBottom:"Open Full EMI Tool + Print",
-
-      card5Title:"Which method should you choose?",
-      card5LeftTitle:"Choose Equal Principal if:",
-      card5LeftList:["You can afford higher installments in early months","You want lower total interest cost","You want principal to reduce faster"],
-      card5RightTitle:"Choose Declining EMI if:",
-      card5RightList:["You want a fixed EMI every month","You want easier budgeting","You prefer lower EMI in early months"]
-    }
-  };
-
-  function renderList(elId, items){
-    const el = document.getElementById(elId);
-    el.innerHTML = "";
-    items.forEach(i => el.innerHTML += `<li>${i}</li>`);
+  let emi = 0;
+  if(r === 0){
+    emi = P / n;
+  }else{
+    emi = P * r * Math.pow(1+r, n) / (Math.pow(1+r, n)-1);
   }
 
-  function setLang(lang){
-    currentLang = lang;
-    localStorage.setItem("emiLandingLang", lang);
-    document.documentElement.lang = lang;
+  const total = emi * n;
+  const interest = total - P;
 
-    const L = T[lang];
+  document.getElementById("emi").innerText = Math.round(emi).toLocaleString();
+  document.getElementById("interest").innerText = Math.round(interest).toLocaleString();
+  document.getElementById("total").innerText = Math.round(total).toLocaleString();
+}
 
-    document.getElementById("heroTitle").innerText = L.heroTitle;
-    document.getElementById("heroDesc").innerHTML = L.heroDesc;
-    document.getElementById("heroNote").innerText = L.heroNote;
-
-    document.getElementById("tag1").innerText = L.tags[0];
-    document.getElementById("tag2").innerText = L.tags[1];
-    document.getElementById("tag3").innerText = L.tags[2];
-    document.getElementById("tag4").innerText = L.tags[3];
-    document.getElementById("tag5").innerText = L.tags[4];
-    document.getElementById("tag6").innerText = L.tags[5];
-
-    document.getElementById("btnToolTop").innerText = L.btnTool;
-    document.getElementById("btnEligTop").innerText = L.btnElig;
-
-    document.getElementById("card1Title").innerText = L.card1Title;
-    document.getElementById("card1Text").innerText = L.card1Text;
-    document.getElementById("card1Box").innerText = L.card1Box;
-
-    document.getElementById("card2Title").innerText = L.card2Title;
-    document.getElementById("card2Text").innerText = L.card2Text;
-    renderList("card2List", L.card2List);
-    document.getElementById("card2Box").innerText = L.card2Box;
-
-    document.getElementById("card3Title").innerText = L.card3Title;
-    document.getElementById("declTitle").innerText = L.declTitle;
-    document.getElementById("eqTitle").innerText = L.eqTitle;
-    document.getElementById("card3Box").innerText = L.card3Box;
-
-    document.getElementById("card4Title").innerText = L.card4Title;
-    document.getElementById("card4Text").innerText = L.card4Text;
-    document.getElementById("lblPrincipal").innerText = L.lblPrincipal;
-    document.getElementById("lblRate").innerText = L.lblRate;
-    document.getElementById("lblMonths").innerText = L.lblMonths;
-
-    document.getElementById("btnUpdate").innerText = L.btnUpdate;
-    document.getElementById("btnReset").innerText = L.btnReset;
-
-    document.getElementById("thComp").innerText = L.thComp;
-    document.getElementById("thEq").innerText = L.thEq;
-    document.getElementById("thDec").innerText = L.thDec;
-
-    document.getElementById("rowAvg").innerHTML = "<b>"+L.rowAvg+"</b>";
-    document.getElementById("rowFirst").innerHTML = "<b>"+L.rowFirst+"</b>";
-    document.getElementById("rowLast").innerHTML = "<b>"+L.rowLast+"</b>";
-    document.getElementById("rowPrin").innerHTML = "<b>"+L.rowPrin+"</b>";
-    document.getElementById("rowInt").innerHTML = "<b>"+L.rowInt+"</b>";
-    document.getElementById("rowRatio").innerHTML = "<b>"+L.rowRatio+"</b>";
-
-    document.getElementById("card4Box").innerText = L.card4Box;
-    document.getElementById("card4Note").innerText = L.card4Note;
-    document.getElementById("btnToolBottom").innerText = L.btnToolBottom;
-
-    document.getElementById("card5Title").innerText = L.card5Title;
-    document.getElementById("card5LeftTitle").innerText = L.card5LeftTitle;
-    document.getElementById("card5RightTitle").innerText = L.card5RightTitle;
-    renderList("card5LeftList", L.card5LeftList);
-    renderList("card5RightList", L.card5RightList);
-
-    updateComparison(); // refresh currency style
-  }
-
-  /* CALC FUNCTIONS */
-  function toNum(v){ return parseFloat(String(v).replace(/,/g,'')) || 0; }
-  function fmt(n){
-    const amount = Number(n).toLocaleString("en-US",{minimumFractionDigits:2, maximumFractionDigits:2});
-    return (currentLang === "bn" ? "৳ " : "Tk ") + amount;
-  }
-
-  function calcDeclining(P, annualRate, n){
-    const r = (annualRate/100)/12;
-    if(r === 0){
-      const emi0 = P/n;
-      return { emi: emi0, totalInterest: 0 };
-    }
-    const pow = Math.pow(1+r, n);
-    const emi = (P*r*pow)/(pow-1);
-
-    let bal = P;
-    let totalInterest = 0;
-
-    for(let m=1;m<=n;m++){
-      const interest = bal*r;
-      const principal = emi - interest;
-      bal -= principal;
-      totalInterest += interest;
-    }
-    return { emi, totalInterest };
-  }
-
-  function calcEqualPrincipal(P, annualRate, n){
-    const r = (annualRate/100)/12;
-    const principalFixed = P/n;
-
-    let bal = P;
-    let totalInterest = 0;
-    let totalPayment = 0;
-    let firstMonth = 0;
-    let lastMonth = 0;
-
-    for(let m=1;m<=n;m++){
-      const interest = bal*r;
-      const payment = principalFixed + interest;
-
-      if(m===1) firstMonth = payment;
-      if(m===n) lastMonth = payment;
-
-      totalPayment += payment;
-      totalInterest += interest;
-      bal -= principalFixed;
-    }
-    return { avgMonthly: totalPayment/n, totalInterest, firstMonth, lastMonth };
-  }
-
-  function updateComparison(){
-    const P = toNum(document.getElementById("pInput").value);
-    const rate = toNum(document.getElementById("rInput").value);
-    const n = Math.max(1, Math.floor(toNum(document.getElementById("nInput").value)));
-
-    const dec = calcDeclining(P, rate, n);
-    const eq = calcEqualPrincipal(P, rate, n);
-
-    document.getElementById("eqMonthly").innerText = fmt(eq.avgMonthly);
-    document.getElementById("decMonthly").innerText = fmt(dec.emi);
-
-    document.getElementById("eqFirst").innerText = fmt(eq.firstMonth);
-    document.getElementById("decFirst").innerText = fmt(dec.emi);
-
-    document.getElementById("eqLast").innerText = fmt(eq.lastMonth);
-    document.getElementById("decLast").innerText = fmt(dec.emi);
-
-    document.getElementById("eqPrincipal").innerText = fmt(P);
-    document.getElementById("decPrincipal").innerText = fmt(P);
-
-    document.getElementById("eqInterest").innerText = fmt(eq.totalInterest);
-    document.getElementById("decInterest").innerText = fmt(dec.totalInterest);
-
-    document.getElementById("eqRatio").innerText = ((eq.totalInterest/P)*100).toFixed(2) + "%";
-    document.getElementById("decRatio").innerText = ((dec.totalInterest/P)*100).toFixed(2) + "%";
-  }
-
-  function resetComparison(){
-    document.getElementById("pInput").value="100000";
-    document.getElementById("rInput").value="13.40";
-    document.getElementById("nInput").value="60";
-    updateComparison();
-  }
-
-  window.addEventListener("load", function(){
-    setLang(currentLang);
-  });
+["amount","rate","months"].forEach(id=>{
+  document.getElementById(id).addEventListener("input", calcEMI);
+});
+calcEMI();
 </script>
 
 </body>
