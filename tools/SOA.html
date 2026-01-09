@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GL Report Viewer</title>
+
+  <!-- jsPDF + AutoTable for PDF download -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+
+<style>
+  * { box-sizing: border-box; font-family: Arial, sans-serif; }
+  body { margin: 20px; font-size: 13px; background: #f7f9fc; color: #222; }
+
+  .app-wrap { max-width: 1200px; margin: auto; }
+
+  /* Top card */
+  .top-card {
+    background: #fff;
+    padding: 14px 16px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    margin-bottom: 14px;
+  }
+
+  .top-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+
+  .note-label { font-weight: bold; font-size: 13px; margin-top: 10px; margin-bottom: 6px; }
+
+  textarea#notesBox {
+    width: 100%;
+    min-height: 90px;
+    border: 1px solid #ccd7ee;
+    border-radius: 10px;
+    padding: 10px;
+    resize: vertical;
+    outline: none;
+    font-size: 13px;
+    background: #fbfcff;
+  }
+  textarea#notesBox:focus {
+    border-color: #7aa5ff;
+    box-shadow: 0 0 0 3px rgba(122,165,255,0.15);
+  }
+
+  details {
+    margin-top: 12px;
+    border: 1px solid #e2e8f8;
+    border-radius: 10px;
+    padding: 10px 12px;
+    background: #f9fbff;
+  }
+  details summary { cursor: pointer; font-weight: bold; font-size: 13px; }
+  .howtext { margin-top: 10px; line-height: 1.5; color: #333; font-size: 12.5px; }
+
+  /* Controls */
+  .controls {
+    position: sticky;
+    top: 10px;
+    z-index: 10;
+    background: #fff;
+    border-radius: 12px;
+    padding: 10px 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    margin-bottom: 14px;
+  }
+
+  .controls input, .controls button, .controls select {
+    padding: 8px 12px;
+    font-size: 13px;
+    border-radius: 10px;
+    border: 1px solid #ccd7ee;
+    background: #fff;
+    outline: none;
+  }
+
+  .controls button {
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+    background: #356dff;
+    color: #fff;
+    transition: 0.2s;
+  }
+  .controls button:hover { background: #2458da; }
+
+  #clearBtn { background: #d94141; }
+  #clearBtn:hover { background: #b73232; }
+
+  #clearNotesBtn { background: #555; }
+  #clearNotesBtn:hover { background: #333; }
+
+  #searchBox { width: 240px; }
+
+  #status { margin-left: auto; font-size: 12px; color: #444; white-space: nowrap; }
+
+  /* Report sections */
+  .file-section {
+    background: #fff;
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    margin-bottom: 18px;
+  }
+
+  /* 3-line title */
+  .title-wrap { text-align: center; padding: 6px 0 14px 0; }
+  .title-1 { font-size: 20px; font-weight: bold; margin-bottom: 4px; }
+  .title-2, .title-3 { font-size: 15px; font-weight: bold; margin-top: 3px; }
+
+  /* Table */
+  .report-table { border-collapse: collapse; width: 100%; overflow: hidden; border-radius: 10px; }
+  .report-table thead th { background: #eaf0ff; border: 1px solid #b8c7ee; padding: 8px; font-size: 12.5px; }
+  .report-table tbody td { border: 1px solid #d8e0f5; padding: 6px 8px; font-size: 12.5px; }
+
+  td.line { width: 55px; white-space: nowrap; font-weight: bold; }
+  td.amount { text-align: right; font-weight: bold; }
+  td.amount.negative { color: #d94141; }
+
+  tr.category-row td { background: #f0f3ff !important; font-weight: bold; }
+
+  @media print {
+    body { background: #fff; }
+    .controls { display: none; }
+    details { display: none; }
+    thead { display: table-header-group; }
+    .file-section + .file-section { page-break-before: always; }
+  }
+</style>
+</head>
+
+<body>
+<div class="app-wrap">
+
+  <!-- NOTES & HOW IT WORKS -->
+  <div class="top-card">
+    <div class="top-title">GL Report Viewer</div>
+
+    <div class="note-label">Notes (Auto-saved):</div>
+    <textarea id="notesBox" placeholder="Write your notes here..."></textarea>
+
+    <div style="margin-top:8px;">
+      <button id="clearNotesBtn" type="button">Clear Notes</button>
+    </div>
+
+    <details>
+      <summary>How it works (click to expand/collapse)</summary>
+      <div class="howtext" contenteditable="true">
+        ✅ 1. Click <b>Choose File</b> and select one or more TXT files.<br>
+        ✅ 2. Only lines that start with <b>====></b> and contain a numeric amount are shown.<br>
+        ✅ 3. Zero amount rows are removed automatically.<br>
+        ✅ 4. Search and GL Code Filter hide rows instantly (affects Export + PDF).<br>
+        ✅ 5. Export CSV downloads only the visible rows.<br>
+        ✅ 6. Download PDF creates a PDF without opening the print dialog.
+      </div>
+    </details>
+  </div>
+
+  <!-- CONTROLS -->
+  <div class="controls">
+    <input type="file" id="fileInput" accept=".txt" multiple />
+
+    <select id="glFilter">
+      <option value="">All GL Codes</option>
+    </select>
+
+    <button type="button" id="pdfBtn">Download PDF</button>
+    <button type="button" id="exportBtn">Export CSV</button>
+    <button type="button" onclick="window.print()">Print / Save PDF</button>
+    <button type="button" id="clearBtn">Clear</button>
+
+    <input id="searchBox" type="text" placeholder="Search…" />
+
+    <span id="status"></span>
+  </div>
+
+  <div id="reportContainer"></div>
+</div>
+
+<script>
+const container = document.getElementById("reportContainer");
+const statusEl = document.getElementById("status");
+const notesBox = document.getElementById("notesBox");
+const glFilter = document.getElementById("glFilter");
+
+let allGLCodes = new Set();
+
+/* ---------- Notes LocalStorage ---------- */
+const NOTES_KEY = "gl_report_notes";
+
+function loadNotes() {
+  notesBox.value = localStorage.getItem(NOTES_KEY) || "";
+}
+function saveNotes() {
+  localStorage.setItem(NOTES_KEY, notesBox.value);
+}
+notesBox.addEventListener("input", saveNotes);
+
+document.getElementById("clearNotesBtn").onclick = () => {
+  notesBox.value = "";
+  saveNotes();
+};
+
+loadNotes();
+
+/* Helpers */
+function setStatus(t){ statusEl.textContent = t || ""; }
+function clearAll(){
+  container.innerHTML = "";
+  setStatus("");
+  allGLCodes.clear();
+  glFilter.innerHTML = `<option value="">All GL Codes</option>`;
+}
+
+function cleanLine(l){
+  return l.replace(/^\uFEFF/, "").replace(/\r/g, "").trimStart();
+}
+function escapeHTML(str){
+  return String(str || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#39;");
+}
+
+function getREHeader(lines){
+  return lines.find(l => /^\s+RE\d+/.test(l));
+}
+
+function parseHeader(lineRaw){
+  lineRaw = cleanLine(lineRaw).replace(/PAGE\s+NO.+$/i,"").trim();
+  const parts = lineRaw.split(/\s+/);
+  parts.shift();
+
+  const branchTokens = [];
+  while (parts.length && !/^BR\d+/i.test(parts[0])) branchTokens.push(parts.shift());
+  const branchCode = parts.shift() || "";
+  const branchName = branchTokens.join(" ");
+
+  const titleTokens = [];
+  while (parts.length && parts[0].toUpperCase() !== "AS") titleTokens.push(parts.shift());
+  const reportTitle = titleTokens.join(" ");
+  const dateText = parts.join(" ");
+
+  return { reportTitle, branchName, branchCode, dateText };
+}
+
+function buildTitleHTML(info){
+  const line2 = info.branchName && info.branchCode
+    ? `${info.branchName} (${info.branchCode})`
+    : (info.branchName || info.branchCode || "");
+  return `
+    <div class="title-wrap">
+      <div class="title-1">${escapeHTML(info.reportTitle)}</div>
+      <div class="title-2">${escapeHTML(line2)}</div>
+      <div class="title-3">${escapeHTML(info.dateText)}</div>
+    </div>
+  `;
+}
+
+function fmt(n){
+  return n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+/* Update GL Filter dropdown */
+function refreshGLFilter(){
+  const selected = glFilter.value;
+  glFilter.innerHTML = `<option value="">All GL Codes</option>`;
+  [...allGLCodes].sort().forEach(code => {
+    const opt = document.createElement("option");
+    opt.value = code;
+    opt.textContent = code;
+    glFilter.appendChild(opt);
+  });
+  glFilter.value = selected;
+}
+
+/* Main parsing */
+function processFile(text){
+  const lines = text.split(/\n/);
+  const headerLine = getREHeader(lines);
+
+  const info = headerLine
+    ? parseHeader(headerLine)
+    : { reportTitle: "UNKNOWN TITLE", branchName: "", branchCode: "", dateText: "" };
+
+  const section = document.createElement("section");
+  section.className = "file-section";
+  section.dataset.reportTitle = info.reportTitle;
+  section.innerHTML = buildTitleHTML(info);
+
+  const table = document.createElement("table");
+  table.className = "report-table";
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th>LINE</th>
+        <th>DESCRIPTION</th>
+        <th>GL CODE</th>
+        <th>AMOUNT</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  `;
+  const tbody = table.querySelector("tbody");
+
+  for (const raw of lines){
+    let line = cleanLine(raw);
+    if (!line.startsWith("====>")) continue;
+
+    const amtMatch = line.match(/(-?\d[\d,]*\.\d{2})\s*$/);
+    if (!amtMatch) continue;
+
+    let amount = parseFloat(amtMatch[1].replace(/,/g,""));
+    if (amount === 0) continue;
+
+    const before = line.slice(0, line.lastIndexOf(amtMatch[1])).trimEnd();
+
+    const lnMatch = /^====>\s*(\d+)/.exec(before);
+    const lineNo = lnMatch ? lnMatch[1] : "";
+
+    let desc = before.replace(/^====>\s*\d*/, "").trim();
+
+    let glCode = "";
+    const glMatch = desc.match(/(\d{6,})$/);
+    if (glMatch){
+      glCode = glMatch[1];
+      desc = desc.slice(0, desc.lastIndexOf(glCode)).trim();
+      allGLCodes.add(glCode);
+    }
+
+    const tr = document.createElement("tr");
+    tr.dataset.glcode = glCode;
+
+    if (!glCode) tr.classList.add("category-row");
+
+    tr.innerHTML = `
+      <td class="line">${escapeHTML(lineNo)}</td>
+      <td>${escapeHTML(desc)}</td>
+      <td>${escapeHTML(glCode)}</td>
+      <td class="amount ${amount < 0 ? "negative" : ""}">${fmt(amount)}</td>
+    `;
+    tbody.appendChild(tr);
+  }
+
+  section.appendChild(table);
+  container.appendChild(section);
+
+  refreshGLFilter();
+  applyFilters();
+}
+
+/* Apply search + gl filter */
+function applyFilters(){
+  const q = document.getElementById("searchBox").value.toLowerCase();
+  const glVal = glFilter.value;
+
+  const rows = container.querySelectorAll("tbody tr");
+  rows.forEach(r => {
+    const textMatch = r.innerText.toLowerCase().includes(q);
+    const glMatch = !glVal || r.dataset.glcode === glVal;
+    r.style.display = (textMatch && glMatch) ? "" : "none";
+  });
+}
+
+/* File input */
+document.getElementById("fileInput").onchange = function(){
+  clearAll();
+  const files = Array.from(this.files || []);
+  if (!files.length) return;
+
+  let loadedCount = 0;
+
+  files.forEach((file) => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      processFile(e.target.result);
+      loadedCount++;
+      setStatus(`Loaded ${loadedCount} of ${files.length} file(s)`);
+    };
+    reader.readAsText(file);
+  });
+};
+
+document.getElementById("searchBox").oninput = applyFilters;
+glFilter.onchange = applyFilters;
+
+/* Export CSV */
+document.getElementById("exportBtn").onclick = function(){
+  let csv = "LINE,DESCRIPTION,GL CODE,AMOUNT\n";
+  const rows = container.querySelectorAll("tbody tr");
+  rows.forEach(r => {
+    if (r.style.display === "none") return;
+    const c = r.cells;
+    if (c.length === 4) {
+      const line = c[0].innerText.replace(/"/g,'""');
+      const desc = c[1].innerText.replace(/"/g,'""');
+      const gl   = c[2].innerText.replace(/"/g,'""');
+      const amt  = c[3].innerText.replace(/"/g,'""');
+      csv += `"${line}","${desc}","${gl}","${amt}"\n`;
+    }
+  });
+  const blob = new Blob([csv], {type:"text/csv"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "Affairs_Report.csv";
+  a.click();
+};
+
+/* Download PDF (no print dialog) */
+document.getElementById("pdfBtn").onclick = function(){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF("p", "pt", "a4");
+  let y = 40;
+
+  doc.setFontSize(14);
+  doc.text("GL Report Viewer Export", 40, y);
+  y += 20;
+
+  // Notes
+  const notes = notesBox.value.trim();
+  if (notes){
+    doc.setFontSize(11);
+    doc.text("Notes:", 40, y);
+    y += 14;
+    const split = doc.splitTextToSize(notes, 520);
+    doc.text(split, 40, y);
+    y += split.length * 13 + 10;
+  }
+
+  // Tables per section
+  const sections = container.querySelectorAll(".file-section");
+  sections.forEach((sec, idx) => {
+    const t1 = sec.querySelector(".title-1")?.innerText || "";
+    const t2 = sec.querySelector(".title-2")?.innerText || "";
+    const t3 = sec.querySelector(".title-3")?.innerText || "";
+
+    if (y > 700) { doc.addPage(); y = 40; }
+
+    doc.setFontSize(12);
+    doc.text(t1, 40, y); y += 14;
+    doc.text(t2, 40, y); y += 14;
+    doc.text(t3, 40, y); y += 18;
+
+    const rows = [];
+    sec.querySelectorAll("tbody tr").forEach(r => {
+      if (r.style.display === "none") return;
+      const c = r.cells;
+      rows.push([c[0].innerText, c[1].innerText, c[2].innerText, c[3].innerText]);
+    });
+
+    doc.autoTable({
+      head: [["LINE","DESCRIPTION","GL CODE","AMOUNT"]],
+      body: rows,
+      startY: y,
+      styles: { fontSize: 9, cellPadding: 3 },
+      headStyles: { fillColor: [220, 230, 255] }
+    });
+
+    y = doc.lastAutoTable.finalY + 25;
+  });
+
+  doc.save("GL_Report.pdf");
+};
+
+/* Clear All */
+document.getElementById("clearBtn").onclick = clearAll;
+</script>
+
+</body>
+</html>

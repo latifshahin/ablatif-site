@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X4YNW0E3XG"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-X4YNW0E3XG');
+  </script>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sanchaypatra Form</title>
+
+  <!-- Bengali Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3608304969182163"
+     crossorigin="anonymous"></script>
+  <style>
+    body {
+      font-family: "Noto Sans Bengali", sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 0;
+      color: #111;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 28px;
+      font-weight: 700;
+      color: #1a2b4c;
+    }
+
+    .card {
+      background: white;
+      padding: 18px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      margin-bottom: 18px;
+    }
+
+    .card h2 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a2b4c;
+      border-left: 4px solid #3b82f6;
+      padding-left: 10px;
+    }
+
+    label {
+      font-size: 14px;
+      display: block;
+      margin-bottom: 6px;
+      color: #333;
+      font-weight: 600;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+      background: #fff;
+      transition: 0.2s ease;
+    }
+
+    input:focus, select:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+
+    .divider {
+      margin: 12px 0;
+      height: 1px;
+      background: #e5e7eb;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    button {
+      border: none;
+      padding: 11px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+      transition: 0.2s;
+    }
+
+    .btn-primary {
+      background: #2563eb;
+      color: white;
+    }
+    .btn-primary:hover {
+      background: #1d4ed8;
+    }
+
+    .btn-secondary {
+      background: #0f172a;
+      color: white;
+    }
+    .btn-secondary:hover {
+      background: #1e293b;
+    }
+
+    .btn-outline {
+      background: white;
+      border: 1px solid #94a3b8;
+      color: #0f172a;
+    }
+    .btn-outline:hover {
+      border-color: #3b82f6;
+      color: #2563eb;
+    }
+
+    .note {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 6px;
+    }
+
+    .tickRow {
+      display:flex;
+      gap:12px;
+      margin-top:8px;
+      align-items:center;
+      flex-wrap: wrap;
+    }
+
+    .tickRow label {
+      display:flex;
+      gap:6px;
+      align-items:center;
+      font-weight:600;
+      margin:0;
+    }
+
+    @media(max-width: 768px) {
+      .grid-2, .grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>সঞ্চয়পত্র আবেদন ফর্ম তৈরী করুন অনলাইনে</h1>
+<h3> এখানে পিডিএফ আবেদনপত্র তৈরী হবে যা আপনি যে কোর ব্যাংকে জমা দিয়ে সঞ্চয়পত্র ক্রয়েরজন্য আবেদন করতে পারবেন। </h3>
+    <!-- Step 1 -->
+    <div class="card">
+      <h2>প্রাথমিক তথ্য</h2>
+
+      <div class="grid-3">
+        <div>
+          <label>সঞ্চয়পত্রের ধরন</label>
+          <select id="schemeType">
+            <option value="">-- সিলেক্ট করুন --</option>
+            <option value="পারিবারিক সঞ্চয়পত্র">পারিবারিক সঞ্চয়পত্র</option>
+            <option value="৩ মাস অন্তর মুনাফাভিত্তিক সঞ্চয়পত্র">৩ মাস অন্তর মুনাফাভিত্তিক সঞ্চয়পত্র</option>
+            <option value="৫ বছর মেয়াদী বাংলাদেশ সঞ্চয়পত্র">৫ বছর মেয়াদী বাংলাদেশ সঞ্চয়পত্র</option>
+            <option value="পেনশনার সঞ্চয়পত্র">পেনশনার সঞ্চয়পত্র</option>
+          </select>
+        </div>
+
+        <div>
+          <label>কত টাকার সঞ্চয়পত্র ক্রয় করবেন</label>
+          <input type="number" id="amount" placeholder="উদাহরণ: 10000" value="100000" />
+        </div>
+
+        <div>
+          <label>ক্রেতা কয়জন?</label>
+          <select id="buyerCount">
+            <option value="1">১ জন</option>
+            <option value="2">২ জন</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- ✅ Nominee Count + Type (checkbox) -->
+      <div class="grid-2" style="margin-top:12px;">
+        <div>
+          <label>নমিনি কয়জন?</label>
+          <select id="nomineeCount">
+            <option value="1">১ জন</option>
+            <option value="2">২ জন</option>
+          </select>
+        </div>
+
+        <div>
+          <label>নমিনির ধরন (Tick করুন)</label>
+          <div class="tickRow">
+            <label><input type="checkbox" id="nomAdult" checked> প্রাপ্তবয়স্ক</label>
+            <label><input type="checkbox" id="nomMinor"> অপ্রাপ্তবয়স্ক / প্রতিষ্ঠান</label>
+          </div>
+          <div class="note">Count = 2 হলে দুটো tick দিলে ১ Adult + ১ Minor আসবে</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="actions">
+        <button class="btn-primary" id="goNext">পরবর্তী ধাপ</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Buyer Section -->
+    <div class="card" id="buyerSection" style="display:none;">
+      <h2>ক্রেতার তথ্য</h2>
+
+      <!-- Buyer 1 -->
+      <div class="card" style="background:#f8fafc;">
+        <h2>ক্রেতা - ১</h2>
+
+        <div class="grid-2">
+          <div><label>নাম</label><input id="b1_name" value="আব্দুল লতিফ"></div>
+          <div><label>NID নম্বর</label><input id="b1_nid" value="505XXX4836"></div>
+          <div><label>জন্ম তারিখ</label><input id="b1_dob" value="01-01-19XX"></div>
+          <div><label>মোবাইল নম্বর</label><input id="b1_mobile" value="0171356XX76"></div>
+          <div style="grid-column: span 2;"><label>বর্তমান ঠিকানা ও ই-মেইল</label><input id="b1_address" value="করবাড়ী, ডাকঘর ছোনটিয়া বাজার, সরিষাবাড়ী, জামালপুর"></div>
+          <div style="grid-column: span 2;"><label>TIN নম্বর</label><input id="b1_tin" value="7334XXXX7189"></div>
+        </div>
+
+        <div style="margin-top:12px;">
+          <label>ক্রেতা-১ ধরন (গ্রাম/শহর)</label>
+          <select id="b1_type">
+            <option value="গ্রাম কেন্দ্রিক">গ্রাম কেন্দ্রিক</option>
+            <option value="শহর কেন্দ্রিক">শহর কেন্দ্রিক</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Buyer 2 -->
+      <div class="card" id="buyer2Col" style="display:none; background:#f8fafc;">
+        <h2>ক্রেতা - ২</h2>
+
+        <div class="grid-2">
+          <div><label>নাম</label><input id="b2_name" value="দ্বিতীয় ক্রেতা"></div>
+          <div><label>NID নম্বর</label><input id="b2_nid" value="1234567890123"></div>
+          <div><label>জন্ম তারিখ</label><input id="b2_dob" value="02-02-1992"></div>
+          <div><label>মোবাইল নম্বর</label><input id="b2_mobile" value="01812XX5678"></div>
+          <div style="grid-column: span 2;"><label>বর্তমান ঠিকানা ও ই-মেইল</label><input id="b2_address" value="ময়মনসিংহ, বাংলাদেশ"></div>
+          <div style="grid-column: span 2;"><label>TIN নম্বর</label><input id="b2_tin" value="XXXX99999999"></div>
+        </div>
+
+        <div style="margin-top:12px;">
+          <label>ক্রেতা-২ ধরন (গ্রাম/শহর)</label>
+          <select id="b2_type">
+            <option value="গ্রাম কেন্দ্রিক">গ্রাম কেন্দ্রিক</option>
+            <option value="শহর কেন্দ্রিক">শহর কেন্দ্রিক</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Bank -->
+      <div class="card">
+        <h2>ব্যাংক হিসাবের বিবরণ</h2>
+
+        <div class="grid-2">
+          <div><label>হিসাবের শিরোনাম (বাংলা)</label><input id="bank_title_bn" value="আব্দুল লতিফ"></div>
+          <div><label>হিসাবের শিরোনাম (ইংরেজি)</label><input id="bank_title_en" value="Abdul Latif"></div>
+          <div><label>হিসাব নম্বর</label><input id="bank_acc" value="1234567890"></div>
+          <div><label>ব্যাংক ও শাখার নাম</label><input id="bank_branch" value="বাংলাদেশ ব্যাংক, সরিষাবাড়ী"></div>
+          <div><label>রাউটিং নম্বর</label><input id="bank_routing" value="123456789"></div>
+          <div>
+            <label>ব্যাংক হিসাবের ধরন</label>
+            <select id="bank_type">
+              <option value="সঞ্চয়ী">সঞ্চয়ী</option>
+              <option value="চলতি">চলতি</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment -->
+      <div class="card">
+        <h2>পরিশোধের ধরন</h2>
+
+        <div class="grid-2">
+          <div>
+            <label>নগদ / চেক</label>
+            <select id="pay_type">
+              <option value="নগদ">নগদ</option>
+              <option value="চেক">চেক</option>
+            </select>
+            <div class="note">চেক সিলেক্ট করলে নিচে চেক নম্বর ও তথ্য আসবে</div>
+          </div>
+        </div>
+
+        <div id="chequeBox" style="display:none; margin-top:12px;">
+          <div class="grid-3">
+            <div><label>চেক নম্বর</label><input id="cheque_no" value="123456"></div>
+            <div><label>চেক তারিখ</label><input id="cheque_date" value="01-01-2025"></div>
+            <div><label>ব্যাংক ও শাখার নাম</label><input id="cheque_bank" value="সোনালী ব্যাংক"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ✅ Dynamic Nominee Blocks Will Render Here -->
+      <div id="nomineeDynamicArea"></div>
+
+      <!-- Pension box -->
+      <div class="card" id="pensionBox" style="display:none;">
+        <h2>পেনশনার সম্পর্কিত তথ্য</h2>
+        <div class="grid-2">
+          <div><label>PPO / EPPO নম্বর</label><input id="ppo" value="PPO-12345"></div>
+          <div><label>ইস্যুর তারিখ</label><input id="ppo_date" value="01-01-2020"></div>
+          <div><label>গ্র্যাচুয়িটির পরিমাণ</label><input id="gratuity" value="500000"></div>
+          <div><label>GPF এর সর্বশেষ ব্যালেন্স</label><input id="gpf_balance" value="200000"></div>
+          <div style="grid-column: span 2;"><label>মৃত চাকুরিজীবীর স্বামী/স্ত্রী/সন্তানের নাম</label><input id="deceased_family" value="মৃত ব্যক্তির নাম"></div>
+          <div><label>জন্ম তারিখ</label><input id="deceased_dob" value="01-01-1960"></div>
+          <div>
+            <label style="display:flex; gap:8px; align-items:center; margin-top:10px;">
+              <input type="checkbox" id="ppo_copy" checked />
+              PPO ফটোকপি সংযুক্ত আছে
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="actions">
+        <button class="btn-primary" id="goPdf">Generate PDF</button>
+        <button class="btn-outline" id="printPdf">Print PDF</button>
+        <button class="btn-secondary" id="openCoordTool">Coordinate Tool</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="pdf-lib.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

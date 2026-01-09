@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X4YNW0E3XG"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-X4YNW0E3XG');
+  </script>
+  <title>Bank Letter Generator v3.0</title>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3608304969182163"
+     crossorigin="anonymous"></script>
+  <style>
+    body {
+      font-family: "Noto Sans Bengali", Arial, sans-serif;
+      background: #eef0f4;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 24px;
+    }
+
+    /* Template cards - auto-fit grid + colored header */
+    .template-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+    .template-card {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 0;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.12);
+      cursor: pointer;
+      border: 2px solid transparent;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+    .template-card-header {
+      background: linear-gradient(90deg, #007bff, #00a6ff);
+      color: #fff;
+      padding: 6px 10px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .template-card-body {
+      padding: 8px 10px 10px;
+    }
+    .template-title {
+      font-weight: bold;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+    .template-desc {
+      font-size: 12px;
+      color: #555;
+    }
+    .template-card.active {
+      border-color: #007bff;
+      box-shadow: 0 3px 10px rgba(0,123,255,0.25);
+      transform: translateY(-2px);
+    }
+    .template-card:hover {
+      box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+      transform: translateY(-1px);
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      margin-bottom: 10px;
+      border-bottom: 2px solid #ccc;
+    }
+    .tab {
+      padding: 8px 16px;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      border-bottom: none;
+      background: #f4f4f4;
+      margin-right: 5px;
+      border-radius: 5px 5px 0 0;
+      font-weight: bold;
+      font-size: 13px;
+    }
+    .tab.active {
+      background: #ffffff;
+      border-bottom: 2px solid #ffffff;
+    }
+
+    .tab-content {
+      background: #ffffff;
+      padding: 15px 20px;
+      border: 1px solid #ccc;
+      border-radius: 0 5px 5px 5px;
+      margin-bottom: 20px;
+    }
+
+    /* Form & fields */
+    .form-group {
+      margin-bottom: 10px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 13px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 7px;
+      border-radius: 4px;
+      border: 1px solid #aaa;
+      font-size: 13px;
+      box-sizing: border-box;
+    }
+
+    /* Fade show/hide fields */
+    .field {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity 0.25s ease-in-out, max-height 0.25s ease-in-out;
+      margin-bottom: 0 !important;
+    }
+    .field.show {
+      opacity: 1;
+      max-height: 120px;
+      margin-bottom: 10px !important;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      background: #0084ff;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      color: white;
+      cursor: pointer;
+      margin-top: 8px;
+      margin-right: 8px;
+    }
+    .btn.secondary {
+      background: #555;
+    }
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    /* A4 page */
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      background: white;
+      padding: 2in 25mm 25mm 25mm; /* top 2 inch margin */
+      margin: 0 auto 20px auto;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      font-size: 14px;
+      line-height: 1.6;
+      box-sizing: border-box;
+    }
+
+    .no-print {
+      /* hidden on print */
+    }
+
+    /* English review table */
+    #englishReviewPanel {
+      margin-top: 15px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+    }
+    #englishReviewPanel h3 {
+      margin-top: 0;
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+    .review-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .review-table th,
+    .review-table td {
+      border: 1px solid #ddd;
+      padding: 4px 6px;
+      vertical-align: top;
+    }
+    .review-table th {
+      background: #f7f7f7;
+      text-align: left;
+    }
+    .review-table input[type="text"] {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 4px 6px;
+      font-size: 13px;
+    }
+
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .page {
+        box-shadow: none;
+        margin: 0;
+        width: 210mm;
+        min-height: 297mm;
+      }
+    }
+  </style>
+
+  <!-- PDF libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- উপরের কন্ট্রোলগুলো প্রিন্টে থাকবে না -->
+    <h1 class="no-print">Bank Letter Generator</h1>
+
+    <!-- Template selection cards -->
+    <div class="template-cards no-print">
+      <div class="template-card active" data-template="cheque">
+        <div class="template-card-header">Cheque</div>
+        <div class="template-card-body">
+          <div class="template-title">Cheque Book Lost</div>
+          <div class="template-desc">চেক বই/পাতা হারানোর ক্ষেত্রে আবেদনপত্র।</div>
+        </div>
+      </div>
+
+      <div class="template-card" data-template="address">
+        <div class="template-card-header">Address</div>
+        <div class="template-card-body">
+          <div class="template-title">Address Change</div>
+          <div class="template-desc">স্থায়ী / বর্তমান ঠিকানা পরিবর্তন।</div>
+        </div>
+      </div>
+
+      <div class="template-card" data-template="statement">
+        <div class="template-card-header">Statement</div>
+        <div class="template-card-body">
+          <div class="template-title">Account Statement</div>
+          <div class="template-desc">নির্দিষ্ট সময়ের স্টেটমেন্ট চাওয়ার আবেদন।</div>
+        </div>
+      </div>
+
+      <div class="template-card" data-template="atm">
+        <div class="template-card-header">ATM</div>
+        <div class="template-card-body">
+          <div class="template-title">ATM Card Issue/Reissue</div>
+          <div class="template-desc">নতুন / হারানো এটিএম কার্ডের আবেদন।</div>
+        </div>
+      </div>
+
+      <div class="template-card" data-template="signature">
+        <div class="template-card-header">Signature</div>
+        <div class="template-card-body">
+          <div class="template-title">Signature Change</div>
+          <div class="template-desc">ব্যাংক স্বাক্ষর পরিবর্তন সংক্রান্ত আবেদন।</div>
+        </div>
+      </div>
+
+      <div class="template-card" data-template="nameCorrection">
+        <div class="template-card-header">Name</div>
+        <div class="template-card-body">
+          <div class="template-title">Name Correction</div>
+          <div class="template-desc">নাম সংশোধনের আবেদন (NID অনুযায়ী)।</div>
+        </div>
+      </div>
+
+      <div class="template-card" data-template="accountInfo">
+        <div class="template-card-header">Info</div>
+        <div class="template-card-body">
+          <div class="template-title">Account Info Update</div>
+          <div class="template-desc">ইমেইল, পেশা, অন্যান্য তথ্য আপডেট।</div>
+        </div>
+      </div>
+
+      <div class="template-card" data-template="mobileUpdate">
+        <div class="template-card-header">Mobile</div>
+        <div class="template-card-body">
+          <div class="template-title">Mobile Number Update</div>
+          <div class="template-desc">মোবাইল নম্বর পরিবর্তন।</div>
+        </div>
+      </div>
+
+      <div class="template-card" data-template="stopPayment">
+        <div class="template-card-header">Stop</div>
+        <div class="template-card-body">
+          <div class="template-title">Stop Payment</div>
+          <div class="template-desc">নির্দিষ্ট চেক পেমেন্ট বন্ধের আবেদন।</div>
+        </div>
+      </div>
+
+      <div class="template-card" data-template="accountClosure">
+        <div class="template-card-header">Close</div>
+        <div class="template-card-body">
+          <div class="template-title">Account Closure</div>
+          <div class="template-desc">হিসাব বন্ধ করার আবেদন।</div>
+        </div>
+      </div>
+
+      <div class="template-card" data-template="chequeReq">
+        <div class="template-card-header">Cheque</div>
+        <div class="template-card-body">
+          <div class="template-title">Cheque Book Requisition</div>
+          <div class="template-desc">নতুন চেকবই ইস্যুর সাধারণ আবেদন।</div>
+        </div>
+      </div>
+
+      <div class="template-card" data-template="solvency">
+        <div class="template-card-header">Solvency</div>
+        <div class="template-card-body">
+          <div class="template-title">Bank Solvency Certificate</div>
+          <div class="template-desc">সলভেন্সি সার্টিফিকেটের আবেদন।</div>
+        </div>
+      </div>
+
+      <div class="template-card" data-template="balanceCert">
+        <div class="template-card-header">Balance</div>
+        <div class="template-card-body">
+          <div class="template-title">Balance Certificate</div>
+          <div class="template-desc">ব্যালেন্স সার্টিফিকেটের আবেদন।</div>
+        </div>
+      </div>
+
+      <div class="template-card" data-template="nomineeChange">
+        <div class="template-card-header">Nominee</div>
+        <div class="template-card-body">
+          <div class="template-title">Nominee Change / Addition</div>
+          <div class="template-desc">নমিনি পরিবর্তন/সংযোজনের আবেদন।</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs no-print">
+      <div class="tab active" data-tab="form">Input Form</div>
+      <div class="tab" data-tab="preview-bn">Bangla Preview</div>
+      <div class="tab" data-tab="preview-en">English Preview</div>
+    </div>
+
+    <!-- Form Tab -->
+    <div class="tab-content no-print" id="form">
+      <!-- Bank name fields -->
+      <div class="form-group field" id="field-bankBn">
+        <label>ব্যাংকের নাম (বাংলা):</label>
+        <input type="text" id="inputBankBn" value="অগ্রণী ব্যাংক পিএলসি">
+      </div>
+      <div class="form-group field" id="field-bankEn">
+        <label>Bank Name (English, optional):</label>
+        <input type="text" id="inputBankEn" placeholder="Agrani Bank PLC">
+      </div>
+
+      <!-- Common fields -->
+      <div class="form-group field" id="field-date">
+        <label>তারিখ (বাংলা বা ইংরেজি):</label>
+        <input type="text" id="inputDate" value="০৬/১২/২০২৫ ইং">
+      </div>
+      <div class="form-group field" id="field-branch">
+        <label>শাখা (যেমন: জামালপুর শাখা, জামালপুর):</label>
+        <input type="text" id="inputBranch" value="জামালপুর শাখা, জামালপুর">
+      </div>
+      <div class="form-group field" id="field-account">
+        <label>হিসাব নম্বর:</label>
+        <input type="text" id="inputAccount" value="০২০০০১১৬৯২১২৭">
+      </div>
+      <div class="form-group field" id="field-nameBn">
+        <label>নাম (বাংলা):</label>
+        <input type="text" id="inputName" value="আব্দুল লতিফ">
+      </div>
+      <div class="form-group field" id="field-nameEn">
+        <label>নাম (English, optional – না দিলে বাংলা থেকে রোমানাইজ করার চেষ্টা করবে):</label>
+        <input type="text" id="inputNameEn" placeholder="Abdul Latif">
+      </div>
+      <div class="form-group field" id="field-mobile">
+        <label>মোবাইল নম্বর:</label>
+        <input type="text" id="inputMobile" value="০১৭১৩৫৬১০৭৬">
+      </div>
+
+      <!-- Fields mainly for cheque lost -->
+      <div class="form-group field" id="field-lostDate">
+        <label>চেক বই হারানোর তারিখ:</label>
+        <input type="text" id="inputLostDate" value="০৫/১২/২০২৫ ইং">
+      </div>
+      <div class="form-group field" id="field-thana">
+        <label>থানার নাম:</label>
+        <input type="text" id="inputThana" value="জামালপুর">
+      </div>
+      <div class="form-group field" id="field-gdNo">
+        <label>জিডি নম্বর:</label>
+        <input type="text" id="inputGDNo" value="৩৪৩৩/২৫">
+      </div>
+      <div class="form-group field" id="field-gdDate">
+        <label>জিডি তারিখ:</label>
+        <input type="text" id="inputGDDate" value="০৬/১২/২০২৫ ইং">
+      </div>
+
+      <!-- Fields for address change -->
+      <div class="form-group field" id="field-oldAddress">
+        <label>পুরাতন ঠিকানা (Address Change template এর জন্য):</label>
+        <input type="text" id="inputOldAddress" placeholder="পুরাতন ঠিকানা লিখুন">
+      </div>
+      <div class="form-group field" id="field-newAddress">
+        <label>নতুন ঠিকানা (Address Change template এর জন্য):</label>
+        <input type="text" id="inputNewAddress" placeholder="নতুন ঠিকানা লিখুন">
+      </div>
+
+      <!-- Fields for statement request -->
+      <div class="form-group field" id="field-periodFrom">
+        <label>স্টেটমেন্ট সময়সীমা (From):</label>
+        <input type="text" id="inputPeriodFrom" placeholder="যেমন: ০১/০১/২০২৫">
+      </div>
+      <div class="form-group field" id="field-periodTo">
+        <label>স্টেটমেন্ট সময়সীমা (To):</label>
+        <input type="text" id="inputPeriodTo" placeholder="যেমন: ৩১/১২/২০২৫">
+      </div>
+
+      <!-- Extra fields: Purpose, Nominee -->
+      <div class="form-group field" id="field-purpose">
+        <label>Purpose / Reason (সলভেন্সি, ব্যালেন্স সার্টিফিকেট, মোবাইল আপডেট ইত্যাদির জন্য):</label>
+        <input type="text" id="inputPurpose" placeholder="Purpose / Reason লিখুন (ইং/বাংলা)">
+      </div>
+
+      <div class="form-group field" id="field-nomineeName">
+        <label>Nominee Name (বাংলা):</label>
+        <input type="text" id="inputNomineeName" placeholder="নমিনি নাম">
+      </div>
+      <div class="form-group field" id="field-nomineeRelation">
+        <label>Nominee Relation:</label>
+        <input type="text" id="inputNomineeRelation" placeholder="সম্পর্ক (যেমন: পিতা, মাতা, স্ত্রী)">
+      </div>
+      <div class="form-group field" id="field-nomineeNid">
+        <label>Nominee NID / ID No:</label>
+        <input type="text" id="inputNomineeNid" placeholder="জাতীয় পরিচয়পত্র নম্বর">
+      </div>
+
+      <button class="btn" id="generateBtn">Generate</button>
+
+      <!-- English Conversion Review Panel -->
+      <div id="englishReviewPanel" class="no-print" style="display:none;">
+        <h3>English Conversion Review (Editable)</h3>
+        <table class="review-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Bangla</th>
+              <th>English (Editable)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Bank Name</td>
+              <td><span id="bnBankLabel"></span></td>
+              <td><input type="text" id="reviewBankEn"></td>
+            </tr>
+            <tr>
+              <td>Date</td>
+              <td><span id="bnDateLabel"></span></td>
+              <td><input type="text" id="reviewDateEn"></td>
+            </tr>
+            <tr>
+              <td>Branch</td>
+              <td><span id="bnBranchLabel"></span></td>
+              <td><input type="text" id="reviewBranchEn"></td>
+            </tr>
+            <tr>
+              <td>Account No</td>
+              <td><span id="bnAccountLabel"></span></td>
+              <td><input type="text" id="reviewAccountEn"></td>
+            </tr>
+            <tr>
+              <td>Name</td>
+              <td><span id="bnNameLabel"></span></td>
+              <td><input type="text" id="reviewNameEn"></td>
+            </tr>
+            <tr>
+              <td>Mobile</td>
+              <td><span id="bnMobileLabel"></span></td>
+              <td><input type="text" id="reviewMobileEn"></td>
+            </tr>
+            <tr>
+              <td>Cheque Lost Date</td>
+              <td><span id="bnLostDateLabel"></span></td>
+              <td><input type="text" id="reviewLostDateEn"></td>
+            </tr>
+            <tr>
+              <td>Thana</td>
+              <td><span id="bnThanaLabel"></span></td>
+              <td><input type="text" id="reviewThanaEn"></td>
+            </tr>
+            <tr>
+              <td>GD No</td>
+              <td><span id="bnGDNoLabel"></span></td>
+              <td><input type="text" id="reviewGDNoEn"></td>
+            </tr>
+            <tr>
+              <td>GD Date</td>
+              <td><span id="bnGDDateLabel"></span></td>
+              <td><input type="text" id="reviewGDDateEn"></td>
+            </tr>
+            <tr>
+              <td>Old Address</td>
+              <td><span id="bnOldAddrLabel"></span></td>
+              <td><input type="text" id="reviewOldAddrEn"></td>
+            </tr>
+            <tr>
+              <td>New Address</td>
+              <td><span id="bnNewAddrLabel"></span></td>
+              <td><input type="text" id="reviewNewAddrEn"></td>
+            </tr>
+            <tr>
+              <td>Statement From</td>
+              <td><span id="bnPeriodFromLabel"></span></td>
+              <td><input type="text" id="reviewPeriodFromEn"></td>
+            </tr>
+            <tr>
+              <td>Statement To</td>
+              <td><span id="bnPeriodToLabel"></span></td>
+              <td><input type="text" id="reviewPeriodToEn"></td>
+            </tr>
+            <tr>
+              <td>Purpose/Reason</td>
+              <td><span id="bnPurposeLabel"></span></td>
+              <td><input type="text" id="reviewPurposeEn"></td>
+            </tr>
+            <tr>
+              <td>Nominee Name</td>
+              <td><span id="bnNomineeNameLabel"></span></td>
+              <td><input type="text" id="reviewNomineeNameEn"></td>
+            </tr>
+            <tr>
+              <td>Nominee Relation</td>
+              <td><span id="bnNomineeRelationLabel"></span></td>
+              <td><input type="text" id="reviewNomineeRelationEn"></td>
+            </tr>
+            <tr>
+              <td>Nominee NID</td>
+              <td><span id="bnNomineeNidLabel"></span></td>
+              <td><input type="text" id="reviewNomineeNidEn"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Bangla Preview -->
+    <div class="tab-content" id="preview-bn" style="display:none;">
+      <div class="no-print" style="margin-bottom:10px;">
+        <button class="btn" onclick="window.print()">Print</button>
+        <button class="btn secondary" onclick="downloadPDF('bn')">Download PDF (Bangla)</button>
+      </div>
+      <div class="page" id="page-bn"></div>
+    </div>
+
+    <!-- English Preview -->
+    <div class="tab-content" id="preview-en" style="display:none;">
+      <div class="no-print" style="margin-bottom:10px;">
+        <button class="btn" onclick="window.print()">Print</button>
+        <button class="btn secondary" onclick="downloadPDF('en')">Download PDF (English)</button>
+      </div>
+      <div class="page" id="page-en"></div>
+    </div>
+  </div>
+
+  <script>
+    let currentTemplate = 'cheque';
+
+    /* Which fields are needed for each template */
+    const templateFields = {
+      cheque: [
+        'field-bankBn','field-bankEn','field-date','field-branch','field-account',
+        'field-nameBn','field-nameEn','field-mobile',
+        'field-lostDate','field-thana','field-gdNo','field-gdDate'
+      ],
+      address: [
+        'field-bankBn','field-bankEn','field-date','field-branch','field-account',
+        'field-nameBn','field-nameEn','field-mobile',
+        'field-oldAddress','field-newAddress'
+      ],
+      statement: [
+        'field-bankBn','field-bankEn','field-date','field-branch','field-account',
+        'field-nameBn','field-nameEn','field-mobile',
+        'field-periodFrom','field-periodTo'
+      ],
+      atm: [
+        'field-bankBn','field-bankEn','field-date','field-branch','field-account',
+        'field-nameBn','field-nameEn','field-mobile',
+        'field-purpose'
+      ],
+      signature: [
+        'field-bankBn','field-bankEn','field-date','field-branch','field-account',
+        'field-nameBn','field-nameEn','field-mobile'
+      ],
+      nameCorrection: [
+        'field-bankBn','field-bankEn','field-date','field-branch','field-account',
+        'field-nameBn','field-nameEn','field-mobile'
+      ],
+      accountInfo: [
+        'field-bankBn','field-bankEn','field-date','field-branch','field-account',
+        'field-nameBn','field-nameEn','field-mobile',
+        'field-purpose'
+      ],
+      mobileUpdate: [
+        'field-bankBn','field-bankEn','field-date','field-branch','field-account',
+        'field-nameBn','field-nameEn','field-mobile',
+        'field-purpose'
+      ],
+      stopPayment: [
+        'field-bankBn','field-bankEn','field-date','field-branch','field-account',
+        'field-nameBn','field-nameEn','field-mobile',
+        'field-purpose'
+      ],
+      accountClosure: [
+        'field-bankBn','field-bankEn','field-date','field-branch','field-account',
+        'field-nameBn','field-nameEn','field-mobile',
+        'field-purpose'
+      ],
+      chequeReq: [
+        'field-bankBn','field-bankEn','field-date','field-branch','field-account',
+        'field-nameBn','field-nameEn','field-mobile'
+      ],
+      solvency: [
+        'field-bankBn','field-bankEn','field-date','field-branch','field-account',
+        'field-nameBn','field-nameEn','field-mobile',
+        'field-purpose'
+      ],
+      balanceCert: [
+        'field-bankBn','field-bankEn','field-date','field-branch','field-account',
+        'field-nameBn','field-nameEn','field-mobile',
+        'field-purpose'
+      ],
+      nomineeChange: [
+        'field-bankBn','field-bankEn','field-date','field-branch','field-account',
+        'field-nameBn','field-nameEn','field-mobile',
+        'field-nomineeName','field-nomineeRelation','field-nomineeNid'
+      ]
+    };
+
+    const allFieldIds = [
+      'field-bankBn','field-bankEn','field-date','field-branch','field-account',
+      'field-nameBn','field-nameEn','field-mobile','field-lostDate','field-thana',
+      'field-gdNo','field-gdDate','field-oldAddress','field-newAddress',
+      'field-periodFrom','field-periodTo','field-purpose',
+      'field-nomineeName','field-nomineeRelation','field-nomineeNid'
+    ];
+
+    function updateVisibleFields() {
+      allFieldIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.classList.remove('show');
+      });
+      const needed = templateFields[currentTemplate] || [];
+      needed.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          // trigger reflow for smooth fade
+          void el.offsetWidth;
+          el.classList.add('show');
+        }
+      });
+    }
+
+    /* Template card click */
+    document.querySelectorAll('.template-card').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.template-card').forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        currentTemplate = card.dataset.template;
+        updateVisibleFields();
+        updatePreviews();
+      });
+    });
+
+    /* Tabs switching */
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+
+        document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+        document.getElementById(this.dataset.tab).style.display = 'block';
+      });
+    });
+
+    /* Helper – get value */
+    function v(id) {
+      const el = document.getElementById(id);
+      return el ? el.value.trim() : '';
+    }
+
+    function setText(id, text) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = text;
+    }
+
+    /* Bangla → English (basic transliteration + digits) */
+    function bnToEnText(str) {
+      const map = {
+        'অ':'o','আ':'a','া':'a','ই':'i','ি':'i','ঈ':'ii','ী':'i','উ':'u','ু':'u','ঊ':'uu','ূ':'u',
+        'এ':'e','ে':'e','ঐ':'oi','ৈ':'oi','ও':'o','ো':'o','ঔ':'ou','ৌ':'ou',
+        'ক':'k','খ':'kh','গ':'g','ঘ':'gh','ঙ':'ng',
+        'চ':'ch','ছ':'chh','জ':'j','ঝ':'jh','ঞ':'ng',
+        'ট':'t','ঠ':'th','ড':'d','ঢ':'dh','ণ':'n',
+        'ত':'t','থ':'th','দ':'d','ধ':'dh','ন':'n',
+        'প':'p','ফ':'ph','ব':'b','ভ':'bh','ম':'m',
+        'য':'j','র':'r','ল':'l','শ':'sh','ষ':'sh','স':'s','হ':'h',
+        'ড়':'r','ঢ়':'rh','য়':'y','ং':'ng','ঃ':':','ঁ':'~',
+        '০':'0','১':'1','২':'2','৩':'3','৪':'4','৫':'5','৬':'6','৭':'7','৮':'8','৯':'9',
+        ' ':' ','-':'-','/':'/','।':'.','৷':'.',',':','
+      };
+      let out = '';
+      for (let ch of str) {
+        out += map[ch] !== undefined ? map[ch] : ch;
+      }
+      return out;
+    }
+
+    /* Date: বাংলা "ইং"/"ing" → AD */
+    function finalizeEnglishDate(str) {
+      let en = bnToEnText(str);
+      en = en.replace(/ইং/g, "AD");
+      en = en.replace(/\bing\b/gi, "AD");
+      return en.trim();
+    }
+
+    /* Branch: "শাখা" → "Branch" */
+    function convertBranch(str) {
+      let en = bnToEnText(str);
+      en = en.replace(/shakha/gi, "Branch");
+      return en.trim();
+    }
+
+    /* Auto-save form data in localStorage */
+    const fieldIds = [
+      'inputBankBn','inputBankEn',
+      'inputDate','inputBranch','inputAccount','inputName','inputNameEn',
+      'inputMobile','inputLostDate','inputThana','inputGDNo','inputGDDate',
+      'inputOldAddress','inputNewAddress','inputPeriodFrom','inputPeriodTo',
+      'inputPurpose','inputNomineeName','inputNomineeRelation','inputNomineeNid',
+      'reviewBankEn','reviewDateEn','reviewBranchEn','reviewAccountEn','reviewNameEn',
+      'reviewMobileEn','reviewLostDateEn','reviewThanaEn','reviewGDNoEn',
+      'reviewGDDateEn','reviewOldAddrEn','reviewNewAddrEn',
+      'reviewPeriodFromEn','reviewPeriodToEn','reviewPurposeEn',
+      'reviewNomineeNameEn','reviewNomineeRelationEn','reviewNomineeNidEn'
+    ];
+
+    function saveFormData() {
+      const data = {};
+      fieldIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) data[id] = el.value;
+      });
+      localStorage.setItem('bankLetterForm_v3', JSON.stringify(data));
+    }
+
+    function loadFormData() {
+      const raw = localStorage.getItem('bankLetterForm_v3');
+      if (!raw) return;
+      try {
+        const data = JSON.parse(raw);
+        fieldIds.forEach(id => {
+          if (data[id] !== undefined && document.getElementById(id)) {
+            document.getElementById(id).value = data[id];
+          }
+        });
+      } catch(e) {}
+    }
+
+    window.addEventListener('load', () => {
+      loadFormData();
+      updateVisibleFields();
+      updatePreviews();
+    });
+
+    fieldIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('input', saveFormData);
+      }
+    });
+
+    /* Generate letters + setup review panel */
+    document.getElementById('generateBtn').addEventListener('click', () => {
+      // Bangla values
+      const bankBn = v('inputBankBn');
+      const bankEnInput = v('inputBankEn');
+      const d = v('inputDate');
+      const br = v('inputBranch');
+      const ac = v('inputAccount');
+      const nmBn = v('inputName');
+      const nmEnInput = v('inputNameEn');
+      const mb = v('inputMobile');
+      const ld = v('inputLostDate');
+      const th = v('inputThana');
+      const gd = v('inputGDNo');
+      const gdd = v('inputGDDate');
+      const oldAddr = v('inputOldAddress');
+      const newAddr = v('inputNewAddress');
+      const pf = v('inputPeriodFrom');
+      const pt = v('inputPeriodTo');
+      const purpose = v('inputPurpose');
+      const nomineeName = v('inputNomineeName');
+      const nomineeRelation = v('inputNomineeRelation');
+      const nomineeNid = v('inputNomineeNid');
+
+      // auto English
+      const autoBankEn = bankEnInput || bnToEnText(bankBn);
+      const autoDateEn = finalizeEnglishDate(d);
+      const autoBranchEn = convertBranch(br);
+      const autoAccountEn = bnToEnText(ac);
+      const autoNameEn = nmEnInput || bnToEnText(nmBn);
+      const autoMobileEn = bnToEnText(mb);
+      const autoLostDateEn = finalizeEnglishDate(ld);
+      const autoThanaEn = bnToEnText(th);
+      const autoGDEn = bnToEnText(gd);
+      const autoGDDateEn = finalizeEnglishDate(gdd);
+      const autoOldAddrEn = bnToEnText(oldAddr);
+      const autoNewAddrEn = bnToEnText(newAddr);
+      const autoPfEn = bnToEnText(pf);
+      const autoPtEn = bnToEnText(pt);
+      const autoPurposeEn = bnToEnText(purpose);
+      const autoNomineeNameEn = bnToEnText(nomineeName);
+      const autoNomineeRelationEn = bnToEnText(nomineeRelation);
+      const autoNomineeNidEn = bnToEnText(nomineeNid);
+
+      // Bangla labels
+      setText('bnBankLabel', bankBn);
+      setText('bnDateLabel', d);
+      setText('bnBranchLabel', br);
+      setText('bnAccountLabel', ac);
+      setText('bnNameLabel', nmBn);
+      setText('bnMobileLabel', mb);
+      setText('bnLostDateLabel', ld);
+      setText('bnThanaLabel', th);
+      setText('bnGDNoLabel', gd);
+      setText('bnGDDateLabel', gdd);
+      setText('bnOldAddrLabel', oldAddr);
+      setText('bnNewAddrLabel', newAddr);
+      setText('bnPeriodFromLabel', pf);
+      setText('bnPeriodToLabel', pt);
+      setText('bnPurposeLabel', purpose);
+      setText('bnNomineeNameLabel', nomineeName);
+      setText('bnNomineeRelationLabel', nomineeRelation);
+      setText('bnNomineeNidLabel', nomineeNid);
+
+      // review fields set (overwrite on Generate)
+      const setVal = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.value = val || '';
+      };
+      setVal('reviewBankEn', autoBankEn);
+      setVal('reviewDateEn', autoDateEn);
+      setVal('reviewBranchEn', autoBranchEn);
+      setVal('reviewAccountEn', autoAccountEn);
+      setVal('reviewNameEn', autoNameEn);
+      setVal('reviewMobileEn', autoMobileEn);
+      setVal('reviewLostDateEn', autoLostDateEn);
+      setVal('reviewThanaEn', autoThanaEn);
+      setVal('reviewGDNoEn', autoGDEn);
+      setVal('reviewGDDateEn', autoGDDateEn);
+      setVal('reviewOldAddrEn', autoOldAddrEn);
+      setVal('reviewNewAddrEn', autoNewAddrEn);
+      setVal('reviewPeriodFromEn', autoPfEn);
+      setVal('reviewPeriodToEn', autoPtEn);
+      setVal('reviewPurposeEn', autoPurposeEn);
+      setVal('reviewNomineeNameEn', autoNomineeNameEn);
+      setVal('reviewNomineeRelationEn', autoNomineeRelationEn);
+      setVal('reviewNomineeNidEn', autoNomineeNidEn);
+
+      document.getElementById('englishReviewPanel').style.display = 'block';
+
+      saveFormData();
+      updatePreviews();
+    });
+
+    // Live update when review inputs change
+    const reviewIds = [
+      'reviewBankEn','reviewDateEn','reviewBranchEn','reviewAccountEn','reviewNameEn',
+      'reviewMobileEn','reviewLostDateEn','reviewThanaEn','reviewGDNoEn',
+      'reviewGDDateEn','reviewOldAddrEn','reviewNewAddrEn',
+      'reviewPeriodFromEn','reviewPeriodToEn','reviewPurposeEn',
+      'reviewNomineeNameEn','reviewNomineeRelationEn','reviewNomineeNidEn'
+    ];
+    reviewIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('input', () => {
+          saveFormData();
+          updatePreviews();
+        });
+      }
+    });
+
+    /* Update previews (Bangla + English) based on form + review */
+    function updatePreviews() {
+      const bankBn = v('inputBankBn');
+      const bankEnInput = v('inputBankEn');
+      const d = v('inputDate');
+      const br = v('inputBranch');
+      const ac = v('inputAccount');
+      const nmBn = v('inputName');
+      const nmEnInput = v('inputNameEn');
+      const mb = v('inputMobile');
+      const ld = v('inputLostDate');
+      const th = v('inputThana');
+      const gd = v('inputGDNo');
+      const gdd = v('inputGDDate');
+      const oldAddr = v('inputOldAddress');
+      const newAddr = v('inputNewAddress');
+      const pf = v('inputPeriodFrom');
+      const pt = v('inputPeriodTo');
+      const purpose = v('inputPurpose');
+      const nomineeName = v('inputNomineeName');
+      const nomineeRelation = v('inputNomineeRelation');
+      const nomineeNid = v('inputNomineeNid');
+
+      // Bangla labels sync
+      setText('bnBankLabel', bankBn);
+      setText('bnDateLabel', d);
+      setText('bnBranchLabel', br);
+      setText('bnAccountLabel', ac);
+      setText('bnNameLabel', nmBn);
+      setText('bnMobileLabel', mb);
+      setText('bnLostDateLabel', ld);
+      setText('bnThanaLabel', th);
+      setText('bnGDNoLabel', gd);
+      setText('bnGDDateLabel', gdd);
+      setText('bnOldAddrLabel', oldAddr);
+      setText('bnNewAddrLabel', newAddr);
+      setText('bnPeriodFromLabel', pf);
+      setText('bnPeriodToLabel', pt);
+      setText('bnPurposeLabel', purpose);
+      setText('bnNomineeNameLabel', nomineeName);
+      setText('bnNomineeRelationLabel', nomineeRelation);
+      setText('bnNomineeNidLabel', nomineeNid);
+
+      // auto English compute
+      const autoBankEn = bankEnInput || bnToEnText(bankBn);
+      const autoDateEn = finalizeEnglishDate(d);
+      const autoBranchEn = convertBranch(br);
+      const autoAccountEn = bnToEnText(ac);
+      const autoNameEn = nmEnInput || bnToEnText(nmBn);
+      const autoMobileEn = bnToEnText(mb);
+      const autoLostDateEn = finalizeEnglishDate(ld);
+      const autoThanaEn = bnToEnText(th);
+      const autoGDEn = bnToEnText(gd);
+      const autoGDDateEn = finalizeEnglishDate(gdd);
+      const autoOldAddrEn = bnToEnText(oldAddr);
+      const autoNewAddrEn = bnToEnText(newAddr);
+      const autoPfEn = bnToEnText(pf);
+      const autoPtEn = bnToEnText(pt);
+      const autoPurposeEn = bnToEnText(purpose);
+      const autoNomineeNameEn = bnToEnText(nomineeName);
+      const autoNomineeRelationEn = bnToEnText(nomineeRelation);
+      const autoNomineeNidEn = bnToEnText(nomineeNid);
+
+      function rv(id, autoVal) {
+        const el = document.getElementById(id);
+        const val = el ? el.value.trim() : '';
+        return val || autoVal || '';
+      }
+
+      const bankEn = rv('reviewBankEn', autoBankEn);
+      const dateEn = rv('reviewDateEn', autoDateEn);
+      const branchEn = rv('reviewBranchEn', autoBranchEn);
+      const accountEn = rv('reviewAccountEn', autoAccountEn);
+      const nameEn = rv('reviewNameEn', autoNameEn);
+      const mobileEn = rv('reviewMobileEn', autoMobileEn);
+      const lostDateEn = rv('reviewLostDateEn', autoLostDateEn);
+      const thanaEn = rv('reviewThanaEn', autoThanaEn);
+      const gdEn = rv('reviewGDNoEn', autoGDEn);
+      const gdDateEn = rv('reviewGDDateEn', autoGDDateEn);
+      const oldAddrEn = rv('reviewOldAddrEn', autoOldAddrEn);
+      const newAddrEn = rv('reviewNewAddrEn', autoNewAddrEn);
+      const pfEn = rv('reviewPeriodFromEn', autoPfEn);
+      const ptEn = rv('reviewPeriodToEn', autoPtEn);
+      const purposeEn = rv('reviewPurposeEn', autoPurposeEn);
+      const nomineeNameEn = rv('reviewNomineeNameEn', autoNomineeNameEn);
+      const nomineeRelationEn = rv('reviewNomineeRelationEn', autoNomineeRelationEn);
+      const nomineeNidEn = rv('reviewNomineeNidEn', autoNomineeNidEn);
+
+      let bnHtml = '';
+      let enHtml = '';
+
+      /* Template-wise content */
+      if (currentTemplate === 'cheque') {
+        // Cheque Book Lost
+        bnHtml = `
+          তারিখঃ ${d}<br>
+          বরাবর<br>
+          ব্যবস্থাপক<br>
+          ${bankBn}<br>
+          ${br}<br><br>
+
+          <b>বিষয়ঃ</b> আমার হিসাব নং— ${ac} এর চেক বই হারিয়ে যাওয়ায় নতুন চেক বই প্রদানের আবেদন।<br><br>
+
+          প্রিয় মহোদয়,<br>
+          যথাবিহিত সম্মানপূর্বক নিবেদন এই যে, আমি নিম্নস্বাক্ষরকারী ${nmBn},
+          আপনার শাখায় হিসাব নং ${ac} দীর্ঘদিন যাবৎ পরিচালনা করে আসছি।
+          গত ${ld} তারিখে বাসা হতে ব্যাংকে আসার পথে আমার চেকবইটি (সাদা পাতাসহ) হারিয়ে যায়।<br><br>
+
+          এমতাবস্থায় আমি ${th} থানায় একটি সাধারণ ডায়েরি করেছি।
+          জিডি নং ${gd}, তারিখ ${gdd}।<br><br>
+
+          সুতরাং, আমার হারানো চেকপাতাগুলো বন্ধ করে আমার অনুকূলে নতুন একটি চেক বই প্রদানের জন্য বিশেষভাবে অনুরোধ করছি।<br><br>
+
+          বিনীত,<br><br>
+          _________________________<br>
+          নামঃ ${nmBn}<br>
+          হিসাব নংঃ ${ac}<br>
+          মোবাইল নংঃ ${mb}<br>
+        `;
+
+        enHtml = `
+          Date: ${dateEn}<br>
+          To<br>
+          The Manager<br>
+          ${bankEn}<br>
+          ${branchEn}<br><br>
+
+          <b>Subject:</b> Request for issuing a new cheque book as my cheque book (A/C No: ${accountEn}) has been lost.<br><br>
+
+          Dear Sir,<br>
+          I, ${nameEn}, have been maintaining savings account no. ${accountEn} in your branch for a long time.
+          On ${lostDateEn}, while coming from home to the bank, I lost my cheque book (including unused leaves).<br><br>
+
+          Therefore, I have lodged a General Diary at ${thanaEn} Police Station.
+          GD No: ${gdEn}, dated: ${gdDateEn}.<br><br>
+
+          Hence, I humbly request you to kindly stop payment of the lost cheque leaves and issue a new cheque book in my favour.<br><br>
+
+          Sincerely,<br><br>
+          _________________________<br>
+          Name: ${nameEn}<br>
+          Account No: ${accountEn}<br>
+          Mobile: ${mobileEn}<br>
+        `;
+      } else if (currentTemplate === 'address') {
+        // Address Change
+        bnHtml = `
+          তারিখঃ ${d}<br>
+          বরাবর<br>
+          ব্যবস্থাপক<br>
+          ${bankBn}<br>
+          ${br}<br><br>
+
+          <b>বিষয়ঃ</b> আমার হিসাব নং— ${ac} এর ঠিকানা পরিবর্তন সংক্রান্ত আবেদন।<br><br>
+
+          প্রিয় মহোদয়,<br>
+          বিনীত নিবেদন এই যে, আমি ${nmBn}, আপনার শাখার দীর্ঘদিনের গ্রাহক এবং আমার হিসাব নং ${ac} আপনার শাখায় সঞ্চালিত হচ্ছে।<br><br>
+
+          সম্প্রতি আমার বাসার ঠিকানা পরিবর্তন হয়েছে। পূর্বের ঠিকানা ছিলঃ ${oldAddr} এবং নতুন ঠিকানা হচ্ছেঃ ${newAddr}।<br><br>
+
+          সুতরাং, আপনার ব্যাংকের রেকর্ডে আমার পূর্বের ঠিকানার পরিবর্তে উপরে বর্ণিত নতুন ঠিকানাটি সংযোজন করে সংশোধন করার জন্য বিশেষভাবে অনুরোধ করছি।<br><br>
+
+          বিনীত,<br><br>
+          _________________________<br>
+          নামঃ ${nmBn}<br>
+          হিসাব নংঃ ${ac}<br>
+          মোবাইল নংঃ ${mb}<br>
+        `;
+
+        enHtml = `
+          Date: ${dateEn}<br>
+          To<br>
+          The Manager<br>
+          ${bankEn}<br>
+          ${branchEn}<br><br>
+
+          <b>Subject:</b> Request for change of address for my account no. ${accountEn}.<br><br>
+
+          Dear Sir,<br>
+          I, ${nameEn}, have been maintaining account no. ${accountEn} in your branch for a long time.<br><br>
+
+          This is to inform you that my residential address has recently been changed. My previous address was:
+          ${oldAddrEn} and my new address is: ${newAddrEn}.<br><br>
+
+          I therefore request you to kindly update your records by replacing my old address with the above-mentioned new address for all future correspondence.<br><br>
+
+          Sincerely,<br><br>
+          _________________________<br>
+          Name: ${nameEn}<br>
+          Account No: ${accountEn}<br>
+          Mobile: ${mobileEn}<br>
+        `;
+      } else if (currentTemplate === 'statement') {
+        // Statement Request
+        bnHtml = `
+          তারিখঃ ${d}<br>
+          বরাবর<br>
+          ব্যবস্থাপক<br>
+          ${bankBn}<br>
+          ${br}<br><br>
+
+          <b>বিষয়ঃ</b> আমার হিসাব নং— ${ac} এর স্টেটমেন্ট প্রদান সংক্রান্ত আবেদন।<br><br>
+
+          প্রিয় মহোদয়,<br>
+          বিনীত নিবেদন এই যে, আমি ${nmBn}, আপনার শাখার একজন গ্রাহক এবং আমার হিসাব নং ${ac} আপনার শাখায় সঞ্চালিত হচ্ছে।<br><br>
+
+          হিসাব সংক্রান্ত প্রয়োজনীয়তার কারণে <b>${pf}</b> হতে <b>${pt}</b> পর্যন্ত সময়ের সম্পূর্ণ ব্যাংক স্টেটমেন্টের প্রিন্ট কপি আমার অনুকূলে দেওয়ার জন্য অনুরোধ করছি।<br><br>
+
+          প্রয়োজনীয় চার্জ থাকলে আমার উক্ত হিসাব হতে গ্রহণ করার জন্য সম্মতি প্রদান করছি।<br><br>
+
+          বিনীত,<br><br>
+          _________________________<br>
+          নামঃ ${nmBn}<br>
+          হিসাব নংঃ ${ac}<br>
+          মোবাইল নংঃ ${mb}<br>
+        `;
+
+        enHtml = `
+          Date: ${dateEn}<br>
+          To<br>
+          The Manager<br>
+          ${bankEn}<br>
+          ${branchEn}<br><br>
+
+          <b>Subject:</b> Request for account statement of A/C No. ${accountEn}.<br><br>
+
+          Dear Sir,<br>
+          I, ${nameEn}, maintain account no. ${accountEn} with your branch.<br><br>
+
+          I hereby request you to kindly provide me with a detailed bank statement of the above account for the period from ${pfEn} to ${ptEn}.<br><br>
+
+          I agree to bear any applicable charges for issuing the said statement and authorize you to debit the same from my above-mentioned account.<br><br>
+
+          Sincerely,<br><br>
+          _________________________<br>
+          Name: ${nameEn}<br>
+          Account No: ${accountEn}<br>
+          Mobile: ${mobileEn}<br>
+        `;
+      } else if (currentTemplate === 'atm') {
+        // ATM Card Issue/Reissue
+        bnHtml = `
+          তারিখঃ ${d}<br>
+          বরাবর<br>
+          ব্যবস্থাপক<br>
+          ${bankBn}<br>
+          ${br}<br><br>
+
+          <b>বিষয়ঃ</b> আমার হিসাব নং— ${ac} এর জন্য এটিএম কার্ড ইস্যু/পুনঃইস্যুর আবেদন।<br><br>
+
+          প্রিয় মহোদয়,<br>
+          আমি আপনার শাখার একজন নিয়মিত গ্রাহক এবং আমার হিসাব নং ${ac} আপনার শাখায় সঞ্চালিত হচ্ছে।<br><br>
+
+          আমার চলতি/সঞ্চয়ী হিসাবের সুবিধার্থে একটি নতুন এটিএম কার্ড ইস্যু করার জন্য আবেদন জানাচ্ছি।
+          ${purpose ? 'আবেদনের কারণঃ ' + purpose + '<br><br>' : '<br>'}
+          (প্রযোজ্য ক্ষেত্রে লিখতে পারি: পূর্ববর্তী এটিএম কার্ডটি হারিয়ে যাওয়ায়/নষ্ট হওয়ায় নতুন কার্ডের জন্য আবেদন করছি)।<br><br>
+
+          বিনীত,<br><br>
+          _________________________<br>
+          নামঃ ${nmBn}<br>
+          হিসাব নংঃ ${ac}<br>
+          মোবাইল নংঃ ${mb}<br>
+        `;
+
+        enHtml = `
+          Date: ${dateEn}<br>
+          To<br>
+          The Manager<br>
+          ${bankEn}<br>
+          ${branchEn}<br><br>
+
+          <b>Subject:</b> Application for ATM Card Issue/Re-issue for A/C No. ${accountEn}.<br><br>
+
+          Dear Sir,<br>
+          I, ${nameEn}, am a regular customer of your branch maintaining account no. ${accountEn}.<br><br>
+
+          I would like to request you to kindly issue/re-issue an ATM card for my above-mentioned account
+          for the convenience of my banking transactions.${purposeEn ? '<br><br>Purpose: ' + purposeEn + '<br><br>' : '<br><br>'}
+
+          Sincerely,<br><br>
+          _________________________<br>
+          Name: ${nameEn}<br>
+          Account No: ${accountEn}<br>
+          Mobile: ${mobileEn}<br>
+        `;
+      } else if (currentTemplate === 'signature') {
+        // Signature Change
+        bnHtml = `
+          তারিখঃ ${d}<br>
+          বরাবর<br>
+          ব্যবস্থাপক<br>
+          ${bankBn}<br>
+          ${br}<br><br>
+
+          <b>বিষয়ঃ</b> আমার ব্যাংক হিসাবের স্বাক্ষর পরিবর্তন সংক্রান্ত আবেদন।<br><br>
+
+          প্রিয় মহোদয়,<br>
+          আমি আপনার শাখার একজন গ্রাহক এবং আমার হিসাব নং ${ac} আপনার শাখায় সঞ্চালিত হচ্ছে।<br><br>
+
+          ব্যক্তিগত কারণে আমার ব্যবহৃত বর্তমান স্বাক্ষর পরিবর্তন করে নতুন স্বাক্ষর গ্রহণ করার ইচ্ছা প্রকাশ করছি।
+          অনুগ্রহ করে আমার নতুন স্বাক্ষরটি ব্যাংকের রেকর্ডে সংযোজন/হালনাগাদ করার জন্য বিশেষভাবে অনুরোধ করছি।<br><br>
+
+          বিনীত,<br><br>
+          _________________________<br>
+          নামঃ ${nmBn}<br>
+          হিসাব নংঃ ${ac}<br>
+          মোবাইল নংঃ ${mb}<br>
+          (নতুন স্বাক্ষর সংযুক্ত)<br>
+        `;
+
+        enHtml = `
+          Date: ${dateEn}<br>
+          To<br>
+          The Manager<br>
+          ${bankEn}<br>
+          ${branchEn}<br><br>
+
+          <b>Subject:</b> Request for Signature Change for my bank account.<br><br>
+
+          Dear Sir,<br>
+          I, ${nameEn}, maintain account no. ${accountEn} with your branch.<br><br>
+
+          Due to personal reasons, I wish to change the specimen signature recorded against my above-mentioned account.
+          I therefore request you to kindly update your records with my new signature provided herewith.<br><br>
+
+          Sincerely,<br><br>
+          _________________________<br>
+          Name: ${nameEn}<br>
+          Account No: ${accountEn}<br>
+          Mobile: ${mobileEn}<br>
+        `;
+      } else if (currentTemplate === 'nameCorrection') {
+        // Name Correction
+        bnHtml = `
+          তারিখঃ ${d}<br>
+          বরাবর<br>
+          ব্যবস্থাপক<br>
+          ${bankBn}<br>
+          ${br}<br><br>
+
+          <b>বিষয়ঃ</b> আমার নাম সংশোধন সংক্রান্ত আবেদন।<br><br>
+
+          প্রিয় মহোদয়,<br>
+          আমি আপনার শাখায় হিসাব নং ${ac} এর একজন গ্রাহক। ব্যাংকের রেকর্ডে আমার নাম ভুলবশত
+          ভিন্নভাবে লিপিবদ্ধ হয়েছে। জাতীয় পরিচয়পত্র অনুযায়ী আমার সঠিক নামঃ ${nmBn}।<br><br>
+
+          সুতরাং, ব্যাংকের সকল রেকর্ডে আমার নামটি যথাযথভাবে সংশোধন করার জন্য বিশেষভাবে অনুরোধ জানাচ্ছি।<br><br>
+
+          বিনীত,<br><br>
+          _________________________<br>
+          সঠিক নামঃ ${nmBn}<br>
+          হিসাব নংঃ ${ac}<br>
+          মোবাইল নংঃ ${mb}<br>
+        `;
+
+        enHtml = `
+          Date: ${dateEn}<br>
+          To<br>
+          The Manager<br>
+          ${bankEn}<br>
+          ${branchEn}<br><br>
+
+          <b>Subject:</b> Request for Name Correction in Bank Records.<br><br>
+
+          Dear Sir,<br>
+          I am maintaining account no. ${accountEn} with your branch.
+          My name has been recorded incorrectly in your bank records.
+          As per my National ID, my correct name is ${nameEn}.<br><br>
+
+          I therefore request you to kindly correct my name in all of your records accordingly.<br><br>
+
+          Sincerely,<br><br>
+          _________________________<br>
+          Correct Name: ${nameEn}<br>
+          Account No: ${accountEn}<br>
+          Mobile: ${mobileEn}<br>
+        `;
+      } else if (currentTemplate === 'accountInfo') {
+        // Account Info Update
+        bnHtml = `
+          তারিখঃ ${d}<br>
+          বরাবর<br>
+          ব্যবস্থাপক<br>
+          ${bankBn}<br>
+          ${br}<br><br>
+
+          <b>বিষয়ঃ</b> আমার হিসাবের তথ্য হালনাগাদ করার আবেদন।<br><br>
+
+          প্রিয় মহোদয়,<br>
+          আমি ${nmBn}, আপনার শাখার হিসাবধারী এবং আমার হিসাব নং ${ac} আপনার শাখায় সঞ্চালিত হচ্ছে।<br><br>
+
+          আমার ব্যাংক রেকর্ডে সংরক্ষিত কিছু তথ্য (যেমনঃ মোবাইল নম্বর, ইমেইল, পেশা, ঠিকানা ইত্যাদি) পরিবর্তিত হয়েছে।
+          অনুগ্রহ করে নিম্নে বর্ণিত তথ্যসমূহ হালনাগাদ করার জন্য আবেদন জানাচ্ছিঃ<br><br>
+
+          হালনাগাদের বিবরণঃ ${purpose}<br><br>
+
+          বিনীত,<br><br>
+          _________________________<br>
+          নামঃ ${nmBn}<br>
+          হিসাব নংঃ ${ac}<br>
+          মোবাইল নংঃ ${mb}<br>
+        `;
+
+        enHtml = `
+          Date: ${dateEn}<br>
+          To<br>
+          The Manager<br>
+          ${bankEn}<br>
+          ${branchEn}<br><br>
+
+          <b>Subject:</b> Request for Updating Account Information for A/C No. ${accountEn}.<br><br>
+
+          Dear Sir,<br>
+          I, ${nameEn}, am maintaining account no. ${accountEn} with your branch.<br><br>
+
+          Some of the information recorded against my account (such as mobile number, email, occupation, address, etc.)
+          has been changed. I kindly request you to update the following information in your records:<br><br>
+
+          Details of the update: ${purposeEn}<br><br>
+
+          Sincerely,<br><br>
+          _________________________<br>
+          Name: ${nameEn}<br>
+          Account No: ${accountEn}<br>
+          Mobile: ${mobileEn}<br>
+        `;
+      } else if (currentTemplate === 'mobileUpdate') {
+        // Mobile Number Update
+        bnHtml = `
+          তারিখঃ ${d}<br>
+          বরাবর<br>
+          ব্যবস্থাপক<br>
+          ${bankBn}<br>
+          ${br}<br><br>
+
+          <b>বিষয়ঃ</b> আমার হিসাবের সাথে নিবন্ধিত মোবাইল নম্বর পরিবর্তন সংক্রান্ত আবেদন।<br><br>
+
+          প্রিয় মহোদয়,<br>
+          আমি ${nmBn}, আপনার শাখার গ্রাহক এবং আমার হিসাব নং ${ac} আপনার শাখায় সঞ্চালিত হচ্ছে।<br><br>
+
+          পূর্বের মোবাইল নম্বরঃ ${purpose} <br>
+          নতুন মোবাইল নম্বরঃ ${mb}<br><br>
+
+          অনুগ্রহ করে আমার হিসাবের সাথে নিবন্ধিত মোবাইল নম্বর পরিবর্তন করে উপরে বর্ণিত নতুন মোবাইল নম্বরটি সংযোজন করার জন্য বিশেষভাবে অনুরোধ করছি।<br><br>
+
+          বিনীত,<br><br>
+          _________________________<br>
+          নামঃ ${nmBn}<br>
+          হিসাব নংঃ ${ac}<br>
+          মোবাইল নংঃ ${mb}<br>
+        `;
+
+        enHtml = `
+          Date: ${dateEn}<br>
+          To<br>
+          The Manager<br>
+          ${bankEn}<br>
+          ${branchEn}<br><br>
+
+          <b>Subject:</b> Request for Mobile Number Update for my account ${accountEn}.<br><br>
+
+          Dear Sir,<br>
+          I, ${nameEn}, maintain account no. ${accountEn} with your branch.<br><br>
+
+          My previous mobile number was: ${purposeEn}.<br>
+          My new mobile number is: ${mobileEn}.<br><br>
+
+          I request you to kindly update your records and register my new mobile number against my above-mentioned account.<br><br>
+
+          Sincerely,<br><br>
+          _________________________<br>
+          Name: ${nameEn}<br>
+          Account No: ${accountEn}<br>
+          Mobile: ${mobileEn}<br>
+        `;
+      } else if (currentTemplate === 'stopPayment') {
+        // Stop Payment
+        bnHtml = `
+          তারিখঃ ${d}<br>
+          বরাবর<br>
+          ব্যবস্থাপক<br>
+          ${bankBn}<br>
+          ${br}<br><br>
+
+          <b>বিষয়ঃ</b> নির্দিষ্ট চেকের পেমেন্ট বন্ধ করার আবেদন।<br><br>
+
+          প্রিয় মহোদয়,<br>
+          আমি ${nmBn}, আপনার শাখায় হিসাব নং ${ac} পরিচালনা করে আসছি।<br><br>
+
+          আমার ইস্যুকৃত চেক নং ${purpose} ভুলবশত হারিয়ে গেছে/কর্তৃক প্রদান না করার সিদ্ধান্ত নিয়েছি।
+          তাই উক্ত চেকটির পেমেন্ট স্থগিত রাখার জন্য আপনার নিকট আবেদন জানাচ্ছি।<br><br>
+
+          বিনীত,<br><br>
+          _________________________<br>
+          নামঃ ${nmBn}<br>
+          হিসাব নংঃ ${ac}<br>
+          মোবাইল নংঃ ${mb}<br>
+        `;
+
+        enHtml = `
+          Date: ${dateEn}<br>
+          To<br>
+          The Manager<br>
+          ${bankEn}<br>
+          ${branchEn}<br><br>
+
+          <b>Subject:</b> Request for Stop Payment of Cheque No. ${purposeEn}.<br><br>
+
+          Dear Sir,<br>
+          I, ${nameEn}, am maintaining account no. ${accountEn} with your branch.<br><br>
+
+          I hereby request you to stop payment of cheque no. ${purposeEn} drawn on my above-mentioned account,
+          as it has been lost/misplaced or should not be honoured due to my instructions.<br><br>
+
+          Kindly take necessary steps to ensure that this cheque is not paid.<br><br>
+
+          Sincerely,<br><br>
+          _________________________<br>
+          Name: ${nameEn}<br>
+          Account No: ${accountEn}<br>
+          Mobile: ${mobileEn}<br>
+        `;
+      } else if (currentTemplate === 'accountClosure') {
+        // Account Closure
+        bnHtml = `
+          তারিখঃ ${d}<br>
+          বরাবর<br>
+          ব্যবস্থাপক<br>
+          ${bankBn}<br>
+          ${br}<br><br>
+
+          <b>বিষয়ঃ</b> আমার ব্যাংক হিসাব বন্ধ করার আবেদন।<br><br>
+
+          প্রিয় মহোদয়,<br>
+          আমি ${nmBn}, আপনার শাখায় হিসাব নং ${ac} পরিচালনা করে আসছি। ব্যক্তিগত কারণে উক্ত হিসাবটি বন্ধ করতে ইচ্ছুক।<br><br>
+
+          সুতরাং, অনুগ্রহ করে হিসাবটি বন্ধ করে অবশিষ্ট ব্যালেন্স নগদ/পে-অর্ডার/চেকের মাধ্যমে পরিশোধ করার জন্য বিশেষভাবে অনুরোধ করছি।<br><br>
+
+          বিনীত,<br><br>
+          _________________________<br>
+          নামঃ ${nmBn}<br>
+          হিসাব নংঃ ${ac}<br>
+          মোবাইল নংঃ ${mb}<br>
+        `;
+
+        enHtml = `
+          Date: ${dateEn}<br>
+          To<br>
+          The Manager<br>
+          ${bankEn}<br>
+          ${branchEn}<br><br>
+
+          <b>Subject:</b> Request for Closure of my Bank Account No. ${accountEn}.<br><br>
+
+          Dear Sir,<br>
+          I, ${nameEn}, have been maintaining the above-mentioned account with your branch.
+          Due to personal reasons, I wish to close this account.<br><br>
+
+          I therefore request you to kindly close the account and release the remaining balance
+          in cash/through pay order/cheque as per bank procedure.<br><br>
+
+          Sincerely,<br><br>
+          _________________________<br>
+          Name: ${nameEn}<br>
+          Account No: ${accountEn}<br>
+          Mobile: ${mobileEn}<br>
+        `;
+      } else if (currentTemplate === 'chequeReq') {
+        // Cheque Book Requisition
+        bnHtml = `
+          তারিখঃ ${d}<br>
+          বরাবর<br>
+          ব্যবস্থাপক<br>
+          ${bankBn}<br>
+          ${br}<br><br>
+
+          <b>বিষয়ঃ</b> নতুন চেক বই ইস্যুর জন্য আবেদন।<br><br>
+
+          প্রিয় মহোদয়,<br>
+          আমি ${nmBn}, আপনার শাখায় হিসাব নং ${ac} এর একজন গ্রাহক। আমার পূর্ববর্তী চেকবইয়ের পাতা প্রায় শেষ হয়ে এসেছে/শেষ হয়ে গেছে।<br><br>
+
+          সুতরাং, আমার হিসাবের অনুকূলে একটি নতুন চেকবই ইস্যু করার জন্য অনুরোধ করছি।<br><br>
+
+          বিনীত,<br><br>
+          _________________________<br>
+          নামঃ ${nmBn}<br>
+          হিসাব নংঃ ${ac}<br>
+          মোবাইল নংঃ ${mb}<br>
+        `;
+
+        enHtml = `
+          Date: ${dateEn}<br>
+          To<br>
+          The Manager<br>
+          ${bankEn}<br>
+          ${branchEn}<br><br>
+
+          <b>Subject:</b> Request for New Cheque Book for A/C No. ${accountEn}.<br><br>
+
+          Dear Sir,<br>
+          I, ${nameEn}, maintain account no. ${accountEn} with your branch.<br><br>
+
+          My existing cheque book has almost been exhausted/is already exhausted.
+          I therefore request you to kindly issue a new cheque book in my favour for the above-mentioned account.<br><br>
+
+          Sincerely,<br><br>
+          _________________________<br>
+          Name: ${nameEn}<br>
+          Account No: ${accountEn}<br>
+          Mobile: ${mobileEn}<br>
+        `;
+      } else if (currentTemplate === 'solvency') {
+        // Bank Solvency Certificate
+        bnHtml = `
+          তারিখঃ ${d}<br>
+          বরাবর<br>
+          ব্যবস্থাপক<br>
+          ${bankBn}<br>
+          ${br}<br><br>
+
+          <b>বিষয়ঃ</b> ব্যাংক সলভেন্সি সার্টিফিকেট প্রদানের জন্য আবেদন।<br><br>
+
+          প্রিয় মহোদয়,<br>
+          আমি ${nmBn}, আপনার শাখায় হিসাব নং ${ac} পরিচালনা করে আসছি।<br><br>
+
+          ${purpose ? 'আমার ' + purpose + ' সংক্রান্ত কার্যসম্পাদনের জন্য একটি ব্যাংক সলভেন্সি সার্টিফিকেট প্রয়োজন।<br><br>' : 'একটি ব্যাংক সলভেন্সি সার্টিফিকেট প্রয়োজন।<br><br>'}
+
+          সুতরাং, আমার অনুকূলে একটি ব্যাংক সলভেন্সি সার্টিফিকেট প্রদানের জন্য আপনার নিকট বিশেষভাবে আবেদন জানাচ্ছি।<br><br>
+
+          বিনীত,<br><br>
+          _________________________<br>
+          নামঃ ${nmBn}<br>
+          হিসাব নংঃ ${ac}<br>
+          মোবাইল নংঃ ${mb}<br>
+        `;
+
+        enHtml = `
+          Date: ${dateEn}<br>
+          To<br>
+          The Manager<br>
+          ${bankEn}<br>
+          ${branchEn}<br><br>
+
+          <b>Subject:</b> Request for Bank Solvency Certificate for A/C No. ${accountEn}.<br><br>
+
+          Dear Sir,<br>
+          I, ${nameEn}, maintain account no. ${accountEn} with your branch.<br><br>
+
+          I require a Bank Solvency Certificate${purposeEn ? ' for ' + purposeEn : ''}.<br><br>
+
+          I therefore request you to kindly issue the said certificate in my favour at your earliest convenience.<br><br>
+
+          Sincerely,<br><br>
+          _________________________<br>
+          Name: ${nameEn}<br>
+          Account No: ${accountEn}<br>
+          Mobile: ${mobileEn}<br>
+        `;
+      } else if (currentTemplate === 'balanceCert') {
+        // Balance Certificate
+        bnHtml = `
+          তারিখঃ ${d}<br>
+          বরাবর<br>
+          ব্যবস্থাপক<br>
+          ${bankBn}<br>
+          ${br}<br><br>
+
+          <b>বিষয়ঃ</b> ব্যালেন্স সার্টিফিকেট প্রদানের জন্য আবেদন।<br><br>
+
+          প্রিয় মহোদয়,<br>
+          আমি ${nmBn}, আপনার শাখার হিসাব নং ${ac} পরিচালনা করে আসছি।<br><br>
+
+          আমার প্রয়োজনীয় কাজের জন্য আমার উক্ত হিসাবের বর্তমান ব্যালেন্সের একটি সার্টিফিকেট প্রয়োজন।${purpose ? ' উদ্দেশ্যঃ ' + purpose + '<br><br>' : '<br><br>'}
+
+          সুতরাং, আমার অনুকূলে ব্যালেন্স সার্টিফিকেট প্রদানের জন্য অনুরোধ করছি।<br><br>
+
+          বিনীত,<br><br>
+          _________________________<br>
+          নামঃ ${nmBn}<br>
+          হিসাব নংঃ ${ac}<br>
+          মোবাইল নংঃ ${mb}<br>
+        `;
+
+        enHtml = `
+          Date: ${dateEn}<br>
+          To<br>
+          The Manager<br>
+          ${bankEn}<br>
+          ${branchEn}<br><br>
+
+          <b>Subject:</b> Request for Account Balance Certificate of A/C No. ${accountEn}.<br><br>
+
+          Dear Sir,<br>
+          I, ${nameEn}, maintain the above-mentioned account with your branch.<br><br>
+
+          I kindly request you to issue a balance certificate for my account${purposeEn ? ' for ' + purposeEn : ''}.<br><br>
+
+          Sincerely,<br><br>
+          _________________________<br>
+          Name: ${nameEn}<br>
+          Account No: ${accountEn}<br>
+          Mobile: ${mobileEn}<br>
+        `;
+      } else if (currentTemplate === 'nomineeChange') {
+        // Nominee Change / Addition
+        bnHtml = `
+          তারিখঃ ${d}<br>
+          বরাবর<br>
+          ব্যবস্থাপক<br>
+          ${bankBn}<br>
+          ${br}<br><br>
+
+          <b>বিষয়ঃ</b> নমিনি পরিবর্তন/সংযোজন সংক্রান্ত আবেদন।<br><br>
+
+          প্রিয় মহোদয়,<br>
+          আমি ${nmBn}, আপনার শাখায় হিসাব নং ${ac} পরিচালনা করে আসছি।<br><br>
+
+          আপনার ব্যাংকের রেকর্ডে থাকা আমার হিসাবের বর্তমান নমিনি পরিবর্তন/সংযোজন করে নিম্নোক্ত ব্যক্তিকে নমিনি হিসেবে লিপিবদ্ধ করার বিনীত অনুরোধ করছিঃ<br><br>
+
+          নতুন নমিনির নামঃ ${nomineeName}<br>
+          সম্পর্কঃ ${nomineeRelation}<br>
+          জাতীয় পরিচয়পত্র নংঃ ${nomineeNid}<br><br>
+
+          সুতরাং, উল্লিখিত তথ্য অনুযায়ী আমার হিসাবের নমিনি পরিবর্তন/সংযোজন করার জন্য বিশেষভাবে অনুরোধ করছি।<br><br>
+
+          বিনীত,<br><br>
+          _________________________<br>
+          নামঃ ${nmBn}<br>
+          হিসাব নংঃ ${ac}<br>
+          মোবাইল নংঃ ${mb}<br>
+        `;
+
+        enHtml = `
+          Date: ${dateEn}<br>
+          To<br>
+          The Manager<br>
+          ${bankEn}<br>
+          ${branchEn}<br><br>
+
+          <b>Subject:</b> Request for Nominee Change/Addition for A/C No. ${accountEn}.<br><br>
+
+          Dear Sir,<br>
+          I, ${nameEn}, am maintaining account no. ${accountEn} with your branch.<br><br>
+
+          I would like to update the nominee details of my above-mentioned account as follows:<br><br>
+
+          New Nominee Name: ${nomineeNameEn}<br>
+          Relation: ${nomineeRelationEn}<br>
+          NID/ID No.: ${nomineeNidEn}<br><br>
+
+          Kindly update your records accordingly and treat the above person as the nominee for my said account.<br><br>
+
+          Sincerely,<br><br>
+          _________________________<br>
+          Name: ${nameEn}<br>
+          Account No: ${accountEn}<br>
+          Mobile: ${mobileEn}<br>
+        `;
+      }
+
+      document.getElementById('page-bn').innerHTML = bnHtml;
+      document.getElementById('page-en').innerHTML = enHtml;
+    }
+
+    /* PDF download using html2canvas + jsPDF */
+    async function downloadPDF(lang) {
+      const { jsPDF } = window.jspdf;
+      const elementId = (lang === 'bn') ? 'page-bn' : 'page-en';
+      const element = document.getElementById(elementId);
+      if (!element) return;
+
+      const canvas = await html2canvas(element, { scale: 2 });
+      const imgData = canvas.toDataURL('image/png');
+
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pageWidth = 210;
+      const pageHeight = 297;
+
+      const imgWidth = pageWidth;
+      const imgHeight = canvas.height * imgWidth / canvas.width;
+
+      let renderWidth = imgWidth;
+      let renderHeight = imgHeight;
+      if (imgHeight > pageHeight) {
+        const ratio = pageHeight / imgHeight;
+        renderWidth = imgWidth * ratio;
+        renderHeight = imgHeight * ratio;
+      }
+
+      pdf.addImage(imgData, 'PNG', 0, 0, renderWidth, renderHeight);
+      pdf.save(lang === 'bn' ? 'application_bn.pdf' : 'application_en.pdf');
+    }
+
+    // initial
+    updateVisibleFields();
+  </script>
+</body>
+</html>

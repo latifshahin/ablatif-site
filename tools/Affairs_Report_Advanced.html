@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X4YNW0E3XG"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-X4YNW0E3XG');
+  </script>
+<title>GL Report Viewer</title>
+
+<style>
+* { box-sizing: border-box; font-family: Arial, sans-serif; }
+body { margin: 20px; font-size: 12px; }
+
+/* Controls */
+.controls { margin-bottom: 12px; }
+.controls input, .controls button {
+  padding: 6px 10px;
+  margin-right: 6px;
+  font-size: 12px;
+}
+#searchBox { width: 240px; }
+#status { margin-left: 6px; color: #444; }
+
+/* Per-file section */
+.file-section { margin-bottom: 30px; }
+.file-section + .file-section { margin-top: 30px; }
+
+@media print {
+  .controls { display: none; }
+  /* page break only between files, not inside single file */
+  .file-section.file-break { page-break-before: always; }
+  thead { display: table-header-group; }
+}
+
+/* 3-line dynamic title */
+.title-wrap {
+  text-align: center;
+  padding: 4px 0 10px 0;
+}
+.title-1 {
+  font-size: 20px;
+  font-weight: bold;
+}
+.title-2, .title-3 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 2px;
+}
+
+/* Table */
+.report-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.report-table thead th {
+  background: #f0f0f0;
+  border: 1px solid #000;
+  padding: 4px;
+}
+.report-table tbody td {
+  border: 1px solid #000;
+  padding: 4px;
+}
+td.line { width: 45px; white-space: nowrap; }
+td.amount { text-align: right; }
+td.amount.negative { color: red; }
+
+/* Category row: GL CODE blank */
+tr.category-row td {
+  background: #e6e6e6 !important;
+  font-weight: bold;
+}
+
+/* Page number footer (works in engines that support @page margin boxes) */
+@page {
+  @bottom-center {
+    content: "Page " counter(page) " of " counter(pages);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="controls">
+  <input type="file" id="fileInput" accept=".txt" multiple />
+  <button type="button" onclick="window.print()">Print / Save PDF</button>
+  <button type="button" id="exportBtn">Export CSV</button>
+  <button type="button" id="clearBtn">Clear</button>
+  <input id="searchBox" type="text" placeholder="Search…" />
+  <span id="status"></span>
+</div>
+
+<div id="reportContainer"></div>
+
+<script>
+const container = document.getElementById("reportContainer");
+const statusEl = document.getElementById("status");
+
+/* basic utils */
+function setStatus(t){ statusEl.textContent = t || ""; }
+function clearAll(){ container.innerHTML = ""; setStatus(""); }
+
+function escapeHTML(str){
+  return String(str || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#39;");
+}
+
+function cleanLine(l){
+  return l.replace(/^\uFEFF/, "").replace(/\r/g,"").trimStart();
+}
+
+/* Find correct RE line for title */
+function getREHeader(lines){
+  return lines.find(l => /^\s+RE\d+/.test(l));
+}
+
+/* Parse RE line into 3 parts */
+function parseHeader(lineRaw){
+  lineRaw = cleanLine(lineRaw).replace(/PAGE\s+NO.+$/i,"").trim();
+  const parts = lineRaw.split(/\s+/);
+  parts.shift(); // RE000010
+
+  // Branch: tokens until STATEMENT or PROFIT (report title start)
+  const branchTokens = [];
+  while (parts.length && !/^STATEMENT$/i.test(parts[0]) && !/^PROFIT$/i.test(parts[0])) {
+    branchTokens.push(parts.shift());
+  }
+  const branchCode = branchTokens.pop() || "";
+  const branchName = branchTokens.join(" ");
+
+  // Report title: until "AS"
+  const titleTokens = [];
+  while (parts.length && parts[0].toUpperCase() !== "AS") {
+    titleTokens.push(parts.shift());
+  }
+  const reportTitle = titleTokens.join(" ");
+
+  const dateText = parts.join(" "); // keep original case
+
+  return { reportTitle, branchName, branchCode, dateText };
+}
+
+/* Build HTML for 3-line title */
+function buildTitleHTML(info){
+  const line2 = info.branchName && info.branchCode
+    ? `${info.branchName} (${info.branchCode})`
+    : (info.branchName || info.branchCode || "");
+  return `
+    <div class="title-wrap">
+      <div class="title-1">${escapeHTML(info.reportTitle)}</div>
+      <div class="title-2">${escapeHTML(line2)}</div>
+      <div class="title-3">${escapeHTML(info.dateText)}</div>
+    </div>
+  `;
+}
+
+/* Format amount */
+function fmt(n){
+  return n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+/* Process one TXT file into a section with its own title + table */
+function processFile(text, index){
+  const lines = text.split(/\n/);
+
+  const headerLine = getREHeader(lines);
+  const info = headerLine
+    ? parseHeader(headerLine)
+    : { reportTitle:"UNKNOWN TITLE", branchName:"", branchCode:"", dateText:"" };
+
+  // Section for this file
+  const section = document.createElement("section");
+  section.className = "file-section";
+  if (index > 0) section.classList.add("file-break");
+
+  section.innerHTML = `
+    ${buildTitleHTML(info)}
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th>LINE</th>
+          <th>DESCRIPTION</th>
+          <th>GL CODE</th>
+          <th>AMOUNT</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  `;
+
+  const tbody = section.querySelector("tbody");
+
+  // Now parse detail rows for this file
+  for (const raw of lines){
+    let line = cleanLine(raw);
+    if (!line.startsWith("====>")) continue;
+
+    // Must end with numeric amount
+    const amtMatch = line.match(/(-?\d[\d,]*\.\d{2})$/);
+    if (!amtMatch) continue;
+
+    let amount = parseFloat(amtMatch[1].replace(/,/g,""));
+    if (amount === 0) continue; // strict: no zero rows
+
+    const before = line.slice(0, line.lastIndexOf(amtMatch[1])).trimEnd();
+
+    // Line number
+    const lnMatch = /^====>\s*(\d+)/.exec(before);
+    const lineNo = lnMatch ? lnMatch[1] : "";
+
+    // Description/GL
+    let desc = before.replace(/^====>\s*\d*/, "").trim();
+    let glCode = "";
+    const glMatch = desc.match(/(\d{6,})$/);
+    if (glMatch){
+      glCode = glMatch[1];
+      desc = desc.slice(0, desc.lastIndexOf(glCode)).trim();
+    }
+
+    const tr = document.createElement("tr");
+    if (!glCode) tr.classList.add("category-row");
+
+    tr.innerHTML = `
+      <td class="line">${escapeHTML(lineNo)}</td>
+      <td>${escapeHTML(desc)}</td>
+      <td>${escapeHTML(glCode)}</td>
+      <td class="amount ${amount < 0 ? "negative" : ""}">${fmt(amount)}</td>
+    `;
+    tbody.appendChild(tr);
+  }
+
+  container.appendChild(section);
+}
+
+/* Search across all tables */
+document.getElementById("searchBox").oninput = function(){
+  const q = this.value.toLowerCase();
+  const rows = container.querySelectorAll("tbody tr");
+  rows.forEach(r => {
+    r.style.display = r.innerText.toLowerCase().includes(q) ? "" : "none";
+  });
+};
+
+/* Load TXT files */
+document.getElementById("fileInput").onchange = function(){
+  clearAll();
+  const files = Array.from(this.files || []);
+  if (!files.length) return;
+  files.forEach((file, idx) => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      processFile(e.target.result, idx);
+      setStatus(`Loaded ${idx+1} of ${files.length} file(s)`);
+    };
+    reader.readAsText(file);
+  });
+};
+
+/* Clear all output */
+document.getElementById("clearBtn").onclick = clearAll;
+
+/* Export CSV for all files */
+document.getElementById("exportBtn").onclick = function(){
+  let csv = "LINE,DESCRIPTION,GL CODE,AMOUNT\n";
+  const rows = container.querySelectorAll("tbody tr");
+  rows.forEach(r => {
+    if (r.cells.length === 4){
+      const line = r.cells[0].innerText.replace(/"/g,'""');
+      const desc = r.cells[1].innerText.replace(/"/g,'""');
+      const gl   = r.cells[2].innerText.replace(/"/g,'""');
+      const amt  = r.cells[3].innerText.replace(/"/g,'""');
+      csv += `"${line}","${desc}","${gl}","${amt}"\n`;
+    }
+  });
+  const blob = new Blob([csv], {type:"text/csv"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "Affairs_Report.csv";
+  a.click();
+};
+</script>
+
+</body>
+</html>

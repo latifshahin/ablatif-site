@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X4YNW0E3XG"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-X4YNW0E3XG');
+  </script>
+  <title>Bank Letter Generator</title>
+  <style>
+    body {
+      font-family: "Noto Sans Bengali", Arial, sans-serif;
+      background: #eef0f4;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 24px;
+    }
+
+    /* Template cards */
+    .template-cards {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+    .template-card {
+      flex: 1 1 200px;
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 10px 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+    .template-card.active {
+      border-color: #007bff;
+    }
+    .template-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .template-desc {
+      font-size: 12px;
+      color: #555;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      margin-bottom: 10px;
+      border-bottom: 2px solid #ccc;
+    }
+    .tab {
+      padding: 8px 16px;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      border-bottom: none;
+      background: #f4f4f4;
+      margin-right: 5px;
+      border-radius: 5px 5px 0 0;
+      font-weight: bold;
+      font-size: 13px;
+    }
+    .tab.active {
+      background: #ffffff;
+      border-bottom: 2px solid #ffffff;
+    }
+
+    .tab-content {
+      background: #ffffff;
+      padding: 15px 20px;
+      border: 1px solid #ccc;
+      border-radius: 0 5px 5px 5px;
+      margin-bottom: 20px;
+    }
+
+    /* Form */
+    .form-group {
+      margin-bottom: 10px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 13px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 7px;
+      border-radius: 4px;
+      border: 1px solid #aaa;
+      font-size: 13px;
+      box-sizing: border-box;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      background: #0084ff;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      color: white;
+      cursor: pointer;
+      margin-top: 8px;
+      margin-right: 8px;
+    }
+    .btn.secondary {
+      background: #555;
+    }
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    /* A4 page */
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      background: white;
+      padding: 2in 25mm 25mm 25mm; /* top 2 inch margin */
+      margin: 0 auto 20px auto;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      font-size: 14px;
+      line-height: 1.6;
+      box-sizing: border-box;
+      /* no border as requested */
+    }
+
+    .no-print {
+      /* helper to hide in print */
+    }
+
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .page {
+        box-shadow: none;
+        margin: 0;
+        width: 210mm;
+        min-height: 297mm;
+      }
+    }
+  </style>
+
+  <!-- PDF libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- এই হেডিং/কন্ট্রোলগুলো প্রিন্টে থাকবে না -->
+    <h1 class="no-print">Bank Letter Generator</h1>
+
+    <!-- Template selection cards -->
+    <div class="template-cards no-print">
+      <div class="template-card active" data-template="cheque">
+        <div class="template-title">Cheque Book Lost</div>
+        <div class="template-desc">চেক বই/পাতা হারানোর ক্ষেত্রে আবেদনপত্র।</div>
+      </div>
+      <div class="template-card" data-template="address">
+        <div class="template-title">Address Change</div>
+        <div class="template-desc">স্থায়ী/বর্তমান ঠিকানা পরিবর্তন সংক্রান্ত আবেদন।</div>
+      </div>
+      <div class="template-card" data-template="statement">
+        <div class="template-title">Account Statement Request</div>
+        <div class="template-desc">হিসাবের নির্দিষ্ট সময়ের স্টেটমেন্ট চাওয়ার আবেদন।</div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs no-print">
+      <div class="tab active" data-tab="form">Input Form</div>
+      <div class="tab" data-tab="preview-bn">Bangla Preview</div>
+      <div class="tab" data-tab="preview-en">English Preview</div>
+    </div>
+
+    <!-- Form Tab -->
+    <div class="tab-content no-print" id="form">
+      <!-- Common fields -->
+      <div class="form-group">
+        <label>তারিখ (বাংলা বা ইংরেজি):</label>
+        <input type="text" id="inputDate" value="০৬/১২/২০২৫ ইং">
+      </div>
+      <div class="form-group">
+        <label>শাখা (যেমন: জামালপুর শাখা, জামালপুর):</label>
+        <input type="text" id="inputBranch" value="জামালপুর শাখা, জামালপুর">
+      </div>
+      <div class="form-group">
+        <label>হিসাব নম্বর:</label>
+        <input type="text" id="inputAccount" value="০২০০০১১৬৯২১২৭">
+      </div>
+      <div class="form-group">
+        <label>নাম (বাংলা):</label>
+        <input type="text" id="inputName" value="আব্দুল লতিফ">
+      </div>
+      <div class="form-group">
+        <label>নাম (English, optional – না দিলে বাংলা থেকে রোমানাইজ করার চেষ্টা করবে):</label>
+        <input type="text" id="inputNameEn" placeholder="Abdul Latif">
+      </div>
+      <div class="form-group">
+        <label>মোবাইল নম্বর:</label>
+        <input type="text" id="inputMobile" value="০১৭১৩৫৬১০৭৬">
+      </div>
+
+      <!-- Fields mainly for cheque lost -->
+      <div class="form-group">
+        <label>চেক বই হারানোর তারিখ:</label>
+        <input type="text" id="inputLostDate" value="০৫/১২/২০২৫ ইং">
+      </div>
+      <div class="form-group">
+        <label>থানার নাম:</label>
+        <input type="text" id="inputThana" value="জামালপুর">
+      </div>
+      <div class="form-group">
+        <label>জিডি নম্বর:</label>
+        <input type="text" id="inputGDNo" value="৩৪৩৩/২৫">
+      </div>
+      <div class="form-group">
+        <label>জিডি তারিখ:</label>
+        <input type="text" id="inputGDDate" value="০৬/১২/২০২৫ ইং">
+      </div>
+
+      <!-- Fields for address change -->
+      <div class="form-group">
+        <label>পুরাতন ঠিকানা (Address Change template এর জন্য):</label>
+        <input type="text" id="inputOldAddress" placeholder="পুরাতন ঠিকানা লিখুন">
+      </div>
+      <div class="form-group">
+        <label>নতুন ঠিকানা (Address Change template এর জন্য):</label>
+        <input type="text" id="inputNewAddress" placeholder="নতুন ঠিকানা লিখুন">
+      </div>
+
+      <!-- Fields for statement request -->
+      <div class="form-group">
+        <label>স্টেটমেন্ট সময়সীমা (From):</label>
+        <input type="text" id="inputPeriodFrom" placeholder="যেমন: ০১/০১/২০২৫">
+      </div>
+      <div class="form-group">
+        <label>স্টেটমেন্ট সময়সীমা (To):</label>
+        <input type="text" id="inputPeriodTo" placeholder="যেমন: ৩১/১২/২০২৫">
+      </div>
+
+      <button class="btn" id="generateBtn">Generate</button>
+    </div>
+
+    <!-- Bangla Preview -->
+    <div class="tab-content" id="preview-bn" style="display:none;">
+      <div class="no-print" style="margin-bottom:10px;">
+        <button class="btn" onclick="window.print()">Print</button>
+        <button class="btn secondary" onclick="downloadPDF('bn')">Download PDF (Bangla)</button>
+      </div>
+      <div class="page" id="page-bn"></div>
+    </div>
+
+    <!-- English Preview -->
+    <div class="tab-content" id="preview-en" style="display:none;">
+      <div class="no-print" style="margin-bottom:10px;">
+        <button class="btn" onclick="window.print()">Print</button>
+        <button class="btn secondary" onclick="downloadPDF('en')">Download PDF (English)</button>
+      </div>
+      <div class="page" id="page-en"></div>
+    </div>
+  </div>
+
+  <script>
+    let currentTemplate = 'cheque';
+
+    /* Template card click */
+    document.querySelectorAll('.template-card').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.template-card').forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        currentTemplate = card.dataset.template;
+        // নতুন টেমপ্লেট সিলেক্ট করলে আবার Generate করতে হবে
+      });
+    });
+
+    /* Tabs switching */
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+
+        document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+        document.getElementById(this.dataset.tab).style.display = 'block';
+      });
+    });
+
+    /* Helper – get value */
+    function v(id) {
+      const el = document.getElementById(id);
+      return el ? el.value.trim() : '';
+    }
+
+    /* Bangla → English (basic transliteration + digits) */
+    function bnToEnText(str) {
+      const map = {
+        'অ':'o','আ':'a','া':'a','ই':'i','ি':'i','ঈ':'ii','ী':'i','উ':'u','ু':'u','ঊ':'uu','ূ':'u',
+        'এ':'e','ে':'e','ঐ':'oi','ৈ':'oi','ও':'o','ো':'o','ঔ':'ou','ৌ':'ou',
+        'ক':'k','খ':'kh','গ':'g','ঘ':'gh','ঙ':'ng',
+        'চ':'ch','ছ':'chh','জ':'j','ঝ':'jh','ঞ':'ng',
+        'ট':'t','ঠ':'th','ড':'d','ঢ':'dh','ণ':'n',
+        'ত':'t','থ':'th','দ':'d','ধ':'dh','ন':'n',
+        'প':'p','ফ':'ph','ব':'b','ভ':'bh','ম':'m',
+        'য':'j','র':'r','ল':'l','শ':'sh','ষ':'sh','স':'s','হ':'h',
+        'ড়':'r','ঢ়':'rh','য়':'y','ং':'ng','ঃ':':','ঁ':'~',
+        '০':'0','১':'1','২':'2','৩':'3','৪':'4','৫':'5','৬':'6','৭':'7','৮':'8','৯':'9',
+        ' ':' ','-':'-','/':'/','।':'.','৷':'.',',':','
+      };
+      let out = '';
+      for (let ch of str) {
+        out += map[ch] !== undefined ? map[ch] : ch;
+      }
+      return out;
+    }
+
+    /* Auto-save form data in localStorage */
+    const fieldIds = [
+      'inputDate','inputBranch','inputAccount','inputName','inputNameEn',
+      'inputMobile','inputLostDate','inputThana','inputGDNo','inputGDDate',
+      'inputOldAddress','inputNewAddress','inputPeriodFrom','inputPeriodTo'
+    ];
+
+    function saveFormData() {
+      const data = {};
+      fieldIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) data[id] = el.value;
+      });
+      localStorage.setItem('bankLetterForm', JSON.stringify(data));
+    }
+
+    function loadFormData() {
+      const raw = localStorage.getItem('bankLetterForm');
+      if (!raw) return;
+      try {
+        const data = JSON.parse(raw);
+        fieldIds.forEach(id => {
+          if (data[id] !== undefined && document.getElementById(id)) {
+            document.getElementById(id).value = data[id];
+          }
+        });
+      } catch(e) {}
+    }
+
+    window.addEventListener('load', () => {
+      loadFormData();
+    });
+
+    fieldIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('input', saveFormData);
+      }
+    });
+
+    /* Generate letters */
+    document.getElementById('generateBtn').addEventListener('click', generate);
+
+    function generate() {
+      const d = v('inputDate');
+      const br = v('inputBranch');
+      const ac = v('inputAccount');
+      const nmBn = v('inputName');
+      const nmEnInput = v('inputNameEn');
+      const mb = v('inputMobile');
+      const ld = v('inputLostDate');
+      const th = v('inputThana');
+      const gd = v('inputGDNo');
+      const gdd = v('inputGDDate');
+      const oldAddr = v('inputOldAddress');
+      const newAddr = v('inputNewAddress');
+      const pf = v('inputPeriodFrom');
+      const pt = v('inputPeriodTo');
+
+      // English-side converted versions
+      const dateEn = bnToEnText(d);
+      const branchEn = bnToEnText(br);
+      const accountEn = bnToEnText(ac);
+      const nameEn = nmEnInput || bnToEnText(nmBn);
+      const mobileEn = bnToEnText(mb);
+      const lostDateEn = bnToEnText(ld);
+      const thanaEn = bnToEnText(th);
+      const gdEn = bnToEnText(gd);
+      const gdDateEn = bnToEnText(gdd);
+      const oldAddrEn = bnToEnText(oldAddr);
+      const newAddrEn = bnToEnText(newAddr);
+      const pfEn = bnToEnText(pf);
+      const ptEn = bnToEnText(pt);
+
+      let bnHtml = '';
+      let enHtml = '';
+
+      if (currentTemplate === 'cheque') {
+        // Bangla version – Cheque Book Lost
+        bnHtml = `
+          তারিখঃ ${d}<br>
+          বরাবর<br>
+          ব্যবস্থাপক<br>
+          অগ্রণী ব্যাংক পিএলসি<br>
+          ${br}<br><br>
+
+          <b>বিষয়ঃ</b> আমার হিসাব নং— ${ac} এর চেক বই হারিয়ে যাওয়ায় নতুন চেক বই প্রদানের আবেদন।<br><br>
+
+          প্রিয় মহোদয়,<br>
+          যথাবিহিত সম্মানপূর্বক নিবেদন এই যে, আমি নিম্নস্বাক্ষরকারী ${nmBn}, 
+          আপনার শাখায় হিসাব নং ${ac} দীর্ঘদিন যাবৎ পরিচালনা করে আসছি। 
+          গত ${ld} তারিখে বাসা হতে ব্যাংকে আসার পথে আমার চেকবইটি (সাদা পাতাসহ) হারিয়ে যায়।<br><br>
+
+          এমতাবস্থায় আমি ${th} থানায় একটি সাধারণ ডায়েরি করেছি। 
+          জিডি নং ${gd}, তারিখ ${gdd}।<br><br>
+
+          সুতরাং, আমার হারানো চেকপাতাগুলো বন্ধ করে আমার অনুকূলে নতুন একটি চেক বই প্রদানের জন্য বিশেষভাবে অনুরোধ করছি।<br><br>
+
+          বিনীত,<br><br>
+          _________________________<br>
+          নামঃ ${nmBn}<br>
+          হিসাব নংঃ ${ac}<br>
+          মোবাইল নংঃ ${mb}<br>
+        `;
+
+        // English version – Cheque Book Lost
+        enHtml = `
+          Date: ${dateEn}<br>
+          To<br>
+          The Manager<br>
+          Agrani Bank PLC<br>
+          ${branchEn}<br><br>
+
+          <b>Subject:</b> Request for issuing a new cheque book as my cheque book (A/C No: ${accountEn}) has been lost.<br><br>
+
+          Dear Sir,<br>
+          I, ${nameEn}, have been maintaining savings account no. ${accountEn} in your branch for a long time.
+          On ${lostDateEn}, while coming from home to the bank, I lost my cheque book (including unused leaves).<br><br>
+
+          Therefore, I have lodged a General Diary at ${thanaEn} Police Station.
+          GD No: ${gdEn}, dated: ${gdDateEn}.<br><br>
+
+          Hence, I humbly request you to kindly stop payment of the lost cheque leaves and issue a new cheque book in my favour.<br><br>
+
+          Sincerely,<br><br>
+          _________________________<br>
+          Name: ${nameEn}<br>
+          Account No: ${accountEn}<br>
+          Mobile: ${mobileEn}<br>
+        `;
+      } else if (currentTemplate === 'address') {
+        // Bangla – Address Change
+        bnHtml = `
+          তারিখঃ ${d}<br>
+          বরাবর<br>
+          ব্যবস্থাপক<br>
+          অগ্রণী ব্যাংক পিএলসি<br>
+          ${br}<br><br>
+
+          <b>বিষয়ঃ</b> আমার হিসাব নং— ${ac} এর ঠিকানা পরিবর্তন সংক্রান্ত আবেদন।<br><br>
+
+          প্রিয় মহোদয়,<br>
+          বিনীত নিবেদন এই যে, আমি ${nmBn}, আপনার শাখার দীর্ঘদিনের গ্রাহক এবং আমার হিসাব নং ${ac} আপনার শাখায় সঞ্চালিত হচ্ছে।<br><br>
+
+          সম্প্রতি আমার বাসার ঠিকানা পরিবর্তন হয়েছে। পূর্বের ঠিকানা ছিলঃ ${oldAddr} এবং নতুন ঠিকানা হচ্ছেঃ ${newAddr}।<br><br>
+
+          সুতরাং, আপনার ব্যাংকের রেকর্ডে আমার পূর্বের ঠিকানার পরিবর্তে উপরে বর্ণিত নতুন ঠিকানাটি সংযোজন করে সংশোধন করার জন্য বিশেষভাবে অনুরোধ করছি।<br><br>
+
+          বিনীত,<br><br>
+          _________________________<br>
+          নামঃ ${nmBn}<br>
+          হিসাব নংঃ ${ac}<br>
+          মোবাইল নংঃ ${mb}<br>
+        `;
+
+        // English – Address Change
+        enHtml = `
+          Date: ${dateEn}<br>
+          To<br>
+          The Manager<br>
+          Agrani Bank PLC<br>
+          ${branchEn}<br><br>
+
+          <b>Subject:</b> Request for change of address for my account no. ${accountEn}.<br><br>
+
+          Dear Sir,<br>
+          I, ${nameEn}, have been maintaining account no. ${accountEn} in your branch for a long time.<br><br>
+
+          This is to inform you that my residential address has recently been changed. My previous address was:
+          ${oldAddrEn} and my new address is: ${newAddrEn}.<br><br>
+
+          I therefore request you to kindly update your records by replacing my old address with the above-mentioned new address for all future correspondence.<br><br>
+
+          Sincerely,<br><br>
+          _________________________<br>
+          Name: ${nameEn}<br>
+          Account No: ${accountEn}<br>
+          Mobile: ${mobileEn}<br>
+        `;
+      } else if (currentTemplate === 'statement') {
+        // Bangla – Statement Request
+        bnHtml = `
+          তারিখঃ ${d}<br>
+          বরাবর<br>
+          ব্যবস্থাপক<br>
+          অগ্রণী ব্যাংক পিএলসি<br>
+          ${br}<br><br>
+
+          <b>বিষয়ঃ</b> আমার হিসাব নং— ${ac} এর স্টেটমেন্ট প্রদান সংক্রান্ত আবেদন।<br><br>
+
+          প্রিয় মহোদয়,<br>
+          বিনীত নিবেদন এই যে, আমি ${nmBn}, আপনার শাখার একজন গ্রাহক এবং আমার হিসাব নং ${ac} আপনার শাখায় সঞ্চালিত হচ্ছে।<br><br>
+
+          হিসাব সংক্রান্ত প্রয়োজনীয়তার কারণে <b>${pf}</b> হতে <b>${pt}</b> পর্যন্ত সময়ের সম্পূর্ণ ব্যাংক স্টেটমেন্টের প্রিন্ট কপি আমার অনুকূলে দেওয়ার জন্য অনুরোধ করছি।<br><br>
+
+          প্রয়োজনীয় চার্জ থাকলে আমার উক্ত হিসাব হতে গ্রহণ করার জন্য সম্মতি প্রদান করছি।<br><br>
+
+          বিনীত,<br><br>
+          _________________________<br>
+          নামঃ ${nmBn}<br>
+          হিসাব নংঃ ${ac}<br>
+          মোবাইল নংঃ ${mb}<br>
+        `;
+
+        // English – Statement Request
+        enHtml = `
+          Date: ${dateEn}<br>
+          To<br>
+          The Manager<br>
+          Agrani Bank PLC<br>
+          ${branchEn}<br><br>
+
+          <b>Subject:</b> Request for account statement of A/C No. ${accountEn}.<br><br>
+
+          Dear Sir,<br>
+          I, ${nameEn}, maintain account no. ${accountEn} with your branch.<br><br>
+
+          I hereby request you to kindly provide me with a detailed bank statement of the above account for the period from ${pfEn} to ${ptEn}.<br><br>
+
+          I agree to bear any applicable charges for issuing the said statement and authorize you to debit the same from my above-mentioned account.<br><br>
+
+          Sincerely,<br><br>
+          _________________________<br>
+          Name: ${nameEn}<br>
+          Account No: ${accountEn}<br>
+          Mobile: ${mobileEn}<br>
+        `;
+      }
+
+      document.getElementById('page-bn').innerHTML = bnHtml;
+      document.getElementById('page-en').innerHTML = enHtml;
+    }
+
+    /* PDF download using html2canvas + jsPDF */
+    async function downloadPDF(lang) {
+      const { jsPDF } = window.jspdf;
+      const elementId = (lang === 'bn') ? 'page-bn' : 'page-en';
+      const element = document.getElementById(elementId);
+      if (!element) return;
+
+      const canvas = await html2canvas(element, { scale: 2 });
+      const imgData = canvas.toDataURL('image/png');
+
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pageWidth = 210;
+      const pageHeight = 297;
+
+      const imgWidth = pageWidth;
+      const imgHeight = canvas.height * imgWidth / canvas.width;
+
+      let renderWidth = imgWidth;
+      let renderHeight = imgHeight;
+      if (imgHeight > pageHeight) {
+        const ratio = pageHeight / imgHeight;
+        renderWidth = imgWidth * ratio;
+        renderHeight = imgHeight * ratio;
+      }
+
+      pdf.addImage(imgData, 'PNG', 0, 0, renderWidth, renderHeight);
+      pdf.save(lang === 'bn' ? 'application_bn.pdf' : 'application_en.pdf');
+    }
+  </script>
+</body>
+</html>

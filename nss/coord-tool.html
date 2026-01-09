@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>PDF Coordinate Finder</title>
+  <style>
+    body { font-family: Arial; margin: 0; }
+    #info { padding: 12px; background: #f2f2f2; position: sticky; top: 0; }
+    canvas { display:block; margin: 0 auto; }
+    .btn { border:1px solid #ccc; background:white; padding:6px 10px; border-radius:8px; cursor:pointer; margin-left:8px;}
+    code { background:#eee; padding:2px 6px; border-radius:6px;}
+  </style>
+</head>
+<body>
+  <div id="info">
+    Loading PDF... 
+    <button class="btn" id="copyBtn" disabled>Copy JSON</button>
+    <span id="lastJson" style="margin-left:10px;"></span>
+  </div>
+  <canvas id="c"></canvas>
+
+  <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+  <script>
+    const canvas = document.getElementById("c");
+    const ctx = canvas.getContext("2d");
+    const info = document.getElementById("info");
+    const copyBtn = document.getElementById("copyBtn");
+    const lastJson = document.getElementById("lastJson");
+
+    let lastCopyText = "";
+
+    const url = "content.pdf";
+    pdfjsLib.getDocument(url).promise.then(pdf => {
+      pdf.getPage(1).then(page => {
+        const scale = 1.6;
+        const viewport = page.getViewport({ scale });
+
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        page.render({ canvasContext: ctx, viewport }).promise.then(() => {
+          info.firstChild.textContent = "PDF Loaded. Click anywhere to get coordinates.";
+        });
+
+        canvas.addEventListener("click", (e) => {
+          const rect = canvas.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+
+          // Convert to pdf-lib coordinates
+          const pageHeight = 1008; // template height
+          const pdfX = (x / scale).toFixed(2);
+          const pdfY = (pageHeight - (y / scale)).toFixed(2);
+
+          lastCopyText = `{ "x": ${pdfX}, "y": ${pdfY}, "size": 10 }`;
+          lastJson.innerHTML = `Last: <code>${lastCopyText}</code>`;
+          copyBtn.disabled = false;
+        });
+      });
+    }).catch(err => {
+      info.innerHTML = "Failed to load PDF. Run with IIS / local server.";
+      console.error(err);
+    });
+
+    copyBtn.addEventListener("click", async () => {
+      if (!lastCopyText) return;
+      try {
+        await navigator.clipboard.writeText(lastCopyText);
+        copyBtn.textContent = "Copied!";
+        setTimeout(()=>copyBtn.textContent="Copy JSON", 1200);
+      } catch (e) {
+        alert("Clipboard permission blocked. Copy manually: " + lastCopyText);
+      }
+    });
+  </script>
+</body>
+</html>

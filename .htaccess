@@ -1,0 +1,46 @@
+# =============================
+# ✅ Charset / UTF-8 Support
+# =============================
+AddDefaultCharset UTF-8
+AddCharset UTF-8 .html .htm
+
+# =============================
+# ✅ Make ads.txt always accessible
+# =============================
+<Files "ads.txt">
+  Require all granted
+</Files>
+AddType text/plain .txt
+
+# =============================
+# ✅ Redirect WWW to Non-WWW (SEO + AdSense)
+# =============================
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^www\.ablatif\.com$ [NC]
+RewriteRule ^(.*)$ https://ablatif.com/$1 [L,R=301]
+
+# =============================
+# ✅ Prevent cache only for blog.css (optional)
+# =============================
+<IfModule mod_headers.c>
+  <FilesMatch "blog\.css$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires 0
+  </FilesMatch>
+</IfModule>
+
+# =============================
+# ✅ Cache static assets (speed)
+# =============================
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpeg "access plus 30 days"
+  ExpiresByType image/jpg  "access plus 30 days"
+  ExpiresByType image/png  "access plus 30 days"
+  ExpiresByType image/webp "access plus 30 days"
+  ExpiresByType image/gif  "access plus 30 days"
+  ExpiresByType text/css   "access plus 7 days"
+  ExpiresByType application/javascript "access plus 7 days"
+  ExpiresByType text/javascript "access plus 7 days"
+</IfModule>

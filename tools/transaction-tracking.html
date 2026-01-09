@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Transaction Tracking Tool (Bangladesh) – Customer Transaction Monitor</title>
+<meta name="description" content="Track customer transactions efficiently in Bangladesh banking environment. Add, edit, search, filter transactions, export CSV, and print reports. Data stays on your device." />
+<link rel="canonical" href="https://ablatif.com/tools/transaction-tracking.html">
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X4YNW0E3XG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-X4YNW0E3XG');
+</script>
+
+<!-- AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3608304969182163"
+crossorigin="anonymous"></script>
+
+<style>
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#f1f5f9;color:#111}
+.container{max-width:1100px;margin:auto;padding:12px}
+
+/* Topbar same style */
+.topbar{
+  background:#fff;border:1px solid rgba(0,0,0,.08);
+  box-shadow:0 4px 12px rgba(0,0,0,.06);
+  border-radius:14px;padding:14px 16px;
+  display:flex;justify-content:space-between;align-items:center;
+  gap:12px;position:sticky;top:10px;z-index:10;margin-top:12px
+}
+.brand h1{margin:0;font-size:18px;font-weight:800;color:#1a2b4c}
+.brand p{margin:0;font-size:13px;color:#64748b;font-weight:600}
+.btn{
+  border:1px solid rgba(0,0,0,.12);background:transparent;
+  padding:10px 12px;border-radius:12px;cursor:pointer;
+  font-weight:800;font-size:14px;text-decoration:none;color:#1a2b4c
+}
+.btn:hover{opacity:.9}
+
+.card{
+  background:#fff;border-radius:14px;padding:16px;margin-top:16px;
+  box-shadow:0 6px 18px rgba(0,0,0,.12)
+}
+h2{margin:0 0 6px;font-size:20px}
+p{margin:0 0 10px;color:#334155;font-weight:600}
+label{font-weight:700;font-size:13px}
+input,select,textarea{
+  width:100%;padding:10px 12px;margin:6px 0 12px;
+  border-radius:10px;border:1px solid #cbd5e1;font-size:14px
+}
+textarea{min-height:70px;resize:vertical}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.action-btn{
+  padding:10px 14px;border:none;border-radius:12px;cursor:pointer;
+  font-weight:800;background:#2563eb;color:#fff
+}
+.action-btn:hover{opacity:.9}
+.outline-btn{
+  padding:10px 14px;border:1px solid #94a3b8;border-radius:12px;
+  cursor:pointer;font-weight:800;background:#fff;color:#0f172a
+}
+
+.notice{
+  background:#ecfeff;border-left:4px solid #0284c7;
+  padding:12px;border-radius:12px;margin-top:12px;font-weight:700;
+  color:#0f172a;font-size:13px
+}
+.warn{
+  background:#fefce8;border-left:4px solid #f59e0b;
+  padding:12px;border-radius:12px;margin-top:12px;font-weight:800;
+  color:#854d0e;font-size:13px
+}
+
+table{
+  width:100%;border-collapse:collapse;margin-top:12px;font-size:14px
+}
+th,td{border-bottom:1px solid #e2e8f0;padding:10px;text-align:left;vertical-align:top}
+th{background:#f8fafc;font-weight:900}
+.badge{
+  display:inline-block;padding:4px 10px;border-radius:999px;
+  font-size:12px;font-weight:900
+}
+.b-deposit{background:#dcfce7;color:#166534}
+.b-withdraw{background:#fee2e2;color:#991b1b}
+.b-transfer{background:#e0f2fe;color:#075985}
+.b-charges{background:#fef9c3;color:#854d0e}
+.b-emi{background:#ede9fe;color:#5b21b6}
+
+.small{font-size:12px;color:#64748b;font-weight:700}
+
+.footer{
+  margin:22px 0 10px;text-align:center;font-size:13px;
+  font-weight:800;color:#64748b
+}
+.footer a{color:#2563eb;text-decoration:none;margin:0 6px}
+.footer a:hover{text-decoration:underline}
+
+@media(max-width:900px){
+  .grid-2,.grid-3{grid-template-columns:1fr}
+  table{font-size:13px}
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+  <div class="topbar">
+    <div class="brand">
+      <h1>Abdul Latif – Banking Tools</h1>
+      <p>Transaction Tracking → Search → Export → Print → Banking Work Support</p>
+    </div>
+    <div>
+      <a class="btn" href="https://ablatif.com/">&larr; Main Site</a>
+      <a class="btn" href="https://ablatif.com/blog/">Blog</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Transaction Tracking (Bangladesh Banking Environment)</h2>
+    <p>
+      Track customer transactions efficiently for internal monitoring and record keeping.
+      This tool works offline and stores data in your browser only.
+    </p>
+
+    <div class="notice">
+      ✅ Privacy-friendly: All data stays inside your device (LocalStorage). Nothing is uploaded to the server.
+    </div>
+
+    <div class="warn">
+      ⚠ Do not store OTP, passwords, card numbers, or sensitive credentials.
+      Use only basic customer reference information for internal tracking.
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Add New Transaction</h2>
+
+    <div class="grid-3">
+      <div>
+        <label>Customer Name</label>
+        <input id="custName" placeholder="Example: Md. Rahim Uddin">
+      </div>
+      <div>
+        <label>Account / CIF / Loan ID</label>
+        <input id="acctNo" placeholder="Example: 0201234567890">
+      </div>
+      <div>
+        <label>Mobile (Optional)</label>
+        <input id="mobile" placeholder="01XXXXXXXXX">
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div>
+        <label>Branch / District</label>
+        <input id="branch" placeholder="Example: Jamalpur Main Branch">
+      </div>
+      <div>
+        <label>Transaction Date</label>
+        <input id="tDate" type="date">
+      </div>
+      <div>
+        <label>Transaction Type</label>
+        <select id="tType">
+          <option value="Deposit">Deposit</option>
+          <option value="Withdraw">Withdraw</option>
+          <option value="Transfer">Transfer</option>
+          <option value="Charges">Charges</option>
+          <option value="Loan EMI">Loan EMI</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div>
+        <label>Amount (BDT)</label>
+        <input id="amount" type="number" placeholder="Example: 50000">
+      </div>
+      <div>
+        <label>Reference / Cheque / Voucher No</label>
+        <input id="ref" placeholder="Example: CHQ-12345 / Voucher-88">
+      </div>
+    </div>
+
+    <label>Remarks / Notes</label>
+    <textarea id="remarks" placeholder="Example: Cash deposit by customer / EMI paid for January / Transfer to DPS"></textarea>
+
+    <div class="actions">
+      <button class="action-btn" onclick="addTransaction()">➕ Add Transaction</button>
+      <button class="outline-btn" onclick="resetForm()">Reset</button>
+    </div>
+
+    <p class="small">Tip: Use search & filter below to find transactions quickly.</p>
+  </div>
+
+  <div class="card">
+    <h2>Search & Filter</h2>
+
+    <div class="grid-3">
+      <div>
+        <label>Search (Name / Account / Mobile / Reference)</label>
+        <input id="searchBox" placeholder="Search here..." oninput="renderTable()">
+      </div>
+      <div>
+        <label>Filter Type</label>
+        <select id="filterType" onchange="renderTable()">
+          <option value="">All Types</option>
+          <option value="Deposit">Deposit</option>
+          <option value="Withdraw">Withdraw</option>
+          <option value="Transfer">Transfer</option>
+          <option value="Charges">Charges</option>
+          <option value="Loan EMI">Loan EMI</option>
+        </select>
+      </div>
+      <div>
+        <label>Filter Month</label>
+        <input id="filterMonth" type="month" onchange="renderTable()">
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="action-btn" onclick="exportCSV()">⬇ Export CSV</button>
+      <button class="outline-btn" onclick="window.print()">🖨 Print Report</button>
+      <button class="outline-btn" onclick="clearAll()">🗑 Clear All Data</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Transaction List</h2>
+
+    <div id="summaryBox" class="notice"></div>
+
+    <div style="overflow:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Customer</th>
+            <th>Account / ID</th>
+            <th>Type</th>
+            <th>Amount (BDT)</th>
+            <th>Reference</th>
+            <th>Branch</th>
+            <th>Remarks</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="tBody"></tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <a href="/privacy-policy.html">Privacy Policy</a> |
+    <a href="/terms.html">Terms</a> |
+    <a href="/cookie-policy.html">Cookie Policy</a> |
+    <a href="/disclaimer.html">Disclaimer</a> |
+    <a href="/contact.html">Contact</a>
+  </div>
+
+</div>
+
+<script>
+const key = "ablatif_transactions_v1";
+
+function loadData(){
+  return JSON.parse(localStorage.getItem(key) || "[]");
+}
+function saveData(data){
+  localStorage.setItem(key, JSON.stringify(data));
+}
+function formatBDT(n){
+  return (Number(n)||0).toLocaleString("en-BD");
+}
+function badge(type){
+  if(type==="Deposit") return `<span class="badge b-deposit">Deposit</span>`;
+  if(type==="Withdraw") return `<span class="badge b-withdraw">Withdraw</span>`;
+  if(type==="Transfer") return `<span class="badge b-transfer">Transfer</span>`;
+  if(type==="Charges") return `<span class="badge b-charges">Charges</span>`;
+  return `<span class="badge b-emi">Loan EMI</span>`;
+}
+
+function resetForm(){
+  ["custName","acctNo","mobile","branch","tDate","amount","ref","remarks"].forEach(id=>{
+    document.getElementById(id).value="";
+  });
+  document.getElementById("tType").value="Deposit";
+}
+
+function addTransaction(){
+  const custName = document.getElementById("custName").value.trim();
+  const acctNo = document.getElementById("acctNo").value.trim();
+  const mobile = document.getElementById("mobile").value.trim();
+  const branch = document.getElementById("branch").value.trim();
+  const tDate = document.getElementById("tDate").value;
+  const tType = document.getElementById("tType").value;
+  const amount = document.getElementById("amount").value;
+  const ref = document.getElementById("ref").value.trim();
+  const remarks = document.getElementById("remarks").value.trim();
+
+  if(!custName || !acctNo || !tDate || !amount){
+    alert("Please fill Customer Name, Account/ID, Date and Amount.");
+    return;
+  }
+
+  const data = loadData();
+  data.unshift({
+    id: Date.now(),
+    custName, acctNo, mobile, branch,
+    tDate, tType, amount, ref, remarks
+  });
+  saveData(data);
+  resetForm();
+  renderTable();
+}
+
+function deleteTransaction(id){
+  if(!confirm("Delete this transaction?")) return;
+  let data = loadData();
+  data = data.filter(x=>x.id!==id);
+  saveData(data);
+  renderTable();
+}
+
+function editTransaction(id){
+  const data = loadData();
+  const t = data.find(x=>x.id===id);
+  if(!t) return;
+
+  document.getElementById("custName").value=t.custName;
+  document.getElementById("acctNo").value=t.acctNo;
+  document.getElementById("mobile").value=t.mobile;
+  document.getElementById("branch").value=t.branch;
+  document.getElementById("tDate").value=t.tDate;
+  document.getElementById("tType").value=t.tType;
+  document.getElementById("amount").value=t.amount;
+  document.getElementById("ref").value=t.ref;
+  document.getElementById("remarks").value=t.remarks;
+
+  deleteTransaction(id);
+}
+
+function clearAll(){
+  if(!confirm("This will delete ALL stored transactions from this browser. Continue?")) return;
+  localStorage.removeItem(key);
+  renderTable();
+}
+
+function renderTable(){
+  const data = loadData();
+  const q = document.getElementById("searchBox").value.trim().toLowerCase();
+  const type = document.getElementById("filterType").value;
+  const month = document.getElementById("filterMonth").value;
+
+  let filtered = data.filter(t=>{
+    const text = (t.custName+" "+t.acctNo+" "+t.mobile+" "+t.ref).toLowerCase();
+    const okSearch = !q || text.includes(q);
+    const okType = !type || t.tType===type;
+    const okMonth = !month || (t.tDate && t.tDate.startsWith(month));
+    return okSearch && okType && okMonth;
+  });
+
+  // Summary
+  let total = filtered.reduce((sum,t)=>sum+(Number(t.amount)||0),0);
+  const sumBox = document.getElementById("summaryBox");
+  sumBox.innerHTML = `Showing <b>${filtered.length}</b> records • Total Amount: <b>BDT ${formatBDT(total)}</b>`;
+
+  // Table render
+  const tb = document.getElementById("tBody");
+  tb.innerHTML = filtered.map(t=>`
+    <tr>
+      <td>${t.tDate || ""}</td>
+      <td><b>${t.custName}</b><div class="small">${t.mobile || ""}</div></td>
+      <td>${t.acctNo}</td>
+      <td>${badge(t.tType)}</td>
+      <td><b>${formatBDT(t.amount)}</b></td>
+      <td>${t.ref || ""}</td>
+      <td>${t.branch || ""}</td>
+      <td>${t.remarks || ""}</td>
+      <td>
+        <button class="outline-btn" style="padding:6px 10px;margin-bottom:6px" onclick="editTransaction(${t.id})">Edit</button>
+        <button class="outline-btn" style="padding:6px 10px;border-color:#ef4444;color:#991b1b" onclick="deleteTransaction(${t.id})">Delete</button>
+      </td>
+    </tr>
+  `).join("");
+
+  if(filtered.length===0){
+    tb.innerHTML = `<tr><td colspan="9" style="text-align:center;color:#64748b;font-weight:800;padding:20px;">No transactions found.</td></tr>`;
+  }
+}
+
+function exportCSV(){
+  const data = loadData();
+  if(data.length===0){alert("No data to export.");return;}
+
+  const rows = [
+    ["Date","Customer","Account/ID","Mobile","Branch","Type","Amount","Reference","Remarks"]
+  ];
+
+  data.forEach(t=>{
+    rows.push([
+      t.tDate, t.custName, t.acctNo, t.mobile, t.branch,
+      t.tType, t.amount, t.ref, (t.remarks||"").replace(/\n/g," ")
+    ]);
+  });
+
+  const csv = rows.map(r=>r.map(v=>`"${(v||"").toString().replace(/"/g,'""')}"`).join(",")).join("\n");
+  const blob = new Blob([csv], {type:"text/csv;charset=utf-8;"});
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "transaction_tracking.csv";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
+window.addEventListener("load", ()=>{
+  // default date today
+  document.getElementById("tDate").value = new Date().toISOString().slice(0,10);
+  renderTable();
+});
+</script>
+
+</body>
+</html>

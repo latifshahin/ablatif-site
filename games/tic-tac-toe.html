@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tic Tac Toe vs AI | Abdul Latif Games</title>
+  <meta name="description" content="Play Tic Tac Toe vs AI by Abdul Latif. Choose difficulty, track your wins and beat the computer." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://ablatif.com/games/tic-tac-toe.html" />
+
+  <meta property="og:title" content="Tic Tac Toe vs AI | Abdul Latif Games" />
+  <meta property="og:description" content="Play Tic Tac Toe against AI with difficulty levels." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ablatif.com/games/tic-tac-toe.html" />
+  <meta property="og:image" content="https://ablatif.com/img/background.jpeg" />
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X4YNW0E3XG"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-X4YNW0E3XG');
+  </script>
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3608304969182163"
+     crossorigin="anonymous"></script>
+
+  <style>
+    :root{
+      --accent:#f6b042;
+      --muted:#666;
+      --bg:#fff;
+      --soft:#f7f8fb;
+      --radius:14px;
+      --shadow:0 6px 22px rgba(20,30,60,0.08);
+      --border:rgba(0,0,0,0.08);
+      --green:rgba(76,175,80,0.16);
+      --red:rgba(244,67,54,0.16);
+    }
+    body{font-family:system-ui, -apple-system, 'Segoe UI', Roboto, Arial;background:var(--soft);color:#222;margin:0;padding:0}
+    .container{max-width:1100px;margin:18px auto;padding:0 14px}
+    .topbar{
+      position:sticky;top:14px;z-index:999;background:rgba(255,255,255,0.92);backdrop-filter: blur(10px);
+      display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border:1px solid rgba(0,0,0,0.06);
+      border-radius:14px;box-shadow:var(--shadow);margin-bottom:14px
+    }
+    .brand h1{margin:0;font-size:18px;font-weight:900}
+    .brand p{margin:0;font-size:13px;color:var(--muted)}
+    .navlinks{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:flex-end}
+    .navlinks a{font-weight:800;font-size:13px;padding:7px 12px;border-radius:999px;border:1px solid var(--border);background:#fff;color:#222;text-decoration:none;transition:0.2s}
+    .navlinks a:hover{background:var(--accent);border-color:var(--accent);color:#111}
+    .hero{background:var(--bg);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin-bottom:14px}
+    .hero h2{margin:0;font-size:22px}
+    .hero p{margin:8px 0 0;color:var(--muted);line-height:1.5}
+    .wrap{background:var(--bg);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+    .toprow{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:flex-start}
+    .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:flex-end}
+    select, button{
+      border-radius:10px;padding:10px 14px;font-size:14px;font-weight:900;border:1px solid var(--border);
+      background:#fff;cursor:pointer;transition:0.2s
+    }
+    button.primary{background:var(--accent);border-color:var(--accent);color:#111}
+    button:hover{transform:translateY(-1px)}
+    .status{margin-top:14px;color:var(--muted);font-weight:800}
+    .grid{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns:repeat(3, 110px);
+      gap:10px;
+      justify-content:center;
+    }
+    .cell{
+      width:110px;height:110px;
+      border-radius:16px;
+      background:#fff;
+      border:1px solid var(--border);
+      display:flex;align-items:center;justify-content:center;
+      font-size:54px;font-weight:1000;
+      cursor:pointer;
+      box-shadow:0 6px 18px rgba(20,30,60,0.07);
+      transition:0.15s;
+      user-select:none;
+    }
+    .cell:hover{transform:translateY(-1px)}
+    .cell.win{background:var(--green);border-color:rgba(76,175,80,0.22)}
+    .cell.lose{background:var(--red);border-color:rgba(244,67,54,0.22)}
+    .stats{
+      margin-top:16px;display:flex;gap:10px;flex-wrap:wrap
+    }
+    .stat{
+      flex:1;min-width:160px;background:#fff;border:1px dashed #eee;border-radius:12px;padding:10px 12px
+    }
+    .stat .label{font-size:12px;color:var(--muted);font-weight:800}
+    .stat .value{font-size:18px;font-weight:1000;margin-top:4px}
+    .site-footer{
+      margin-top:22px;font-size:13px;color:var(--muted);text-align:center;padding:20px 10px
+    }
+    .site-footer a{color:#222;font-weight:700;text-decoration:none;margin:0 6px}
+    .site-footer a:hover{color:var(--accent)}
+    @media(max-width:520px){
+      .grid{grid-template-columns:repeat(3, 92px)}
+      .cell{width:92px;height:92px;font-size:48px}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="topbar">
+      <div class="brand">
+        <h1>Abdul Latif – Games</h1>
+        <p>Banking • Loans • Fintech • Fun</p>
+      </div>
+      <div class="navlinks">
+        <a href="/">Home</a>
+        <a href="/tools/">Tools</a>
+        <a href="/blog/">Blog</a>
+        <a href="/games/">Games</a>
+        <a href="/contact.html">Contact</a>
+      </div>
+    </div>
+
+    <div class="hero">
+      <h2>Tic Tac Toe vs AI</h2>
+      <p>Play against the computer. Choose difficulty and track your wins. Works on mobile and desktop.</p>
+    </div>
+
+    <div class="wrap">
+      <div class="toprow">
+        <div>
+          <h1 style="margin:0;font-size:20px;">Game Board</h1>
+          <p style="margin:8px 0 0;color:var(--muted);max-width:650px;line-height:1.5;">
+            You play as <strong>X</strong>. The AI plays as <strong>O</strong>. Try to win with the fewest mistakes.
+          </p>
+        </div>
+
+        <div class="controls">
+          <select id="difficulty">
+            <option value="easy">Easy</option>
+            <option value="medium" selected>Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+          <button id="restart" class="primary">Restart</button>
+        </div>
+      </div>
+
+      <div class="status" id="status">Your turn (X)</div>
+
+      <div class="grid" id="grid"></div>
+
+      <div class="stats">
+        <div class="stat"><div class="label">Wins</div><div class="value" id="wins">0</div></div>
+        <div class="stat"><div class="label">Losses</div><div class="value" id="losses">0</div></div>
+        <div class="stat"><div class="label">Draws</div><div class="value" id="draws">0</div></div>
+      </div>
+    </div>
+
+    <div class="site-footer">
+      © <span id="year"></span> Abdul Latif |
+      <a href="/">Home</a> |
+      <a href="/blog/">Blog</a> |
+      <a href="/tools/">Tools</a> |
+      <a href="/privacy-policy.html">Privacy</a> |
+      <a href="/terms.html">Terms</a> |
+      <a href="/disclaimer.html">Disclaimer</a>
+    </div>
+  </div>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  const gridEl = document.getElementById("grid");
+  const statusEl = document.getElementById("status");
+  const diffEl = document.getElementById("difficulty");
+
+  let board = Array(9).fill("");
+  let gameOver = false;
+  let player = "X";
+  let ai = "O";
+
+  // stats
+  const storeKey = "tictactoe_stats";
+  let stats = JSON.parse(localStorage.getItem(storeKey) || '{"wins":0,"losses":0,"draws":0}');
+  updateStatsUI();
+
+  function updateStatsUI(){
+    document.getElementById("wins").textContent = stats.wins;
+    document.getElementById("losses").textContent = stats.losses;
+    document.getElementById("draws").textContent = stats.draws;
+  }
+  function saveStats(){
+    localStorage.setItem(storeKey, JSON.stringify(stats));
+  }
+
+  const wins = [
+    [0,1,2],[3,4,5],[6,7,8],
+    [0,3,6],[1,4,7],[2,5,8],
+    [0,4,8],[2,4,6]
+  ];
+
+  function checkWinner(b){
+    for(const line of wins){
+      const [a,c,d] = line;
+      if(b[a] && b[a]===b[c] && b[a]===b[d]){
+        return {winner:b[a], line};
+      }
+    }
+    if(b.every(x=>x)) return {winner:"draw"};
+    return null;
+  }
+
+  function render(){
+    gridEl.innerHTML="";
+    board.forEach((val, idx)=>{
+      const cell=document.createElement("div");
+      cell.className="cell";
+      cell.textContent = val;
+      cell.dataset.i = idx;
+      cell.addEventListener("click", ()=> move(idx));
+      gridEl.appendChild(cell);
+    });
+  }
+
+  function setStatus(msg){ statusEl.textContent = msg; }
+
+  function move(i){
+    if(gameOver) return;
+    if(board[i]) return;
+
+    board[i]=player;
+    render();
+
+    let res=checkWinner(board);
+    if(res){ endGame(res); return; }
+
+    setStatus("AI thinking...");
+    setTimeout(aiMove, 280);
+  }
+
+  function aiMove(){
+    if(gameOver) return;
+    const diff = diffEl.value;
+
+    let i;
+    if(diff === "easy"){
+      i = randomMove();
+    }else if(diff === "medium"){
+      i = (Math.random() < 0.55) ? bestMove(board, ai).index : randomMove();
+    }else{
+      i = bestMove(board, ai).index;
+    }
+
+    if(i === null || i === undefined) return;
+    board[i]=ai;
+    render();
+
+    let res=checkWinner(board);
+    if(res){ endGame(res); return; }
+
+    setStatus("Your turn (X)");
+  }
+
+  function randomMove(){
+    const empties = board.map((v,i)=>v?null:i).filter(v=>v!==null);
+    if(empties.length===0) return null;
+    return empties[Math.floor(Math.random()*empties.length)];
+  }
+
+  // minimax for hard mode
+  function bestMove(newBoard, curPlayer){
+    const avail = newBoard.map((v,i)=>v?null:i).filter(v=>v!==null);
+
+    const result = checkWinner(newBoard);
+    if(result){
+      if(result.winner === player) return {score:-10};
+      if(result.winner === ai) return {score:10};
+      return {score:0};
+    }
+
+    let moves = [];
+    for(const i of avail){
+      let move = {index:i};
+      newBoard[i] = curPlayer;
+
+      const next = bestMove(newBoard, curPlayer === ai ? player : ai);
+      move.score = next.score;
+
+      newBoard[i] = "";
+      moves.push(move);
+    }
+
+    let best;
+    if(curPlayer === ai){
+      let maxScore = -Infinity;
+      for(const m of moves){
+        if(m.score > maxScore){ maxScore = m.score; best = m; }
+      }
+    }else{
+      let minScore = Infinity;
+      for(const m of moves){
+        if(m.score < minScore){ minScore = m.score; best = m; }
+      }
+    }
+    return best;
+  }
+
+  function endGame(res){
+    gameOver = true;
+
+    const cells = document.querySelectorAll(".cell");
+
+    if(res.winner === "draw"){
+      setStatus("Draw! 🤝");
+      stats.draws++;
+      saveStats();
+      updateStatsUI();
+      return;
+    }
+
+    if(res.winner === player){
+      setStatus("You win! 🎉");
+      stats.wins++;
+      saveStats();
+      updateStatsUI();
+      res.line.forEach(i=>cells[i].classList.add("win"));
+    }else{
+      setStatus("AI wins 😅 Try again!");
+      stats.losses++;
+      saveStats();
+      updateStatsUI();
+      res.line.forEach(i=>cells[i].classList.add("lose"));
+    }
+  }
+
+  document.getElementById("restart").addEventListener("click", ()=>{
+    board = Array(9).fill("");
+    gameOver = false;
+    setStatus("Your turn (X)");
+    render();
+  });
+
+  render();
+</script>
+</body>
+</html>

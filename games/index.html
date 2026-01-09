@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <title>Games | Abdul Latif - Play Simple Browser Games</title>
+
+  <meta name="description" content="Play simple, lightweight browser games by Abdul Latif. Enjoy Word Search, Memory Flip, Tic Tac Toe vs AI, Reaction Time Challenge and Daily Number game." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://ablatif.com/games/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Games | Abdul Latif" />
+  <meta property="og:description" content="Play Word Search, Memory Flip, Tic Tac Toe, Reaction Time and Daily Number." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ablatif.com/games/" />
+  <meta property="og:image" content="https://ablatif.com/img/background.jpeg" />
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X4YNW0E3XG"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-X4YNW0E3XG');
+  </script>
+
+  <!-- AdSense -->
+  <script async
+    src="https://pagead2.googlesyndication.com/pagead/js?client=ca-pub-3608304969182163"
+    crossorigin="anonymous"></script>
+
+  <!-- Schema -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebPage",
+    "name":"Games | Abdul Latif",
+    "url":"https://ablatif.com/games/",
+    "description":"Play simple browser games like Word Search, Memory Flip, Tic Tac Toe vs AI, Reaction Time Challenge and Daily Number Challenge.",
+    "publisher":{
+      "@type":"Person",
+      "name":"Abdul Latif",
+      "url":"https://ablatif.com/"
+    }
+  }
+  </script>
+
+  <style>
+    :root{
+      --accent:#f6b042;
+      --muted:#666;
+      --bg:#fff;
+      --soft:#f7f8fb;
+      --radius:16px;
+      --shadow:0 6px 20px rgba(20,30,60,0.07);
+      --border:rgba(0,0,0,0.08);
+    }
+
+    body{
+      font-family:system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+      background:var(--soft);
+      color:#222;
+      margin:0;
+      padding:0;
+    }
+
+    .container{
+      max-width:1100px;
+      margin:18px auto;
+      padding:0 14px;
+    }
+
+    /* ✅ Floating Topbar (cleaner branding) */
+    .topbar{
+      position:sticky;
+      top:14px;
+      z-index:999;
+      background:rgba(255,255,255,0.92);
+      backdrop-filter: blur(10px);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:12px 16px;
+      border:1px solid rgba(0,0,0,0.06);
+      border-radius:16px;
+      box-shadow:var(--shadow);
+      margin-bottom:14px;
+    }
+
+    .brand{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+
+    .brand h1{
+      margin:0;
+      font-size:16px;
+      font-weight:1000;
+      letter-spacing:0.2px;
+    }
+
+    .brand p{
+      margin:0;
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    .navlinks{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      align-items:center;
+    }
+
+    .navlinks a{
+      text-decoration:none;
+      font-weight:800;
+      font-size:13px;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      color:#222;
+      background:#fff;
+      transition:0.2s;
+    }
+
+    .navlinks a:hover{
+      background:var(--accent);
+      border-color:var(--accent);
+      color:#111;
+    }
+
+    /* ✅ Hero */
+    .hero{
+      background:var(--bg);
+      box-shadow:var(--shadow);
+      border-radius:var(--radius);
+      padding:18px;
+      margin-bottom:14px;
+    }
+    .hero h2{
+      margin:0;
+      font-size:22px;
+      font-weight:1000;
+    }
+    .hero p{
+      margin:8px 0 0;
+      color:var(--muted);
+      line-height:1.6;
+      max-width:850px;
+    }
+
+    /* ✅ Games Grid */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:14px;
+      margin-top:14px;
+    }
+
+    .card{
+      background:#fff;
+      border-radius:18px;
+      border:1px solid rgba(0,0,0,0.06);
+      box-shadow:0 6px 18px rgba(20,30,60,0.06);
+      padding:16px;
+      transition:0.2s;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      min-height:178px;
+    }
+
+    .card:hover{
+      transform:translateY(-2px);
+      border-color:rgba(246,176,66,0.35);
+    }
+
+    .card-top{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+    }
+
+    .icon{
+      width:42px;height:42px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:22px;
+      border-radius:12px;
+      background:rgba(246,176,66,0.15);
+      border:1px solid rgba(246,176,66,0.25);
+      flex-shrink:0;
+    }
+
+    .card h3{
+      margin:0;
+      font-size:15px;
+      font-weight:1000;
+    }
+
+    .card p{
+      margin:6px 0 0;
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.5;
+    }
+
+    .tag{
+      display:inline-block;
+      margin-top:10px;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:900;
+      background:rgba(0,0,0,0.04);
+      border:1px solid rgba(0,0,0,0.06);
+      color:#333;
+      width:max-content;
+    }
+
+    .btn{
+      margin-top:14px;
+      display:inline-block;
+      text-align:center;
+      text-decoration:none;
+      font-weight:1000;
+      padding:10px 12px;
+      border-radius:12px;
+      background:var(--accent);
+      color:#111;
+      border:1px solid rgba(0,0,0,0.05);
+      transition:0.2s;
+    }
+
+    .btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .btn.secondary{
+      background:#fff;
+      border:1px solid var(--border);
+      color:#222;
+    }
+
+    /* ✅ FAQ section */
+    .faq{
+      background:#fff;
+      margin-top:18px;
+      border-radius:18px;
+      border:1px solid rgba(0,0,0,0.06);
+      box-shadow:var(--shadow);
+      padding:18px;
+    }
+
+    .faq h2{
+      margin:0;
+      font-size:18px;
+      font-weight:1000;
+    }
+
+    .faq-item{
+      margin-top:14px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px dashed rgba(0,0,0,0.10);
+      background:rgba(0,0,0,0.02);
+    }
+
+    .faq-item strong{
+      display:block;
+      font-size:14px;
+      margin-bottom:6px;
+    }
+
+    .faq-item p{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.6;
+    }
+
+    /* Footer */
+    .site-footer{
+      margin-top:22px;
+      font-size:13px;
+      color:var(--muted);
+      text-align:center;
+      padding:20px 10px;
+    }
+
+    .site-footer a{
+      color:#222;
+      font-weight:700;
+      text-decoration:none;
+      margin:0 6px;
+    }
+
+    .site-footer a:hover{
+      color:var(--accent);
+    }
+
+    @media (max-width:980px){
+      .grid{grid-template-columns:repeat(2, 1fr)}
+    }
+    @media (max-width:640px){
+      .grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- ✅ Topbar -->
+    <div class="topbar">
+      <div class="brand">
+        <h1>Abdul Latif</h1>
+        <p>Games • Tools • Blog • Personal Website</p>
+      </div>
+
+      <div class="navlinks">
+        <a href="/">Home</a>
+        <a href="/tools/">Tools</a>
+        <a href="/blog/">Blog</a>
+        <a href="/games/">Games</a>
+        <a href="/contact.html">Contact</a>
+      </div>
+    </div>
+
+    <!-- ✅ Hero -->
+    <div class="hero">
+      <h2>Lightweight Browser Games</h2>
+      <p>
+        Enjoy simple games that load fast and work smoothly on mobile and desktop.
+        No downloads required. New games will be added regularly.
+      </p>
+    </div>
+
+    <!-- ✅ Games -->
+    <div class="grid">
+
+      <div class="card">
+        <div>
+          <div class="card-top">
+            <div class="icon">🔎</div>
+            <div>
+              <h3>Word Search</h3>
+              <p>Create and solve your own word search puzzles and print them.</p>
+              <span class="tag">Puzzle</span>
+            </div>
+          </div>
+        </div>
+        <a class="btn" href="/games/wordsearch.html">Play Now</a>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-top">
+            <div class="icon">🧠</div>
+            <div>
+              <h3>Memory Flip Cards</h3>
+              <p>Flip and match pairs with difficulty levels. Beat your best score.</p>
+              <span class="tag">Brain Game</span>
+            </div>
+          </div>
+        </div>
+        <a class="btn" href="/games/memory-flip.html">Play Now</a>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-top">
+            <div class="icon">❌⭕</div>
+            <div>
+              <h3>Tic Tac Toe vs AI</h3>
+              <p>Play against AI with Easy/Medium/Hard difficulty. Track wins.</p>
+              <span class="tag">Strategy</span>
+            </div>
+          </div>
+        </div>
+        <a class="btn" href="/games/tic-tac-toe.html">Play Now</a>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-top">
+            <div class="icon">⚡</div>
+            <div>
+              <h3>Reaction Time Challenge</h3>
+              <p>Click when it turns green. Track your best and average speed.</p>
+              <span class="tag">Challenge</span>
+            </div>
+          </div>
+        </div>
+        <a class="btn" href="/games/reaction-time.html">Play Now</a>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-top">
+            <div class="icon">🎯</div>
+            <div>
+              <h3>Daily Number Challenge</h3>
+              <p>A new secret number every day. Limited tries. Track streak.</p>
+              <span class="tag">Daily</span>
+            </div>
+          </div>
+        </div>
+        <a class="btn" href="/games/daily-number.html">Play Now</a>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-top">
+            <div class="icon">✨</div>
+            <div>
+              <h3>More Games Coming</h3>
+              <p>New mini-games will be added soon. Want to suggest one?</p>
+              <span class="tag">Upcoming</span>
+            </div>
+          </div>
+        </div>
+        <a class="btn secondary" href="/contact.html">Suggest a Game</a>
+      </div>
+
+    </div>
+
+    <!-- ✅ FAQ Section -->
+    <div class="faq">
+      <h2>FAQ</h2>
+
+      <div class="faq-item">
+        <strong>Are these games free?</strong>
+        <p>Yes. All games on ablatif.com are free to play directly in your browser.</p>
+      </div>
+
+      <div class="faq-item">
+        <strong>Do I need to download anything?</strong>
+        <p>No downloads required. Everything runs inside your browser on mobile or desktop.</p>
+      </div>
+
+      <div class="faq-item">
+        <strong>Do these games work on mobile?</strong>
+        <p>Yes. The layout is responsive, and the games are optimized for mobile touch controls.</p>
+      </div>
+
+      <div class="faq-item">
+        <strong>Can I request a new game?</strong>
+        <p>Yes. Visit the contact page and send a suggestion. I regularly add new games.</p>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="site-footer">
+      © <span id="year"></span> Abdul Latif |
+      <a href="/">Home</a> |
+      <a href="/blog/">Blog</a> |
+      <a href="/tools/">Tools</a> |
+      <a href="/privacy-policy.html">Privacy</a> |
+      <a href="/terms.html">Terms</a> |
+      <a href="/disclaimer.html">Disclaimer</a>
+    </div>
+
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

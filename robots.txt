@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Sitemap: https://ablatif.com/sitemap.xml
+User-agent: *
+Disallow: /agrani_notice/notices/
+Disallow: /agrani_notice/trash/
+Disallow: /agrani_notice/notices_history.php
+Disallow: /agrani_notice/print_all.php
+Disallow: /agrani_notice/print_one.php
+Disallow: /agrani_notice/print_single.php
+Disallow: /agrani_notice/single_print.php
+
+
