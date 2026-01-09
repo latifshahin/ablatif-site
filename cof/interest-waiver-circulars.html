@@ -4,9 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Interest Waiver / Interest Reduction Circular Summary – Agrani Bank & Bangladesh Bank</title>
-  <meta name="description" content="A practical summary of interest waiver, interest reduction, and rescheduling guidelines in Bangladesh – based on Agrani Bank PLC internal circular concepts and Bangladesh Bank regulatory framework.">
+  <title>Interest Waiver / Interest Reduction Circular Summary (Agrani + Bangladesh Bank)</title>
+  <meta name="description" content="A practical summary of interest waiver / reduction and related banking guideline concepts in Bangladesh—based on Agrani Bank PLC internal process practice and Bangladesh Bank regulatory framework.">
   <link rel="canonical" href="https://ablatif.com/cof/interest-waiver-circulars.html">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Interest Waiver Circular Summary (Agrani + Bangladesh Bank)">
+  <meta property="og:description" content="Practical reference for loan officers: waiver/reduction structure, approval logic, documents, compliance checklist.">
+  <meta property="og:url" content="https://ablatif.com/cof/interest-waiver-circulars.html">
+  <meta property="og:type" content="website">
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-X4YNW0E3XG"></script>
@@ -21,30 +27,37 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3608304969182163"
      crossorigin="anonymous"></script>
 
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebPage",
+    "name":"Interest Waiver / Interest Reduction Circular Summary (Agrani + Bangladesh Bank)",
+    "url":"https://ablatif.com/cof/interest-waiver-circulars.html",
+    "description":"Practical summary of waiver / reduction framework used in Bangladesh banking environment for classified loans and settlement proposals.",
+    "publisher":{"@type":"Person","name":"Abdul Latif","url":"https://ablatif.com/"}
+  }
+  </script>
+
   <style>
-    :root{
-      --bg:#f4f6f9;
-      --card:#ffffff;
-      --text:#0f172a;
-      --muted:#64748b;
-      --accent:#2563eb;
-      --border:rgba(0,0,0,.10);
-    }
     body{
+      font-family:system-ui,Segoe UI,Arial,sans-serif;
+      background:#f4f6f9;
       margin:0;
-      font-family:system-ui,sans-serif;
-      background:var(--bg);
-      color:var(--text);
+      padding:0;
+      color:#111;
       line-height:1.7;
     }
     .container{
       max-width:1000px;
       margin:auto;
-      padding:18px;
+      padding:20px;
     }
+
+    /* ✅ Topbar (same style as NSS / COF) */
     .topbar{
       background:#fff;
-      border:1px solid var(--border);
+      border:1px solid rgba(0,0,0,.08);
       box-shadow:0 4px 12px rgba(0,0,0,.06);
       border-radius:14px;
       padding:14px 16px;
@@ -54,7 +67,7 @@
       gap:12px;
       position:sticky;
       top:10px;
-      z-index:10;
+      z-index:9999;
     }
     .brand h1{
       margin:0;
@@ -65,30 +78,34 @@
     .brand p{
       margin:0;
       font-size:13px;
-      color:var(--muted);
+      color:#64748b;
     }
+
     .btn{
       border:1px solid rgba(0,0,0,.12);
       background:transparent;
       padding:10px 12px;
       border-radius:12px;
       cursor:pointer;
-      font-weight:700;
+      font-weight:800;
       font-size:14px;
       text-decoration:none;
       color:#1a2b4c;
+      display:inline-block;
     }
     .btn:hover{opacity:.9}
+
+    /* ✅ Hero intro */
     .hero{
       margin-top:18px;
       background:#fff;
-      border:1px solid var(--border);
+      border:1px solid rgba(0,0,0,.08);
       border-radius:14px;
       padding:18px;
       box-shadow:0 4px 12px rgba(0,0,0,.06);
     }
     .hero h2{
-      margin:0 0 10px;
+      margin:0 0 8px;
       font-size:22px;
       color:#1a2b4c;
     }
@@ -101,32 +118,34 @@
       margin-top:14px;
       padding:14px;
       border-radius:12px;
-      background:#f1f5ff;
-      border:1px solid rgba(37,99,235,0.20);
+      background:#fff7ed;
+      border:1px solid rgba(234,88,12,0.20);
       font-size:14px;
-      color:#334155;
+      color:#7c2d12;
     }
-    .notice strong{color:#1a2b4c}
+    .notice strong{color:#7c2d12}
+
+    /* ✅ Card */
     .card{
       background:#fff;
       padding:18px;
       border-radius:14px;
       box-shadow:0 4px 12px rgba(0,0,0,.06);
       margin-top:18px;
-      border:1px solid var(--border);
+      border:1px solid rgba(0,0,0,.08);
     }
     .card h3{
       margin:0 0 12px;
       font-size:18px;
       font-weight:800;
       color:#1a2b4c;
-      border-left:4px solid var(--accent);
+      border-left:4px solid #2563eb;
       padding-left:10px;
     }
 
-    /* Accordion */
+    /* ✅ Accordion */
     details{
-      border:1px solid var(--border);
+      border:1px solid rgba(0,0,0,.08);
       border-radius:12px;
       margin-bottom:12px;
       background:#fff;
@@ -143,35 +162,47 @@
       align-items:center;
     }
     summary::-webkit-details-marker{display:none;}
+
     summary span{
-      color:var(--accent);
+      color:#2563eb;
       font-size:18px;
       font-weight:900;
+      transition:.2s;
+      min-width:20px;
+      text-align:center;
     }
-    details[open] summary span{transform:rotate(45deg);}
+    details[open] summary span{
+      transform:rotate(45deg);
+    }
+
     .acc-body{
       padding:14px;
-      border-top:1px solid var(--border);
+      border-top:1px solid rgba(0,0,0,.08);
       color:#334155;
       font-size:14px;
     }
-
     ul{margin:8px 0 0; padding-left:18px;}
     li{margin-bottom:8px;}
 
+    /* Footer */
     .footer{
+      margin-top:25px;
       text-align:center;
-      margin-top:26px;
+      color:#64748b;
       font-size:13px;
-      color:var(--muted);
+      line-height:1.8;
+      padding:18px 10px;
+      border-top:1px solid rgba(0,0,0,.08);
     }
+    .footer a{
+      color:#2563eb;
+      text-decoration:none;
+      font-weight:700;
+    }
+    .footer a:hover{text-decoration:underline;}
 
-    .ad-box{
-      margin-top:18px;
-      background:#fff;
-      border:1px dashed rgba(0,0,0,.15);
-      border-radius:14px;
-      padding:10px;
+    @media(max-width:768px){
+      .topbar{flex-direction:column; align-items:flex-start;}
     }
   </style>
 </head>
@@ -179,7 +210,7 @@
 <body>
 <div class="container">
 
-  <!-- Top Bar -->
+  <!-- ✅ Topbar -->
   <div class="topbar">
     <div class="brand">
       <h1>Interest Waiver Circular Summary</h1>
@@ -191,144 +222,150 @@
     </div>
   </div>
 
-  <!-- Hero -->
+  <!-- ✅ Hero -->
   <div class="hero">
-    <h2>Interest Waiver / Reduction – What Staff Should Know</h2>
+    <h2>Interest Waiver / Reduction – Structured Summary for Loan Officers</h2>
     <p>
-      This page is a summarized reference for loan officers and credit monitoring staff.  
-      It explains how interest waiver / reduction decisions are generally guided by regulatory framework (Bangladesh Bank) 
-      and internal policy logic (Agrani Bank PLC).
+      This page explains how waiver/reduction proposals are typically designed and reviewed in Bangladesh banking context.
+      It is written as an educational reference for bankers (especially classified loan recovery and monitoring teams).
     </p>
 
     <div class="notice">
-      <strong>⚠️ Important:</strong> This page is not an official circular.  
-      Always confirm the final waiver/rescheduling decision using latest Agrani Bank circulars and Bangladesh Bank instructions.
-      This content is designed only to assist staff in understanding the structure of waiver rules.
+      <strong>⚠️ Disclaimer:</strong> This is not an official circular or legal copy.
+      Always verify the latest Agrani Bank PLC circulars and Bangladesh Bank directives before final submission or approval.
     </div>
   </div>
 
-  <!-- ADS placeholder -->
-  <div class="ad-box">
-    <!-- Insert AdSense ad unit here later if needed -->
-    <small style="color:#64748b;">Ad Placeholder (optional)</small>
-  </div>
-
-  <!-- Agrani Bank Summary -->
+  <!-- ✅ AGRANI SUMMARY -->
   <div class="card">
     <h3>Agrani Bank PLC – Internal Practice Summary</h3>
 
     <details open>
-      <summary>✅ When waiver/reduction is usually considered <span>+</span></summary>
+      <summary>✅ When interest waiver/reduction is usually considered <span>+</span></summary>
       <div class="acc-body">
         <ul>
-          <li>To recover principal from long overdue / classified loans</li>
-          <li>To settle cases where borrower is paying but cannot bear full penal interest</li>
-          <li>To close legal cases or reduce litigation cost</li>
-          <li>For realistic adjustment of loan liability for negotiation or compromise settlement</li>
+          <li>To improve cash recovery in long overdue classified accounts</li>
+          <li>To encourage settlement where full penal interest is unrealistic</li>
+          <li>To close legal suits and reduce litigation cost</li>
+          <li>To settle accounts under negotiated compromise settlement</li>
+          <li>To improve bank asset quality through realistic recovery strategy</li>
         </ul>
       </div>
     </details>
 
     <details>
-      <summary>📌 Common internal conditions used in waiver proposals <span>+</span></summary>
+      <summary>📌 Key internal conditions usually checked <span>+</span></summary>
       <div class="acc-body">
         <ul>
-          <li>Borrower must pay minimum principal portion before waiver approval</li>
-          <li>Waiver is normally applied only for classified period interest (not always for regular period)</li>
-          <li>Waiver is linked with settlement schedule and borrower ability</li>
-          <li>Approval authority depends on amount and classification category</li>
+          <li>Borrower must pay required principal portion first (as per internal policy)</li>
+          <li>Waiver usually applies to classified period interest (not always regular period)</li>
+          <li>Approving authority depends on amount, classification, and policy delegation</li>
+          <li>Proposal must be justified with COF calculation and recovery likelihood</li>
+          <li>Borrower must provide settlement commitment and acceptable repayment schedule</li>
         </ul>
       </div>
     </details>
 
     <details>
-      <summary>📄 Waiver proposal structure (typical format) <span>+</span></summary>
+      <summary>🧾 Typical waiver proposal file checklist <span>+</span></summary>
       <div class="acc-body">
         <ul>
-          <li>Loan liability breakdown (principal + interest + charges)</li>
-          <li>Recovery position (deposit, cash, collateral, security value)</li>
-          <li>Cost of Fund (COF) calculation and justification</li>
-          <li>Borrower commitment letter / settlement agreement</li>
-          <li>Credit risk notes + legal status</li>
+          <li>Loan liability breakdown: principal + interest + charges</li>
+          <li>Current classification status and timeline (expiry → SMA → SS/DF/BL)</li>
+          <li>COF calculation report and waiver justification</li>
+          <li>Security / collateral valuation and updated legal status</li>
+          <li>Borrower repayment source and cash flow note (where applicable)</li>
+          <li>Bank statement / recovery ledger showing actual deposits or recovery record</li>
         </ul>
       </div>
     </details>
   </div>
 
-  <!-- Bangladesh Bank Summary -->
+  <!-- ✅ BB SUMMARY -->
   <div class="card">
     <h3>Bangladesh Bank (BB) – Regulatory Framework Summary</h3>
 
     <details open>
-      <summary>✅ BB focus for waiver/reduction approval logic <span>+</span></summary>
+      <summary>✅ BB policy intent (why BB limits waiver) <span>+</span></summary>
       <div class="acc-body">
         <ul>
-          <li>Waiver must not encourage willful default culture</li>
-          <li>Recovery priority must remain principal-first</li>
-          <li>Bank must ensure loan risk classification remains correct</li>
-          <li>Waiver should improve actual recovery & cash flow, not just book adjustment</li>
+          <li>Waiver should not encourage default culture or willful defaulters</li>
+          <li>Principal recovery must remain priority over interest recovery</li>
+          <li>Waiver must improve real cash recovery, not only book adjustment</li>
+          <li>Loan classification and provisioning rules must remain properly followed</li>
         </ul>
       </div>
     </details>
 
     <details>
-      <summary>📌 Key concepts banks must consider <span>+</span></summary>
+      <summary>📌 What BB expects in waiver/reduction cases <span>+</span></summary>
       <div class="acc-body">
         <ul>
-          <li>Loan rescheduling vs waiver: rescheduling rearranges payment, waiver reduces payable amount.</li>
-          <li>Any waiver must be supported by proper board approval / delegated authority.</li>
-          <li>Interest waiver is normally linked to settlement plan & recovery record.</li>
-          <li>Waiver should consider provisioning policy and IFRS-related impact on bank statements.</li>
+          <li>Proper approval process and board / delegated authority compliance</li>
+          <li>Supporting documents for loan repayment capacity and recovery plan</li>
+          <li>Legal compliance, auditability, and transparent recording of waiver decisions</li>
+          <li>Correct provisioning and reporting treatment (IFRS, impairment principles)</li>
         </ul>
       </div>
     </details>
 
     <details>
-      <summary>🧾 Documentation expected in BB compliant waiver cases <span>+</span></summary>
+      <summary>⚠️ Common regulatory risk areas <span>+</span></summary>
       <div class="acc-body">
         <ul>
-          <li>Borrower financial analysis and repayment capability</li>
-          <li>Legal case status, suit value, estimated recovery and collateral evaluation</li>
-          <li>Internal audit and compliance note (where required)</li>
-          <li>Proper approval note, committee minute and sanction reference</li>
+          <li>Waiver without recovery plan or settlement commitment</li>
+          <li>Waiver for willful defaulters without proper justification</li>
+          <li>Incorrect classification date or mismatch with reporting</li>
+          <li>Provisioning mismatch due to waiver adjustment</li>
+          <li>Missing documentation for audit trail</li>
         </ul>
       </div>
     </details>
   </div>
 
-  <!-- Best Practice -->
+  <!-- ✅ BEST PRACTICE -->
   <div class="card">
-    <h3>Best Practice Checklist (for Loan Officers)</h3>
+    <h3>Best Practice Checklist (For Staff)</h3>
 
     <details open>
-      <summary>✅ Before recommending waiver <span>+</span></summary>
+      <summary>✅ Before recommending waiver or reduction <span>+</span></summary>
       <div class="acc-body">
         <ul>
-          <li>Confirm loan classification date and expiry date carefully</li>
-          <li>Confirm debit interest entries and total uncharged interest period</li>
-          <li>Ensure borrower has valid source of repayment / cash recovery plan</li>
-          <li>Calculate COF properly to avoid approval mistake</li>
+          <li>Verify expiry date, classification date, and reporting date correctly</li>
+          <li>Ensure statement CSV is complete (no missing rows/columns)</li>
+          <li>Check debit interest entries and compute uncharged interest properly</li>
+          <li>Prepare COF + special interest calculation (diminishing principal method)</li>
+          <li>Review borrower repayment behavior and realistic recovery possibility</li>
+          <li>Check latest circular update before final submission</li>
         </ul>
       </div>
     </details>
 
     <details>
-      <summary>⚠️ Common mistakes to avoid <span>+</span></summary>
+      <summary>❌ Common mistakes that cause proposal rejection <span>+</span></summary>
       <div class="acc-body">
         <ul>
-          <li>Wrong CSV statement (missing rows/columns)</li>
+          <li>Wrong or edited CSV file (column removed, row missing)</li>
           <li>Wrong classification date (must be after expiry)</li>
-          <li>Using waiver logic without actual recovery plan</li>
-          <li>Not considering legal and provisioning impact</li>
+          <li>Waiver proposed without minimum recovery requirement</li>
+          <li>Missing legal status / collateral verification</li>
+          <li>Not considering provisioning and audit risk</li>
         </ul>
       </div>
     </details>
   </div>
 
+  <!-- ✅ Footer -->
   <div class="footer">
-    Last updated: <strong>January 2026</strong><br>
-    This is a practical knowledge page, not a legal or official circular copy.  
-    Always consult latest Agrani Bank PLC instructions and Bangladesh Bank circulars before final approval.
+    <a href="/privacy-policy.html">Privacy Policy</a> |
+    <a href="/terms.html">Terms</a> |
+    <a href="/cookie-policy.html">Cookie Policy</a> |
+    <a href="/disclaimer.html">Disclaimer</a> |
+    <a href="/contact.html">Contact</a>
+    <div style="margin-top:6px;">© 2026 Abdul Latif — All Rights Reserved.</div>
+    <div style="margin-top:8px;font-size:12px;color:#94a3b8;">
+      This is a knowledge reference only. Always verify official circulars from Agrani Bank PLC & Bangladesh Bank.
+    </div>
   </div>
 
 </div>
