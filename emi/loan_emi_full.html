@@ -1,20 +1,18 @@
 <!DOCTYPE html>
+
 <html lang="bn">
-<head>
-<meta charset="UTF-8">
-<title>ঋণ ইএমআই ও যোগ্যতা ক্যালকুলেটর</title>
+<head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 
+<title>Loan EMI Calculator (Bangladesh) | Declining Balance vs Equal Principal – Schedule</title>
 <!-- Bootstrap -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
 <!-- ChartJS -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <!-- QR Code JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3608304969182163"
-     crossorigin="anonymous"></script>
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3608304969182163"></script>
 <style>
+
 /* ============================================
       GLOBAL STYLES
 ============================================ */
@@ -26,7 +24,7 @@ body { background:#eef1f5; }
     box-shadow:0 4px 10px rgba(0,0,0,0.12);
 }
 
-/* QR CODE COLUMN BOX */
+/* QR CODE COLUMN FIXED */
 .qr-box {
     width:135px;
     height:135px;
@@ -67,11 +65,6 @@ footer {
     margin:20px 0;
 }
 
-/* Themes (light / business / printlike) */
-body.theme-light  { background:#eef1f5; color:#212529; }
-body.theme-business { background:#e3edf7; color:#111827; }
-body.theme-printlike { background:#ffffff; color:#000000; }
-
 /* ============================================
       PRINT MODE
 ============================================ */
@@ -105,286 +98,162 @@ body.theme-printlike { background:#ffffff; color:#000000; }
     .chart-container { display:none !important; }
 }
 </style>
-</head>
-
-<body class="py-4 theme-light">
-
+<meta content="Free EMI calculator for Bangladesh: generate full loan amortization schedule with Declining Balance (reducing) EMI and Equal Principal methods. Compare total interest, monthly breakdown, and print/download." name="description"/><link href="https://ablatif.com/emi/loan_emi_full_X.html" rel="canonical"/><style>
+/* ===== AdSense-friendly Floating Topbar (Matched Width) ===== */
+:root{ --maxw:1100px; --card:#fff; --muted:#64748b; --ink:#0f172a; --bd:rgba(0,0,0,.10); }
+body{ margin:0; }
+.page-wrap{ max-width:var(--maxw); margin:0 auto; padding:0 14px; }
+.topbar{
+  position:sticky; top:10px; z-index:9999;
+  background:var(--card);
+  border:1px solid var(--bd);
+  box-shadow:0 6px 18px rgba(0,0,0,.06);
+  border-radius:16px;
+  padding:12px 14px;
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+}
+.brand h1{ margin:0; font-size:16px; font-weight:900; color:var(--ink); }
+.brand p{ margin:0; font-size:12px; color:var(--muted); }
+.top-actions{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+.tbtn{
+  border:1px solid var(--bd);
+  background:#fff;
+  padding:10px 12px;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:800;
+  font-size:13px;
+  color:var(--ink);
+  text-decoration:none;
+}
+.tbtn.primary{ background:var(--ink); color:#fff; border-color:var(--ink); }
+.tbtn:hover{ opacity:.92; }
+@media(max-width:700px){
+  .topbar{ top:6px; }
+  .brand p{ display:none; }
+}
+/* footer trust links */
+.footer-trust{
+  max-width:var(--maxw);
+  margin:26px auto 18px;
+  padding:16px 14px;
+  border-top:1px solid rgba(0,0,0,.08);
+  color:var(--muted);
+  font-size:13px;
+  text-align:center;
+}
+.footer-trust a{ color:inherit; text-decoration:underline; font-weight:700; }
+</style></head>
+<body class="py-4">
+<div aria-label="Top navigation" class="topbar" role="navigation">
+<div class="brand">
+<h1 data-i18n="brand_title">Loan EMI Calculator</h1>
+<p data-i18n="brand_sub">বাংলাদেশ • Declining Balance বনাম Equal Principal</p>
+</div>
+<div class="top-actions">
+<a class="tbtn" data-i18n="btn_main" href="/">← মেইন সাইট</a>
+<a class="tbtn" data-i18n="btn_blog" href="/blog/">ব্লগ</a>
+<button class="tbtn primary" id="langToggleBtn" type="button">EN</button>
+</div>
+</div>
+<div class="page-wrap">
 <div class="container">
 <!-- ============================================
-      LANGUAGE + THEME CONTROL
+      LANGUAGE + THEME
 ============================================ -->
-<div id="topControls" class="d-flex justify-content-between align-items-center mb-3">
-
-    <h1 id="mainTitle" class="fw-bold">ঋণ ইএমআই ও যোগ্যতা ক্যালকুলেটর</h1>
-
-    <div class="d-flex gap-3">
-
-        <!-- Language -->
-        <div class="btn-group">
-            <button id="lang-bn" class="btn btn-sm btn-outline-primary active">বাংলা</button>
-            <button id="lang-en" class="btn btn-sm btn-outline-primary">English</button>
-        </div>
-
-        <!-- Theme -->
-        <div class="btn-group">
-            <button id="theme-light" class="btn btn-sm btn-outline-secondary">🌕</button>
-            <button id="theme-business" class="btn btn-sm btn-outline-secondary">📊</button>
-            <button id="theme-print" class="btn btn-sm btn-outline-secondary">📰</button>
-        </div>
-    </div>
+<div class="d-flex justify-content-between align-items-center mb-3" id="topControls">
+<h1 class="fw-bold" id="mainTitle">ঋণ ইএমআই ও যোগ্যতা ক্যালকুলেটর</h1>
+<div class="d-flex gap-3">
+<div class="btn-group">
+<button class="btn btn-sm btn-outline-primary active" id="lang-bn">বাংলা</button>
+<button class="btn btn-sm btn-outline-primary" id="lang-en">English</button>
 </div>
+<div class="btn-group">
+<button class="btn btn-sm btn-outline-secondary" id="theme-light">🌕</button>
 
+<button class="btn btn-sm btn-outline-secondary" id="theme-print">📰</button>
+</div>
+</div>
+</div>
 <!-- ============================================
-      INPUT SECTION (Bilingual Dynamic Labels)
+      INPUT SECTION
 ============================================ -->
-<div id="inputSection" class="card p-4 mb-4">
-
-    <h3 id="inputTitle" class="fw-bold">ঋণের তথ্য</h3>
-
-    <div class="row g-3">
-
-        <!-- Borrower Name -->
-        <div class="col-md-6">
-            <label id="lblBorrower" class="fw-bold">ঋণগ্রহীতার নাম</label>
-            <input id="name" class="form-control" placeholder="আপনার নাম লিখুন">
-        </div>
-
-        <!-- Loan Amount -->
-        <div class="col-md-6">
-            <label id="lblAmount" class="fw-bold">ঋণের পরিমাণ</label>
-            <input id="loan" class="form-control" placeholder="100000">
-        </div>
-
-        <!-- Duration -->
-        <div class="col-md-4">
-            <label id="lblMonths" class="fw-bold">মেয়াদ (মাস)</label>
-            <input id="months" class="form-control" placeholder="60">
-        </div>
-
-        <!-- Rate -->
-        <div class="col-md-4">
-            <label id="lblRate" class="fw-bold">সুদের হার (%)</label>
-            <input id="rate" class="form-control" placeholder="13.40">
-        </div>
-
-        <!-- Salary -->
-        <div class="col-md-4">
-            <label id="lblSalary" class="fw-bold">মাসিক নেট বেতন</label>
-            <input id="salary" class="form-control" placeholder="0">
-        </div>
-
-        <!-- Salary Percent -->
-        <div class="col-md-4">
-            <label id="lblSalaryPercent" class="fw-bold">বেতনের কত শতাংশ বিবেচ্য?</label>
-            <input id="salaryPercent" class="form-control" placeholder="80">
-        </div>
-
-    </div>
-
-    <div class="text-center mt-4">
-        <button onclick="calculateAll()" class="btn btn-primary btn-lg px-5">
-            হিসাব করুন
-        </button>
-    </div>
+<div class="card p-4 mb-4" id="inputSection">
+<h3 class="fw-bold">ঋণের তথ্য</h3>
+<div class="row g-3">
+<div class="col-md-6">
+<label class="fw-bold">ঋণগ্রহীতার নাম</label>
+<input class="form-control" id="name" placeholder="আপনার নাম লিখুন"/>
 </div>
-
+<div class="col-md-6">
+<label class="fw-bold">ঋণের পরিমাণ</label>
+<input class="form-control" id="loan" placeholder="100000"/>
+</div>
+<div class="col-md-4">
+<label class="fw-bold">মেয়াদ (মাস)</label>
+<input class="form-control" id="months" placeholder="60"/>
+</div>
+<div class="col-md-4">
+<label class="fw-bold">সুদের হার (%)</label>
+<input class="form-control" id="rate" placeholder="13.40"/>
+</div>
+<div class="col-md-4">
+<label class="fw-bold">মাসিক নেট বেতন</label>
+<input class="form-control" id="salary" placeholder="0"/>
+</div>
+<div class="col-md-4">
+<label class="fw-bold">বেতনের কত শতাংশ বিবেচ্য?</label>
+<input class="form-control" id="salaryPercent" placeholder="80"/>
+</div>
+</div>
+<div class="text-center mt-4">
+<button class="btn btn-primary btn-lg px-5" onclick="calculateAll()">
+            ইএমআই হিসাব করুন
+        </button>
+</div>
+</div>
 <!-- ============================================
       EMI TABS
 ============================================ -->
 <ul class="nav nav-tabs">
-    <li class="nav-item">
-        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-ep">
-            সমান মূলধন ইএমআই
-        </button>
-    </li>
-    <li class="nav-item">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-db">
-            ডিক্লাইনিং ইএমআই
-        </button>
-    </li>
+<li class="nav-item">
+<button class="nav-link active" data-bs-target="#tab-ep" data-bs-toggle="tab">সমান মূলধন ইএমআই</button>
+</li>
+<li class="nav-item">
+<button class="nav-link" data-bs-target="#tab-db" data-bs-toggle="tab">ডিক্লাইনিং ইএমআই</button>
+</li>
 </ul>
-
 <div class="tab-content mt-3">
-
 <!-- ===================================================
       EQUAL PRINCIPAL EMI TAB
 ==================================================== -->
 <div class="tab-pane fade show active" id="tab-ep">
-
-    <!-- Summary + QR will be inserted here -->
-    <div id="results-ep"></div>
-
-    <!-- Chart -->
-    <div id="chartContainerEP" class="card p-3 chart-container" style="display:none;">
-        <canvas id="emiChartEP"></canvas>
-    </div>
-
-    <!-- EMI Table -->
-    <div id="schedule-ep"></div>
+<div id="results-ep"></div>
+<div class="card p-3 chart-container" id="chartContainerEP" style="display:none;">
+<canvas id="emiChartEP"></canvas>
 </div>
-
+<div id="schedule-ep"></div>
+</div>
 <!-- ===================================================
       DECLINING EMI TAB
 ==================================================== -->
 <div class="tab-pane fade" id="tab-db">
-
-    <!-- Summary -->
-    <div id="results-db"></div>
-
-    <!-- EMI Table -->
-    <div id="schedule-db"></div>
+<div id="results-db"></div>
+<div id="schedule-db"></div>
 </div>
-
 </div>
-
-<!-- ============================================
-       FOOTER & PRINT BUTTON
-============================================ -->
+<!-- Footer -->
 <footer>© ablatif.com | latifshahin@gmail.com</footer>
-
-<div id="actions" class="text-center mt-3" style="display:none;">
-    <button onclick="window.print()" class="btn btn-secondary">PDF / Print</button>
+<!-- Print Button -->
+<div class="text-center mt-3" id="actions" style="display:none;">
+<button class="btn btn-secondary" onclick="window.print()">PDF / Print</button>
 </div>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-/* ===========================================================
-    LANGUAGE DICTIONARY (Labels, placeholders, headings)
-=========================================================== */
-const lang = {
-    bn: {
-        title: "ঋণ ইএমআই ও যোগ্যতা ক্যালকুলেটর",
-        inputTitle: "ঋণের তথ্য",
-
-        borrower: "ঋণগ্রহীতার নাম",
-        amount: "ঋণের পরিমাণ",
-        months: "মেয়াদ (মাস)",
-        rate: "সুদের হার (%)",
-        salary: "মাসিক নেট বেতন",
-        salaryPercent: "বেতনের কত শতাংশ বিবেচ্য?",
-        
-        ph_borrower: "আপনার নাম লিখুন",
-        ph_amount: "100000",
-        ph_months: "60",
-        ph_rate: "13.40",
-        ph_salary: "0",
-        ph_salaryPercent: "80",
-
-        ep_title: amount => `ঋণের সারাংশ (সমান মূলধন) – ${amount} টাকা ঋণের জন্য`,
-        db_title: amount => `ঋণের সারাংশ (ডিক্লাইনিং ইএমআই) – ${amount} টাকা ঋণের জন্য`,
-
-        ep_table_title: "সমান মূলধন - বিস্তারিত ইএমআই তালিকা",
-        db_table_title: "ডিক্লাইনিং ইএমআই - বিস্তারিত ইএমআই তালিকা",
-
-        btn_calculate: "হিসাব করুন",
-
-        table_ep: ["মাস","শুরুর মূলধন","মূলধন","শেষ মূলধন","সুদ","মাসিক সুদ","সমষ্টিগত সুদ","অবশিষ্ট"],
-        table_db: ["মাস","শুরুর মূলধন","ইএমআই","সুদ","মূলধন","শেষ"],
-
-        risk_very_high: pct => 
-            `⚠ <b>অত্যন্ত ঝুঁকিপূর্ণ!</b> কিস্তির পরে মাত্র <b>${pct}%</b> বেতন অবশিষ্ট থাকে।`,
-        risk_high: pct => 
-            `⚠ <b>ঝুঁকি রয়েছে!</b> হাতে থাকে মাত্র <b>${pct}%</b> — মাসিক ব্যয় কঠিন হতে পারে।`,
-        risk_medium: pct =>
-            `✔ <b>গ্রহণযোগ্য</b> — হাতে থাকে <b>${pct}%</b> তবে সঞ্চয় কম হবে।`,
-        risk_low: pct =>
-            `✔ <b>নিরাপদ সিদ্ধান্ত!</b> কিস্তির পর হাতে থাকে <b>${pct}%</b> বেতন।`
-    },
-
-    en: {
-        title: "Loan EMI & Eligibility Calculator",
-        inputTitle: "Loan Information",
-
-        borrower: "Borrower Name",
-        amount: "Loan Amount",
-        months: "Duration (Months)",
-        rate: "Rate of Interest (%)",
-        salary: "Monthly Net Salary",
-        salaryPercent: "What % of Salary Allowed?",
-        
-        ph_borrower: "Enter name",
-        ph_amount: "100000",
-        ph_months: "60",
-        ph_rate: "13.40",
-        ph_salary: "0",
-        ph_salaryPercent: "80",
-
-        ep_title: amount => `Loan Summary (Equal Principal) – For ${amount} Tk`,
-        db_title: amount => `Loan Summary (Declining EMI) – For ${amount} Tk`,
-
-        ep_table_title: "Equal Principal – Detailed EMI Schedule",
-        db_table_title: "Declining EMI – Schedule",
-
-        btn_calculate: "Calculate",
-
-        table_ep: ["Month","Opening","Principal","Closing","Interest","Monthly Interest","Cumulative","Balance"],
-        table_db: ["Month","Opening","EMI","Interest","Principal","Closing"],
-
-        risk_very_high: pct =>
-            `⚠ <b>Very High Risk!</b> Only <b>${pct}%</b> income remains.`,
-        risk_high: pct =>
-            `⚠ <b>Risky!</b> Only <b>${pct}%</b> income remains after EMI.`,
-        risk_medium: pct =>
-            `✔ <b>Acceptable</b> — <b>${pct}%</b> income remains.`,
-        risk_low: pct =>
-            `✔ <b>Safe!</b> A healthy <b>${pct}%</b> income remains.`
-    }
-};
-
-/* ===========================================================
-      AUTO LANGUAGE DETECT + USER PREFERENCE
-=========================================================== */
-let currentLang = localStorage.getItem("emiLang");
-
-if (!currentLang) {
-    const browserLang = navigator.language.startsWith("bn") ? "bn" : "en";
-    currentLang = browserLang;
-    localStorage.setItem("emiLang", currentLang);
-}
-
-/* ===========================================================
-      APPLY LANGUAGE TO UI
-=========================================================== */
-function applyLang() {
-
-    const L = lang[currentLang];
-
-    document.getElementById("mainTitle").innerText = L.title;
-    document.getElementById("inputTitle").innerText = L.inputTitle;
-
-    document.getElementById("lblBorrower").innerText = L.borrower;
-    document.getElementById("lblAmount").innerText = L.amount;
-    document.getElementById("lblMonths").innerText = L.months;
-    document.getElementById("lblRate").innerText = L.rate;
-    document.getElementById("lblSalary").innerText = L.salary;
-    document.getElementById("lblSalaryPercent").innerText = L.salaryPercent;
-
-    document.getElementById("name").placeholder = L.ph_borrower;
-    document.getElementById("loan").placeholder = L.ph_amount;
-    document.getElementById("months").placeholder = L.ph_months;
-    document.getElementById("rate").placeholder = L.ph_rate;
-    document.getElementById("salary").placeholder = L.ph_salary;
-    document.getElementById("salaryPercent").placeholder = L.ph_salaryPercent;
-
-    document.querySelector("#inputSection button").innerText = L.btn_calculate;
-}
-
-/* Apply it once page loads */
-applyLang();
-
-/* Language buttons */
-document.getElementById("lang-bn").onclick = () => {
-    currentLang = "bn";
-    localStorage.setItem("emiLang","bn");
-    applyLang();
-};
-document.getElementById("lang-en").onclick = () => {
-    currentLang = "en";
-    localStorage.setItem("emiLang","en");
-    applyLang();
-};
-
-/* ===========================================================
-      HELPER FUNCTIONS
-=========================================================== */
+/* ===================================================
+      UTIL
+==================================================== */
 function num(id){
     let v = document.getElementById(id).value.trim()
             || document.getElementById(id).placeholder.trim();
@@ -394,33 +263,59 @@ function format(n){
     return Number(n).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
 }
 
-/* Theme Switcher */
-document.getElementById("theme-light").onclick = ()=> document.body.className="theme-light";
-document.getElementById("theme-business").onclick = ()=> document.body.className="theme-business";
-document.getElementById("theme-print").onclick = ()=> document.body.className="theme-printlike";
-
-/* ===========================================================
-      SMART RISK MESSAGE
-=========================================================== */
-function smartMessage(salaryPortion, monthlyInstall){
-
-    const L = lang[currentLang];
-    let remaining = salaryPortion - monthlyInstall;
-    let pct = ((remaining / salaryPortion) * 100).toFixed(1);
-
-    if (pct < 5)  return `<div class="alert-custom">${L.risk_very_high(pct)}</div>`;
-    if (pct < 15) return `<div class="alert-custom">${L.risk_high(pct)}</div>`;
-    if (pct < 30) return `<div class="alert-success-custom">${L.risk_medium(pct)}</div>`;
-    
-    return `<div class="alert-success-custom">${L.risk_low(pct)}</div>`;
-}
-
-/* ===========================================================
-      MAIN CALCULATION WRAPPER
-=========================================================== */
+let currentLang="bn";
 let chartEP = null;
 
-function calculateAll() {
+/* LANGUAGE SWITCH */
+document.getElementById("lang-bn").onclick = () => { currentLang="bn"; applyLang(); };
+document.getElementById("lang-en").onclick = () => { currentLang="en"; applyLang(); };
+
+function applyLang(){
+    document.getElementById("mainTitle").innerText =
+        currentLang==="bn" ? "ঋণ ইএমআই ও যোগ্যতা ক্যালকুলেটর"
+                           : "Loan EMI & Eligibility Calculator";
+}
+
+/* THEME */
+document.getElementById("theme-light").onclick=()=>document.body.className="theme-light";
+document.getElementById("theme-business").onclick=()=>document.body.className="theme-business";
+document.getElementById("theme-print").onclick=()=>document.body.className="theme-printlike";
+
+/* ===================================================
+      SMART MESSAGE
+==================================================== */
+function smartMessage(salaryPortion, monthlyInstall){
+    let remaining = salaryPortion - monthlyInstall;
+    let pct = (remaining / salaryPortion) * 100;
+
+    if(pct < 5)
+        return `<div class="alert-custom">
+               ⚠ <b>অত্যন্ত ঝুঁকিপূর্ণ!</b><br>
+               কিস্তি পর বেতনের মাত্র <b>${pct.toFixed(1)}%</b> অবশিষ্ট থাকে — জীবনযাত্রা ব্যাহত হতে পারে।
+            </div>`;
+
+    if(pct < 15)
+        return `<div class="alert-custom">
+               ⚠ <b>ঝুঁকি রয়েছে!</b><br>
+               হাতে থাকে <b>${pct.toFixed(1)}%</b> — মাসিক খরচ চাপ সৃষ্টি করতে পারে।
+            </div>`;
+
+    if(pct < 30)
+        return `<div class="alert-success-custom">
+               ✔ <b>গ্রহণযোগ্য</b><br>
+               হাতে থাকে <b>${pct.toFixed(1)}%</b> — তবে সঞ্চয় কম হতে পারে।
+            </div>`;
+
+    return `<div class="alert-success-custom">
+               ✔ <b>নিরাপদ সিদ্ধান্ত!</b><br>
+               কিস্তি পর বেতনের <b>${pct.toFixed(1)}%</b> অবশিষ্ট থাকে — স্থিতিশীল।
+            </div>`;
+}
+
+/* ===================================================
+      MAIN CALCULATOR
+==================================================== */
+function calculateAll(){
 
     let name = document.getElementById("name").value;
     let loan = num("loan");
@@ -432,55 +327,55 @@ function calculateAll() {
     let salaryPortion = salary * (salaryPercent/100);
     let r = (rate/12)*1.016666667;
 
-    calcEP(name, loan, months, salaryPortion, salaryPercent, r);
-    calcDB(name, loan, months, salaryPortion, salaryPercent, r);
+    calcEP(name,loan,months,salaryPortion,salaryPercent,r);
+    calcDB(name,loan,months,salaryPortion,salaryPercent,r);
 
-    document.getElementById("actions").style.display = "block";
+    document.getElementById("actions").style.display="block";
 }
 
-/* ===========================================================
+/* ===================================================
       EQUAL PRINCIPAL EMI
-=========================================================== */
-function calcEP(name, loan, months, salaryPortion, salaryPercent, r){
-
-    const L = lang[currentLang];
+==================================================== */
+function calcEP(name,loan,months,salaryPortion,salaryPercent,r){
 
     let principal = loan/months;
     let bal = loan;
-    let totalInterest = 0;
-    let data = [];
+    let totalInterest=0;
+    let data=[];
 
     for(let m=1;m<=months;m++){
-        let interest = bal * r;
+        let interest = bal*r;
         totalInterest += interest;
         let close = bal - principal;
-        data.push({month:m, open:bal, principal, close, interest});
+        data.push({month:m,open:bal,principal:principal,close:close,interest:interest});
         bal = close;
     }
 
     let monthlyInterest = totalInterest/months;
-    let monthlyInstall = principal + monthlyInterest;
+    let monthlyInstall = monthlyInterest + principal;
 
-    /* Summary */
-    let header = L.ep_title(format(loan));
+    let header = currentLang==="bn"
+      ? `ঋণের সারাংশ (সমান মূলধন) – ${format(loan)} টাকা ঋণের জন্য`
+      : `Loan Summary (Equal Principal) – For ${format(loan)} Tk`;
 
+    /* Summary with 3 columns */
     document.getElementById("results-ep").innerHTML = `
-    <div class="card p-4 mb-3">
+    <div class="card p-4 mb-3 summary-card">
 
         <h3 class="fw-bold">${header}</h3>
 
         <div class="row mt-3">
 
             <div class="col-md-4">
-                <p><strong>${L.borrower}:</strong> ${name || "N/A"}</p>
-                <p><strong>${L.salaryPercent}:</strong> ${format(salaryPortion)}</p>
-                <p><strong>Principal/month:</strong> ${format(principal)}</p>
+                <p><strong>ঋণগ্রহীতার নাম:</strong> ${name || "N/A"}</p>
+                <p><strong>বেতনের ${salaryPercent}%:</strong> ${format(salaryPortion)}</p>
+                <p><strong>মাসিক মূলধন:</strong> ${format(principal)}</p>
             </div>
 
             <div class="col-md-4">
-                <p><strong>Total Interest:</strong> ${format(totalInterest)}</p>
-                <p><strong>Interest/month:</strong> ${format(monthlyInterest)}</p>
-                <p><strong>Installment:</strong> ${format(monthlyInstall)}</p>
+                <p><strong>মোট সুদ:</strong> ${format(totalInterest)}</p>
+                <p><strong>মাসিক সুদ:</strong> ${format(monthlyInterest)}</p>
+                <p><strong>মাসিক কিস্তি:</strong> ${format(monthlyInstall)}</p>
             </div>
 
             <div class="col-md-4 text-center">
@@ -489,19 +384,22 @@ function calcEP(name, loan, months, salaryPortion, salaryPercent, r){
 
         </div>
 
-        <div class="mt-3">${ smartMessage(salaryPortion, monthlyInstall) }</div>
+        <div id="eligMsg" class="mt-3">
+            ${ smartMessage(salaryPortion, monthlyInstall) }
+        </div>
+
     </div>`;
 
-    /* QR Code */
+    /* QR */
     new QRCode(document.getElementById("qrEP"),{
         text:"https://www.ablatif.com/emi/loan_emi_full.html",
         width:120, height:120
     });
 
-    /* GRAPH */
-    const labels = data.map(r=>r.month);
-    const interestData = data.map(r=>r.interest);
-    const principalData = data.map(r=>r.principal);
+    /* Graph */
+    let labels=data.map(d=>d.month);
+    let interestData=data.map(d=>d.interest);
+    let principalData=data.map(d=>d.principal);
 
     if(chartEP) chartEP.destroy();
 
@@ -510,23 +408,23 @@ function calcEP(name, loan, months, salaryPortion, salaryPercent, r){
     chartEP = new Chart(document.getElementById("emiChartEP"),{
         type:"line",
         data:{
-            labels,
+            labels:labels,
             datasets:[
-                { label:(currentLang==="bn"?"সুদ":"Interest"), data:interestData, borderColor:"red", borderWidth:2, tension:0.25 },
-                { label:(currentLang==="bn"?"মূলধন":"Principal"), data:principalData, borderColor:"green", borderWidth:2, tension:0.25 }
+                {label:"সুদ", data:interestData, borderColor:"red", borderWidth:2, tension:0.25},
+                {label:"মূলধন", data:principalData, borderColor:"green", borderWidth:2, tension:0.25}
             ]
         },
         options:{ responsive:true, maintainAspectRatio:false }
     });
 
-    /* TABLE */
-    let rows = "", cumulative = 0;
+    /* EMI Schedule */
+    let rows=""; let cumulative=0;
 
     for(let d of data){
-        cumulative += d.interest;
-        let balInt = cumulative - (monthlyInterest * d.month);
+        cumulative+=d.interest;
+        let balInt = cumulative - monthlyInterest*d.month;
 
-        rows += `
+        rows+=`
         <tr>
             <td>${d.month}</td>
             <td>${format(d.open)}</td>
@@ -539,16 +437,25 @@ function calcEP(name, loan, months, salaryPortion, salaryPercent, r){
         </tr>`;
     }
 
-    let th = L.table_ep.map(c=>`<th>${c}</th>`).join("");
-
-    document.getElementById("schedule-ep").innerHTML = `
+    document.getElementById("schedule-ep").innerHTML=`
     <div class="card p-4 page-break">
 
-        <h4 class="fw-bold">${L.ep_table_title}</h4>
+        <h4 class="fw-bold">সমান মূলধন - বিস্তারিত ইএমআই তালিকা</h4>
 
         <div class="table-responsive mt-3">
             <table class="table table-bordered table-striped">
-                <thead><tr>${th}</tr></thead>
+                <thead>
+                    <tr>
+                        <th>মাস</th>
+                        <th>শুরুর মূলধন</th>
+                        <th>মূলধন</th>
+                        <th>শেষ মূলধন</th>
+                        <th>সুদ</th>
+                        <th>মাসিক সুদ</th>
+                        <th>সমষ্টিগত সুদ</th>
+                        <th>অবশিষ্ট</th>
+                    </tr>
+                </thead>
                 <tbody>${rows}</tbody>
             </table>
         </div>
@@ -556,21 +463,20 @@ function calcEP(name, loan, months, salaryPortion, salaryPercent, r){
     </div>`;
 }
 
-/* ===========================================================
+/* ===================================================
       DECLINING EMI
-=========================================================== */
+==================================================== */
 function calcDB(name,loan,months,salaryPortion,salaryPercent,r){
 
-    const L = lang[currentLang];
-
     let emi = loan*r*Math.pow(1+r,months)/(Math.pow(1+r,months)-1);
-    let bal=loan, rows="", totalInterest=0;
+
+    let bal=loan, totalInterest=0, rows="";
 
     for(let m=1;m<=months;m++){
-        let interest = bal*r;
-        let principal = emi - interest;
-        let close = bal - principal;
-        totalInterest += interest;
+        let interest=bal*r;
+        let principal=emi-interest;
+        let close=bal-principal;
+        totalInterest+=interest;
 
         rows+=`
         <tr>
@@ -582,45 +488,55 @@ function calcDB(name,loan,months,salaryPortion,salaryPercent,r){
             <td>${format(close)}</td>
         </tr>`;
 
-        bal = close;
+        bal=close;
     }
 
-    let header = L.db_title(format(loan));
+    let header=currentLang==="bn"
+      ? `ঋণের সারাংশ (ডিক্লাইনিং ইএমআই) – ${format(loan)} টাকা ঋণের জন্য`
+      : `Loan Summary (Declining EMI) – For ${format(loan)} Tk`;
 
     document.getElementById("results-db").innerHTML = `
     <div class="card p-4 mb-3">
+
         <h3 class="fw-bold">${header}</h3>
 
         <div class="row mt-3">
             <div class="col-md-4">
-                <p><strong>${L.borrower}:</strong> ${name}</p>
-                <p><strong>${L.salaryPercent}:</strong> ${format(salaryPortion)}</p>
-                <p><strong>${L.months}:</strong> ${months}</p>
+                <p><strong>নাম:</strong> ${name}</p>
+                <p><strong>বেতন অংশ (${salaryPercent}%):</strong> ${format(salaryPortion)}</p>
+                <p><strong>মেয়াদ:</strong> ${months} মাস</p>
             </div>
 
             <div class="col-md-4">
-                <p><strong>EMI:</strong> ${format(emi)}</p>
-                <p><strong>Total Interest:</strong> ${format(totalInterest)}</p>
+                <p><strong>ইএমআই:</strong> ${format(emi)}</p>
+                <p><strong>মোট সুদ:</strong> ${format(totalInterest)}</p>
             </div>
 
-            <div class="col-md-4"></div>
+            <div class="col-md-4 text-center">
+                <!-- QR for DB optional -->
+            </div>
         </div>
 
-        <div class="mt-3">${ smartMessage(salaryPortion, emi) }</div>
+        ${ smartMessage(salaryPortion, emi) }
 
     </div>`;
 
-    /* TABLE */
-    let th = L.table_db.map(c=>`<th>${c}</th>`).join("");
-
     document.getElementById("schedule-db").innerHTML = `
     <div class="card p-4 page-break">
-
-        <h4 class="fw-bold">${L.db_table_title}</h4>
+        <h4 class="fw-bold">ডিক্লাইনিং ইএমআই - তালিকা</h4>
 
         <div class="table-responsive mt-3">
-            <table class="table table-bordered">
-                <thead><tr>${th}</tr></thead>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>মাস</th>
+                        <th>শুরুর মূলধন</th>
+                        <th>ইএমআই</th>
+                        <th>সুদ</th>
+                        <th>মূলধন</th>
+                        <th>শেষ</th>
+                    </tr>
+                </thead>
                 <tbody>${rows}</tbody>
             </table>
         </div>
@@ -629,3 +545,67 @@ function calcDB(name,loan,months,salaryPortion,salaryPercent,r){
 }
 
 </script>
+</div></div>
+<div class="footer-trust">
+<a href="/privacy-policy.html">Privacy Policy</a> |
+  <a href="/terms.html">Terms</a> |
+  <a href="/cookie-policy.html">Cookie Policy</a> |
+  <a href="/disclaimer.html">Disclaimer</a> |
+  <a href="/contact.html">Contact</a>
+<div style="margin-top:8px;">© 2026 Abdul Latif — All Rights Reserved.</div>
+</div>
+<script>
+(function(){
+  const LANG_KEY = "emi_lang_v1";
+  let lang = localStorage.getItem(LANG_KEY) || "bn";
+
+  const dict = {
+    bn: {
+      brand_title: "Loan EMI Calculator",
+      brand_sub: "বাংলাদেশ • Declining Balance বনাম Equal Principal",
+      btn_main: "← মেইন সাইট",
+      btn_blog: "ব্লগ"
+    },
+    en: {
+      brand_title: "Loan EMI Calculator",
+      brand_sub: "Bangladesh • Declining Balance vs Equal Principal",
+      btn_main: "← Main Site",
+      btn_blog: "Blog"
+    }
+  };
+
+  function applyTopbar(){
+    document.documentElement.lang = (lang === "bn" ? "bn" : "en");
+    document.querySelectorAll("[data-i18n]").forEach(el=>{
+      const k = el.getAttribute("data-i18n");
+      if(dict[lang] && dict[lang][k]) el.textContent = dict[lang][k];
+    });
+    const tbtn = document.getElementById("langToggleBtn");
+    if(tbtn) tbtn.textContent = (lang === "bn") ? "EN" : "BN";
+  }
+
+  function applyPageLabels(){
+    // If your page already has a language function, call it
+    if(typeof window.setLang === "function"){
+      try{ window.setLang(lang); }catch(e){}
+    }
+  }
+
+  function setLang(newLang){
+    lang = newLang;
+    localStorage.setItem(LANG_KEY, lang);
+    applyTopbar();
+    applyPageLabels();
+  }
+
+  document.addEventListener("click", function(e){
+    if(e.target && e.target.id === "langToggleBtn"){
+      setLang(lang === "bn" ? "en" : "bn");
+    }
+  });
+
+  // Default Bangla
+  setLang(lang);
+})();
+</script></body>
+</html>

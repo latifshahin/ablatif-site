@@ -1,50 +1,18 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
 
-  <title>EMI Guide (Agrani Bank) | Equal Principal vs Declining EMI</title>
+  <title>EMI Guide (Bangladesh) | Equal Principal vs Declining EMI (Agrani Bank)</title>
 
   <meta name="description" content="Agrani Bank সহ বাংলাদেশের সকল ব্যাংক গ্রাহকদের জন্য EMI গাইড। EMI কী, ফর্মুলা, Equal Principal বনাম Declining EMI তুলনা, Total Interest, 1st/Last month difference এবং cost-effective সিদ্ধান্ত।" />
   <meta name="robots" content="index, follow">
 
-  <!-- ✅ Canonical -->
-  <link rel="canonical" href="https://ablatif.com/emi-calculator.html">
-
-  <!-- ✅ Open Graph -->
-  <meta property="og:title" content="EMI Guide (Agrani Bank) | Equal Principal vs Declining EMI">
-  <meta property="og:description" content="বাংলাদেশের সকল ব্যাংক গ্রাহকদের জন্য EMI গাইড। Equal Principal বনাম Declining EMI তুলনা এবং Total Interest কিভাবে কমাবেন।">
-  <meta property="og:url" content="https://ablatif.com/emi-calculator.html">
-  <meta property="og:type" content="website">
-
-  <!-- ✅ Twitter Card -->
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="EMI Guide (Agrani Bank) | Equal Principal vs Declining EMI">
-  <meta name="twitter:description" content="EMI কী, ফর্মুলা, Equal Principal বনাম Declining EMI তুলনা এবং Total Interest সম্পর্কে বিস্তারিত গাইড।">
-
-  <!-- ✅ Schema.org -->
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"WebPage",
-    "name":"EMI Guide (Agrani Bank) | Equal Principal vs Declining EMI",
-    "url":"https://ablatif.com/emi-calculator.html",
-    "description":"বাংলাদেশের সকল ব্যাংক গ্রাহকদের জন্য EMI গাইড। EMI কী, ফর্মুলা, Equal Principal বনাম Declining EMI তুলনা এবং Total Interest।",
-    "publisher":{
-      "@type":"Person",
-      "name":"Abdul Latif",
-      "url":"https://ablatif.com/"
-    }
-  }
-  </script>
-
-  <!-- CSS -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
 
-  <!-- ✅ AdSense Loader (ONLY ONCE) -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3608304969182163"
     crossorigin="anonymous"></script>
 
@@ -62,45 +30,11 @@
       line-height:1.85;
     }
     a{text-decoration:none;}
-
-    /* ✅ Skip link (AdSense-friendly accessibility) */
-    .skip-link{
-      position:absolute;
-      left:-999px;
-      top:auto;
-      width:1px;
-      height:1px;
-      overflow:hidden;
-    }
-    .skip-link:focus{
-      left:10px;
-      top:10px;
-      width:auto;
-      height:auto;
-      padding:10px 14px;
-      border-radius:12px;
-      background:#111;
-      color:#fff;
-      z-index:9999;
-    }
-
     .navbar{
       background:var(--bg);
       box-shadow:0 1px 10px rgba(0,0,0,0.06);
       padding:12px 0;border:none;
     }
-
-    /* ✅ Navbar flex (no float) */
-    .nav-right{
-      display:flex;
-      gap:16px;
-      align-items:center;
-      justify-content:flex-end;
-      margin:15px 0;
-      padding:0;
-      list-style:none;
-    }
-
     .hero{
       padding:55px 12px 35px;
       text-align:center;
@@ -157,30 +91,29 @@
       background:#fff;border:1px dashed var(--border);
       padding:12px 14px;border-radius:12px;overflow-x:auto;
     }
+    
+    .lang-active{
+      background: var(--accent) !important;
+      color:#fff !important;
+      border-color: var(--accent) !important;
+    }
 
     footer{
-      padding:30px 0 20px;
-      border-top:1px solid #e5e5e5;
-      text-align:center;
-      color:var(--sub);
-      margin-top:40px;
-      font-size:14px;
+      padding:30px 0 20px;border-top:1px solid #e5e5e5;
+      text-align:center;color:var(--sub);margin-top:40px;font-size:14px;
     }
   </style>
 </head>
 
 <body>
 
-<a href="#mainContent" class="skip-link">Skip to content</a>
-
 <!-- NAV -->
 <nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container" style="display:flex; align-items:center; justify-content:space-between;">
+  <div class="container">
     <div class="navbar-header">
       <a class="navbar-brand" href="/" style="font-weight:900;">AL</a>
     </div>
-
-    <ul class="nav-right">
+    <ul class="nav navbar-nav navbar-right" style="display:flex; gap:16px; align-items:center; float:right; margin:15px 0;">
       <li><a href="/blog/">Blog</a></li>
       <li><a href="/#tools">Tools</a></li>
       <li><a href="/privacy-policy.html">Privacy</a></li>
@@ -205,20 +138,20 @@
     </div>
 
     <div style="margin-top:14px;">
-      <button class="btn btn-outline-dark btn-sm" onclick="setLang('bn')" type="button">বাংলা</button>
-      <button class="btn btn-outline-dark btn-sm" onclick="setLang('en')" type="button">English</button>
+      <button id="langBn" class="btn btn-outline-dark btn-sm" type="button" onclick="setLang('bn')">বাংলা</button>
+      <button id="langEn" class="btn btn-outline-dark btn-sm" type="button" onclick="setLang('en')">English</button>
     </div>
 
     <div style="margin-top:14px;">
-      <a href="/emi/loan_emi_full.html" class="btn-modern" target="_blank" rel="noopener" id="btnToolTop"></a>
-      <a href="/tools/Loan_Eligibility.html" class="btn-outline" target="_blank" rel="noopener" id="btnEligTop"></a>
+      <a href="/emi/loan_emi_full.html" class="btn-modern" target="_blank" id="btnToolTop"></a>
+      <a href="/tools/Loan_Eligibility.html" class="btn-outline" target="_blank" id="btnEligTop"></a>
     </div>
 
     <div class="small" style="margin-top:10px;" id="heroNote"></div>
   </div>
 </section>
 
-<main id="mainContent" class="wrap">
+<div class="wrap">
 
   <!-- CARD 1 -->
   <div class="card-box">
@@ -266,21 +199,21 @@
     <div class="row g-3 mt-2">
       <div class="col-md-4">
         <label class="fw-bold" id="lblPrincipal"></label>
-        <input id="pInput" class="form-control" value="100000">
+        <input id="pInput" type="number" class="form-control" value="100000" step="1000" min="0">
       </div>
       <div class="col-md-4">
         <label class="fw-bold" id="lblRate"></label>
-        <input id="rInput" class="form-control" value="13.40">
+        <input id="rInput" type="number" class="form-control" value="13.40" step="0.01" min="0">
       </div>
       <div class="col-md-4">
         <label class="fw-bold" id="lblMonths"></label>
-        <input id="nInput" class="form-control" value="60">
+        <input id="nInput" type="number" class="form-control" value="60" step="1" min="1">
       </div>
     </div>
 
     <div style="margin-top:14px;">
-      <button class="btn-modern" onclick="updateComparison()" id="btnUpdate" type="button"></button>
-      <button class="btn-outline" onclick="resetComparison()" id="btnReset" type="button"></button>
+      <button class="btn-modern" onclick="updateComparison()" id="btnUpdate"></button>
+      <button class="btn-outline" onclick="resetComparison()" id="btnReset"></button>
     </div>
 
     <div class="table-responsive mt-4">
@@ -331,7 +264,7 @@
     <div class="small" style="margin-top:10px;" id="card4Note"></div>
 
     <div style="margin-top:16px; text-align:center;">
-      <a href="/emi/loan_emi_full.html" class="btn-modern" target="_blank" rel="noopener" id="btnToolBottom"></a>
+      <a href="/emi/loan_emi_full.html" class="btn-modern" target="_blank" id="btnToolBottom"></a>
     </div>
   </div>
 
@@ -350,20 +283,13 @@
     </div>
   </div>
 
-</main>
+</div>
 
 <footer>
   <a href="/privacy-policy.html">Privacy Policy</a> |
-  <a href="/terms.html">Terms</a> |
-  <a href="/cookie-policy.html">Cookie Policy</a> |
   <a href="/disclaimer.html">Disclaimer</a> |
   <a href="/contact.html">Contact</a> |
   <a href="/blog/">Blog</a>
-
-  <div style="margin-top:10px;" class="small">
-    নোট: এটি শিক্ষামূলক উদ্দেশ্যে। ব্যাংকের ফি/চার্জ/রাউন্ডিং অনুযায়ী ফল ভিন্ন হতে পারে।
-  </div>
-
   <div style="margin-top:8px;">© 2025 Abdul Latif — All Rights Reserved.</div>
 </footer>
 
@@ -477,6 +403,14 @@
   }
 
   function setLang(lang){
+    // Toggle active button UI
+    const bnBtn = document.getElementById("langBn");
+    const enBtn = document.getElementById("langEn");
+    if(bnBtn && enBtn){
+      bnBtn.classList.toggle("lang-active", lang === "bn");
+      enBtn.classList.toggle("lang-active", lang === "en");
+    }
+
     currentLang = lang;
     localStorage.setItem("emiLandingLang", lang);
     document.documentElement.lang = lang;
@@ -541,9 +475,10 @@
     renderList("card5LeftList", L.card5LeftList);
     renderList("card5RightList", L.card5RightList);
 
-    updateComparison();
+    updateComparison(); // refresh currency style
   }
 
+  /* CALC FUNCTIONS */
   function toNum(v){ return parseFloat(String(v).replace(/,/g,'')) || 0; }
   function fmt(n){
     const amount = Number(n).toLocaleString("en-US",{minimumFractionDigits:2, maximumFractionDigits:2});
