@@ -1,19 +1,51 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X4YNW0E3XG"></script>
-  <script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bank Letter Generator (Bangladesh) | Application / Request Letter PDF</title>
+<meta name="description" content="Generate professional bank letters in Bangla or English for Bangladesh: application, account, loan, charge correction, statement request. Download/print instantly.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://ablatif.com/tools/bank-letter-v3.html">
+
+<meta property="og:title" content="Bank Letter Generator (Bangladesh) | ablatif.com">
+<meta property="og:description" content="Create bank application and request letters quickly — ready to print and submit to any bank in Bangladesh.">
+<meta property="og:url" content="https://ablatif.com/tools/bank-letter-v3.html">
+<meta property="og:type" content="website">
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebPage",
+  "name":"Bank Letter Generator (Bangladesh)",
+  "url":"https://ablatif.com/tools/bank-letter-v3.html",
+  "description":"Generate professional bank letters (Bangla/English) for common banking requests and applications in Bangladesh.",
+  "publisher":{"@type":"Person","name":"Abdul Latif","url":"https://ablatif.com/"},
+  "inLanguage":["bn","en"]
+}
+</script>
+
+<!-- Google Analytics (ONLY ONCE) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X4YNW0E3XG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-X4YNW0E3XG');
+</script>
+
+<!-- AdSense Loader (ONLY ONCE) -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3608304969182163"
+  crossorigin="anonymous"></script>
+
+<meta charset="utf-8"/><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-X4YNW0E3XG"></script><script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
   gtag('config', 'G-X4YNW0E3XG');
-  </script>
-  <title>Bank Letter Generator v3.0</title>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3608304969182163"
-     crossorigin="anonymous"></script>
-  <style>
+  </script><script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3608304969182163"></script><style>
     body {
       font-family: "Noto Sans Bengali", Arial, sans-serif;
       background: #eef0f4;
@@ -225,363 +257,687 @@
         min-height: 297mm;
       }
     }
-  </style>
+  </style><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
 
-  <!-- PDF libraries -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    body {
+      font-family: "Noto Sans Bengali", Arial, sans-serif;
+      background: #eef0f4;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 24px;
+    }
+
+    /* Template cards - auto-fit grid + colored header */
+    .template-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+    .template-card {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 0;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.12);
+      cursor: pointer;
+      border: 2px solid transparent;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+    .template-card-header {
+      background: linear-gradient(90deg, #007bff, #00a6ff);
+      color: #fff;
+      padding: 6px 10px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .template-card-body {
+      padding: 8px 10px 10px;
+    }
+    .template-title {
+      font-weight: bold;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+    .template-desc {
+      font-size: 12px;
+      color: #555;
+    }
+    .template-card.active {
+      border-color: #007bff;
+      box-shadow: 0 3px 10px rgba(0,123,255,0.25);
+      transform: translateY(-2px);
+    }
+    .template-card:hover {
+      box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+      transform: translateY(-1px);
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      margin-bottom: 10px;
+      border-bottom: 2px solid #ccc;
+    }
+    .tab {
+      padding: 8px 16px;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      border-bottom: none;
+      background: #f4f4f4;
+      margin-right: 5px;
+      border-radius: 5px 5px 0 0;
+      font-weight: bold;
+      font-size: 13px;
+    }
+    .tab.active {
+      background: #ffffff;
+      border-bottom: 2px solid #ffffff;
+    }
+
+    .tab-content {
+      background: #ffffff;
+      padding: 15px 20px;
+      border: 1px solid #ccc;
+      border-radius: 0 5px 5px 5px;
+      margin-bottom: 20px;
+    }
+
+    /* Form & fields */
+    .form-group {
+      margin-bottom: 10px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 13px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 7px;
+      border-radius: 4px;
+      border: 1px solid #aaa;
+      font-size: 13px;
+      box-sizing: border-box;
+    }
+
+    /* Fade show/hide fields */
+    .field {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity 0.25s ease-in-out, max-height 0.25s ease-in-out;
+      margin-bottom: 0 !important;
+    }
+    .field.show {
+      opacity: 1;
+      max-height: 120px;
+      margin-bottom: 10px !important;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      background: #0084ff;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      color: white;
+      cursor: pointer;
+      margin-top: 8px;
+      margin-right: 8px;
+    }
+    .btn.secondary {
+      background: #555;
+    }
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    /* A4 page */
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      background: white;
+      padding: 2in 25mm 25mm 25mm; /* top 2 inch margin */
+      margin: 0 auto 20px auto;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      font-size: 14px;
+      line-height: 1.6;
+      box-sizing: border-box;
+    }
+
+    .no-print {
+      /* hidden on print */
+    }
+
+    /* English review table */
+    #englishReviewPanel {
+      margin-top: 15px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+    }
+    #englishReviewPanel h3 {
+      margin-top: 0;
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+    .review-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .review-table th,
+    .review-table td {
+      border: 1px solid #ddd;
+      padding: 4px 6px;
+      vertical-align: top;
+    }
+    .review-table th {
+      background: #f7f7f7;
+      text-align: left;
+    }
+    .review-table input[type="text"] {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 4px 6px;
+      font-size: 13px;
+    }
+
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .page {
+        box-shadow: none;
+        margin: 0;
+        width: 210mm;
+        min-height: 297mm;
+      }
+    }
+  
+
+/* ====== AdSense + SEO friendly layout helpers (non-invasive) ====== */
+:root{
+  --maxw:1100px;
+  --card:#fff;
+  --ink:#0f172a;
+  --muted:#64748b;
+  --bd:rgba(0,0,0,.10);
+}
+.page-wrap{max-width:var(--maxw); margin:0 auto; padding:0 14px;}
+/* Floating topbar */
+.topbar{
+  position:sticky; top:10px; z-index:9999;
+  background:var(--card);
+  border:1px solid var(--bd);
+  box-shadow:0 6px 18px rgba(0,0,0,.06);
+  border-radius:16px;
+  padding:12px 14px;
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  margin:14px auto 18px;
+}
+.brand h1{margin:0; font-size:16px; font-weight:900; color:var(--ink);}
+.brand p{margin:0; font-size:12px; color:var(--muted);}
+.top-actions{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
+.tbtn{
+  border:1px solid var(--bd);
+  background:#fff;
+  padding:10px 12px;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:800;
+  font-size:13px;
+  color:var(--ink);
+  text-decoration:none;
+}
+.tbtn.primary{background:var(--ink); color:#fff; border-color:var(--ink);}
+.tbtn:hover{opacity:.92;}
+/* Instruction accordion */
+.acc{
+  border:1px solid var(--bd);
+  border-radius:16px;
+  background:#fff;
+  margin:0 0 18px;
+  overflow:hidden;
+}
+.acc summary{
+  cursor:pointer;
+  padding:14px 16px;
+  font-weight:900;
+  color:var(--ink);
+  list-style:none;
+}
+.acc summary::-webkit-details-marker{display:none;}
+.acc summary:after{
+  content:"+";
+  float:right;
+  font-size:18px;
+  font-weight:900;
+  color:#2563eb;
+}
+.acc[open] summary:after{content:"–";}
+.acc-body{
+  padding:16px;
+  border-top:1px solid rgba(0,0,0,.08);
+  color:#334155;
+  font-size:14px;
+  line-height:1.8;
+}
+.acc-body ul{margin:0; padding-left:18px;}
+.acc-body li{margin:6px 0;}
+/* Ad placeholder (optional) */
+.ad-box{
+  margin: 0 0 18px;
+  background:#fff;
+  border:1px dashed rgba(0,0,0,.18);
+  border-radius:16px;
+  padding:10px 12px;
+  color:var(--muted);
+  font-size:13px;
+}
+/* Footer trust links */
+.footer-trust{
+  max-width:var(--maxw);
+  margin:26px auto 18px;
+  padding:16px 14px;
+  border-top:1px solid rgba(0,0,0,.08);
+  color:var(--muted);
+  font-size:13px;
+  text-align:center;
+}
+.footer-trust a{color:inherit; text-decoration:underline; font-weight:800;}
+@media(max-width:700px){
+  .topbar{top:6px;}
+  .brand p{display:none;}
+}
+
+</style>
+
 </head>
 <body>
-  <div class="container">
-    <!-- উপরের কন্ট্রোলগুলো প্রিন্টে থাকবে না -->
-    <h1 class="no-print">Bank Letter Generator</h1>
 
-    <!-- Template selection cards -->
-    <div class="template-cards no-print">
-      <div class="template-card active" data-template="cheque">
-        <div class="template-card-header">Cheque</div>
-        <div class="template-card-body">
-          <div class="template-title">Cheque Book Lost</div>
-          <div class="template-desc">চেক বই/পাতা হারানোর ক্ষেত্রে আবেদনপত্র।</div>
-        </div>
-      </div>
-
-      <div class="template-card" data-template="address">
-        <div class="template-card-header">Address</div>
-        <div class="template-card-body">
-          <div class="template-title">Address Change</div>
-          <div class="template-desc">স্থায়ী / বর্তমান ঠিকানা পরিবর্তন।</div>
-        </div>
-      </div>
-
-      <div class="template-card" data-template="statement">
-        <div class="template-card-header">Statement</div>
-        <div class="template-card-body">
-          <div class="template-title">Account Statement</div>
-          <div class="template-desc">নির্দিষ্ট সময়ের স্টেটমেন্ট চাওয়ার আবেদন।</div>
-        </div>
-      </div>
-
-      <div class="template-card" data-template="atm">
-        <div class="template-card-header">ATM</div>
-        <div class="template-card-body">
-          <div class="template-title">ATM Card Issue/Reissue</div>
-          <div class="template-desc">নতুন / হারানো এটিএম কার্ডের আবেদন।</div>
-        </div>
-      </div>
-
-      <div class="template-card" data-template="signature">
-        <div class="template-card-header">Signature</div>
-        <div class="template-card-body">
-          <div class="template-title">Signature Change</div>
-          <div class="template-desc">ব্যাংক স্বাক্ষর পরিবর্তন সংক্রান্ত আবেদন।</div>
-        </div>
-      </div>
-
-      <div class="template-card" data-template="nameCorrection">
-        <div class="template-card-header">Name</div>
-        <div class="template-card-body">
-          <div class="template-title">Name Correction</div>
-          <div class="template-desc">নাম সংশোধনের আবেদন (NID অনুযায়ী)।</div>
-        </div>
-      </div>
-
-      <div class="template-card" data-template="accountInfo">
-        <div class="template-card-header">Info</div>
-        <div class="template-card-body">
-          <div class="template-title">Account Info Update</div>
-          <div class="template-desc">ইমেইল, পেশা, অন্যান্য তথ্য আপডেট।</div>
-        </div>
-      </div>
-
-      <div class="template-card" data-template="mobileUpdate">
-        <div class="template-card-header">Mobile</div>
-        <div class="template-card-body">
-          <div class="template-title">Mobile Number Update</div>
-          <div class="template-desc">মোবাইল নম্বর পরিবর্তন।</div>
-        </div>
-      </div>
-
-      <div class="template-card" data-template="stopPayment">
-        <div class="template-card-header">Stop</div>
-        <div class="template-card-body">
-          <div class="template-title">Stop Payment</div>
-          <div class="template-desc">নির্দিষ্ট চেক পেমেন্ট বন্ধের আবেদন।</div>
-        </div>
-      </div>
-
-      <div class="template-card" data-template="accountClosure">
-        <div class="template-card-header">Close</div>
-        <div class="template-card-body">
-          <div class="template-title">Account Closure</div>
-          <div class="template-desc">হিসাব বন্ধ করার আবেদন।</div>
-        </div>
-      </div>
-
-      <div class="template-card" data-template="chequeReq">
-        <div class="template-card-header">Cheque</div>
-        <div class="template-card-body">
-          <div class="template-title">Cheque Book Requisition</div>
-          <div class="template-desc">নতুন চেকবই ইস্যুর সাধারণ আবেদন।</div>
-        </div>
-      </div>
-
-      <div class="template-card" data-template="solvency">
-        <div class="template-card-header">Solvency</div>
-        <div class="template-card-body">
-          <div class="template-title">Bank Solvency Certificate</div>
-          <div class="template-desc">সলভেন্সি সার্টিফিকেটের আবেদন।</div>
-        </div>
-      </div>
-
-      <div class="template-card" data-template="balanceCert">
-        <div class="template-card-header">Balance</div>
-        <div class="template-card-body">
-          <div class="template-title">Balance Certificate</div>
-          <div class="template-desc">ব্যালেন্স সার্টিফিকেটের আবেদন।</div>
-        </div>
-      </div>
-
-      <div class="template-card" data-template="nomineeChange">
-        <div class="template-card-header">Nominee</div>
-        <div class="template-card-body">
-          <div class="template-title">Nominee Change / Addition</div>
-          <div class="template-desc">নমিনি পরিবর্তন/সংযোজনের আবেদন।</div>
-        </div>
-      </div>
+<div class="page-wrap">
+  <div class="topbar" role="navigation" aria-label="Top navigation">
+    <div class="brand">
+      <h1>Bank Letter Generator</h1>
+      <p>বাংলাদেশ • Bank Application / Request Letter • Print / PDF</p>
     </div>
-
-    <!-- Tabs -->
-    <div class="tabs no-print">
-      <div class="tab active" data-tab="form">Input Form</div>
-      <div class="tab" data-tab="preview-bn">Bangla Preview</div>
-      <div class="tab" data-tab="preview-en">English Preview</div>
-    </div>
-
-    <!-- Form Tab -->
-    <div class="tab-content no-print" id="form">
-      <!-- Bank name fields -->
-      <div class="form-group field" id="field-bankBn">
-        <label>ব্যাংকের নাম (বাংলা):</label>
-        <input type="text" id="inputBankBn" value="অগ্রণী ব্যাংক পিএলসি">
-      </div>
-      <div class="form-group field" id="field-bankEn">
-        <label>Bank Name (English, optional):</label>
-        <input type="text" id="inputBankEn" placeholder="Agrani Bank PLC">
-      </div>
-
-      <!-- Common fields -->
-      <div class="form-group field" id="field-date">
-        <label>তারিখ (বাংলা বা ইংরেজি):</label>
-        <input type="text" id="inputDate" value="০৬/১২/২০২৫ ইং">
-      </div>
-      <div class="form-group field" id="field-branch">
-        <label>শাখা (যেমন: জামালপুর শাখা, জামালপুর):</label>
-        <input type="text" id="inputBranch" value="জামালপুর শাখা, জামালপুর">
-      </div>
-      <div class="form-group field" id="field-account">
-        <label>হিসাব নম্বর:</label>
-        <input type="text" id="inputAccount" value="০২০০০১১৬৯২১২৭">
-      </div>
-      <div class="form-group field" id="field-nameBn">
-        <label>নাম (বাংলা):</label>
-        <input type="text" id="inputName" value="আব্দুল লতিফ">
-      </div>
-      <div class="form-group field" id="field-nameEn">
-        <label>নাম (English, optional – না দিলে বাংলা থেকে রোমানাইজ করার চেষ্টা করবে):</label>
-        <input type="text" id="inputNameEn" placeholder="Abdul Latif">
-      </div>
-      <div class="form-group field" id="field-mobile">
-        <label>মোবাইল নম্বর:</label>
-        <input type="text" id="inputMobile" value="০১৭১৩৫৬১০৭৬">
-      </div>
-
-      <!-- Fields mainly for cheque lost -->
-      <div class="form-group field" id="field-lostDate">
-        <label>চেক বই হারানোর তারিখ:</label>
-        <input type="text" id="inputLostDate" value="০৫/১২/২০২৫ ইং">
-      </div>
-      <div class="form-group field" id="field-thana">
-        <label>থানার নাম:</label>
-        <input type="text" id="inputThana" value="জামালপুর">
-      </div>
-      <div class="form-group field" id="field-gdNo">
-        <label>জিডি নম্বর:</label>
-        <input type="text" id="inputGDNo" value="৩৪৩৩/২৫">
-      </div>
-      <div class="form-group field" id="field-gdDate">
-        <label>জিডি তারিখ:</label>
-        <input type="text" id="inputGDDate" value="০৬/১২/২০২৫ ইং">
-      </div>
-
-      <!-- Fields for address change -->
-      <div class="form-group field" id="field-oldAddress">
-        <label>পুরাতন ঠিকানা (Address Change template এর জন্য):</label>
-        <input type="text" id="inputOldAddress" placeholder="পুরাতন ঠিকানা লিখুন">
-      </div>
-      <div class="form-group field" id="field-newAddress">
-        <label>নতুন ঠিকানা (Address Change template এর জন্য):</label>
-        <input type="text" id="inputNewAddress" placeholder="নতুন ঠিকানা লিখুন">
-      </div>
-
-      <!-- Fields for statement request -->
-      <div class="form-group field" id="field-periodFrom">
-        <label>স্টেটমেন্ট সময়সীমা (From):</label>
-        <input type="text" id="inputPeriodFrom" placeholder="যেমন: ০১/০১/২০২৫">
-      </div>
-      <div class="form-group field" id="field-periodTo">
-        <label>স্টেটমেন্ট সময়সীমা (To):</label>
-        <input type="text" id="inputPeriodTo" placeholder="যেমন: ৩১/১২/২০২৫">
-      </div>
-
-      <!-- Extra fields: Purpose, Nominee -->
-      <div class="form-group field" id="field-purpose">
-        <label>Purpose / Reason (সলভেন্সি, ব্যালেন্স সার্টিফিকেট, মোবাইল আপডেট ইত্যাদির জন্য):</label>
-        <input type="text" id="inputPurpose" placeholder="Purpose / Reason লিখুন (ইং/বাংলা)">
-      </div>
-
-      <div class="form-group field" id="field-nomineeName">
-        <label>Nominee Name (বাংলা):</label>
-        <input type="text" id="inputNomineeName" placeholder="নমিনি নাম">
-      </div>
-      <div class="form-group field" id="field-nomineeRelation">
-        <label>Nominee Relation:</label>
-        <input type="text" id="inputNomineeRelation" placeholder="সম্পর্ক (যেমন: পিতা, মাতা, স্ত্রী)">
-      </div>
-      <div class="form-group field" id="field-nomineeNid">
-        <label>Nominee NID / ID No:</label>
-        <input type="text" id="inputNomineeNid" placeholder="জাতীয় পরিচয়পত্র নম্বর">
-      </div>
-
-      <button class="btn" id="generateBtn">Generate</button>
-
-      <!-- English Conversion Review Panel -->
-      <div id="englishReviewPanel" class="no-print" style="display:none;">
-        <h3>English Conversion Review (Editable)</h3>
-        <table class="review-table">
-          <thead>
-            <tr>
-              <th>Field</th>
-              <th>Bangla</th>
-              <th>English (Editable)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Bank Name</td>
-              <td><span id="bnBankLabel"></span></td>
-              <td><input type="text" id="reviewBankEn"></td>
-            </tr>
-            <tr>
-              <td>Date</td>
-              <td><span id="bnDateLabel"></span></td>
-              <td><input type="text" id="reviewDateEn"></td>
-            </tr>
-            <tr>
-              <td>Branch</td>
-              <td><span id="bnBranchLabel"></span></td>
-              <td><input type="text" id="reviewBranchEn"></td>
-            </tr>
-            <tr>
-              <td>Account No</td>
-              <td><span id="bnAccountLabel"></span></td>
-              <td><input type="text" id="reviewAccountEn"></td>
-            </tr>
-            <tr>
-              <td>Name</td>
-              <td><span id="bnNameLabel"></span></td>
-              <td><input type="text" id="reviewNameEn"></td>
-            </tr>
-            <tr>
-              <td>Mobile</td>
-              <td><span id="bnMobileLabel"></span></td>
-              <td><input type="text" id="reviewMobileEn"></td>
-            </tr>
-            <tr>
-              <td>Cheque Lost Date</td>
-              <td><span id="bnLostDateLabel"></span></td>
-              <td><input type="text" id="reviewLostDateEn"></td>
-            </tr>
-            <tr>
-              <td>Thana</td>
-              <td><span id="bnThanaLabel"></span></td>
-              <td><input type="text" id="reviewThanaEn"></td>
-            </tr>
-            <tr>
-              <td>GD No</td>
-              <td><span id="bnGDNoLabel"></span></td>
-              <td><input type="text" id="reviewGDNoEn"></td>
-            </tr>
-            <tr>
-              <td>GD Date</td>
-              <td><span id="bnGDDateLabel"></span></td>
-              <td><input type="text" id="reviewGDDateEn"></td>
-            </tr>
-            <tr>
-              <td>Old Address</td>
-              <td><span id="bnOldAddrLabel"></span></td>
-              <td><input type="text" id="reviewOldAddrEn"></td>
-            </tr>
-            <tr>
-              <td>New Address</td>
-              <td><span id="bnNewAddrLabel"></span></td>
-              <td><input type="text" id="reviewNewAddrEn"></td>
-            </tr>
-            <tr>
-              <td>Statement From</td>
-              <td><span id="bnPeriodFromLabel"></span></td>
-              <td><input type="text" id="reviewPeriodFromEn"></td>
-            </tr>
-            <tr>
-              <td>Statement To</td>
-              <td><span id="bnPeriodToLabel"></span></td>
-              <td><input type="text" id="reviewPeriodToEn"></td>
-            </tr>
-            <tr>
-              <td>Purpose/Reason</td>
-              <td><span id="bnPurposeLabel"></span></td>
-              <td><input type="text" id="reviewPurposeEn"></td>
-            </tr>
-            <tr>
-              <td>Nominee Name</td>
-              <td><span id="bnNomineeNameLabel"></span></td>
-              <td><input type="text" id="reviewNomineeNameEn"></td>
-            </tr>
-            <tr>
-              <td>Nominee Relation</td>
-              <td><span id="bnNomineeRelationLabel"></span></td>
-              <td><input type="text" id="reviewNomineeRelationEn"></td>
-            </tr>
-            <tr>
-              <td>Nominee NID</td>
-              <td><span id="bnNomineeNidLabel"></span></td>
-              <td><input type="text" id="reviewNomineeNidEn"></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Bangla Preview -->
-    <div class="tab-content" id="preview-bn" style="display:none;">
-      <div class="no-print" style="margin-bottom:10px;">
-        <button class="btn" onclick="window.print()">Print</button>
-        <button class="btn secondary" onclick="downloadPDF('bn')">Download PDF (Bangla)</button>
-      </div>
-      <div class="page" id="page-bn"></div>
-    </div>
-
-    <!-- English Preview -->
-    <div class="tab-content" id="preview-en" style="display:none;">
-      <div class="no-print" style="margin-bottom:10px;">
-        <button class="btn" onclick="window.print()">Print</button>
-        <button class="btn secondary" onclick="downloadPDF('en')">Download PDF (English)</button>
-      </div>
-      <div class="page" id="page-en"></div>
+    <div class="top-actions">
+      <a class="tbtn" href="/">← Main Site</a>
+      <a class="tbtn" href="/blog/">Blog</a>
+      <a class="tbtn" href="/tools/">All Tools</a>
+      <a class="tbtn primary" href="#tool">Open Tool ↓</a>
     </div>
   </div>
 
-  <script>
+  <details class="acc" open>
+    <summary>✅ Instructions & Important Notes (AdSense + User Trust)</summary>
+    <div class="acc-body">
+      <p><b>What this tool does:</b> This page helps you generate a professional bank letter instantly — suitable for account services, loan requests, charge correction, statement request, address update, and other common banking needs in Bangladesh.</p>
+      <ul>
+        <li>Fill the required fields (name, account/loan info, branch, date, subject).</li>
+        <li>Select a letter type/template and language (Bangla/English if available).</li>
+        <li>Click <b>Generate</b> → then <b>Print / Save as PDF</b> from your browser.</li>
+        <li>Always verify spelling, dates, amounts, and account numbers before submission.</li>
+      </ul>
+
+      <div class="alert-custom" style="margin-top:12px;">
+        <b>Disclaimer:</b> This is a helper tool for drafting letters. Final acceptance depends on your bank’s policy and format requirements.
+      </div>
+
+      <div class="alert-success-custom" style="margin-top:12px;">
+        <b>Privacy:</b> This tool runs on your browser. Avoid entering sensitive information on shared computers. Use your own device for best security.
+      </div>
+    </div>
+  </details>
+
+  <div class="ad-box">
+    <small>Ad placeholder (optional). You may insert an AdSense ad unit here later.</small>
+  </div>
+
+  <div id="tool">
+
+
+<div class="container">
+<!-- উপরের কন্ট্রোলগুলো প্রিন্টে থাকবে না -->
+<h1 class="no-print">Bank Letter Generator</h1>
+<!-- Template selection cards -->
+<div class="template-cards no-print">
+<div class="template-card active" data-template="cheque">
+<div class="template-card-header">Cheque</div>
+<div class="template-card-body">
+<div class="template-title">Cheque Book Lost</div>
+<div class="template-desc">চেক বই/পাতা হারানোর ক্ষেত্রে আবেদনপত্র।</div>
+</div>
+</div>
+<div class="template-card" data-template="address">
+<div class="template-card-header">Address</div>
+<div class="template-card-body">
+<div class="template-title">Address Change</div>
+<div class="template-desc">স্থায়ী / বর্তমান ঠিকানা পরিবর্তন।</div>
+</div>
+</div>
+<div class="template-card" data-template="statement">
+<div class="template-card-header">Statement</div>
+<div class="template-card-body">
+<div class="template-title">Account Statement</div>
+<div class="template-desc">নির্দিষ্ট সময়ের স্টেটমেন্ট চাওয়ার আবেদন।</div>
+</div>
+</div>
+<div class="template-card" data-template="atm">
+<div class="template-card-header">ATM</div>
+<div class="template-card-body">
+<div class="template-title">ATM Card Issue/Reissue</div>
+<div class="template-desc">নতুন / হারানো এটিএম কার্ডের আবেদন।</div>
+</div>
+</div>
+<div class="template-card" data-template="signature">
+<div class="template-card-header">Signature</div>
+<div class="template-card-body">
+<div class="template-title">Signature Change</div>
+<div class="template-desc">ব্যাংক স্বাক্ষর পরিবর্তন সংক্রান্ত আবেদন।</div>
+</div>
+</div>
+<div class="template-card" data-template="nameCorrection">
+<div class="template-card-header">Name</div>
+<div class="template-card-body">
+<div class="template-title">Name Correction</div>
+<div class="template-desc">নাম সংশোধনের আবেদন (NID অনুযায়ী)।</div>
+</div>
+</div>
+<div class="template-card" data-template="accountInfo">
+<div class="template-card-header">Info</div>
+<div class="template-card-body">
+<div class="template-title">Account Info Update</div>
+<div class="template-desc">ইমেইল, পেশা, অন্যান্য তথ্য আপডেট।</div>
+</div>
+</div>
+<div class="template-card" data-template="mobileUpdate">
+<div class="template-card-header">Mobile</div>
+<div class="template-card-body">
+<div class="template-title">Mobile Number Update</div>
+<div class="template-desc">মোবাইল নম্বর পরিবর্তন।</div>
+</div>
+</div>
+<div class="template-card" data-template="stopPayment">
+<div class="template-card-header">Stop</div>
+<div class="template-card-body">
+<div class="template-title">Stop Payment</div>
+<div class="template-desc">নির্দিষ্ট চেক পেমেন্ট বন্ধের আবেদন।</div>
+</div>
+</div>
+<div class="template-card" data-template="accountClosure">
+<div class="template-card-header">Close</div>
+<div class="template-card-body">
+<div class="template-title">Account Closure</div>
+<div class="template-desc">হিসাব বন্ধ করার আবেদন।</div>
+</div>
+</div>
+<div class="template-card" data-template="chequeReq">
+<div class="template-card-header">Cheque</div>
+<div class="template-card-body">
+<div class="template-title">Cheque Book Requisition</div>
+<div class="template-desc">নতুন চেকবই ইস্যুর সাধারণ আবেদন।</div>
+</div>
+</div>
+<div class="template-card" data-template="solvency">
+<div class="template-card-header">Solvency</div>
+<div class="template-card-body">
+<div class="template-title">Bank Solvency Certificate</div>
+<div class="template-desc">সলভেন্সি সার্টিফিকেটের আবেদন।</div>
+</div>
+</div>
+<div class="template-card" data-template="balanceCert">
+<div class="template-card-header">Balance</div>
+<div class="template-card-body">
+<div class="template-title">Balance Certificate</div>
+<div class="template-desc">ব্যালেন্স সার্টিফিকেটের আবেদন।</div>
+</div>
+</div>
+<div class="template-card" data-template="nomineeChange">
+<div class="template-card-header">Nominee</div>
+<div class="template-card-body">
+<div class="template-title">Nominee Change / Addition</div>
+<div class="template-desc">নমিনি পরিবর্তন/সংযোজনের আবেদন।</div>
+</div>
+</div>
+</div>
+<!-- Tabs -->
+<div class="tabs no-print">
+<div class="tab active" data-tab="form">Input Form</div>
+<div class="tab" data-tab="preview-bn">Bangla Preview</div>
+<div class="tab" data-tab="preview-en">English Preview</div>
+</div>
+<!-- Form Tab -->
+<div class="tab-content no-print" id="form">
+<!-- Bank name fields -->
+<div class="form-group field" id="field-bankBn">
+<label>ব্যাংকের নাম (বাংলা):</label>
+<input id="inputBankBn" type="text" value="অগ্রণী ব্যাংক পিএলসি"/>
+</div>
+<div class="form-group field" id="field-bankEn">
+<label>Bank Name (English, optional):</label>
+<input id="inputBankEn" placeholder="Agrani Bank PLC" type="text"/>
+</div>
+<!-- Common fields -->
+<div class="form-group field" id="field-date">
+<label>তারিখ (বাংলা বা ইংরেজি):</label>
+<input id="inputDate" type="text" value="০৬/১২/২০২৫ ইং"/>
+</div>
+<div class="form-group field" id="field-branch">
+<label>শাখা (যেমন: জামালপুর শাখা, জামালপুর):</label>
+<input id="inputBranch" type="text" value="জামালপুর শাখা, জামালপুর"/>
+</div>
+<div class="form-group field" id="field-account">
+<label>হিসাব নম্বর:</label>
+<input id="inputAccount" type="text" value="০২০০০১১৬৯২১২৭"/>
+</div>
+<div class="form-group field" id="field-nameBn">
+<label>নাম (বাংলা):</label>
+<input id="inputName" type="text" value="আব্দুল লতিফ"/>
+</div>
+<div class="form-group field" id="field-nameEn">
+<label>নাম (English, optional – না দিলে বাংলা থেকে রোমানাইজ করার চেষ্টা করবে):</label>
+<input id="inputNameEn" placeholder="Abdul Latif" type="text"/>
+</div>
+<div class="form-group field" id="field-mobile">
+<label>মোবাইল নম্বর:</label>
+<input id="inputMobile" type="text" value="০১৭১৩৫৬১০৭৬"/>
+</div>
+<!-- Fields mainly for cheque lost -->
+<div class="form-group field" id="field-lostDate">
+<label>চেক বই হারানোর তারিখ:</label>
+<input id="inputLostDate" type="text" value="০৫/১২/২০২৫ ইং"/>
+</div>
+<div class="form-group field" id="field-thana">
+<label>থানার নাম:</label>
+<input id="inputThana" type="text" value="জামালপুর"/>
+</div>
+<div class="form-group field" id="field-gdNo">
+<label>জিডি নম্বর:</label>
+<input id="inputGDNo" type="text" value="৩৪৩৩/২৫"/>
+</div>
+<div class="form-group field" id="field-gdDate">
+<label>জিডি তারিখ:</label>
+<input id="inputGDDate" type="text" value="০৬/১২/২০২৫ ইং"/>
+</div>
+<!-- Fields for address change -->
+<div class="form-group field" id="field-oldAddress">
+<label>পুরাতন ঠিকানা (Address Change template এর জন্য):</label>
+<input id="inputOldAddress" placeholder="পুরাতন ঠিকানা লিখুন" type="text"/>
+</div>
+<div class="form-group field" id="field-newAddress">
+<label>নতুন ঠিকানা (Address Change template এর জন্য):</label>
+<input id="inputNewAddress" placeholder="নতুন ঠিকানা লিখুন" type="text"/>
+</div>
+<!-- Fields for statement request -->
+<div class="form-group field" id="field-periodFrom">
+<label>স্টেটমেন্ট সময়সীমা (From):</label>
+<input id="inputPeriodFrom" placeholder="যেমন: ০১/০১/২০২৫" type="text"/>
+</div>
+<div class="form-group field" id="field-periodTo">
+<label>স্টেটমেন্ট সময়সীমা (To):</label>
+<input id="inputPeriodTo" placeholder="যেমন: ৩১/১২/২০২৫" type="text"/>
+</div>
+<!-- Extra fields: Purpose, Nominee -->
+<div class="form-group field" id="field-purpose">
+<label>Purpose / Reason (সলভেন্সি, ব্যালেন্স সার্টিফিকেট, মোবাইল আপডেট ইত্যাদির জন্য):</label>
+<input id="inputPurpose" placeholder="Purpose / Reason লিখুন (ইং/বাংলা)" type="text"/>
+</div>
+<div class="form-group field" id="field-nomineeName">
+<label>Nominee Name (বাংলা):</label>
+<input id="inputNomineeName" placeholder="নমিনি নাম" type="text"/>
+</div>
+<div class="form-group field" id="field-nomineeRelation">
+<label>Nominee Relation:</label>
+<input id="inputNomineeRelation" placeholder="সম্পর্ক (যেমন: পিতা, মাতা, স্ত্রী)" type="text"/>
+</div>
+<div class="form-group field" id="field-nomineeNid">
+<label>Nominee NID / ID No:</label>
+<input id="inputNomineeNid" placeholder="জাতীয় পরিচয়পত্র নম্বর" type="text"/>
+</div>
+<button class="btn" id="generateBtn">Generate</button>
+<!-- English Conversion Review Panel -->
+<div class="no-print" id="englishReviewPanel" style="display:none;">
+<h3>English Conversion Review (Editable)</h3>
+<table class="review-table">
+<thead>
+<tr>
+<th>Field</th>
+<th>Bangla</th>
+<th>English (Editable)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bank Name</td>
+<td><span id="bnBankLabel"></span></td>
+<td><input id="reviewBankEn" type="text"/></td>
+</tr>
+<tr>
+<td>Date</td>
+<td><span id="bnDateLabel"></span></td>
+<td><input id="reviewDateEn" type="text"/></td>
+</tr>
+<tr>
+<td>Branch</td>
+<td><span id="bnBranchLabel"></span></td>
+<td><input id="reviewBranchEn" type="text"/></td>
+</tr>
+<tr>
+<td>Account No</td>
+<td><span id="bnAccountLabel"></span></td>
+<td><input id="reviewAccountEn" type="text"/></td>
+</tr>
+<tr>
+<td>Name</td>
+<td><span id="bnNameLabel"></span></td>
+<td><input id="reviewNameEn" type="text"/></td>
+</tr>
+<tr>
+<td>Mobile</td>
+<td><span id="bnMobileLabel"></span></td>
+<td><input id="reviewMobileEn" type="text"/></td>
+</tr>
+<tr>
+<td>Cheque Lost Date</td>
+<td><span id="bnLostDateLabel"></span></td>
+<td><input id="reviewLostDateEn" type="text"/></td>
+</tr>
+<tr>
+<td>Thana</td>
+<td><span id="bnThanaLabel"></span></td>
+<td><input id="reviewThanaEn" type="text"/></td>
+</tr>
+<tr>
+<td>GD No</td>
+<td><span id="bnGDNoLabel"></span></td>
+<td><input id="reviewGDNoEn" type="text"/></td>
+</tr>
+<tr>
+<td>GD Date</td>
+<td><span id="bnGDDateLabel"></span></td>
+<td><input id="reviewGDDateEn" type="text"/></td>
+</tr>
+<tr>
+<td>Old Address</td>
+<td><span id="bnOldAddrLabel"></span></td>
+<td><input id="reviewOldAddrEn" type="text"/></td>
+</tr>
+<tr>
+<td>New Address</td>
+<td><span id="bnNewAddrLabel"></span></td>
+<td><input id="reviewNewAddrEn" type="text"/></td>
+</tr>
+<tr>
+<td>Statement From</td>
+<td><span id="bnPeriodFromLabel"></span></td>
+<td><input id="reviewPeriodFromEn" type="text"/></td>
+</tr>
+<tr>
+<td>Statement To</td>
+<td><span id="bnPeriodToLabel"></span></td>
+<td><input id="reviewPeriodToEn" type="text"/></td>
+</tr>
+<tr>
+<td>Purpose/Reason</td>
+<td><span id="bnPurposeLabel"></span></td>
+<td><input id="reviewPurposeEn" type="text"/></td>
+</tr>
+<tr>
+<td>Nominee Name</td>
+<td><span id="bnNomineeNameLabel"></span></td>
+<td><input id="reviewNomineeNameEn" type="text"/></td>
+</tr>
+<tr>
+<td>Nominee Relation</td>
+<td><span id="bnNomineeRelationLabel"></span></td>
+<td><input id="reviewNomineeRelationEn" type="text"/></td>
+</tr>
+<tr>
+<td>Nominee NID</td>
+<td><span id="bnNomineeNidLabel"></span></td>
+<td><input id="reviewNomineeNidEn" type="text"/></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Bangla Preview -->
+<div class="tab-content" id="preview-bn" style="display:none;">
+<div class="no-print" style="margin-bottom:10px;">
+<button class="btn" onclick="window.print()">Print</button>
+<button class="btn secondary" onclick="downloadPDF('bn')">Download PDF (Bangla)</button>
+</div>
+<div class="page" id="page-bn"></div>
+</div>
+<!-- English Preview -->
+<div class="tab-content" id="preview-en" style="display:none;">
+<div class="no-print" style="margin-bottom:10px;">
+<button class="btn" onclick="window.print()">Print</button>
+<button class="btn secondary" onclick="downloadPDF('en')">Download PDF (English)</button>
+</div>
+<div class="page" id="page-en"></div>
+</div>
+</div>
+<script>
     let currentTemplate = 'cheque';
 
     /* Which fields are needed for each template */
@@ -1707,5 +2063,19 @@
     // initial
     updateVisibleFields();
   </script>
+
+
+  </div><!-- /#tool -->
+</div><!-- /.page-wrap -->
+
+<div class="footer-trust">
+  <a href="/privacy-policy.html">Privacy Policy</a> |
+  <a href="/terms.html">Terms</a> |
+  <a href="/cookie-policy.html">Cookie Policy</a> |
+  <a href="/disclaimer.html">Disclaimer</a> |
+  <a href="/contact.html">Contact</a>
+  <div style="margin-top:8px;">© 2026 Abdul Latif — All Rights Reserved.</div>
+</div>
+
 </body>
 </html>

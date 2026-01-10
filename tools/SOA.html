@@ -2,165 +2,238 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>GL Report Viewer</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+  <title>Statement of Affairs (SOA) Report Cleaner – Agrani Bank PLC (Staff Tool)</title>
+  <meta name="description" content="Agrani Bank PLC staff tool to quickly clean and view Statement of Affairs / GL report TXT files by showing only numeric amount lines. Export CSV, download PDF, print and filter by GL code."/>
+  <meta name="robots" content="index, follow">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://ablatif.com/tools/SOA.html">
+
+  <!-- AdSense Loader (only once per page) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3608304969182163"
+    crossorigin="anonymous"></script>
 
   <!-- jsPDF + AutoTable for PDF download -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebPage",
+    "name":"SOA Report Cleaner (Agrani Bank PLC Staff Tool)",
+    "url":"https://ablatif.com/tools/SOA.html",
+    "description":"Internal staff tool for Agrani Bank PLC to clean Statement of Affairs / GL reports and show only numeric rows with amounts."
+  }
+  </script>
+
 <style>
-  * { box-sizing: border-box; font-family: Arial, sans-serif; }
-  body { margin: 20px; font-size: 13px; background: #f7f9fc; color: #222; }
-
-  .app-wrap { max-width: 1200px; margin: auto; }
-
-  /* Top card */
-  .top-card {
-    background: #fff;
-    padding: 14px 16px;
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-    margin-bottom: 14px;
+  :root{
+    --maxw:1200px;
+    --card:#fff;
+    --ink:#0f172a;
+    --muted:#64748b;
+    --bd:rgba(0,0,0,.10);
+    --bg:#f4f6fb;
+    --accent:#2563eb;
+    --danger:#d94141;
   }
 
-  .top-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  * { box-sizing:border-box; font-family: Arial, sans-serif; }
+  body { margin:0; background:var(--bg); color:#222; font-size:13px; line-height:1.6; }
 
-  .note-label { font-weight: bold; font-size: 13px; margin-top: 10px; margin-bottom: 6px; }
+  .page-wrap{ max-width:var(--maxw); margin:0 auto; padding:18px 14px 0; }
 
-  textarea#notesBox {
-    width: 100%;
-    min-height: 90px;
-    border: 1px solid #ccd7ee;
-    border-radius: 10px;
-    padding: 10px;
-    resize: vertical;
-    outline: none;
-    font-size: 13px;
-    background: #fbfcff;
+  /* ===== Floating topbar like Bank Letter v3 ===== */
+  .topbar{
+    position:sticky; top:10px; z-index:9999;
+    background:var(--card);
+    border:1px solid var(--bd);
+    box-shadow:0 8px 18px rgba(0,0,0,.06);
+    border-radius:16px;
+    padding:12px 14px;
+    display:flex; justify-content:space-between; align-items:center; gap:12px;
   }
-  textarea#notesBox:focus {
-    border-color: #7aa5ff;
-    box-shadow: 0 0 0 3px rgba(122,165,255,0.15);
+  .brand h1{ margin:0; font-size:16px; font-weight:900; color:var(--ink); }
+  .brand p{ margin:0; font-size:12px; color:var(--muted); }
+  .top-actions{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  .btn{
+    border:1px solid var(--bd);
+    background:#fff;
+    padding:10px 12px;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:800;
+    font-size:13px;
+    color:var(--ink);
+    text-decoration:none;
+    transition:.15s;
+  }
+  .btn:hover{ opacity:.92; }
+  .btn.primary{ background:var(--accent); color:#fff; border-color:var(--accent); }
+  .btn.danger{ background:var(--danger); color:#fff; border-color:var(--danger); }
+
+  /* ===== Cards ===== */
+  .card{
+    background:var(--card);
+    border:1px solid rgba(0,0,0,.08);
+    border-radius:16px;
+    box-shadow:0 6px 16px rgba(0,0,0,.05);
+    padding:16px;
+    margin-top:14px;
+  }
+  h2{ margin:0 0 10px; font-size:18px; color:var(--ink); font-weight:900; }
+
+  /* Notes */
+  textarea{
+    width:100%;
+    min-height:90px;
+    padding:10px 12px;
+    border:1px solid rgba(0,0,0,.14);
+    border-radius:12px;
+    outline:none;
+    background:#fbfcff;
+    font-size:13px;
+  }
+  textarea:focus{
+    border-color:var(--accent);
+    box-shadow:0 0 0 3px rgba(37,99,235,.15);
   }
 
-  details {
-    margin-top: 12px;
-    border: 1px solid #e2e8f8;
-    border-radius: 10px;
-    padding: 10px 12px;
-    background: #f9fbff;
+  details{
+    margin-top:12px;
+    border:1px solid rgba(0,0,0,.08);
+    border-radius:12px;
+    padding:12px 14px;
+    background:#f9fbff;
   }
-  details summary { cursor: pointer; font-weight: bold; font-size: 13px; }
-  .howtext { margin-top: 10px; line-height: 1.5; color: #333; font-size: 12.5px; }
+  details summary{ cursor:pointer; font-weight:900; color:var(--ink); }
+  .howtext{ margin-top:10px; color:#334155; font-size:13px; }
 
   /* Controls */
-  .controls {
-    position: sticky;
-    top: 10px;
-    z-index: 10;
-    background: #fff;
-    border-radius: 12px;
-    padding: 10px 12px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    align-items: center;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-    margin-bottom: 14px;
+  .controls{
+    margin-top:14px;
+    background:var(--card);
+    border:1px solid rgba(0,0,0,.08);
+    border-radius:16px;
+    padding:12px 12px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    align-items:center;
+    box-shadow:0 6px 16px rgba(0,0,0,.05);
   }
 
-  .controls input, .controls button, .controls select {
-    padding: 8px 12px;
-    font-size: 13px;
-    border-radius: 10px;
-    border: 1px solid #ccd7ee;
-    background: #fff;
-    outline: none;
+  .controls input, .controls select{
+    padding:10px 12px;
+    border-radius:12px;
+    border:1px solid rgba(0,0,0,.14);
+    outline:none;
+    font-size:13px;
+    background:#fff;
   }
-
-  .controls button {
-    cursor: pointer;
-    font-weight: bold;
-    border: none;
-    background: #356dff;
-    color: #fff;
-    transition: 0.2s;
-  }
-  .controls button:hover { background: #2458da; }
-
-  #clearBtn { background: #d94141; }
-  #clearBtn:hover { background: #b73232; }
-
-  #clearNotesBtn { background: #555; }
-  #clearNotesBtn:hover { background: #333; }
-
-  #searchBox { width: 240px; }
-
-  #status { margin-left: auto; font-size: 12px; color: #444; white-space: nowrap; }
+  #searchBox{ width:240px; }
+  #status{ margin-left:auto; color:var(--muted); font-size:12px; white-space:nowrap; }
 
   /* Report sections */
-  .file-section {
-    background: #fff;
-    padding: 12px;
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-    margin-bottom: 18px;
+  .file-section{
+    background:var(--card);
+    border:1px solid rgba(0,0,0,.08);
+    padding:14px;
+    border-radius:16px;
+    box-shadow:0 6px 16px rgba(0,0,0,.05);
+    margin-top:16px;
   }
 
   /* 3-line title */
-  .title-wrap { text-align: center; padding: 6px 0 14px 0; }
-  .title-1 { font-size: 20px; font-weight: bold; margin-bottom: 4px; }
-  .title-2, .title-3 { font-size: 15px; font-weight: bold; margin-top: 3px; }
+  .title-wrap { text-align:center; padding:8px 0 14px; border-bottom:1px dashed rgba(0,0,0,.12); margin-bottom:12px; }
+  .title-1 { font-size:18px; font-weight:900; margin-bottom:4px; color:var(--ink); }
+  .title-2, .title-3 { font-size:14px; font-weight:800; margin-top:3px; color:#1e293b; }
 
   /* Table */
-  .report-table { border-collapse: collapse; width: 100%; overflow: hidden; border-radius: 10px; }
-  .report-table thead th { background: #eaf0ff; border: 1px solid #b8c7ee; padding: 8px; font-size: 12.5px; }
-  .report-table tbody td { border: 1px solid #d8e0f5; padding: 6px 8px; font-size: 12.5px; }
+  .report-table{ border-collapse:collapse; width:100%; overflow:hidden; border-radius:14px; }
+  .report-table thead th{ background:#eaf0ff; border:1px solid #cbd5ff; padding:10px; font-size:12.5px; }
+  .report-table tbody td{ border:1px solid #e2e8f0; padding:8px 10px; font-size:12.5px; }
+  td.line{ width:55px; font-weight:900; white-space:nowrap; }
+  td.amount{ text-align:right; font-weight:900; }
+  td.amount.negative{ color:#d94141; }
+  tr.category-row td{ background:#f0f3ff !important; font-weight:900; color:#0f172a; }
 
-  td.line { width: 55px; white-space: nowrap; font-weight: bold; }
-  td.amount { text-align: right; font-weight: bold; }
-  td.amount.negative { color: #d94141; }
+  /* Footer trust links */
+  .footer-trust{
+    max-width:var(--maxw);
+    margin:26px auto 18px;
+    padding:16px 14px;
+    border-top:1px solid rgba(0,0,0,.10);
+    color:var(--muted);
+    font-size:13px;
+    text-align:center;
+  }
+  .footer-trust a{ color:inherit; text-decoration:underline; font-weight:800; }
 
-  tr.category-row td { background: #f0f3ff !important; font-weight: bold; }
+  @media(max-width:700px){
+    #searchBox{ width:100%; }
+    .brand p{ display:none; }
+  }
 
-  @media print {
-    body { background: #fff; }
-    .controls { display: none; }
-    details { display: none; }
-    thead { display: table-header-group; }
-    .file-section + .file-section { page-break-before: always; }
+  @media print{
+    body{ background:#fff; }
+    .topbar, .controls, details{ display:none !important; }
+    thead{ display:table-header-group; }
+    .file-section + .file-section{ page-break-before:always; }
+    .footer-trust{ position:fixed; bottom:0; width:100%; background:#fff; }
   }
 </style>
 </head>
 
 <body>
-<div class="app-wrap">
+<div class="page-wrap">
 
-  <!-- NOTES & HOW IT WORKS -->
-  <div class="top-card">
-    <div class="top-title">GL Report Viewer</div>
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="brand">
+      <h1>Statement of Affairs (SOA) Cleaner</h1>
+      <p>Agrani Bank PLC Staff Tool • Clean numeric report • Export PDF/CSV</p>
+    </div>
+    <div class="top-actions">
+      <a class="btn" href="/">← Main Site</a>
+      <a class="btn" href="/blog/">Blog</a>
+      <a class="btn primary" href="#reportContainer">Jump to Report</a>
+    </div>
+  </div>
 
-    <div class="note-label">Notes (Auto-saved):</div>
+  <!-- Notes & Instructions -->
+  <div class="card">
+    <h2>📌 About this Tool (Agrani Bank PLC Staff Use)</h2>
+    <p style="margin:0;color:var(--muted);">
+      This tool cleans Statement of Affairs / GL report TXT files by showing only meaningful numeric lines (amount rows).
+      It removes zero/blank rows so the report becomes quicker and easier to understand.
+    </p>
+
+    <div style="margin-top:12px;font-weight:900;">Notes (Auto-saved):</div>
     <textarea id="notesBox" placeholder="Write your notes here..."></textarea>
 
-    <div style="margin-top:8px;">
-      <button id="clearNotesBtn" type="button">Clear Notes</button>
+    <div style="margin-top:10px;">
+      <button class="btn danger" id="clearNotesBtn" type="button">Clear Notes</button>
     </div>
 
     <details>
-      <summary>How it works (click to expand/collapse)</summary>
-      <div class="howtext" contenteditable="true">
-        ✅ 1. Click <b>Choose File</b> and select one or more TXT files.<br>
-        ✅ 2. Only lines that start with <b>====></b> and contain a numeric amount are shown.<br>
-        ✅ 3. Zero amount rows are removed automatically.<br>
-        ✅ 4. Search and GL Code Filter hide rows instantly (affects Export + PDF).<br>
-        ✅ 5. Export CSV downloads only the visible rows.<br>
-        ✅ 6. Download PDF creates a PDF without opening the print dialog.
+      <summary>✅ Instructions & Notes (click to expand)</summary>
+      <div class="howtext">
+        <b>1)</b> Click <b>Choose File</b> and select one or more TXT files.<br>
+        <b>2)</b> Only lines that start with <b>====></b> and contain numeric amounts will be shown.<br>
+        <b>3)</b> Zero amount rows are removed automatically.<br>
+        <b>4)</b> If a row has no amount, it will not appear (blank rows removed).<br>
+        <b>5)</b> Search & GL filter work instantly and affect PDF + CSV export output.<br>
+        <b>6)</b> Download PDF generates a clean report without opening print dialog.
       </div>
     </details>
   </div>
 
-  <!-- CONTROLS -->
+  <!-- Controls -->
   <div class="controls">
     <input type="file" id="fileInput" accept=".txt" multiple />
 
@@ -168,17 +241,28 @@
       <option value="">All GL Codes</option>
     </select>
 
-    <button type="button" id="pdfBtn">Download PDF</button>
-    <button type="button" id="exportBtn">Export CSV</button>
-    <button type="button" onclick="window.print()">Print / Save PDF</button>
-    <button type="button" id="clearBtn">Clear</button>
+    <button class="btn primary" type="button" id="pdfBtn">Download PDF</button>
+    <button class="btn" type="button" id="exportBtn">Export CSV</button>
+    <button class="btn" type="button" onclick="window.print()">Print / Save PDF</button>
+    <button class="btn danger" type="button" id="clearBtn">Clear</button>
 
-    <input id="searchBox" type="text" placeholder="Search…" />
+    <input id="searchBox" type="text" placeholder="Search..." />
 
     <span id="status"></span>
   </div>
 
   <div id="reportContainer"></div>
+
+</div>
+
+<!-- Footer Trust Links -->
+<div class="footer-trust">
+  <a href="/privacy-policy.html">Privacy Policy</a> |
+  <a href="/terms.html">Terms</a> |
+  <a href="/cookie-policy.html">Cookie Policy</a> |
+  <a href="/disclaimer.html">Disclaimer</a> |
+  <a href="/contact.html">Contact</a>
+  <div style="margin-top:8px;">© 2026 Abdul Latif — All Rights Reserved.</div>
 </div>
 
 <script>
@@ -186,25 +270,20 @@ const container = document.getElementById("reportContainer");
 const statusEl = document.getElementById("status");
 const notesBox = document.getElementById("notesBox");
 const glFilter = document.getElementById("glFilter");
+const searchBox = document.getElementById("searchBox");
 
 let allGLCodes = new Set();
 
 /* ---------- Notes LocalStorage ---------- */
-const NOTES_KEY = "gl_report_notes";
-
-function loadNotes() {
-  notesBox.value = localStorage.getItem(NOTES_KEY) || "";
-}
-function saveNotes() {
-  localStorage.setItem(NOTES_KEY, notesBox.value);
-}
+const NOTES_KEY = "soa_report_notes";
+function loadNotes(){ notesBox.value = localStorage.getItem(NOTES_KEY) || ""; }
+function saveNotes(){ localStorage.setItem(NOTES_KEY, notesBox.value); }
 notesBox.addEventListener("input", saveNotes);
 
 document.getElementById("clearNotesBtn").onclick = () => {
   notesBox.value = "";
   saveNotes();
 };
-
 loadNotes();
 
 /* Helpers */
@@ -214,42 +293,34 @@ function clearAll(){
   setStatus("");
   allGLCodes.clear();
   glFilter.innerHTML = `<option value="">All GL Codes</option>`;
+  searchBox.value = "";
 }
-
-function cleanLine(l){
-  return l.replace(/^\uFEFF/, "").replace(/\r/g, "").trimStart();
-}
+function cleanLine(l){ return l.replace(/^\uFEFF/, "").replace(/\r/g, "").trimStart(); }
 function escapeHTML(str){
   return String(str || "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#39;");
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;").replace(/'/g,"&#39;");
 }
-
+function fmt(n){
+  return n.toLocaleString("en-US",{ minimumFractionDigits:2, maximumFractionDigits:2 });
+}
 function getREHeader(lines){
   return lines.find(l => /^\s+RE\d+/.test(l));
 }
-
 function parseHeader(lineRaw){
   lineRaw = cleanLine(lineRaw).replace(/PAGE\s+NO.+$/i,"").trim();
   const parts = lineRaw.split(/\s+/);
   parts.shift();
-
   const branchTokens = [];
   while (parts.length && !/^BR\d+/i.test(parts[0])) branchTokens.push(parts.shift());
   const branchCode = parts.shift() || "";
   const branchName = branchTokens.join(" ");
-
   const titleTokens = [];
   while (parts.length && parts[0].toUpperCase() !== "AS") titleTokens.push(parts.shift());
   const reportTitle = titleTokens.join(" ");
   const dateText = parts.join(" ");
-
   return { reportTitle, branchName, branchCode, dateText };
 }
-
 function buildTitleHTML(info){
   const line2 = info.branchName && info.branchCode
     ? `${info.branchName} (${info.branchCode})`
@@ -261,10 +332,6 @@ function buildTitleHTML(info){
       <div class="title-3">${escapeHTML(info.dateText)}</div>
     </div>
   `;
-}
-
-function fmt(n){
-  return n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
 /* Update GL Filter dropdown */
@@ -280,18 +347,39 @@ function refreshGLFilter(){
   glFilter.value = selected;
 }
 
+/* Apply search + gl filter */
+function applyFilters(){
+  const q = (searchBox.value || "").toLowerCase();
+  const glVal = glFilter.value;
+
+  const rows = container.querySelectorAll("tbody tr");
+  let shown = 0;
+  rows.forEach(r => {
+    const textMatch = r.innerText.toLowerCase().includes(q);
+    const glMatch = !glVal || r.dataset.glcode === glVal;
+    const visible = (textMatch && glMatch);
+    r.style.display = visible ? "" : "none";
+    if(visible) shown++;
+  });
+  if(rows.length){
+    setStatus(`Visible rows: ${shown} / ${rows.length}`);
+  }
+}
+
 /* Main parsing */
 function processFile(text){
   const lines = text.split(/\n/);
   const headerLine = getREHeader(lines);
 
-  const info = headerLine
-    ? parseHeader(headerLine)
-    : { reportTitle: "UNKNOWN TITLE", branchName: "", branchCode: "", dateText: "" };
+  const info = headerLine ? parseHeader(headerLine) : {
+    reportTitle:"Statement of Affairs",
+    branchName:"",
+    branchCode:"",
+    dateText:""
+  };
 
   const section = document.createElement("section");
   section.className = "file-section";
-  section.dataset.reportTitle = info.reportTitle;
   section.innerHTML = buildTitleHTML(info);
 
   const table = document.createElement("table");
@@ -309,15 +397,15 @@ function processFile(text){
   `;
   const tbody = table.querySelector("tbody");
 
-  for (const raw of lines){
+  for(const raw of lines){
     let line = cleanLine(raw);
-    if (!line.startsWith("====>")) continue;
+    if(!line.startsWith("====>")) continue;
 
     const amtMatch = line.match(/(-?\d[\d,]*\.\d{2})\s*$/);
-    if (!amtMatch) continue;
+    if(!amtMatch) continue;
 
     let amount = parseFloat(amtMatch[1].replace(/,/g,""));
-    if (amount === 0) continue;
+    if(amount === 0) continue;
 
     const before = line.slice(0, line.lastIndexOf(amtMatch[1])).trimEnd();
 
@@ -326,18 +414,22 @@ function processFile(text){
 
     let desc = before.replace(/^====>\s*\d*/, "").trim();
 
+    // Remove blank description rows
+    if(!desc) continue;
+
     let glCode = "";
     const glMatch = desc.match(/(\d{6,})$/);
-    if (glMatch){
+    if(glMatch){
       glCode = glMatch[1];
       desc = desc.slice(0, desc.lastIndexOf(glCode)).trim();
       allGLCodes.add(glCode);
     }
 
+    // If category row without glCode but has short desc, keep it
     const tr = document.createElement("tr");
     tr.dataset.glcode = glCode;
 
-    if (!glCode) tr.classList.add("category-row");
+    if(!glCode) tr.classList.add("category-row");
 
     tr.innerHTML = `
       <td class="line">${escapeHTML(lineNo)}</td>
@@ -355,122 +447,99 @@ function processFile(text){
   applyFilters();
 }
 
-/* Apply search + gl filter */
-function applyFilters(){
-  const q = document.getElementById("searchBox").value.toLowerCase();
-  const glVal = glFilter.value;
-
-  const rows = container.querySelectorAll("tbody tr");
-  rows.forEach(r => {
-    const textMatch = r.innerText.toLowerCase().includes(q);
-    const glMatch = !glVal || r.dataset.glcode === glVal;
-    r.style.display = (textMatch && glMatch) ? "" : "none";
-  });
-}
-
 /* File input */
 document.getElementById("fileInput").onchange = function(){
   clearAll();
   const files = Array.from(this.files || []);
-  if (!files.length) return;
+  if(!files.length) return;
 
-  let loadedCount = 0;
-
-  files.forEach((file) => {
+  let loaded = 0;
+  files.forEach(file=>{
     const reader = new FileReader();
-    reader.onload = e => {
+    reader.onload = e=>{
       processFile(e.target.result);
-      loadedCount++;
-      setStatus(`Loaded ${loadedCount} of ${files.length} file(s)`);
+      loaded++;
+      setStatus(`Loaded ${loaded} of ${files.length} file(s)`);
     };
     reader.readAsText(file);
   });
 };
 
-document.getElementById("searchBox").oninput = applyFilters;
+searchBox.oninput = applyFilters;
 glFilter.onchange = applyFilters;
 
 /* Export CSV */
 document.getElementById("exportBtn").onclick = function(){
   let csv = "LINE,DESCRIPTION,GL CODE,AMOUNT\n";
   const rows = container.querySelectorAll("tbody tr");
-  rows.forEach(r => {
-    if (r.style.display === "none") return;
+  rows.forEach(r=>{
+    if(r.style.display === "none") return;
     const c = r.cells;
-    if (c.length === 4) {
-      const line = c[0].innerText.replace(/"/g,'""');
-      const desc = c[1].innerText.replace(/"/g,'""');
-      const gl   = c[2].innerText.replace(/"/g,'""');
-      const amt  = c[3].innerText.replace(/"/g,'""');
-      csv += `"${line}","${desc}","${gl}","${amt}"\n`;
-    }
+    csv += `"${c[0].innerText}","${c[1].innerText}","${c[2].innerText}","${c[3].innerText}"\n`;
   });
+
   const blob = new Blob([csv], {type:"text/csv"});
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
-  a.download = "Affairs_Report.csv";
+  a.download = "SOA_Report.csv";
   a.click();
 };
 
-/* Download PDF (no print dialog) */
+/* Download PDF */
 document.getElementById("pdfBtn").onclick = function(){
   const { jsPDF } = window.jspdf;
-  const doc = new jsPDF("p", "pt", "a4");
+  const doc = new jsPDF("p","pt","a4");
   let y = 40;
 
   doc.setFontSize(14);
-  doc.text("GL Report Viewer Export", 40, y);
-  y += 20;
+  doc.text("Statement of Affairs (SOA) – Clean Export", 40, y);
+  y += 18;
 
-  // Notes
   const notes = notesBox.value.trim();
-  if (notes){
+  if(notes){
     doc.setFontSize(11);
     doc.text("Notes:", 40, y);
     y += 14;
     const split = doc.splitTextToSize(notes, 520);
     doc.text(split, 40, y);
-    y += split.length * 13 + 10;
+    y += split.length*13 + 10;
   }
 
-  // Tables per section
   const sections = container.querySelectorAll(".file-section");
-  sections.forEach((sec, idx) => {
+  sections.forEach(sec=>{
     const t1 = sec.querySelector(".title-1")?.innerText || "";
     const t2 = sec.querySelector(".title-2")?.innerText || "";
     const t3 = sec.querySelector(".title-3")?.innerText || "";
 
-    if (y > 700) { doc.addPage(); y = 40; }
+    if(y > 700){ doc.addPage(); y=40; }
 
     doc.setFontSize(12);
-    doc.text(t1, 40, y); y += 14;
-    doc.text(t2, 40, y); y += 14;
-    doc.text(t3, 40, y); y += 18;
+    doc.text(t1, 40, y); y+=14;
+    doc.text(t2, 40, y); y+=14;
+    doc.text(t3, 40, y); y+=18;
 
-    const rows = [];
-    sec.querySelectorAll("tbody tr").forEach(r => {
-      if (r.style.display === "none") return;
+    const rows=[];
+    sec.querySelectorAll("tbody tr").forEach(r=>{
+      if(r.style.display==="none") return;
       const c = r.cells;
       rows.push([c[0].innerText, c[1].innerText, c[2].innerText, c[3].innerText]);
     });
 
     doc.autoTable({
-      head: [["LINE","DESCRIPTION","GL CODE","AMOUNT"]],
-      body: rows,
-      startY: y,
-      styles: { fontSize: 9, cellPadding: 3 },
-      headStyles: { fillColor: [220, 230, 255] }
+      head:[["LINE","DESCRIPTION","GL CODE","AMOUNT"]],
+      body:rows,
+      startY:y,
+      styles:{ fontSize:9, cellPadding:3 },
+      headStyles:{ fillColor:[220,230,255] }
     });
 
     y = doc.lastAutoTable.finalY + 25;
   });
 
-  doc.save("GL_Report.pdf");
+  doc.save("SOA_Report.pdf");
 };
 
-/* Clear All */
 document.getElementById("clearBtn").onclick = clearAll;
 </script>
-
 </body>
 </html>
