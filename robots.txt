@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
-Sitemap: https://ablatif.com/sitemap.xml
-User-agent: *
+
+# Keep some old admin/utility paths blocked (your existing rules)
 Disallow: /agrani_notice/notices/
 Disallow: /agrani_notice/trash/
 Disallow: /agrani_notice/notices_history.php
@@ -10,4 +10,4 @@ Disallow: /agrani_notice/print_one.php
 Disallow: /agrani_notice/print_single.php
 Disallow: /agrani_notice/single_print.php
 
-
+Sitemap: https://ablatif.com/sitemap.xml

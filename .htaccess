@@ -13,6 +13,24 @@ AddCharset UTF-8 .html .htm
 AddType text/plain .txt
 
 # =============================
+# ✅ AdSense Review: Keep low-value pages out of Google's index (temporary)
+#    - This does NOT block crawling; it tells Google "noindex"
+#    - Remove rules after approval + after you expand content
+# =============================
+<IfModule mod_setenvif.c>
+  # Noindex non-content sections (tools/games)
+  SetEnvIf Request_URI "^/(games|tools|emi)/" NOINDEX
+  SetEnvIf Request_URI "^/emi-calculator\.html$" NOINDEX
+
+  # Noindex thin blog posts (expand them first, then remove from this rule)
+  SetEnvIf Request_URI "^/blog/posts/(bank\-account\-opening\-bangladesh|bank\-charges\-bangladesh|bank\-merger\-safety\-bangladesh|cheque\-book\-rules\-bangladesh|cib\-report\-bangladesh|credit\-card\-warning\-bangladesh|fdr\-vs\-sanchayapatra\-bangladesh|islamic\-banking\-basics\-bangladesh|loan\-eligibility\-common\-mistakes|loan\-risk\-basics|mobile\-banking\-vs\-bank\-app\-bangladesh|understanding\-dscr\-for\-loans)\.html$" NOINDEX
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header set X-Robots-Tag "noindex, follow" env=NOINDEX
+</IfModule>
+
+# =============================
 # ✅ Redirect WWW to Non-WWW (SEO + AdSense)
 # =============================
 RewriteEngine On
