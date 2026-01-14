@@ -13,39 +13,37 @@ AddCharset UTF-8 .html .htm
 AddType text/plain .txt
 
 # =============================
-# ✅ AdSense Review: Keep low-value pages out of Google's index (temporary)
-#    - This does NOT block crawling; it tells Google "noindex"
-#    - Remove rules after approval + after you expand content
+# ✅ Redirects (SEO + AdSense)
+# - Force HTTPS
+# - Force non-WWW
 # =============================
-<IfModule mod_setenvif.c>
-  # Noindex non-content sections (tools/games)
-  SetEnvIf Request_URI "^/(games|tools|emi)/" NOINDEX
-  SetEnvIf Request_URI "^/emi-calculator\.html$" NOINDEX
-
-  # Noindex thin blog posts (expand them first, then remove from this rule)
-  SetEnvIf Request_URI "^/blog/posts/(islamic\-banking\-basics\-bangladesh)\.html$" NOINDEX
-</IfModule>
-
-<IfModule mod_headers.c>
-  Header set X-Robots-Tag "noindex, follow" env=NOINDEX
-</IfModule>
-
-# =============================
-# ✅ Redirect WWW to Non-WWW (SEO + AdSense)
-# =============================
+<IfModule mod_rewrite.c>
 RewriteEngine On
+
+# Force HTTPS + non-WWW in one redirect
+RewriteCond %{HTTPS} !=on [OR]
 RewriteCond %{HTTP_HOST} ^www\.ablatif\.com$ [NC]
-RewriteRule ^(.*)$ https://ablatif.com/$1 [L,R=301]
+RewriteRule ^ https://ablatif.com%{REQUEST_URI} [R=301,L]
+
+</IfModule>
 
 # =============================
-# ✅ Prevent cache only for blog.css (optional)
+# ✅ Security hardening (safe basics)
 # =============================
 <IfModule mod_headers.c>
-  <FilesMatch "blog\.css$">
-    Header set Cache-Control "no-cache, no-store, must-revalidate"
-    Header set Pragma "no-cache"
-    Header set Expires 0
-  </FilesMatch>
+  # Prevent MIME sniffing
+  Header set X-Content-Type-Options "nosniff"
+  # Basic clickjacking protection
+  Header set X-Frame-Options "SAMEORIGIN"
+  # Referrer policy
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# =============================
+# ✅ Compression (speed)
+# =============================
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript application/javascript application/json application/xml image/svg+xml
 </IfModule>
 
 # =============================
@@ -58,7 +56,14 @@ RewriteRule ^(.*)$ https://ablatif.com/$1 [L,R=301]
   ExpiresByType image/png  "access plus 30 days"
   ExpiresByType image/webp "access plus 30 days"
   ExpiresByType image/gif  "access plus 30 days"
+  ExpiresByType image/svg+xml "access plus 30 days"
   ExpiresByType text/css   "access plus 7 days"
   ExpiresByType application/javascript "access plus 7 days"
   ExpiresByType text/javascript "access plus 7 days"
 </IfModule>
+
+# =============================
+# ✅ IMPORTANT
+# Removed: "Noindex thin blog posts" rule
+# Because posts are now upgraded and must be indexable for AdSense review.
+# =============================
