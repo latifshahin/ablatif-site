@@ -23,7 +23,7 @@ AddType text/plain .txt
   SetEnvIf Request_URI "^/emi-calculator\.html$" NOINDEX
 
   # Noindex thin blog posts (expand them first, then remove from this rule)
-  SetEnvIf Request_URI "^/blog/posts/(islamic\-banking\-basics\-bangladesh|mobile\-banking\-vs\-bank\-app\-bangladesh)\.html$" NOINDEX
+  SetEnvIf Request_URI "^/blog/posts/(islamic\-banking\-basics\-bangladesh)\.html$" NOINDEX
 </IfModule>
 
 <IfModule mod_headers.c>
