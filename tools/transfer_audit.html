@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Transfer Audit Tool v13 (HTML + TXT)</title>
+<title>Transfer Audit Tool v15 (HTML + TXT)</title>
 <style>
   body{font-family: Arial, sans-serif; padding:16px; line-height:1.35;}
   .row{display:flex; gap:16px; flex-wrap:wrap;}
@@ -155,7 +155,7 @@
 </div>
 
 
-<h2>Transfer Audit Tool v13</h2>
+<h2>Transfer Audit Tool v15</h2>
 <div class="small muted">
   লক্ষ্য: দুই ফাইলের মধ্যে <b>Missing FT ref</b> বের করা, এবং প্রতিটি missing FT-এর সাথে জড়িত <b>Inputter, Amount, Dr/Cr Category</b> সহ <b>পূর্ণ রেকর্ড</b> দেখা/এক্সপোর্ট করা।<br/>
   ✅ <b>HTML missing in TXT</b> এবং ✅ <b>TXT missing in HTML</b> — দুটোই <b>ভিউ মুডে</b> দেখাবে এবং দুদিকের জন্য <b>আলাদা filter</b> থাকবে।
@@ -224,9 +224,10 @@
   </div>
 
   <div id="summaryPageOnly" class="printFrame">
-    <div style="text-align:center; margin-bottom:10px;">
-      <div style="font-size:18px; font-weight:800;" id="sumBankTitle">AGRANI BANK PLC</div>
+    <div style="text-align:center; margin-bottom:10px; position:relative;">
+      <div style="font-size:18px; font-weight:800;" id="sumBankTitle">অগ্রনী ব্যাংক পিএলসি</div>
       <div style="font-size:14px; font-weight:700;" id="sumBranchTitle">JAMALPUR BRANCH</div>
+      <div id="sumActionStamp" style="position:absolute; right:0; top:0; padding:6px 10px; border:2px solid #b00020; color:#b00020; font-weight:800; border-radius:10px; transform:rotate(-4deg); display:none; background:rgba(255,255,255,0.9);">ACTION REQUIRED</div>
       <div style="font-size:14px; font-weight:700;">Transfer Audit Summary</div>
       <div class="small muted" style="margin-top:4px;">
         Date: <span id="sumDate">—</span> &nbsp; | &nbsp; Audit Ref: <span id="sumAuditRef">—</span> &nbsp; | &nbsp; Generated: <span id="sumGeneratedAt">—</span>
@@ -247,7 +248,35 @@
       </div>
     </div>
 
-    <div class="grid3" style="gap:12px; margin-top:12px;">
+    
+    <div class="grid2" style="gap:12px; margin-top:12px;">
+      <div class="card" style="border:1px solid #e5e5e5;">
+        <div class="small muted">Totals (per file)</div>
+        <div class="small">HTML Debit Total: <b><span id="sumHtmlDebitTotal">0.00</span></b></div>
+        <div class="small">HTML Credit Total: <b><span id="sumHtmlCreditTotal">0.00</span></b></div>
+        <div class="small">TXT Debit Total: <b><span id="sumTxtDebitTotal">0.00</span></b></div>
+        <div class="small">TXT Credit Total: <b><span id="sumTxtCreditTotal">0.00</span></b></div>
+      </div>
+      <div class="card" style="border:1px solid #e5e5e5;">
+        <div class="small muted">Largest Transactions</div>
+        <div class="small">Max Debit: <b><span id="sumMaxDebitAmt">0.00</span></b> &nbsp; | &nbsp; Ref: <span id="sumMaxDebitRef">—</span> &nbsp; | &nbsp; Source: <span id="sumMaxDebitSrc">—</span></div>
+        <div class="small">Max Credit: <b><span id="sumMaxCreditAmt">0.00</span></b> &nbsp; | &nbsp; Ref: <span id="sumMaxCreditRef">—</span> &nbsp; | &nbsp; Source: <span id="sumMaxCreditSrc">—</span></div>
+      </div>
+    </div>
+
+    <div class="grid2" style="gap:12px; margin-top:12px;">
+      <div class="card" style="border:1px solid #e5e5e5;">
+        <div class="small muted">Inputter Summary (HTML)</div>
+        <div class="small muted">Count + Total Amount</div>
+        <div id="sumHtmlInputterTable" class="small" style="margin-top:6px;"></div>
+      </div>
+      <div class="card" style="border:1px solid #e5e5e5;">
+        <div class="small muted">Inputter Summary (TXT)</div>
+        <div class="small muted">Count + Total Amount</div>
+        <div id="sumTxtInputterTable" class="small" style="margin-top:6px;"></div>
+      </div>
+    </div>
+<div class="grid3" style="gap:12px; margin-top:12px;">
       <div class="card" style="border:1px solid #e5e5e5;">
         <div class="small muted">Findings</div>
         <div class="small">HTML missing in TXT: <b><span id="sumMissInTxt">0</span></b></div>
@@ -733,12 +762,30 @@ function parseHTML(hText){
   const dom = new DOMParser().parseFromString(hText, 'text/html');
   // meta: bank/branch/date (best-effort)
   const pageText = (dom.body ? dom.body.textContent : '').replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim();
+
+  // ব্যাংকের নাম ফিক্সড (Summary-তে), তাই এখানে শুধু branch/date best-effort
   const bankMatch = pageText.match(/([A-Z][A-Z\s\.]+BANK\s+LIMITED)/i);
-  const branchMatch = pageText.match(/([A-Z][A-Z\s]+BRANCH\s*\d*)/i);
-  const dateMatch = pageText.match(/Transaction\s*Date\s*[:-]?\s*([0-9]{1,2}\s+[A-Z]{3}\s+[0-9]{4})/i);
-  const bank = bankMatch ? bankMatch[1].toUpperCase().trim() : '—';
-  const branch = branchMatch ? branchMatch[1].toUpperCase().trim() : '—';
-  const date = dateMatch ? dateMatch[1].toUpperCase().trim() : '—';
+
+  // Branch: English (e.g., "JAMALPUR BRANCH2836") বা Bangla (e.g., "জামালপুর শাখা")
+  const branchMatchEn = pageText.match(/([A-Z][A-Z\s]+BRANCH\s*\d*)/i);
+  const branchMatchBn = pageText.match(/([অ-হA-Za-z\s\-]+?)\s*শাখা/);
+
+  // Date: "26 JAN 2026" / "26-01-2026" / "2026-01-26"
+  const dateMatch1 = pageText.match(/Transaction\s*Date\s*[:-]?\s*([0-9]{1,2}\s+[A-Z]{3}\s+[0-9]{4})/i);
+  const dateMatch2 = pageText.match(/Transaction\s*Date\s*[:-]?\s*([0-9]{1,2}[\/\-][0-9]{1,2}[\/\-][0-9]{2,4})/i);
+  const dateMatch3 = pageText.match(/Transaction\s*Date\s*[:-]?\s*([0-9]{4}[\/\-][0-9]{1,2}[\/\-][0-9]{1,2})/i);
+
+  const bank = bankMatch ? bankMatch[1].toUpperCase().trim() : '';
+  let branch = '';
+  if (branchMatchBn){
+    branch = (branchMatchBn[1] || '').trim() + ' শাখা';
+  } else if (branchMatchEn){
+    branch = (branchMatchEn[1] || '').toUpperCase().trim();
+    // strip trailing digits like BRANCH2836 -> BRANCH
+    branch = branch.replace(/(BRANCH)\s*\d+$/i, '$1').trim();
+  }
+
+  const date = (dateMatch1?.[1] || dateMatch2?.[1] || dateMatch3?.[1] || '').toString().trim();
 
   const trs = dom.querySelectorAll('tr');
   const rows = [];
@@ -1265,9 +1312,10 @@ function setSummaryStatic(hf, tf){
   el('sumHtmlFile', hf?.name || '—');
   el('sumTxtFile', tf?.name || '—');
 
-  // Bank/branch from meta (HTML best-effort), fallback to fixed
-  const bank = (htmlMeta && htmlMeta.bank) ? htmlMeta.bank : 'AGRANI BANK PLC';
-  const branch = (htmlMeta && htmlMeta.branch) ? htmlMeta.branch : 'JAMALPUR BRANCH';
+  // Bank name fixed; branch from HTML meta if available
+  const bank = 'অগ্রনী ব্যাংক পিএলসি';
+  const b0 = (htmlMeta && htmlMeta.branch) ? String(htmlMeta.branch).trim() : '';
+  const branch = (b0 && b0 !== '—') ? b0 : '—';
   el('sumBankTitle', bank);
   el('sumBranchTitle', branch);
 }
@@ -1351,21 +1399,137 @@ function updateOnePageCounts(htmlRefs, txtRefs){
   el('sumDupTxt', dupTxtRefs.length);
   el('sumBlankRefs', blankRefCount);
 
+  // --- Additional professional summary stats ---
+  const sumField = (rows, field)=>{
+    let s = 0;
+    for(const r of (rows||[])){
+      const v = toNum(r[field]);
+      if(isFinite(v)) s += v;
+    }
+    return s;
+  };
+  const fmtMoney = (n)=>{
+    if(!isFinite(n)) return '0.00';
+    try{
+      return n.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
+    }catch(e){
+      return (Math.round(n*100)/100).toFixed(2);
+    }
+  };
+
+  // Totals per file
+  const htmlDebitTotal  = sumField(htmlRows, 'debit_amt');
+  const htmlCreditTotal = sumField(htmlRows, 'credit_amt');
+  const txtDebitTotal   = sumField(txtRows,  'debit_amt');
+  const txtCreditTotal  = sumField(txtRows,  'credit_amt');
+
+  el('sumHtmlDebitTotal',  fmtMoney(htmlDebitTotal));
+  el('sumHtmlCreditTotal', fmtMoney(htmlCreditTotal));
+  el('sumTxtDebitTotal',   fmtMoney(txtDebitTotal));
+  el('sumTxtCreditTotal',  fmtMoney(txtCreditTotal));
+
+  // Inputter breakdown (Count + Sum of Amount; use Debit amount primarily, else Credit)
+  const inputterStats = (rows)=>{
+    const m = new Map();
+    for(const r of (rows||[])){
+      const name = (r.inputter || '—').toString().trim() || '—';
+      const amt = isFinite(toNum(r.debit_amt)) ? toNum(r.debit_amt) : toNum(r.credit_amt);
+      const cur = m.get(name) || {inputter:name, count:0, total:0};
+      cur.count += 1;
+      if(isFinite(amt)) cur.total += amt;
+      m.set(name, cur);
+    }
+    return Array.from(m.values()).sort((a,b)=> (b.total - a.total) || (b.count - a.count) || a.inputter.localeCompare(b.inputter));
+  };
+
+  const renderInputterTable = (stats, targetId)=>{
+    const box = document.getElementById(targetId);
+    if(!box) return;
+    if(!stats || !stats.length){ box.innerHTML = '<span class="muted">—</span>'; return; }
+    const top = stats.slice(0, 10);
+    let h = '<table style="width:100%; border-collapse:collapse; font-size:12px;">';
+    h += '<thead><tr>';
+    h += '<th style="border:1px solid #ddd; padding:4px 6px; text-align:left;">Inputter</th>';
+    h += '<th style="border:1px solid #ddd; padding:4px 6px; text-align:right;">Tx</th>';
+    h += '<th style="border:1px solid #ddd; padding:4px 6px; text-align:right;">Total</th>';
+    h += '</tr></thead><tbody>';
+    for(const r of top){
+      h += `<tr>
+        <td style="border:1px solid #ddd; padding:4px 6px;">${(r.inputter||'').toString().replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]))}</td>
+        <td style="border:1px solid #ddd; padding:4px 6px; text-align:right;">${r.count}</td>
+        <td style="border:1px solid #ddd; padding:4px 6px; text-align:right;">${fmtMoney(r.total)}</td>
+      </tr>`;
+    }
+    h += '</tbody></table>';
+    if(stats.length > top.length){
+      h += `<div class="muted" style="margin-top:4px; font-size:11px;">Showing top ${top.length} of ${stats.length} inputters</div>`;
+    }
+    box.innerHTML = h;
+  };
+
+  renderInputterTable(inputterStats(htmlRows), 'sumHtmlInputterTable');
+  renderInputterTable(inputterStats(txtRows),  'sumTxtInputterTable');
+
+  // Largest transactions (max debit / max credit) across both files
+  const pickMax = (rows, field)=> {
+    let best = null;
+    for(const r of (rows||[])){
+      const v = toNum(r[field]);
+      if(!isFinite(v)) continue;
+      if(!best || v > best.amt){
+        best = {amt:v, ref:r.ref || '—', inputter:r.inputter || '—'};
+      }
+    }
+    return best;
+  };
+
+  const maxHtmlDebit  = pickMax(htmlRows, 'debit_amt');
+  const maxTxtDebit   = pickMax(txtRows,  'debit_amt');
+  const maxHtmlCredit = pickMax(htmlRows, 'credit_amt');
+  const maxTxtCredit  = pickMax(txtRows,  'credit_amt');
+
+  const choose = (a, b)=>{
+    if(!a && !b) return null;
+    if(a && !b) return {src:'HTML', ...a};
+    if(!a && b) return {src:'TXT', ...b};
+    return (a.amt >= b.amt) ? {src:'HTML', ...a} : {src:'TXT', ...b};
+  };
+
+  const bestDebit  = choose(maxHtmlDebit,  maxTxtDebit);
+  const bestCredit = choose(maxHtmlCredit, maxTxtCredit);
+
+  el('sumMaxDebitAmt',   bestDebit ? fmtMoney(bestDebit.amt) : '0.00');
+  el('sumMaxDebitRef',   bestDebit ? bestDebit.ref : '—');
+  el('sumMaxDebitSrc',   bestDebit ? bestDebit.src : '—');
+
+  el('sumMaxCreditAmt',  bestCredit ? fmtMoney(bestCredit.amt) : '0.00');
+  el('sumMaxCreditRef',  bestCredit ? bestCredit.ref : '—');
+  el('sumMaxCreditSrc',  bestCredit ? bestCredit.src : '—');
+
   const matched = Math.max(0, Math.min(htmlRefs||0, txtRefs||0) - (missingHtmlAll.length + missingTxtAll.length));
   el('sumMatched', matched);
 
-  // Observation text
+  // Observation text (bank format + action stamp)
   const obs = document.getElementById('sumObservation');
+  const stamp = document.getElementById('sumActionStamp');
   if(obs){
-    const totalFindings = missingHtmlAll.length + missingTxtAll.length + amountMismatch.length;
+    const totalFindings = (missingHtmlAll.length||0) + (missingTxtAll.length||0) + (amountMismatch.length||0);
+    if(stamp) stamp.style.display = (totalFindings > 0) ? 'inline-block' : 'none';
+
     if(totalFindings === 0){
-      obs.textContent = 'No discrepancy found between registers. (No missing FT refs, no amount mismatch)';
+      obs.innerHTML = [
+        '<b>Result:</b> No discrepancy found between Before COB and After COB registers.',
+        '<b>Status:</b> OK (Matched / No missing FT refs / No amount mismatch).'
+      ].join('<br/>');
     } else {
-      const parts = [];
-      if(missingHtmlAll.length) parts.push(`HTML Missing in TXT: ${missingHtmlAll.length}`);
-      if(missingTxtAll.length)  parts.push(`TXT Missing in HTML: ${missingTxtAll.length}`);
-      if(amountMismatch.length) parts.push(`Amount mismatch: ${amountMismatch.length}`);
-      obs.textContent = 'Difference found between Before COB and After COB registers. Manual review required. ' + parts.join(' | ');
+      const lines = [];
+      lines.push('<b>Result:</b> Discrepancy found between Before COB (HTML) and After COB (TXT) registers.');
+      lines.push('<b>Status:</b> ACTION REQUIRED (Manual review & verification).');
+      if(missingHtmlAll.length) lines.push(`1) HTML missing in TXT (After COB): <b>${missingHtmlAll.length}</b>`);
+      if(missingTxtAll.length)  lines.push(`2) TXT missing in HTML (Before COB): <b>${missingTxtAll.length}</b>`);
+      if(amountMismatch.length) lines.push(`3) Amount mismatch: <b>${amountMismatch.length}</b>`);
+      lines.push('<span class="muted">Note: Please verify supporting vouchers/authorisation for the above FT references.</span>');
+      obs.innerHTML = lines.join('<br/>');
     }
   }
 
@@ -1386,8 +1550,8 @@ function downloadFindingsCSV(){
   const push = (type, r)=>rows.push({
     Finding: type,
     FT_Ref: r.ref || '',
-    Debit_Amt: r.dr_amt ?? '',
-    Credit_Amt: r.cr_amt ?? '',
+    Debit_Amt: (r.debit_amt ?? (r.debit_amt ?? r.dr_amt) ?? ''),
+    Credit_Amt: (r.credit_amt ?? (r.credit_amt ?? r.cr_amt) ?? ''),
     Inputter: r.inputter ?? '',
     Dr_Category: r.dr_cat ?? '',
     Cr_Category: r.cr_cat ?? '',
