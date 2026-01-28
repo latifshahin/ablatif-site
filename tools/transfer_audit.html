@@ -127,15 +127,15 @@
 <div class="modalOverlay" id="creditOverlay" role="dialog" aria-modal="true">
   <div class="modal">
     <div class="modalHeader">
-      <h3>Credit / যোগাযোগ</h3>
+      <h3>Credit / প্রয়োজনে যোগাযোগ</h3>
       <button class="modalClose" onclick="hideCredit()">✕</button>
     </div>
     <div class="modalBody">
-      <div><b>অগ্রণী ব্যাংক পিএলসি</b>, জামালপুর শাখা</div>
+      <div><b>অগ্রণী ব্যাংক পিএলসি</b>, জামালপুর শাখা/জামালপুর অঞ্চল</div>
       <div style="margin-top:6px;"><b>আব্দুল লতিফ (এসপিও)</b></div>
       <div>মোবাইল: ০১৫৫২৩৫৮৭৯৬</div>
       <div>ইমেইল: latifshahin@gmail.com</div>
-      <div class="muted small" style="margin-top:8px;">এই টুলটি দৈনিক ট্রান্সফার রেজিস্টার (Before COB HTML) বনাম COB report (After COB TXT) মিলিয়ে পার্থক্য/অডিট ট্র্যাক করার জন্য।</div>
+      <div class="muted small" style="margin-top:8px;">এই টুলটি দৈনিক ট্রান্সফার রেজিস্টার (Before COB HTML File) বনাম COB report (After COB TXT File) মিলিয়ে পার্থক্য/অডিট ট্র্যাক করার জন্য।</div>
     </div>
     <div class="modalFooter">
       <button class="modalClose" onclick="hideCredit()">OK</button>
@@ -153,6 +153,46 @@
     <a href="#summary">Category summary</a>
   </div>
 </div>
+<!-- Bootstrap Topbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top shadow-sm d-print-none">
+  <div class="container-fluid">
+    <span class="badge bg-primary me-3">Quick jump</span>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#quickJumpNav"
+      aria-controls="quickJumpNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="quickJumpNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-lg-2">
+        <li class="nav-item">
+          <a class="nav-link" href="#upload">Upload</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#auditHtml">HTML missing</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#auditTxt">TXT missing</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#summary">Category summary</a>
+        </li>
+      </ul>
+
+      <!-- Optional: right-side actions (remove if not needed) -->
+      <div class="d-flex align-items-center gap-2">
+        <a class="btn btn-outline-primary btn-sm" href="#upload">Go to upload</a>
+      </div>
+    </div>
+  </div>
+</nav>
 
 
 <h2>Transfer Audit Tool v15</h2>
