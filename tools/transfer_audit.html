@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Transfer Audit Tool v15 (HTML + TXT)</title>
+<title>Transfer Audit Tool v1.0</title>
 <style>
   body{font-family: Arial, sans-serif; padding:16px; line-height:1.35;}
   .row{display:flex; gap:16px; flex-wrap:wrap;}
@@ -144,18 +144,26 @@
 </div>
 
 
-<div class="topbar no-print">
-  <div class="nav">
-    <span class="tag">Quick jump</span>
-    <a href="#upload">Upload</a>
-    <a href="#auditHtml">HTML missing</a>
-    <a href="#auditTxt">TXT missing</a>
-    <a href="#summary">Category summary</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom sticky-top d-print-none">
+  <div class="container-fluid">
+    <span class="badge bg-secondary me-2">Quick jump</span>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#quickJumpNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="quickJumpNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="#upload">Upload</a></li>
+        <li class="nav-item"><a class="nav-link" href="#auditHtml">HTML missing</a></li>
+        <li class="nav-item"><a class="nav-link" href="#auditTxt">TXT missing</a></li>
+        <li class="nav-item"><a class="nav-link" href="#summary">Category summary</a></li>
+      </ul>
+    </div>
   </div>
-</div>
+</nav>
 
-
-<h2>Transfer Audit Tool v15</h2>
+<h2>Transfer Audit Tool v1.0</h2>
 <div class="small muted">
   লক্ষ্য: দুই ফাইলের মধ্যে <b>Missing FT ref</b> বের করা, এবং প্রতিটি missing FT-এর সাথে জড়িত <b>Inputter, Amount, Dr/Cr Category</b> সহ <b>পূর্ণ রেকর্ড</b> দেখা/এক্সপোর্ট করা।<br/>
   ✅ <b>HTML missing in TXT</b> এবং ✅ <b>TXT missing in HTML</b> — দুটোই <b>ভিউ মুডে</b> দেখাবে এবং দুদিকের জন্য <b>আলাদা filter</b> থাকবে।
@@ -212,8 +220,6 @@
     </div>
   </div>
 
-
-
 <div class="card w100 section" id="summaryOnePage">
   <div class="sectionTitle">
     <h3>🧾 One-page Audit Summary (Print / Save as PDF)</h3>
@@ -225,7 +231,7 @@
 
   <div id="summaryPageOnly" class="printFrame">
     <div style="text-align:center; margin-bottom:10px; position:relative;">
-      <div style="font-size:18px; font-weight:800;" id="sumBankTitle">অগ্রনী ব্যাংক পিএলসি</div>
+      <div style="font-size:18px; font-weight:800;" id="sumBankTitle">Agrani Bank PLC</div>
       <div style="font-size:14px; font-weight:700;" id="sumBranchTitle">JAMALPUR BRANCH</div>
       <div id="sumActionStamp" style="position:absolute; right:0; top:0; padding:6px 10px; border:2px solid #b00020; color:#b00020; font-weight:800; border-radius:10px; transform:rotate(-4deg); display:none; background:rgba(255,255,255,0.9);">ACTION REQUIRED</div>
       <div style="font-size:14px; font-weight:700;">Transfer Audit Summary</div>
@@ -822,7 +828,7 @@ function parseHTML(hText){
     }
   });
   const refCount = new Set(rows.map(r=>r.ref).filter(Boolean)).size;
-  return {rows, refCount, note:"OK"};
+  return { rows, refCount, note:"OK", meta:{ bank, branch, date } };
 }
 
 /* checkbox helpers */
@@ -1168,7 +1174,8 @@ let txtSummaryTotals  = {drTotal:0, crTotal:0};
 
 function updateOnePageSummary(htmlRefs, txtRefs){
   const b = document.getElementById('sumBank');
-  const br = document.getElementById('sumBranch');
+  const br = document.getElementById('sumBranchTitle');
+if (br) br.textContent = (htmlMeta?.branch && htmlMeta.branch !== '—') ? htmlMeta.branch : '—';
   const d = document.getElementById('sumDate');
   if(b) b.textContent = htmlMeta.bank || '—';
   if(br) br.textContent = htmlMeta.branch || '—';
@@ -1177,6 +1184,7 @@ function updateOnePageSummary(htmlRefs, txtRefs){
   const tR = document.getElementById('sumTxtRefs'); if(tR) tR.textContent = String(txtRefs ?? 0);
   const m1 = document.getElementById('sumMissInTxt'); if(m1) m1.textContent = String(missingHtmlAll.length);
   const m2 = document.getElementById('sumMissInHtml'); if(m2) m2.textContent = String(missingTxtAll.length);
+  
 }
 
 function updateCrossDiffUI(){
@@ -1215,10 +1223,13 @@ async function loadAll(){
     const h = parseHTML(hText);
     const t = parseTXTFixedWidth(tText);
 
-  htmlRows = h.rows;
-  txtRows = t.rows;
-  if(h.meta){ htmlMeta = h.meta; }
-  updateOnePageSummary(h.refCount, t.refCount);
+    htmlRows = h.rows;
+    txtRows = t.rows;
+
+    if (h.meta) htmlMeta = h.meta;
+
+    setSummaryStatic(hf, tf);  // ✅ after htmlMeta updated
+    updateOnePageSummary(h.refCount, t.refCount);
 
   const msg = [
     `HTML parsed rows: ${htmlRows.length} | unique FT refs: ${h.refCount} | note: ${h.note}`,
