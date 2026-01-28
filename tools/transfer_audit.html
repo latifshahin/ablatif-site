@@ -1,527 +1,753 @@
 <!DOCTYPE html>
+
 <html lang="bn">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Transfer Audit Tool v1.0</title>
 <style>
-  body{font-family: Arial, sans-serif; padding:16px; line-height:1.35;}
-  .row{display:flex; gap:16px; flex-wrap:wrap;}
-  .card{border:1px solid #ddd; border-radius:10px; padding:12px; box-shadow:0 1px 2px rgba(0,0,0,.06);}
-  .card h3{margin:0 0 10px;}
-  .w50{flex:1 1 520px;}
-  .w100{flex:1 1 100%;}
-  input[type=file]{margin:6px 0;}
-  button{padding:8px 12px; border-radius:8px; border:1px solid #999; background:#f7f7f7; cursor:pointer;}
-  button:hover{background:#efefef;}
-  table{border-collapse:collapse; width:100%; margin-top:10px;}
-  th,td{border:1px solid #bbb; padding:6px 8px; font-size:13px; vertical-align:top;}
-  th{background:#f2f2f2; text-align:left; position:sticky; top:0;}
-  td.num{text-align:right;}
-  .small{font-size:12px; color:#444;}
-  .pill{display:inline-block; padding:2px 8px; border:1px solid #ccc; border-radius:999px; margin:2px 4px 2px 0;}
-  .list{max-height:240px; overflow:auto; border:1px solid #ddd; border-radius:8px; padding:8px;}
-  .scrollTable{max-height:360px; overflow:auto; border:1px solid #ddd; border-radius:8px;}
-  .muted{color:#666;}
-  .grid2{display:grid; grid-template-columns: 1fr 1fr; gap:12px;}
-  .grid3{display:grid; grid-template-columns: 1fr 1fr 1fr; gap:12px;}
-  .btnRow{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; align-items:center;}
-  @media (max-width: 1100px){ .grid3{grid-template-columns:1fr;} }
-  @media (max-width: 900px){ .grid2{grid-template-columns:1fr;} }
-  code{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;}
+:root{
+  --bg: #f6f8fb;
+  --surface: #ffffff;
+  --surface-2:#fbfcfe;
+  --text:#0f172a;
+  --muted:#64748b;
+  --border:#e2e8f0;
+  --border-2:#cbd5e1;
+  --shadow: 0 1px 2px rgba(15,23,42,.06), 0 8px 24px rgba(15,23,42,.08);
+  --shadow-sm: 0 1px 2px rgba(15,23,42,.06);
+  --radius: 14px;
+  --radius-sm: 10px;
 
-  /* --- Smart UI tweaks --- */
-  h2{margin:0 0 6px;}
-  .topbar{position:sticky; top:0; background:#fff; padding:10px 0; z-index:20; border-bottom:1px solid #eee; margin-bottom:10px;}
-  .nav{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
-  .nav a{color:#0b57d0; text-decoration:none; font-size:13px; padding:6px 10px; border:1px solid #d7e3ff; border-radius:999px; background:#f5f9ff;}
-  .nav a:hover{background:#eaf2ff;}
-  .kpis{display:grid; grid-template-columns: repeat(4, minmax(180px, 1fr)); gap:10px; margin-top:10px;}
-  .kpi{border:1px solid #e5e5e5; border-radius:12px; padding:10px; background:#fcfcfc;}
-  .kpi .label{font-size:12px; color:#666;}
-  .kpi .value{font-size:18px; font-weight:700; margin-top:4px;}
-  .kpi .sub{font-size:12px; color:#666; margin-top:2px;}
-  .sectionTitle{display:flex; justify-content:space-between; gap:10px; align-items:flex-start; flex-wrap:wrap;}
-  .tag{display:inline-block; padding:2px 8px; border-radius:999px; border:1px solid #ddd; background:#fafafa; font-size:12px; color:#444;}
-  .btnRow .ghost{background:#fff;}
-  .btnRow .primary{background:#0b57d0; border-color:#0b57d0; color:#fff;}
-  .btnRow .primary:hover{background:#0949ae;}
-  .btnRow .pillBtn{border-radius:999px;}
-  .divider{height:1px; background:#eee; margin:14px 0;}
-  @media (max-width: 1050px){
-    .kpis{grid-template-columns: repeat(2, minmax(180px, 1fr));}
-  }
-  /* --- Print / PDF preview (Browser Print) --- */
-  #printArea{display:none;}
-  body.printing #printArea{display:block;}
+  --primary:#0b57d0;
+  --primary-2:#0949ae;
+  --danger:#b00020;
+  --success:#137333;
 
-  body.printing > *:not(#printArea){display:none !important;}
-  body.printing #printArea{display:block !important;}
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+}
 
-  .pagebreak{display:none;}
-  @media print{
-    .pagebreak{display:block; break-before: page; page-break-before: always;}
-    /* When printing summary, stack columns */
-    #summary .grid2{grid-template-columns:1fr !important;}
-  }
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  margin:0;
+  padding:20px;
+  font-family: var(--sans);
+  color:var(--text);
+  background: radial-gradient(1200px 600px at 10% 0%, #eef4ff 0%, transparent 60%),
+              radial-gradient(900px 500px at 90% 10%, #f2f7ff 0%, transparent 55%),
+              var(--bg);
+  line-height:1.4;
+  font-size:14px;
+}
 
-  @media print{
-    .no-print{display:none !important;}
-    body{padding:0;}
-    .card{border:none; box-shadow:none;}
-    th{position:static;}
-    .scrollTable{max-height:none; overflow:visible; border:none;}
-    .list{max-height:none; overflow:visible;}
-  }
+/* Layout */
+.row{display:flex; gap:16px; flex-wrap:wrap; align-items:stretch;}
+.w50{flex:1 1 520px;}
+.w100{flex:1 1 100%;}
+.grid2{display:grid; grid-template-columns: 1fr 1fr; gap:12px;}
+.grid3{display:grid; grid-template-columns: 1fr 1fr 1fr; gap:12px;}
+@media (max-width: 1100px){ .grid3{grid-template-columns:1fr;} }
+@media (max-width: 900px){ .grid2{grid-template-columns:1fr;} body{padding:14px;} }
 
+/* Headings */
+h2{margin:0 0 6px; font-size:22px; letter-spacing:.2px;}
+h3{margin:0 0 10px; font-size:16px;}
+h4{margin:0 0 6px; font-size:14px;}
+.muted{color:var(--muted);}
+.small{font-size:12px; color:var(--muted);}
 
-  /* --- Compact typography --- */
-  body{font-size:14px;}
-  h2{font-size:20px;}
-  h3{font-size:16px;}
-  h4{font-size:14px;}
-  th,td{font-size:12px;}
-  .small{font-size:11px;}
-  button{font-size:12px;}
-  input,select{font-size:12px;}
+/* Cards */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius: var(--radius);
+  padding:14px;
+  box-shadow: var(--shadow-sm);
+}
+.card.section{scroll-margin-top:88px;}
+.card:hover{border-color:#d7deea;}
+.divider{height:1px; background:var(--border); margin:14px 0;}
 
-  /* --- Checkbox list in 2 columns --- */
-  .list.twoCol{
-    column-count: 2;
-    column-gap: 14px;
-  }
-  .list.twoCol > div{
-    break-inside: avoid;
-    -webkit-column-break-inside: avoid;
-    page-break-inside: avoid;
-    margin-bottom: 4px;
-  }
-  @media (max-width: 900px){
-    .list.twoCol{column-count: 1;}
-  }
+.sectionTitle{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:flex-start;
+  flex-wrap:wrap;
+}
 
+/* Help / Instruction (collapsible) */
+.helpBox{
+  margin-top:10px;
+  padding:10px 12px;
+  border:1px dashed var(--border);
+  border-radius:12px;
+  background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%);
+}
+.helpBox > summary{
+  cursor:pointer;
+  font-weight:700;
+  color: var(--text);
+  list-style:none;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.helpBox > summary::-webkit-details-marker{display:none;}
+.helpBox[open]{border-style:solid;}
+.helpBody{margin-top:8px; color:var(--muted); font-size:12px; line-height:1.45;}
+.helpBody code{font-family:var(--mono); font-size:12px; background:#f1f5f9; padding:1px 6px; border-radius:8px; border:1px solid var(--border);}
 
-  /* --- Credit modal --- */
-  .modalOverlay{position:fixed; inset:0; background:rgba(0,0,0,.45); display:none; align-items:center; justify-content:center; z-index:9999; padding:16px;}
-  .modal{background:#fff; border-radius:14px; max-width:560px; width:100%; box-shadow:0 10px 30px rgba(0,0,0,.25); border:1px solid #e5e5e5;}
-  .modalHeader{padding:12px 14px; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center; gap:10px;}
-  .modalHeader h3{margin:0; font-size:15px;}
-  .modalBody{padding:12px 14px; font-size:13px; color:#333; line-height:1.45;}
-  .modalFooter{padding:12px 14px; border-top:1px solid #eee; display:flex; justify-content:flex-end; gap:8px;}
-  .modalClose{border-radius:10px; padding:8px 12px; border:1px solid #999; background:#f7f7f7; cursor:pointer; font-size:12px;}
-  .modalClose:hover{background:#efefef;}
+/* One-page Summary layout */
+.summaryGrid{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  gap:12px;
+  align-items:stretch;
+}
+@media (max-width: 980px){
+  .summaryGrid{grid-template-columns:repeat(2, minmax(0, 1fr));}
+}
+@media (max-width: 620px){
+  .summaryGrid{grid-template-columns:1fr;}
+}
+.summaryCard{
+  border:1px solid var(--border);
+  background:var(--surface);
+  box-shadow:none;
+}
+@media print{
+  .helpBox{display:none !important;}
+  #summaryPageOnly .summaryGrid{grid-template-columns:repeat(2, minmax(0,1fr)) !important;}
+}
+.tag{
+  display:inline-block;
+  padding:2px 8px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:var(--surface-2);
+  font-size:12px;
+  color:var(--muted);
+}
 
+/* Inputs */
+input, select, textarea{
+  font:inherit;
+  color:var(--text);
+}
+input[type=file]{margin:6px 0; width:100%;}
+input[type=text], input[type=number], select{
+  width:100%;
+  padding:9px 10px;
+  border-radius:12px;
+  border:1px solid var(--border-2);
+  background: #fff;
+  outline:none;
+  transition: box-shadow .15s, border-color .15s, transform .02s;
+}
+input[type=text]:focus, input[type=number]:focus, select:focus{
+  border-color: #97b9ff;
+  box-shadow: 0 0 0 4px rgba(11,87,208,.12);
+}
 
-  .printFrame{background:#fff; padding:12px; border:1px dashed #ddd; border-radius:10px;}
-  @media print{
-    body{padding:0;}
-    .no-print{display:none !important;}
-    .section{break-inside:avoid;}
-    .printFrame{border:none;}
-  }
+/* Buttons */
+.btnRow{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; align-items:center;}
+button{
+  appearance:none;
+  border-radius: 12px;
+  border:1px solid var(--border-2);
+  background: linear-gradient(180deg, #ffffff 0%, #f7f9fc 100%);
+  padding:9px 12px;
+  cursor:pointer;
+  font-weight:600;
+  font-size:12px;
+  color: var(--text);
+  box-shadow: 0 1px 0 rgba(15,23,42,.04);
+  transition: transform .05s, box-shadow .15s, border-color .15s, background .15s;
+}
+button:hover{border-color:#b7c5da; box-shadow: var(--shadow-sm);}
+button:active{transform: translateY(1px);}
+button:disabled{opacity:.6; cursor:not-allowed;}
+
+.pillBtn{border-radius:999px;}
+.ghost{background:#fff;}
+.primary{
+  color:#fff;
+  border-color: var(--primary);
+  background: linear-gradient(180deg, var(--primary) 0%, #0a4fc1 100%);
+}
+.primary:hover{background: linear-gradient(180deg, var(--primary-2) 0%, #083f9b 100%); border-color: var(--primary-2);}
+.danger{
+  color:#fff;
+  border-color: var(--danger);
+  background: linear-gradient(180deg, var(--danger) 0%, #8f0019 100%);
+}
+.danger:hover{filter:brightness(.96);}
+
+/* Pills in lists */
+.pill{
+  display:inline-flex;
+  align-items:center;
+  padding:2px 8px;
+  border:1px solid var(--border);
+  border-radius:999px;
+  margin:2px 6px 2px 0;
+  background:var(--surface-2);
+  color:var(--muted);
+  font-size:12px;
+}
+
+/* Lists */
+.list{
+  max-height:240px;
+  overflow:auto;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:10px;
+  background: #fff;
+}
+.list.twoCol{column-count:2; column-gap:14px;}
+.list.twoCol > div{break-inside:avoid; -webkit-column-break-inside:avoid; page-break-inside:avoid; margin-bottom:6px;}
+@media (max-width: 900px){ .list.twoCol{column-count:1;} }
+
+/* KPI */
+.kpis{display:grid; grid-template-columns: repeat(4, minmax(180px, 1fr)); gap:10px; margin-top:10px;}
+.kpi{
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:12px;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfcfe 100%);
+  box-shadow: var(--shadow-sm);
+}
+.kpi .label{font-size:12px; color:var(--muted);}
+.kpi .value{font-size:18px; font-weight:800; margin-top:6px; letter-spacing:.2px;}
+.kpi .sub{font-size:12px; color:var(--muted); margin-top:2px;}
+@media (max-width: 1050px){ .kpis{grid-template-columns: repeat(2, minmax(180px, 1fr));} }
+
+/* Table */
+.scrollTable{max-height:420px; overflow:auto; border:1px solid var(--border); border-radius:14px; background:#fff;}
+table{border-collapse:separate; border-spacing:0; width:100%; margin-top:10px;}
+th,td{
+  border-bottom:1px solid var(--border);
+  padding:8px 10px;
+  font-size:12px;
+  vertical-align:top;
+  background:#fff;
+}
+th{
+  position:sticky; top:0;
+  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+  color:#0f172a;
+  text-align:left;
+  font-weight:800;
+  z-index:2;
+  border-bottom:1px solid #dbe3ee;
+}
+tbody tr:hover td{background:#f8fbff;}
+td.num{text-align:right; font-variant-numeric: tabular-nums;}
+code{font-family:var(--mono); font-size:12px;}
+
+/* Navbar (no bootstrap needed) */
+.navbar{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(10px);
+  border:1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  margin-bottom:12px;
+  padding:8px 10px;
+}
+.navbar .container-fluid{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.navbar-nav{display:flex; gap:8px; flex-wrap:wrap; list-style:none; padding:0; margin:0;}
+.nav-link{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:700;
+  color: var(--primary);
+  padding:7px 10px;
+  border:1px solid #d7e3ff;
+  border-radius:999px;
+  background:#f5f9ff;
+}
+.nav-link:hover{background:#eaf2ff;}
+.badge{
+  display:inline-flex;
+  align-items:center;
+  height:26px;
+  padding:0 10px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--muted);
+  font-weight:800;
+  font-size:12px;
+}
+.navbar-toggler{display:none;} /* keep simple */
+.collapse.navbar-collapse{display:block;}
+
+/* Credit modal */
+.modalOverlay{position:fixed; inset:0; background:rgba(15,23,42,.55); display:none; align-items:center; justify-content:center; z-index:9999; padding:16px;}
+.modal{
+  background:var(--surface);
+  border-radius:18px;
+  max-width:560px;
+  width:100%;
+  box-shadow: var(--shadow);
+  border:1px solid var(--border);
+  overflow:hidden;
+}
+.modalHeader{padding:12px 14px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; gap:10px;}
+.modalHeader h3{margin:0; font-size:15px;}
+.modalBody{padding:12px 14px; font-size:13px; color:var(--text); line-height:1.45;}
+.modalFooter{padding:12px 14px; border-top:1px solid var(--border); display:flex; justify-content:flex-end; gap:8px;}
+.modalClose{border-radius:12px; padding:9px 12px;}
+
+/* Print / PDF */
+#printArea{display:none;}
+body.printing #printArea{display:block;}
+body.printing > *:not(#printArea){display:none !important;}
+.pagebreak{display:none;}
+@media print{
+  body{padding:0; background:#fff;}
+  .no-print{display:none !important;}
+  .card{border:none; box-shadow:none; padding:0;}
+  .navbar{display:none !important;}
+  .scrollTable{max-height:none; overflow:visible; border:none;}
+  .list{max-height:none; overflow:visible; border:none;}
+  th{position:static;}
+  .pagebreak{display:block; break-before:page; page-break-before:always;}
+  #summary .grid2{grid-template-columns:1fr !important;}
+}
+
+/* Summary frame */
+.printFrame{background:#fff; padding:12px; border:1px dashed var(--border); border-radius:14px;}
+@media print{ .printFrame{border:none; padding:0;} }
+
+/* One-page summary static header */
+.sumHeader{
+  text-align:center;
+  margin-bottom:12px;
+  padding:10px 10px 6px;
+  border-bottom:1px solid var(--border);
+}
+.sumBankStatic{
+  font-size:20px;
+  font-weight:900;
+  letter-spacing:.4px;
+  margin-bottom:10px;
+}
+.sumManualGap{
+  margin:0 auto 10px;
+  max-width:520px;
+  padding:10px 14px;
+  border:1.5px dashed var(--border);
+  border-radius:14px;
+  background:linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.6));
+}
+.sumLine{
+  height:16px;
+  border-bottom:1px dotted var(--border);
+}
+.sumAuditStatic{
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:.6px;
+  text-transform:none;
+  margin-top:6px;
+}
+
+/* Footnote credit / prepared-by */
+.sumFootnote{
+  margin-top:12px;
+  padding-top:10px;
+  border-top:1px solid var(--border);
+  font-size:12px;
+  color:var(--muted);
+}
+.sumPreparedTitle{font-weight:800; color:var(--text); margin-bottom:4px;}
+.sumPreparedBody{line-height:1.35;}
+.sumPreparedNote{margin-top:6px; font-weight:800; letter-spacing:.3px;}
+
+@media print{
+  .sumManualGap{border-color:#999;}
+  .sumFootnote{color:#333;}
+}
+
+/* Disable credit popup overlay (credit is shown as footnote in summary) */
+#creditOverlay{display:none !important;}
+
 </style>
 </head>
 <body>
-
-
-<div class="modalOverlay" id="creditOverlay" role="dialog" aria-modal="true">
-  <div class="modal">
-    <div class="modalHeader">
-      <h3>Credit / প্রয়োজনে যোগাযোগ</h3>
-      <button class="modalClose" onclick="hideCredit()">✕</button>
-    </div>
-    <div class="modalBody">
-      <div><b>অগ্রণী ব্যাংক পিএলসি</b>, জামালপুর শাখা/জামালপুর অঞ্চল</div>
-      <div style="margin-top:6px;"><b>আব্দুল লতিফ (এসপিও)</b></div>
-      <div>মোবাইল: ০১৫৫২-৩৫৮৭৯৬</div>
-      <div>ইমেইল: latifshahin@gmail.com</div>
-      <div class="muted small" style="margin-top:8px;">এই টুলটি দৈনিক ট্রান্সফার রেজিস্টার (Before COB HTML File) বনাম COB report (After COB TXT File) মিলিয়ে পার্থক্য/অডিট ট্র্যাক করার জন্য।</div>
-    </div>
-    <div class="modalFooter">
-      <button class="modalClose" onclick="hideCredit()">OK</button>
-    </div>
-  </div>
+<div aria-modal="true" class="modalOverlay" id="creditOverlay" role="dialog">
+<div class="modal">
+<div class="modalHeader">
+<h3>Credit / প্রয়োজনে যোগাযোগ</h3>
+<button class="modalClose" onclick="hideCredit()">✕</button>
 </div>
-
-
+<div class="modalBody">
+<div><b>অগ্রণী ব্যাংক পিএলসি</b>, জামালপুর শাখা/জামালপুর অঞ্চল</div>
+<div style="margin-top:6px;"><b>আব্দুল লতিফ (এসপিও)</b></div>
+<div>মোবাইল: ০১৫৫২-৩৫৮৭৯৬</div>
+<div>ইমেইল: latifshahin@gmail.com</div>
+<div class="muted small" style="margin-top:8px;">এই টুলটি দৈনিক ট্রান্সফার রেজিস্টার (Before COB HTML File) বনাম COB report (After COB TXT File) মিলিয়ে পার্থক্য/অডিট ট্র্যাক করার জন্য।</div>
+</div>
+<div class="modalFooter">
+<button class="modalClose" onclick="hideCredit()">OK</button>
+</div>
+</div>
+</div>
 <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom sticky-top d-print-none">
-  <div class="container-fluid">
-    <span class="badge bg-secondary me-2">Quick jump</span>
-
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#quickJumpNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="quickJumpNav">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item"><a class="nav-link" href="#upload">Upload</a></li>
-        <li class="nav-item"><a class="nav-link" href="#auditHtml">HTML missing</a></li>
-        <li class="nav-item"><a class="nav-link" href="#auditTxt">TXT missing</a></li>
-        <li class="nav-item"><a class="nav-link" href="#summary">Category summary</a></li>
-      </ul>
-    </div>
-  </div>
+<div class="container-fluid">
+<span class="badge bg-secondary me-2">Quick jump</span>
+<button class="navbar-toggler" data-bs-target="#quickJumpNav" data-bs-toggle="collapse" type="button">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="quickJumpNav">
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+<li class="nav-item"><a class="nav-link" href="#upload">Upload</a></li>
+<li class="nav-item"><a class="nav-link" href="#auditHtml">HTML missing</a></li>
+<li class="nav-item"><a class="nav-link" href="#auditTxt">TXT missing</a></li>
+<li class="nav-item"><a class="nav-link" href="#summary">Category summary</a></li>
+</ul>
+</div>
+</div>
 </nav>
-
 <h2>Transfer Audit Tool v1.0</h2>
 <div class="small muted">
   লক্ষ্য: দুই ফাইলের মধ্যে <b>Missing FT ref</b> বের করা, এবং প্রতিটি missing FT-এর সাথে জড়িত <b>Inputter, Amount, Dr/Cr Category</b> সহ <b>পূর্ণ রেকর্ড</b> দেখা/এক্সপোর্ট করা।<br/>
   ✅ <b>HTML missing in TXT</b> এবং ✅ <b>TXT missing in HTML</b> — দুটোই <b>ভিউ মুডে</b> দেখাবে এবং দুদিকের জন্য <b>আলাদা filter</b> থাকবে।
 </div>
-
 <div class="row" style="margin-top:12px;">
-  <div class="card w50 section" id="upload">
-    <div class="sectionTitle"><h3>Step 1 — ফাইল Upload</h3><div class="right no-print"><button class="pillBtn ghost" onclick="printSection('upload')">PDF Preview</button></div></div>
-    <div><b>Before COB (HTML register):</b> <input type="file" id="htmlFile" accept=".html,.htm,text/html"/></div>
-    <div><b>After COB (TXT register):</b> <input type="file" id="txtFile" accept=".txt,text/plain"/></div>
-    <div class="btnRow">
-      <button onclick="loadAll()">Load & Compare</button>
-      <span id="status" class="small muted"></span>
-    </div>
-    <div class="small muted" style="margin-top:8px;">
+<div class="card w50 section" id="upload">
+<div class="sectionTitle"><h3>Step 1 — ফাইল Upload</h3><div class="right no-print"><button class="pillBtn ghost" onclick="printSection('upload')">PDF Preview</button></div></div>
+<div><b>Before COB (HTML register):</b> <input accept=".html,.htm,text/html" id="htmlFile" type="file"/></div>
+<div><b>After COB (TXT register):</b> <input accept=".txt,text/plain" id="txtFile" type="file"/></div>
+<div class="btnRow">
+<button onclick="loadAll()">Load &amp; Compare</button>
+<span class="small muted" id="status"></span>
+</div>
+<div class="small muted" style="margin-top:8px;">
       Debug: নিচের বক্সে parse/compare counts দেখাবে—যদি ref 0 হয় তাহলে সাথে সাথে বোঝা যাবে TXT/HTML থেকে ref পড়া যাচ্ছে না।
     </div>
-  </div>
-
-  <div class="card w50 section" id="debugBox">
-    <div class="sectionTitle"><h3>Debug / Counts</h3><div class="right no-print"><button class="pillBtn ghost" onclick="printSection('debugBox')">PDF Preview</button></div></div>
-    <div id="debug" class="small" style="white-space:pre-wrap;"></div>
-  </div>
-
-  
-  <div class="card w100 section" id="kpis">
-    <div class="sectionTitle">
-      <h3>At-a-glance</h3>
-      <div class="right no-print">
-        <button class="pillBtn ghost" onclick="printSection('kpis')">PDF Preview</button>
-      </div>
-    </div>
-    <div class="kpis">
-      <div class="kpi">
-        <div class="label">HTML — Rows / Unique FT</div>
-        <div class="value" id="kpiHtmlRows">0</div>
-        <div class="sub">Unique: <span id="kpiHtmlRefs">0</span></div>
-      </div>
-      <div class="kpi">
-        <div class="label">TXT — Rows / Unique FT</div>
-        <div class="value" id="kpiTxtRows">0</div>
-        <div class="sub">Unique: <span id="kpiTxtRefs">0</span></div>
-      </div>
-      <div class="kpi">
-        <div class="label">Missing counts</div>
-        <div class="value"><span id="kpiHtmlMissing">0</span> / <span id="kpiTxtMissing">0</span></div>
-        <div class="sub">HTML-in-TXT / TXT-in-HTML</div>
-      </div>
-      <div class="kpi">
-        <div class="label">Cross-file totals (Summary filters)</div>
-        <div class="value">ΔDebit: <span id="kpiDebitDelta">0.00</span></div>
-        <div class="sub">ΔCredit: <span id="kpiCreditDelta">0.00</span></div>
-      </div>
-    </div>
-  </div>
-
+</div>
+<div class="card w50 section" id="debugBox">
+<div class="sectionTitle"><h3>Debug / Counts</h3><div class="right no-print"><button class="pillBtn ghost" onclick="printSection('debugBox')">PDF Preview</button></div></div>
+<div class="small" id="debug" style="white-space:pre-wrap;"></div>
+</div>
+<div class="card w100 section" id="kpis">
+<div class="sectionTitle">
+<h3>📌 At-a-glance</h3>
+<div class="right no-print">
+<button class="pillBtn ghost" onclick="printSection('kpis')">PDF Preview</button>
+</div>
+</div>
+<div class="kpis">
+<div class="kpi">
+<div class="label">HTML — Rows / Unique FT</div>
+<div class="value" id="kpiHtmlRows">0</div>
+<div class="sub">Unique: <span id="kpiHtmlRefs">0</span></div>
+</div>
+<div class="kpi">
+<div class="label">TXT — Rows / Unique FT</div>
+<div class="value" id="kpiTxtRows">0</div>
+<div class="sub">Unique: <span id="kpiTxtRefs">0</span></div>
+</div>
+<div class="kpi">
+<div class="label">Missing counts</div>
+<div class="value"><span id="kpiHtmlMissing">0</span> / <span id="kpiTxtMissing">0</span></div>
+<div class="sub">HTML-in-TXT / TXT-in-HTML</div>
+</div>
+<div class="kpi">
+<div class="label">Cross-file totals (Summary filters)</div>
+<div class="value">ΔDebit: <span id="kpiDebitDelta">0.00</span></div>
+<div class="sub">ΔCredit: <span id="kpiCreditDelta">0.00</span></div>
+</div>
+</div>
+</div>
 <div class="card w100 section" id="summaryOnePage">
-  <div class="sectionTitle">
-    <h3>🧾 One-page Audit Summary (Print / Save as PDF)</h3>
-    <div class="right no-print">
-      <button class="pillBtn" onclick="printSummaryPage()">Print / Save PDF</button>
-      <button class="pillBtn ghost" onclick="downloadFindingsCSV()">Export Findings (CSV)</button>
-    </div>
-  </div>
-
-  <div id="summaryPageOnly" class="printFrame">
-    <div style="text-align:center; margin-bottom:10px; position:relative;">
-      <div style="font-size:18px; font-weight:800;" id="sumBankTitle">Agrani Bank PLC</div>
-      <div style="font-size:14px; font-weight:700;" id="sumBranchTitle">JAMALPUR BRANCH</div>
-      <div id="sumActionStamp" style="position:absolute; right:0; top:0; padding:6px 10px; border:2px solid #b00020; color:#b00020; font-weight:800; border-radius:10px; transform:rotate(-4deg); display:none; background:rgba(255,255,255,0.9);">ACTION REQUIRED</div>
-      <div style="font-size:14px; font-weight:700;">Transfer Audit Summary</div>
-      <div class="small muted" style="margin-top:4px;">
-        Date: <span id="sumDate">—</span> &nbsp; | &nbsp; Audit Ref: <span id="sumAuditRef">—</span> &nbsp; | &nbsp; Generated: <span id="sumGeneratedAt">—</span>
-      </div>
-    </div>
-
-    <div class="grid2" style="gap:12px;">
-      <div class="card" style="border:1px solid #e5e5e5;">
-        <div class="small muted">Files</div>
-        <div class="small">Before COB (HTML): <span id="sumHtmlFile">—</span></div>
-        <div class="small">After COB (TXT): <span id="sumTxtFile">—</span></div>
-      </div>
-      <div class="card" style="border:1px solid #e5e5e5;">
-        <div class="small muted">Key Metrics</div>
-        <div class="small">HTML unique FT refs: <b><span id="sumHtmlRefs">0</span></b></div>
-        <div class="small">TXT unique FT refs: <b><span id="sumTxtRefs">0</span></b></div>
-        <div class="small">Matched refs: <b><span id="sumMatched">0</span></b></div>
-      </div>
-    </div>
-
-    
-    <div class="grid2" style="gap:12px; margin-top:12px;">
-      <div class="card" style="border:1px solid #e5e5e5;">
-        <div class="small muted">Totals (per file)</div>
-        <div class="small">HTML Debit Total: <b><span id="sumHtmlDebitTotal">0.00</span></b></div>
-        <div class="small">HTML Credit Total: <b><span id="sumHtmlCreditTotal">0.00</span></b></div>
-        <div class="small">TXT Debit Total: <b><span id="sumTxtDebitTotal">0.00</span></b></div>
-        <div class="small">TXT Credit Total: <b><span id="sumTxtCreditTotal">0.00</span></b></div>
-      </div>
-      <div class="card" style="border:1px solid #e5e5e5;">
-        <div class="small muted">Largest Transactions</div>
-        <div class="small">Max Debit: <b><span id="sumMaxDebitAmt">0.00</span></b> &nbsp; | &nbsp; Ref: <span id="sumMaxDebitRef">—</span> &nbsp; | &nbsp; Source: <span id="sumMaxDebitSrc">—</span></div>
-        <div class="small">Max Credit: <b><span id="sumMaxCreditAmt">0.00</span></b> &nbsp; | &nbsp; Ref: <span id="sumMaxCreditRef">—</span> &nbsp; | &nbsp; Source: <span id="sumMaxCreditSrc">—</span></div>
-      </div>
-    </div>
-
-    <div class="grid2" style="gap:12px; margin-top:12px;">
-      <div class="card" style="border:1px solid #e5e5e5;">
-        <div class="small muted">Inputter Summary (HTML)</div>
-        <div class="small muted">Count + Total Amount</div>
-        <div id="sumHtmlInputterTable" class="small" style="margin-top:6px;"></div>
-      </div>
-      <div class="card" style="border:1px solid #e5e5e5;">
-        <div class="small muted">Inputter Summary (TXT)</div>
-        <div class="small muted">Count + Total Amount</div>
-        <div id="sumTxtInputterTable" class="small" style="margin-top:6px;"></div>
-      </div>
-    </div>
-<div class="grid3" style="gap:12px; margin-top:12px;">
-      <div class="card" style="border:1px solid #e5e5e5;">
-        <div class="small muted">Findings</div>
-        <div class="small">HTML missing in TXT: <b><span id="sumMissInTxt">0</span></b></div>
-        <div class="small">TXT missing in HTML: <b><span id="sumMissInHtml">0</span></b></div>
-        <div class="small">Amount mismatch: <b><span id="sumAmtMismatch">0</span></b></div>
-      </div>
-      <div class="card" style="border:1px solid #e5e5e5;">
-        <div class="small muted">Data quality</div>
-        <div class="small">HTML duplicate FT refs: <b><span id="sumDupHtml">0</span></b></div>
-        <div class="small">TXT duplicate FT refs: <b><span id="sumDupTxt">0</span></b></div>
-        <div class="small">Blank/invalid refs: <b><span id="sumBlankRefs">0</span></b></div>
-      </div>
-      <div class="card" style="border:1px solid #e5e5e5;">
-        <div class="small muted">Observation</div>
-        <div class="small" id="sumObservation">—</div>
-      </div>
-    </div>
-
-    <div class="card" style="border:1px solid #e5e5e5; margin-top:12px;">
-      <div class="small muted">Prepared by</div>
-      <div class="small"><b>Abdul Latif (SPO)</b></div>
-      <div class="small">Agrani Bank PLC, Jamalpur Branch</div>
-      <div class="small">Contact: 01552358796 &nbsp; | &nbsp; Email: latifshahin@gmail.com</div>
-      <div class="small muted" style="margin-top:6px;">For Internal Audit & Control Purpose Only</div>
-    </div>
-  </div>
+<div class="sectionTitle">
+<h3>🧾 One-page Audit Summary (Print / Save as PDF)</h3>
+<div class="right no-print">
+<button class="pillBtn" onclick="printSummaryPage()">Print / Save PDF</button>
+<button class="pillBtn ghost" onclick="downloadFindingsCSV()">Export Findings (CSV)</button>
+</div>
+</div>
+<div class="printFrame" id="summaryPageOnly">
+<div class="sumHeader">
+<div class="sumBankStatic">AGRANI BANK PLC</div>
+<div aria-label="Manual notes area" class="sumManualGap">
+<div class="sumLine"></div>
+</div>
+<div class="sumAuditStatic">Auditing Daily Transfer Register</div>
+</div>
+<div class="summaryGrid">
+<div class="card summaryCard">
+<div class="small muted">Files</div>
+<div class="small">Before COB (HTML): <span id="sumHtmlFile">—</span></div>
+<div class="small">After COB (TXT): <span id="sumTxtFile">—</span></div>
+</div>
+<div class="card summaryCard">
+<div class="small muted">Key Metrics</div>
+<div class="small">HTML unique FT refs: <b><span id="sumHtmlRefs">0</span></b></div>
+<div class="small">TXT unique FT refs: <b><span id="sumTxtRefs">0</span></b></div>
+<div class="small">Matched refs: <b><span id="sumMatched">0</span></b></div>
+</div>
+<div class="card summaryCard">
+<div class="small muted">Findings</div>
+<div class="small">HTML missing in TXT: <b><span id="sumMissInTxt">0</span></b></div>
+<div class="small">TXT missing in HTML: <b><span id="sumMissInHtml">0</span></b></div>
+<div class="small">Amount mismatch: <b><span id="sumAmtMismatch">0</span></b></div>
+</div>
+<div class="card summaryCard">
+<div class="small muted">Totals (per file)</div>
+<div class="small">HTML Debit Total: <b><span id="sumHtmlDebitTotal">0.00</span></b></div>
+<div class="small">HTML Credit Total: <b><span id="sumHtmlCreditTotal">0.00</span></b></div>
+<div class="small">TXT Debit Total: <b><span id="sumTxtDebitTotal">0.00</span></b></div>
+<div class="small">TXT Credit Total: <b><span id="sumTxtCreditTotal">0.00</span></b></div>
+</div>
+<div class="card summaryCard">
+<div class="small muted">Largest Transactions</div>
+<div class="small">Max Debit: <b><span id="sumMaxDebitAmt">0.00</span></b>   |   Ref: <span id="sumMaxDebitRef">—</span>   |   Source: <span id="sumMaxDebitSrc">—</span></div>
+<div class="small">Max Credit: <b><span id="sumMaxCreditAmt">0.00</span></b>   |   Ref: <span id="sumMaxCreditRef">—</span>   |   Source: <span id="sumMaxCreditSrc">—</span></div>
+</div>
+<div class="card summaryCard">
+<div class="small muted">Data quality</div>
+<div class="small">HTML duplicate FT refs: <b><span id="sumDupHtml">0</span></b></div>
+<div class="small">TXT duplicate FT refs: <b><span id="sumDupTxt">0</span></b></div>
+<div class="small">Blank/invalid refs: <b><span id="sumBlankRefs">0</span></b></div>
+</div>
+<div class="sumFootnote">
+<div class="small muted">Observation</div>
+<div class="small" id="sumObservation">—</div>
+</div>
+</div>
+<div class="grid2" style="gap:12px; margin-top:12px;">
+<div class="card summaryCard">
+<div class="small muted">Inputter Summary (HTML)</div>
+<div class="small muted">Count + Total Amount</div>
+<div class="small" id="sumHtmlInputterTable" style="margin-top:6px;"></div>
+</div>
+<div class="card summaryCard">
+<div class="small muted">Inputter Summary (TXT)</div>
+<div class="small muted">Count + Total Amount</div>
+<div class="small" id="sumTxtInputterTable" style="margin-top:6px;"></div>
+</div>
 </div>
 
+<div class="sumFootnote">
+<div class="sumPreparedTitle">Prepared by</div>
+<div class="sumPreparedBody">
+      Abdul Latif (SPO)<br/>
+      Agrani Bank PLC, Jamalpur Branch<br/>
+      Contact: 01552358796   |   Email: latifshahin@gmail.com
+    </div>
+<div class="sumPreparedNote">For Internal Audit &amp; Control Purpose Only</div>
+</div>
+</div>
+</div>
 <div class="card w100 section" id="auditHtml">
-    <div class="sectionTitle"><h3>✅ Audit Result 1: HTML-এ আছে কিন্তু TXT-এ নেই (Full Details)</h3><div class="right no-print"><label class="small muted" style="display:inline-flex;align-items:center;gap:6px;margin-right:10px;"><input type="checkbox" id="htmlCompact" onchange="applyMissing(\'html\')"> Compact view</label><button class="pillBtn ghost" onclick="printSection('auditHtml')">PDF Preview</button></div></div>
-    <div class="small muted" id="htmlMissCount"></div>
-
-    <div class="card" style="background:#fbfbfb;">
-      <div class="grid2">
-        <div>
-          <div class="small muted"><b>Search (HTML missing)</b></div>
-          <input id="htmlMissSearch" type="text" placeholder="FT / Account / Title / Inputter / Category" style="width:100%; padding:8px; border-radius:8px; border:1px solid #bbb;">
-        </div>
-        <div>
-          <div class="small muted"><b>Amount range (optional)</b></div>
-          <div class="btnRow">
-            <input id="htmlMinAmt" type="number" step="0.01" placeholder="Min (any)" style="flex:1; min-width:160px; padding:8px; border-radius:8px; border:1px solid #bbb;">
-            <input id="htmlMaxAmt" type="number" step="0.01" placeholder="Max (any)" style="flex:1; min-width:160px; padding:8px; border-radius:8px; border:1px solid #bbb;">
-          </div>
-        </div>
-      </div>
-
-      <div class="grid3" style="margin-top:10px;">
-        <div>
-          <div class="small muted"><b>Inputter Select/Deselect</b></div>
-          <div class="list" id="htmlMissInputters" class="list twoCol" id="htmlMissInputters"></div>
-          <div class="btnRow">
-            <button onclick="checkAll('htmlMissInputters', true)">Select all</button>
-            <button onclick="checkAll('htmlMissInputters', false)">Clear</button>
-          </div>
-        </div>
-        <div>
-          <div class="small muted"><b>Dr.Category Select/Deselect</b></div>
-          <div class="list" id="htmlMissDrCats" class="list twoCol" id="htmlMissDrCats"></div>
-          <div class="btnRow">
-            <button onclick="checkAll('htmlMissDrCats', true)">Select all</button>
-            <button onclick="checkAll('htmlMissDrCats', false)">Clear</button>
-          </div>
-        </div>
-        <div>
-          <div class="small muted"><b>Cr.Category Select/Deselect</b></div>
-          <div class="list" id="htmlMissCrCats" class="list twoCol" id="htmlMissCrCats"></div>
-          <div class="btnRow">
-            <button onclick="checkAll('htmlMissCrCats', true)">Select all</button>
-            <button onclick="checkAll('htmlMissCrCats', false)">Clear</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="btnRow">
-        <button onclick="applyMissing('html')">Apply</button>
-        <button onclick="resetMissing('html')">Reset</button>
-        <button onclick="copyRefs('html')">Copy FT list</button>
-        <button onclick="downloadCSV('html')">Download CSV</button>
-      </div>
-    </div>
-
-    <div class="scrollTable" style="margin-top:10px;">
-      <table id="htmlMissTable">
-        <thead><tr id="htmlMissHead"></tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="card w100 section" id="auditTxt">
-    <div class="sectionTitle"><h3>✅ Audit Result 2: TXT-এ আছে কিন্তু HTML-এ নেই (Full Details)</h3><div class="right no-print"><label class="small muted" style="display:inline-flex;align-items:center;gap:6px;margin-right:10px;"><input type="checkbox" id="txtCompact" onchange="applyMissing(\'txt\')"> Compact view</label><button class="pillBtn ghost" onclick="printSection('auditTxt')">PDF Preview</button></div></div>
-    <div class="small muted" id="txtMissCount"></div>
-
-    <div class="card" style="background:#fbfbfb;">
-      <div class="grid2">
-        <div>
-          <div class="small muted"><b>Search (TXT missing)</b></div>
-          <input id="txtMissSearch" type="text" placeholder="FT / Account / Title / Inputter / Category" style="width:100%; padding:8px; border-radius:8px; border:1px solid #bbb;">
-        </div>
-        <div>
-          <div class="small muted"><b>Amount range (optional)</b></div>
-          <div class="btnRow">
-            <input id="txtMinAmt" type="number" step="0.01" placeholder="Min (any)" style="flex:1; min-width:160px; padding:8px; border-radius:8px; border:1px solid #bbb;">
-            <input id="txtMaxAmt" type="number" step="0.01" placeholder="Max (any)" style="flex:1; min-width:160px; padding:8px; border-radius:8px; border:1px solid #bbb;">
-          </div>
-        </div>
-      </div>
-
-      <div class="grid3" style="margin-top:10px;">
-        <div>
-          <div class="small muted"><b>Inputter Select/Deselect</b></div>
-          <div class="list" id="txtMissInputters" class="list twoCol" id="txtMissInputters"></div>
-          <div class="btnRow">
-            <button onclick="checkAll('txtMissInputters', true)">Select all</button>
-            <button onclick="checkAll('txtMissInputters', false)">Clear</button>
-          </div>
-        </div>
-        <div>
-          <div class="small muted"><b>Dr.Category Select/Deselect</b></div>
-          <div class="list" id="txtMissDrCats" class="list twoCol" id="txtMissDrCats"></div>
-          <div class="btnRow">
-            <button onclick="checkAll('txtMissDrCats', true)">Select all</button>
-            <button onclick="checkAll('txtMissDrCats', false)">Clear</button>
-          </div>
-        </div>
-        <div>
-          <div class="small muted"><b>Cr.Category Select/Deselect</b></div>
-          <div class="list" id="txtMissCrCats" class="list twoCol" id="txtMissCrCats"></div>
-          <div class="btnRow">
-            <button onclick="checkAll('txtMissCrCats', true)">Select all</button>
-            <button onclick="checkAll('txtMissCrCats', false)">Clear</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="btnRow">
-        <button onclick="applyMissing('txt')">Apply</button>
-        <button onclick="resetMissing('txt')">Reset</button>
-        <button onclick="copyRefs('txt')">Copy FT list</button>
-        <button onclick="downloadCSV('txt')">Download CSV</button>
-      </div>
-    </div>
-
-    <div class="scrollTable" style="margin-top:10px;">
-      <table id="txtMissTable">
-        <thead><tr id="txtMissHead"></tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-  </div>
-  
-  <div class="card w100 section" id="summary">
-    <div class="sectionTitle"><h3>Category Summary (Filtered) — Important</h3><div class="right no-print"><button class="pillBtn ghost" onclick="printSection('summary')">PDF Preview</button></div></div>
-    <div class="small muted">
+<div class="sectionTitle"><h3>✅ Audit Result 1: HTML-এ আছে কিন্তু TXT-এ নেই (Full Details)</h3><div class="right no-print"><label class="small muted" style="display:inline-flex;align-items:center;gap:6px;margin-right:10px;"><input id="htmlCompact" onchange="applyMissing(\'html\')" type="checkbox"/> Compact view</label><button class="pillBtn ghost" onclick="printSection('auditHtml')">PDF Preview</button></div></div>
+<div class="small muted" id="htmlMissCount"></div>
+<div class="card" style="background:#fbfbfb;">
+<div class="grid2">
+<div>
+<div class="small muted"><b>Search (HTML missing)</b></div>
+<input id="htmlMissSearch" placeholder="FT / Account / Title / Inputter / Category" style="width:100%; padding:8px; border-radius:8px; border:1px solid #bbb;" type="text"/>
+</div>
+<div>
+<div class="small muted"><b>Amount range (optional)</b></div>
+<div class="btnRow">
+<input id="htmlMinAmt" placeholder="Min (any)" step="0.01" style="flex:1; min-width:160px; padding:8px; border-radius:8px; border:1px solid #bbb;" type="number"/>
+<input id="htmlMaxAmt" placeholder="Max (any)" step="0.01" style="flex:1; min-width:160px; padding:8px; border-radius:8px; border:1px solid #bbb;" type="number"/>
+</div>
+</div>
+</div>
+<div class="grid3" style="margin-top:10px;">
+<div>
+<div class="small muted"><b>Inputter Select/Deselect</b></div>
+<div class="list twoCol" id="htmlMissInputters"></div>
+<div class="btnRow">
+<button onclick="checkAll('htmlMissInputters', true)">Select all</button>
+<button onclick="checkAll('htmlMissInputters', false)">Clear</button>
+</div>
+</div>
+<div>
+<div class="small muted"><b>Dr.Category Select/Deselect</b></div>
+<div class="list twoCol" id="htmlMissDrCats"></div>
+<div class="btnRow">
+<button onclick="checkAll('htmlMissDrCats', true)">Select all</button>
+<button onclick="checkAll('htmlMissDrCats', false)">Clear</button>
+</div>
+</div>
+<div>
+<div class="small muted"><b>Cr.Category Select/Deselect</b></div>
+<div class="list twoCol" id="htmlMissCrCats"></div>
+<div class="btnRow">
+<button onclick="checkAll('htmlMissCrCats', true)">Select all</button>
+<button onclick="checkAll('htmlMissCrCats', false)">Clear</button>
+</div>
+</div>
+</div>
+<div class="btnRow">
+<button onclick="applyMissing('html')">Apply</button>
+<button onclick="resetMissing('html')">Reset</button>
+<button onclick="copyRefs('html')">Copy FT list</button>
+<button onclick="downloadCSV('html')">Download CSV</button>
+</div>
+</div>
+<div class="scrollTable" style="margin-top:10px;">
+<table id="htmlMissTable">
+<thead><tr id="htmlMissHead"></tr></thead>
+<tbody></tbody>
+</table>
+</div>
+</div>
+<div class="card w100 section" id="auditTxt">
+<div class="sectionTitle"><h3>✅ Audit Result 2: TXT-এ আছে কিন্তু HTML-এ নেই (Full Details)</h3><div class="right no-print"><label class="small muted" style="display:inline-flex;align-items:center;gap:6px;margin-right:10px;"><input id="txtCompact" onchange="applyMissing(\'txt\')" type="checkbox"/> Compact view</label><button class="pillBtn ghost" onclick="printSection('auditTxt')">PDF Preview</button></div></div>
+<div class="small muted" id="txtMissCount"></div>
+<div class="card" style="background:#fbfbfb;">
+<div class="grid2">
+<div>
+<div class="small muted"><b>Search (TXT missing)</b></div>
+<input id="txtMissSearch" placeholder="FT / Account / Title / Inputter / Category" style="width:100%; padding:8px; border-radius:8px; border:1px solid #bbb;" type="text"/>
+</div>
+<div>
+<div class="small muted"><b>Amount range (optional)</b></div>
+<div class="btnRow">
+<input id="txtMinAmt" placeholder="Min (any)" step="0.01" style="flex:1; min-width:160px; padding:8px; border-radius:8px; border:1px solid #bbb;" type="number"/>
+<input id="txtMaxAmt" placeholder="Max (any)" step="0.01" style="flex:1; min-width:160px; padding:8px; border-radius:8px; border:1px solid #bbb;" type="number"/>
+</div>
+</div>
+</div>
+<div class="grid3" style="margin-top:10px;">
+<div>
+<div class="small muted"><b>Inputter Select/Deselect</b></div>
+<div class="list twoCol" id="txtMissInputters"></div>
+<div class="btnRow">
+<button onclick="checkAll('txtMissInputters', true)">Select all</button>
+<button onclick="checkAll('txtMissInputters', false)">Clear</button>
+</div>
+</div>
+<div>
+<div class="small muted"><b>Dr.Category Select/Deselect</b></div>
+<div class="list twoCol" id="txtMissDrCats"></div>
+<div class="btnRow">
+<button onclick="checkAll('txtMissDrCats', true)">Select all</button>
+<button onclick="checkAll('txtMissDrCats', false)">Clear</button>
+</div>
+</div>
+<div>
+<div class="small muted"><b>Cr.Category Select/Deselect</b></div>
+<div class="list twoCol" id="txtMissCrCats"></div>
+<div class="btnRow">
+<button onclick="checkAll('txtMissCrCats', true)">Select all</button>
+<button onclick="checkAll('txtMissCrCats', false)">Clear</button>
+</div>
+</div>
+</div>
+<div class="btnRow">
+<button onclick="applyMissing('txt')">Apply</button>
+<button onclick="resetMissing('txt')">Reset</button>
+<button onclick="copyRefs('txt')">Copy FT list</button>
+<button onclick="downloadCSV('txt')">Download CSV</button>
+</div>
+</div>
+<div class="scrollTable" style="margin-top:10px;">
+<table id="txtMissTable">
+<thead><tr id="txtMissHead"></tr></thead>
+<tbody></tbody>
+</table>
+</div>
+</div>
+<div class="card w100 section" id="summary">
+<div class="sectionTitle"><h3>Category Summary (Filtered) — Important</h3><div class="right no-print"><button class="pillBtn ghost" onclick="printSection('summary')">PDF Preview</button></div></div>
+<div class="small muted">
       HTML এবং TXT—দুই পাশের জন্য আলাদা Inputter Select/Deselect আছে। টিক/আনটিক করে Category-wise Total Debit/Credit বের করতে পারবেন।
     </div>
-
-    <div class="grid2" style="margin-top:10px;">
-      <div class="card section" id="summaryHtml" style="background:#fbfbfb;">
-        <div class="sectionTitle"><h4 style="margin:0 0 6px;">HTML Summary — Inputter Filter</h4><div class="right no-print"><button class="pillBtn ghost" onclick="printSection('summaryHtml')">PDF (HTML Summary)</button></div></div>
-        <div class="small muted">HTML Debit/Credit difference: <b id="htmlSumDiff">0.00</b></div>
-        <div class="list" id="htmlSumInputters" class="list twoCol" id="htmlSumInputters"></div>
-        <div class="btnRow">
-          <button onclick="checkAll('htmlSumInputters', true)">Select all</button>
-          <button onclick="checkAll('htmlSumInputters', false)">Clear</button>
-          <button onclick="generateSummary('html')">Generate</button>
-          <button onclick="downloadSummaryCSV('html')">Download CSV</button>
-        </div>
-
-        <div class="grid2" style="margin-top:10px;">
-          <div>
-            <div class="small muted"><b>Debit by Dr.Category</b></div>
-            <table id="htmlSumDrTable">
-              <thead><tr><th>Dr.Category</th><th class="num">Total Debit</th></tr></thead>
-              <tbody></tbody>
-              <tfoot><tr><th>Total</th><th class="num" id="htmlSumDrTotal">0.00</th></tr></tfoot>
-            </table>
-          </div>
-          <div>
-            <div class="small muted"><b>Credit by Cr.Category</b></div>
-            <table id="htmlSumCrTable">
-              <thead><tr><th>Cr.Category</th><th class="num">Total Credit</th></tr></thead>
-              <tbody></tbody>
-              <tfoot><tr><th>Total</th><th class="num" id="htmlSumCrTotal">0.00</th></tr></tfoot>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <div class="pagebreak"></div>
-
-      <div class="card section" id="summaryTxt" style="background:#fbfbfb;">
-        <div class="sectionTitle"><h4 style="margin:0 0 6px;">TXT Summary — Inputter Filter</h4><div class="right no-print"><button class="pillBtn ghost" onclick="printSection('summaryTxt')">PDF (TXT Summary)</button></div></div>
-        <div class="list" id="txtSumInputters" class="list twoCol" id="txtSumInputters"></div>
-        <div class="btnRow">
-          <button onclick="checkAll('txtSumInputters', true)">Select all</button>
-          <button onclick="checkAll('txtSumInputters', false)">Clear</button>
-          <button onclick="generateSummary('txt')">Generate</button>
-          <button onclick="downloadSummaryCSV('txt')">Download CSV</button>
-        </div>
-
-        <div class="grid2" style="margin-top:10px;">
-          <div>
-            <div class="small muted"><b>Debit by Dr.Category</b></div>
-            <table id="txtSumDrTable">
-              <thead><tr><th>Dr.Category</th><th class="num">Total Debit</th></tr></thead>
-              <tbody></tbody>
-              <tfoot><tr><th>Total</th><th class="num" id="txtSumDrTotal">0.00</th></tr></tfoot>
-            </table>
-          </div>
-          <div>
-            <div class="small muted"><b>Credit by Cr.Category</b></div>
-            <table id="txtSumCrTable">
-              <thead><tr><th>Cr.Category</th><th class="num">Total Credit</th></tr></thead>
-              <tbody></tbody>
-              <tfoot><tr><th>Total</th><th class="num" id="txtSumCrTotal">0.00</th></tr></tfoot>
-            </table>
-          </div>
-        </div>
-
-        <div class="small muted" style="margin-top:8px;">
+<div class="grid2" style="margin-top:10px;">
+<div class="card section" id="summaryHtml" style="background:#fbfbfb;">
+<div class="sectionTitle"><h4 style="margin:0 0 6px;">HTML Summary — Inputter Filter</h4><div class="right no-print"><button class="pillBtn ghost" onclick="printSection('summaryHtml')">PDF (HTML Summary)</button></div></div>
+<div class="small muted">HTML Debit/Credit difference: <b id="htmlSumDiff">0.00</b></div>
+<div class="list twoCol" id="htmlSumInputters"></div>
+<div class="btnRow">
+<button onclick="checkAll('htmlSumInputters', true)">Select all</button>
+<button onclick="checkAll('htmlSumInputters', false)">Clear</button>
+<button onclick="generateSummary('html')">Generate</button>
+<button onclick="downloadSummaryCSV('html')">Download CSV</button>
+</div>
+<div class="grid2" style="margin-top:10px;">
+<div>
+<div class="small muted"><b>Debit by Dr.Category</b></div>
+<table id="htmlSumDrTable">
+<thead><tr><th>Dr.Category</th><th class="num">Total Debit</th></tr></thead>
+<tbody></tbody>
+<tfoot><tr><th>Total</th><th class="num" id="htmlSumDrTotal">0.00</th></tr></tfoot>
+</table>
+</div>
+<div>
+<div class="small muted"><b>Credit by Cr.Category</b></div>
+<table id="htmlSumCrTable">
+<thead><tr><th>Cr.Category</th><th class="num">Total Credit</th></tr></thead>
+<tbody></tbody>
+<tfoot><tr><th>Total</th><th class="num" id="htmlSumCrTotal">0.00</th></tr></tfoot>
+</table>
+</div>
+</div>
+</div>
+<div class="pagebreak"></div>
+<div class="card section" id="summaryTxt" style="background:#fbfbfb;">
+<div class="sectionTitle"><h4 style="margin:0 0 6px;">TXT Summary — Inputter Filter</h4><div class="right no-print"><button class="pillBtn ghost" onclick="printSection('summaryTxt')">PDF (TXT Summary)</button></div></div>
+<div class="list twoCol" id="txtSumInputters"></div>
+<div class="btnRow">
+<button onclick="checkAll('txtSumInputters', true)">Select all</button>
+<button onclick="checkAll('txtSumInputters', false)">Clear</button>
+<button onclick="generateSummary('txt')">Generate</button>
+<button onclick="downloadSummaryCSV('txt')">Download CSV</button>
+</div>
+<div class="grid2" style="margin-top:10px;">
+<div>
+<div class="small muted"><b>Debit by Dr.Category</b></div>
+<table id="txtSumDrTable">
+<thead><tr><th>Dr.Category</th><th class="num">Total Debit</th></tr></thead>
+<tbody></tbody>
+<tfoot><tr><th>Total</th><th class="num" id="txtSumDrTotal">0.00</th></tr></tfoot>
+</table>
+</div>
+<div>
+<div class="small muted"><b>Credit by Cr.Category</b></div>
+<table id="txtSumCrTable">
+<thead><tr><th>Cr.Category</th><th class="num">Total Credit</th></tr></thead>
+<tbody></tbody>
+<tfoot><tr><th>Total</th><th class="num" id="txtSumCrTotal">0.00</th></tr></tfoot>
+</table>
+</div>
+</div>
+<div class="small muted" style="margin-top:8px;">
           TXT Debit/Credit difference: <b id="txtSumDiff">0.00</b>
-        <div class="divider"></div>
-        <div class="small muted"><b>HTML vs TXT Difference (Summary filters applied)</b><br/>
+<div class="divider"></div>
+<div class="small muted"><b>HTML vs TXT Difference (Summary filters applied)</b><br/>
           ΔDebit (HTML - TXT): <b id="sumDebitDelta">0.00</b><br/>
           ΔCredit (HTML - TXT): <b id="sumCreditDelta">0.00</b>
-        </div>
-        </div>
-      </div>
-    </div>
-  </div>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 
 <script>
 let htmlRows = [];
 let txtRows = [];
-let htmlMeta = {bank:'—', branch:'—', date:'—'};
+let htmlMeta = {bank:'—', branch:'—', register:'—', date:'—'};
 let missingHtmlAll = [];
 let missingTxtAll = [];
 let missingHtmlFiltered = [];
@@ -766,32 +992,63 @@ function parseTXTFixedWidth(tText){
 /* HTML parsing */
 function parseHTML(hText){
   const dom = new DOMParser().parseFromString(hText, 'text/html');
-  // meta: bank/branch/date (best-effort)
-  const pageText = (dom.body ? dom.body.textContent : '').replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim();
 
-  // ব্যাংকের নাম ফিক্সড (Summary-তে), তাই এখানে শুধু branch/date best-effort
-  const bankMatch = pageText.match(/([A-Z][A-Z\s\.]+BANK\s+LIMITED)/i);
+  // Collect visible lines from top (before table header), to avoid grabbing "DEBIT BRANCH / CREDIT BRANCH" etc.
+  const rawLines = (dom.body ? (dom.body.innerText || dom.body.textContent || '') : '')
+    .replace(/\u00a0/g,' ')
+    .split(/\n+/)
+    .map(l => l.trim())
+    .filter(Boolean);
 
-  // Branch: English (e.g., "JAMALPUR BRANCH2836") বা Bangla (e.g., "জামালপুর শাখা")
-  const branchMatchEn = pageText.match(/([A-Z][A-Z\s]+BRANCH\s*\d*)/i);
-  const branchMatchBn = pageText.match(/([অ-হA-Za-z\s\-]+?)\s*শাখা/);
+  const headerLines = [];
+  for(const line of rawLines){
+    const L = line.toUpperCase();
+    if(/TR\(DEBIT\)|DEBIT\.AC|CREDIT\.AC|INPUTTER|AUTHORISER|DEBIT\s+BRANCH|CREDIT\s+BRANCH/.test(L)) break;
+    headerLines.push(line);
+    if(headerLines.length >= 18) break;
+  }
+  const headerText = headerLines.join(' ').replace(/\s+/g,' ').trim();
+  const pageText = (dom.body ? (dom.body.textContent || '') : '').replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim();
 
-  // Date: "26 JAN 2026" / "26-01-2026" / "2026-01-26"
-  const dateMatch1 = pageText.match(/Transaction\s*Date\s*[:-]?\s*([0-9]{1,2}\s+[A-Z]{3}\s+[0-9]{4})/i);
-  const dateMatch2 = pageText.match(/Transaction\s*Date\s*[:-]?\s*([0-9]{1,2}[\/\-][0-9]{1,2}[\/\-][0-9]{2,4})/i);
-  const dateMatch3 = pageText.match(/Transaction\s*Date\s*[:-]?\s*([0-9]{4}[\/\-][0-9]{1,2}[\/\-][0-9]{1,2})/i);
+  // BANK
+  const bankMatch =
+    headerText.match(/\b([A-Z][A-Z\s\.]+BANK\s+(?:LIMITED|PLC))\b/i) ||
+    pageText.match(/\b([A-Z][A-Z\s\.]+BANK\s+(?:LIMITED|PLC))\b/i);
 
-  const bank = bankMatch ? bankMatch[1].toUpperCase().trim() : '';
+  // REGISTER
+  const regMatch =
+    headerText.match(/\b(DAILY\s+TRANSFER\s+REGISTER)\b/i) ||
+    pageText.match(/\b(DAILY\s+TRANSFER\s+REGISTER)\b/i);
+
+  // BRANCH (prefer header), remove trailing digits like "BRANCH2836"
+  const branchMatch =
+    headerText.match(/\b([A-Z][A-Z\s\-]*BRANCH)\s*\d*\b/i) ||
+    pageText.match(/\b([A-Z][A-Z\s\-]*BRANCH)\s*\d*\b/i);
+
+  // BN branch, if present (e.g., "জামালপুর শাখা")
+  const branchMatchBn =
+    headerText.match(/([অ-হA-Za-z\s\-]+?)\s*শাখা/) ||
+    pageText.match(/([অ-হA-Za-z\s\-]+?)\s*শাখা/);
+
+  // DATE
+  const dateMatch =
+    headerText.match(/Transaction\s*Date\s*[:\-]?\s*([0-9]{1,2}\s+[A-Z]{3}\s+[0-9]{4})/i) ||
+    headerText.match(/Transaction\s*Date\s*[:\-]?\s*([0-9]{1,2}[\/\-][0-9]{1,2}[\/\-][0-9]{2,4})/i) ||
+    headerText.match(/Transaction\s*Date\s*[:\-]?\s*([0-9]{4}[\/\-][0-9]{1,2}[\/\-][0-9]{1,2})/i) ||
+    pageText.match(/Transaction\s*Date\s*[:\-]?\s*([0-9]{1,2}\s+[A-Z]{3}\s+[0-9]{4})/i) ||
+    pageText.match(/Transaction\s*Date\s*[:\-]?\s*([0-9]{1,2}[\/\-][0-9]{1,2}[\/\-][0-9]{2,4})/i) ||
+    pageText.match(/Transaction\s*Date\s*[:\-]?\s*([0-9]{4}[\/\-][0-9]{1,2}[\/\-][0-9]{1,2})/i);
+
+  const bank = bankMatch ? bankMatch[1].toUpperCase().replace(/\s+/g,' ').trim() : '';
+  const register = regMatch ? regMatch[1].toUpperCase().replace(/\s+/g,' ').trim() : '';
   let branch = '';
-  if (branchMatchBn){
+  if(branchMatchBn){
     branch = (branchMatchBn[1] || '').trim() + ' শাখা';
-  } else if (branchMatchEn){
-    branch = (branchMatchEn[1] || '').toUpperCase().trim();
-    // strip trailing digits like BRANCH2836 -> BRANCH
-    branch = branch.replace(/(BRANCH)\s*\d+$/i, '$1').trim();
+  } else if(branchMatch){
+    branch = branchMatch[1].toUpperCase().replace(/\s+/g,' ').trim();
   }
 
-  const date = (dateMatch1?.[1] || dateMatch2?.[1] || dateMatch3?.[1] || '').toString().trim();
+  const date = (dateMatch?.[1] || '').toString().trim();
 
   const trs = dom.querySelectorAll('tr');
   const rows = [];
@@ -828,8 +1085,9 @@ function parseHTML(hText){
     }
   });
   const refCount = new Set(rows.map(r=>r.ref).filter(Boolean)).size;
-  return { rows, refCount, note:"OK", meta:{ bank, branch, date } };
+  return { rows, refCount, note:"OK", meta:{ bank, branch, register, date } };
 }
+
 
 /* checkbox helpers */
 function renderCheckboxList(boxId, items){
@@ -1173,20 +1431,21 @@ let txtSummaryTotals  = {drTotal:0, crTotal:0};
 
 
 function updateOnePageSummary(htmlRefs, txtRefs){
-  const b = document.getElementById('sumBank');
-  const br = document.getElementById('sumBranchTitle');
-if (br) br.textContent = (htmlMeta?.branch && htmlMeta.branch !== '—') ? htmlMeta.branch : '—';
-  const d = document.getElementById('sumDate');
-  if(b) b.textContent = htmlMeta.bank || '—';
-  if(br) br.textContent = htmlMeta.branch || '—';
-  if(d) d.textContent = htmlMeta.date || '—';
+  const bankEl = document.getElementById('sumBankTitle');
+  const branchEl = document.getElementById('sumBranchTitle');
+  const regEl = document.getElementById('sumRegisterTitle');
+  const dateEl = document.getElementById('sumDate');
+
+  if(bankEl) bankEl.textContent = (htmlMeta?.bank && htmlMeta.bank !== '—' && htmlMeta.bank.trim()) ? htmlMeta.bank : 'AGRANI BANK PLC';
+  if(branchEl) branchEl.textContent = (htmlMeta?.branch && htmlMeta.branch !== '—') ? htmlMeta.branch : '—';
+  if(regEl) regEl.textContent = (htmlMeta?.register && htmlMeta.register !== '—' && htmlMeta.register.trim()) ? htmlMeta.register : 'DAILY TRANSFER REGISTER';
+  if(dateEl) dateEl.textContent = htmlMeta?.date || '—';
+
   const hR = document.getElementById('sumHtmlRefs'); if(hR) hR.textContent = String(htmlRefs ?? 0);
   const tR = document.getElementById('sumTxtRefs'); if(tR) tR.textContent = String(txtRefs ?? 0);
   const m1 = document.getElementById('sumMissInTxt'); if(m1) m1.textContent = String(missingHtmlAll.length);
   const m2 = document.getElementById('sumMissInHtml'); if(m2) m2.textContent = String(missingTxtAll.length);
-  
 }
-
 function updateCrossDiffUI(){
   const debitDelta = (htmlSummaryTotals.drTotal - txtSummaryTotals.drTotal);
   const creditDelta = (htmlSummaryTotals.crTotal - txtSummaryTotals.crTotal);
@@ -1226,9 +1485,8 @@ async function loadAll(){
     htmlRows = h.rows;
     txtRows = t.rows;
 
-    if (h.meta) htmlMeta = h.meta;
-
-    setSummaryStatic(hf, tf);  // ✅ after htmlMeta updated
+    if (h.meta) htmlMeta = {bank:'—', branch:'—', register:'—', date:'—', ...h.meta};
+setSummaryStatic(hf, tf);  // ✅ after htmlMeta updated
     updateOnePageSummary(h.refCount, t.refCount);
 
   const msg = [
@@ -1278,6 +1536,27 @@ async function loadAll(){
   }
 }
 
+
+function injectHelpBoxes(){
+  const sections = Array.from(document.querySelectorAll('.card.section'));
+  const defaultHelp = `• Select <code>Before COB (HTML)</code> and <code>After COB (TXT)</code> files<br/>
+• Click <b>Load & Compare</b> to generate results<br/>
+• Use filters to narrow down by Inputter / Category / Amount range<br/>
+• Use <b>Compact view</b> for wide tables (audit section)<br/>
+• For PDF: open <b>🧾 One-page Audit Summary</b> → Print / Save PDF`;
+  sections.forEach(sec=>{
+    // Skip if already exists
+    if(sec.querySelector('.helpBox')) return;
+    const title = sec.querySelector('.sectionTitle');
+    if(!title) return;
+    const details = document.createElement('details');
+    details.className = 'helpBox';
+    details.innerHTML = `<summary>ℹ️ Help / Instruction</summary><div class="helpBody">${defaultHelp}</div>`;
+    // put just after header
+    title.insertAdjacentElement('afterend', details);
+  });
+}
+
 function showCredit(){
   const o = document.getElementById('creditOverlay');
   if(o) o.style.display = 'flex';
@@ -1287,6 +1566,7 @@ function hideCredit(){
   if(o) o.style.display = 'none';
 }
 document.addEventListener('DOMContentLoaded', ()=>{
+  injectHelpBoxes();
   // show small credit popup once per browser session
   try{
     if(!sessionStorage.getItem('transferToolCreditShown')){
@@ -1322,14 +1602,9 @@ function setSummaryStatic(hf, tf){
   el('sumAuditRef', makeAuditRef());
   el('sumHtmlFile', hf?.name || '—');
   el('sumTxtFile', tf?.name || '—');
-
-  // Bank name fixed; branch from HTML meta if available
-  const bank = 'অগ্রনী ব্যাংক পিএলসি';
-  const b0 = (htmlMeta && htmlMeta.branch) ? String(htmlMeta.branch).trim() : '';
-  const branch = (b0 && b0 !== '—') ? b0 : '—';
-  el('sumBankTitle', bank);
-  el('sumBranchTitle', branch);
+  // Bank/Branch/Register/Date are filled from HTML meta in updateOnePageSummary()
 }
+
 
 function validateHtmlContent(text){
   const t = (text || '').toLowerCase();
