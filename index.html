@@ -1,1005 +1,508 @@
-<!-- TEST DEPLOY SUCCESS -->
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Google Analytics -->
+  <title>Abdul Latif — Banking Tools & Finance Guides (Bangladesh)</title>
+  <meta name="description" content="Practical banking and personal finance guides for Bangladesh by Abdul Latif (Agrani Bank PLC). EMI, COF, eligibility tools and explainers." />
+  <link rel="canonical" href="https://ablatif.com/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Abdul Latif — Banking Tools & Finance Guides (Bangladesh)" />
+  <meta property="og:description" content="Finance explainers and calculators built from real banking experience." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ablatif.com/" />
+  <meta property="og:image" content="https://ablatif.com/img/profile.jpg" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Google Analytics (keep your existing ID) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-X4YNW0E3XG"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
+    function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-X4YNW0E3XG');
   </script>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- Google AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3608304969182163"
+  <!-- AdSense (approved sites still keep this; for review it's okay) -->
+  <script async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3608304969182163"
     crossorigin="anonymous"></script>
 
-  <title>Abdul Latif – Banking Professional & Developer</title>
-
   <!-- Bootstrap -->
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-
+  <link href="css/bootstrap.min.css" rel="stylesheet" />
   <!-- Font Awesome -->
-  <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
 
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <!-- Structured data: Person + Website (legitimacy + E‑E‑A‑T signals) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Abdul Latif",
+    "url": "https://ablatif.com/",
+    "image": "https://ablatif.com/img/profile.jpg",
+    "jobTitle": "Banking Professional",
+    "worksFor": { "@type": "Organization", "name": "Agrani Bank PLC" },
+    "sameAs": [
+      "https://www.facebook.com/latifmirabdul/",
+      "https://www.instagram.com/ablatifshahin/",
+      "https://x.com/latifju",
+      "https://www.youtube.com/@DiptiYTV"
+    ]
+  }
+  </script>
 
   <style>
-    /* ===========================
-       THEME VARIABLES
-    ============================ */
-    :root {
-      --bg: #ffffff;
-      --text: #111111;
-      --subtext: #555555;
-      --card: #fafafa;
-      --accent: #000000;
+    :root{
+      --bg:#ffffff;
+      --text:#0b1a33;
+      --sub:#33415c;
+      --card:#ffffff;
+      --muted:#f5f7fb;
+      --border:rgba(11,26,51,.10);
+      --accent:#0d6efd;
+      --shadow:0 12px 30px rgba(0,0,0,.08);
     }
-
-    /* FINTECH BLUE THEME */
-    body.fintech {
-      --bg: #f5f9ff;
-      --text: #0b1a33;
-      --subtext: #33415c;
-      --card: #ffffff;
-      --accent: #007bff;
+    body{
+      font-family:"Inter",sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.7;
+      padding-top:72px;
     }
+    a{ color:var(--accent); text-decoration:none; }
+    a:hover{ text-decoration:underline; }
 
-    /* ===========================
-       BASE STYLING
-    ============================ */
-    * { box-sizing: border-box; }
-
-    body {
-      font-family: "Inter", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      transition: background 0.3s ease, color 0.3s ease;
-      padding-top: 70px;
+    .navbar{
+      background:rgba(255,255,255,.95);
+      box-shadow:0 1px 14px rgba(0,0,0,.06);
+      padding:12px 0;
+      border:none;
     }
+    .navbar .navbar-brand{ font-weight:800; letter-spacing:.5px; }
+    .navbar .nav > li > a{ font-weight:700; color:var(--text) !important; }
+    .navbar .nav > li > a:hover{ color:var(--accent) !important; }
 
-    a { text-decoration: none; }
-
-    /* ===========================
-       PRELOADER
-    ============================ */
-    #preloader {
-      position: fixed;
-      inset: 0;
-      background: var(--bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
+    .hero{
+      background:linear-gradient(180deg, #f5f9ff 0%, #ffffff 70%);
+      padding:60px 0 30px;
+      border-bottom:1px solid var(--border);
     }
-
-    .loader-circle {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      border: 3px solid rgba(0, 0, 0, 0.1);
-      border-top-color: var(--accent);
-      animation: spin 0.9s linear infinite;
+    .hero-card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:28px;
+      box-shadow:var(--shadow);
     }
-
-    .loader-label {
-      margin-top: 12px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      font-size: 14px;
-      text-align: center;
+    .hero-photo{
+      width:110px;height:110px;border-radius:50%;
+      object-fit:cover;
+      border:3px solid #fff;
+      box-shadow:0 8px 22px rgba(0,0,0,.14);
     }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ===========================
-       NAVBAR
-    ============================ */
-    .navbar {
-      background: var(--bg);
-      border: none;
-      box-shadow: 0 1px 10px rgba(0, 0, 0, 0.06);
-      padding: 12px 0;
-      transition: padding 0.25s ease, box-shadow 0.25s ease;
+    .hero h1{ margin:10px 0 6px; font-size:38px; font-weight:800; }
+    .hero .subtitle{ color:var(--sub); font-weight:700; }
+    .badge-line{
+      margin-top:10px;
+      display:flex; flex-wrap:wrap; gap:10px;
     }
-
-    .navbar.nav-shrink {
-      padding: 4px 0;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+    .mini-badge{
+      background:var(--muted);
+      border:1px solid var(--border);
+      border-radius:999px;
+      padding:6px 12px;
+      font-weight:700;
+      color:var(--sub);
+      font-size:13px;
     }
-
-    .navbar a {
-      font-weight: 600;
-      color: var(--text) !important;
+    .btn-pill{
+      border-radius:999px;
+      padding:12px 18px;
+      font-weight:800;
+      border:1px solid var(--accent);
+      display:inline-block;
+      margin:6px 6px 0 0;
     }
+    .btn-solid{ background:var(--accent); color:#fff; }
+    .btn-solid:hover{ color:#fff; opacity:.92; text-decoration:none; }
+    .btn-outline{ background:transparent; color:var(--accent); }
+    .btn-outline:hover{ background:var(--accent); color:#fff; text-decoration:none; }
 
-    .navbar a:hover { color: var(--accent) !important; }
-    .navbar .fa-adjust { font-size: 18px; }
-
-    /* ===========================
-       HERO SECTION
-    ============================ */
-    .hero {
-      padding: 80px 20px 100px;
-      text-align: center;
+    section{ padding:44px 0; }
+    .section-title{
+      font-size:30px;
+      font-weight:900;
+      margin:0 0 8px;
     }
-
-    .hero-inner {
-      max-width: 820px;
-      margin: 0 auto;
+    .section-sub{
+      color:var(--sub);
+      max-width:900px;
+      font-size:17px;
     }
-
-    .hero h1 {
-      font-size: 52px;
-      font-weight: 700;
-      margin-bottom: 10px;
+    .cardx{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:20px;
+      height:100%;
+      box-shadow:0 10px 26px rgba(0,0,0,.05);
     }
-
-    .hero-subtitle {
-      font-size: 20px;
-      color: var(--subtext);
-      margin-bottom: 20px;
-      min-height: 28px;
-      font-weight: 600;
+    .cardx h4{ font-weight:900; margin-top:8px; }
+    .muted{
+      background:var(--muted);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:18px;
     }
+    .small-note{ color:var(--sub); font-size:14px; }
 
-    .hero p {
-      max-width: 720px;
-      margin: 0 auto 35px;
-      font-size: 18px;
-      color: var(--subtext);
-      line-height: 1.9;
+    footer{
+      border-top:1px solid var(--border);
+      padding:28px 0;
+      color:var(--sub);
     }
+    .footer-links a{ margin:0 8px; font-size:18px; color:var(--sub); }
+    .footer-links a:hover{ color:var(--accent); }
 
-    /* Buttons */
-    .btn-modern, .btn-outline {
-      padding: 12px 28px;
-      border-radius: 50px;
-      font-weight: 600;
-      transition: 0.3s ease;
-      border: 1px solid var(--accent);
-      display: inline-block;
-      margin: 5px;
+    @media (max-width: 767px){
+      body{ padding-top:70px; }
+      .hero h1{ font-size:30px; }
     }
-
-    .btn-modern {
-      background: var(--accent);
-      color: #fff !important;
-    }
-
-    .btn-modern:hover {
-      background: transparent;
-      color: var(--accent) !important;
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--accent) !important;
-    }
-
-    .btn-outline:hover {
-      background: var(--accent);
-      color: #fff !important;
-    }
-
-    /* ===========================
-       SECTION TITLES
-    ============================ */
-    .section-title {
-      text-align: center;
-      font-size: 32px;
-      font-weight: 700;
-      margin-top: 40px;
-      margin-bottom: 10px;
-    }
-
-    .section-sub {
-      text-align: center;
-      max-width: 760px;
-      margin: 0 auto 40px;
-      color: var(--subtext);
-    }
-
-    section { margin-bottom: 40px; }
-
-    /* ===========================
-       TOOL CARDS
-    ============================ */
-    .tools-row {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .tools-row .col-sm-3 {
-      display: flex;
-      margin-bottom: 25px;
-    }
-
-    .modern-card {
-      background: var(--card);
-      border-radius: 14px;
-      padding: 35px 20px;
-      text-align: center;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: 0.3s ease;
-      border: 1px solid rgba(0, 0, 0, 0.05);
-    }
-
-    body.fintech .modern-card { border: 1px solid rgba(0, 123, 255, 0.18); }
-
-    .modern-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
-    }
-
-    .modern-icon {
-      font-size: 42px;
-      margin-bottom: 15px;
-      color: var(--text);
-      opacity: 0.9;
-    }
-
-    /* ===========================
-       SOCIAL BOXES
-    ============================ */
-    .social-box {
-      padding: 25px 10px;
-      background: var(--card);
-      border-radius: 14px;
-      text-align: center;
-      color: var(--text);
-      transition: 0.3s ease;
-      display: block;
-      margin-bottom: 20px;
-    }
-
-    .social-box:hover { background: #eaeaea; }
-    .social-box i { font-size: 34px; margin-bottom: 10px; }
-
-    /* ===========================
-       FOOTER
-    ============================ */
-    footer {
-      padding: 30px 0 20px;
-      border-top: 1px solid #e5e5e5;
-      text-align: center;
-      color: var(--subtext);
-      margin-top: 40px;
-    }
-
-    .footer-links { margin-bottom: 10px; }
-
-    .footer-links a {
-      margin: 0 8px;
-      color: var(--subtext);
-      font-size: 18px;
-    }
-
-    .footer-links a:hover { color: var(--accent); }
-
-    /* ===========================
-       FLOATING THEME BUTTON
-    ============================ */
-    #floatingThemeToggle {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      border: none;
-      background: var(--accent);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-      z-index: 9000;
-      transition: transform 0.3s ease;
-    }
-
-    #floatingThemeToggle:hover { transform: translateY(-3px); }
-
-    /* ===========================
-       REVEAL
-    ============================ */
-    .reveal {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Responsive */
-    @media (max-width: 767px) {
-      body { padding-top: 70px; }
-      .hero h1 { font-size: 38px; }
-      .tools-row .col-sm-3 { width: 100%; }
-    }
-
-    .hero-photo {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 20px;
-      border: 4px solid var(--card);
-      box-shadow: 0 4px 18px rgba(0,0,0,0.15);
-      transition: 0.3s ease;
-    }
-
-    body.fintech .hero-photo { border-color: var(--accent); }
-    .hero-photo:hover { transform: scale(1.03); }
-
-    .navbar-toggle .icon-bar { background-color: var(--text); }
-
-    .bank-icon-css {
-      width: 42px;
-      height: 42px;
-      background-image: url("img/bank-logo.png");
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      margin: 0 auto 15px;
-      opacity: 0.9;
-    }
-    .modern-card:hover .bank-icon-css { transform: scale(1.08); opacity: 1; }
   </style>
 </head>
 
 <body>
 
-  <!-- ===========================
-       PRELOADER
-  ============================ -->
-  <div id="preloader">
-    <div style="text-align:center;">
-      <div class="loader-circle"></div>
-      <div class="loader-label">AL</div>
-    </div>
-  </div>
-
-  <!-- ===========================
-       NAVIGATION
-  ============================ -->
+  <!-- NAV -->
   <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
-
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mainNavbar">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
+          <span class="icon-bar" style="background:#0b1a33"></span>
+          <span class="icon-bar" style="background:#0b1a33"></span>
+          <span class="icon-bar" style="background:#0b1a33"></span>
         </button>
-
-        <a class="navbar-brand" href="#" style="font-weight:700;">AL</a>
+        <a class="navbar-brand" href="/">AL</a>
       </div>
 
       <div class="collapse navbar-collapse" id="mainNavbar">
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="#about">About</a></li>
-          <li><a href="#insights">Insights</a></li>
+          <li><a href="#start">Start Here</a></li>
           <li><a href="#tools">Tools</a></li>
-          <li><a href="#social">Social</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#games">Games</a></li>
+          <li><a href="#articles">Articles</a></li>
+          <li><a href="#trust">Why Trust</a></li>
+          <li><a href="#about">About</a></li>
           <li><a href="#contact">Contact</a></li>
-
-          <li><a href="#" id="themeToggle"><i class="fa fa-adjust"></i></a></li>
+          <!-- Games intentionally removed from top nav during AdSense review -->
         </ul>
       </div>
-
     </div>
   </nav>
 
-  <!-- FLOATING THEME BUTTON -->
-  <button id="floatingThemeToggle" title="Toggle theme">
-    <i class="fa fa-adjust"></i>
-  </button>
+  <!-- HERO -->
+  <header class="hero">
+    <div class="container">
+      <div class="hero-card">
+        <div class="row" style="display:flex; align-items:center; gap:16px;">
+          <div class="col-sm-2" style="text-align:center;">
+            <img src="img/profile.jpg" alt="Abdul Latif" class="hero-photo" />
+          </div>
+          <div class="col-sm-10">
+            <h1>Abdul Latif</h1>
+            <div class="subtitle">Banking professional (Agrani Bank PLC) · Finance tools & guides for Bangladesh</div>
 
-  <!-- ===========================
-       HERO (UPDATED)
-  ============================ -->
-  <section class="hero">
-    <div class="hero-inner reveal">
-      <img src="img/profile.jpg" alt="Abdul Latif" class="hero-photo">
+            <div class="badge-line">
+              <span class="mini-badge"><i class="fa fa-university"></i> Banking & Loans</span>
+              <span class="mini-badge"><i class="fa fa-calculator"></i> EMI · COF · Eligibility</span>
+              <span class="mini-badge"><i class="fa fa-code"></i> Modern tools & automation</span>
+            </div>
 
-      <h1>Abdul Latif</h1>
-      <div id="hero-subtitle" class="hero-subtitle"></div>
+            <p style="margin-top:14px; color:var(--sub); font-size:17px;">
+              I publish practical explanations about banking and personal finance—plus calculators that follow real-world banking logic.
+              My focus is helping borrowers and professionals in Bangladesh understand costs, documentation, and decision-making clearly.
+              If you’re comparing loans, planning repayments, or learning how banks evaluate cases, you’ll find step-by-step guides here.
+            </p>
 
-      <p>
-        Helping individuals and businesses make smarter financial decisions through reliable banking tools,
-        loan calculators, and practical guidance — built from real-world banking experience and modern technology.
-      </p>
+            <a class="btn-pill btn-solid" href="#start">Start Here</a>
+            <a class="btn-pill btn-outline" href="/blog/" target="_blank" rel="noopener">Read Articles</a>
+            <a class="btn-pill btn-outline" href="#tools">Use Calculators</a>
+          </div>
+        </div>
 
-     <a href="https://ablatif.com/blog/" target="_blank" rel="noopener" class="btn-modern">Read My Blog</a>
-      <a href="#tools" class="btn-outline">Use Banking Tools</a>
-      <a href="#games" class="btn-outline">Play Games</a>
-      <a href="#contact" class="btn-outline">Contact Me</a>
+        <div class="muted" style="margin-top:16px;">
+          <div style="font-weight:900;">Important note</div>
+          <div class="small-note">
+            This site provides educational content and tools. It is not a substitute for professional financial advice.
+            Please verify final terms, fees, and policies with your bank. (<a href="/disclaimer.html">Read full disclaimer</a>)
+          </div>
+        </div>
+      </div>
     </div>
-  </section>
+  </header>
 
-  <!-- ===========================
-       ABOUT (UPDATED)
-  ============================ -->
-  <section id="about" class="container reveal">
-  <h2 class="section-title">About Me</h2>
-
-  <p class="section-sub">
-    Hello! I’m Abdul Latif — a banking professional and technology enthusiast from Sarishabari, Jamalpur, Bangladesh.
-    I built this website to share practical banking knowledge and provide useful tools that make financial planning easier.
-  </p>
-
-  <div style="max-width: 900px; margin: 0 auto; font-size: 18px; color: var(--subtext); line-height: 1.9;">
-
-    <p>
-      I was born in 1986 and completed my education in Bangladesh — starting from Digpaite D.K. High School,
-      then Madhupur Shahid Smrity College, and later graduating in Economics from Jahangirnagar University, Dhaka.
-    </p>
-
-    <p>
-      In 2012, I joined Agrani Bank PLC as a Senior Officer and began my career in Sylhet.
-      Over the years, I worked in different branches and districts including Sylhet, Jamalpur, and Sherpur.
-      From 2018 to 2025, I served in Sherpur District, and recently I have been posted again to Jamalpur Main Branch.
-      During this journey, I received two promotions and since 2022, I have been working as a Senior Principal Officer.
-    </p>
-
-    <p>
-      Alongside banking, I have always loved computers and automation. I enjoy using technology to solve real-life banking problems
-      and make daily tasks more organized, faster, and easier. That interest led me to build many useful offline and online tools
-      that support my regular banking work.
-    </p>
-
-    <p>
-      One of my largest projects is <a href="https://www.moneymerchant.net/" target="_blank">MoneyMerchant.net</a>,
-      which I continue to improve regularly. It helps me prepare loan proposals for salary and business clients,
-      keep customer records, and support future references. I have also created many tools using MS Access and web technologies.
-    </p>
-
-    <p>
-      Some of the tools available on this website include the COF Calculator, EMI Calculator, Loan Eligibility Calculator,
-      SOA &amp; PL Sorting Report Tool, Agrani Notice and Mail Merge System, National Savings Scheme (NSS) Application Builder,
-      and Customer Application Letter Generator.
-    </p>
-
-    <p>
-      This website is my personal initiative to share banking knowledge and provide helpful tools for customers,
-      professionals, and entrepreneurs. If you are planning a loan, preparing financial documents, or learning banking concepts,
-      I hope you will find the calculators and resources here useful.
-    </p>
-
-    <p>
-      Outside of work, I enjoy movies (especially Hollywood), music, and digital monitoring. I also have a dream to build an animation studio
-      in the future and explore creative tools like Maya.
-    </p>
-
-    <p>
-      Thank you for visiting my website — I truly appreciate your time.
-    </p>
-
-  </div>
-</section>
-
-
-  <!-- ===========================
-       INSIGHTS (ADDED)
-  ============================ -->
-  <section id="insights" class="container reveal">
-    <h2 class="section-title">Banking Insights & Practical Financial Guidance</h2>
-    <p class="section-sub">
-      This website is created to support individuals, entrepreneurs, and small businesses with clear financial tools and easy-to-understand banking guidance.
-      Whether you are planning a new loan, managing business credit, or preparing documents for banking compliance, you’ll find helpful resources here.
-    </p>
-
-    <div style="max-width: 900px; margin: 0 auto; font-size: 18px; color: var(--subtext); line-height: 1.9;">
-
-      <h3 style="margin-top: 30px; font-weight: 700; color: var(--text);">Why I Built These Banking Tools</h3>
-      <p>
-        In banking, many people struggle to make the right financial decisions simply because they don’t have accurate information.
-        I have worked with loan proposals, credit analysis, and financial advisory for years, and I’ve seen how confusing terms like EMI, interest rate,
-        cost of funds (COF), and repayment structure can be for normal customers. That is why I started building practical banking tools and calculators
-        that provide quick and reliable results.
+  <!-- START HERE -->
+  <section id="start">
+    <div class="container">
+      <h2 class="section-title">Start Here</h2>
+      <p class="section-sub">
+        New visitor? Start with these foundations. They explain how EMI works, what affects total interest, and how banks usually
+        think about affordability. The goal is simple: help you understand the numbers before you make a decision.
       </p>
 
-      <p>
-        Most calculators online are either too complex or fail to match the real banking practices used in Bangladesh and similar markets.
-        My goal is simple: make finance easier. Each tool on this website is created based on real-world banking logic and modern development practices.
-        The tools help you understand loan affordability, repayment schedules, and important financial indicators so you can make smarter decisions.
-      </p>
-
-      <h3 style="margin-top: 35px; font-weight: 700; color: var(--text);">How to Use the EMI Calculator (Loan Instalment Guide)</h3>
-      <p>
-        EMI (Equated Monthly Instalment) is one of the most important things to calculate before taking a loan.
-        An EMI is the fixed monthly amount you pay to the bank, including both the principal and interest portion.
-        Even a small change in interest rate or loan tenor can significantly change your monthly instalment and total interest cost.
-      </p>
-
-      <p>
-        Use the EMI Calculator on this website to estimate your monthly instalment accurately.
-        You can input loan amount, interest rate, and tenure to instantly see the expected EMI and repayment structure.
-        This helps you compare different bank loan offers and plan your budget responsibly.
-      </p>
-
-      <h3 style="margin-top: 35px; font-weight: 700; color: var(--text);">Understanding COF (Cost of Funds) in Banking</h3>
-      <p>
-        COF (Cost of Funds) is a core banking concept used to calculate the real cost for a bank to collect money and provide loans.
-        Banks do not lend money for free — they collect deposits and borrow funds that have a cost. The COF is used to determine whether a bank loan
-        is profitable and whether the loan pricing is appropriate.
-      </p>
-
-      <p>
-        For borrowers, COF is indirectly connected to the interest rates offered by banks.
-        If a bank’s cost of funds increases, loan interest rates often rise too. For bankers and finance professionals,
-        a COF Calculator is essential for pricing, financial planning, profitability analysis, and credit structuring.
-      </p>
-
-      <h3 style="margin-top: 35px; font-weight: 700; color: var(--text);">Banking Advice & Financial Responsibility</h3>
-      <p>
-        Taking loans can be helpful, but it must be done responsibly.
-        Before taking any loan, you should evaluate your repayment capacity, business cash flow, monthly income stability,
-        and total financial obligations. A good loan should strengthen your financial stability, not create pressure.
-      </p>
-
-      <ul>
-        <li>Monthly EMI should match your realistic monthly income</li>
-        <li>Total debt obligations should not exceed a safe portion of your income</li>
-        <li>Loan repayment period should match your long-term financial plan</li>
-        <li>Always compare multiple bank offers before choosing a loan</li>
-      </ul>
-
-      <h3 style="margin-top: 35px; font-weight: 700; color: var(--text);">Explore My Blog for Updates</h3>
-      <p>
-        I regularly publish articles on loan calculation, cost of funds, banking forms, and financial planning.
-        These blog posts will help you understand banking terms in simple language and make better financial decisions.
-        Visit the blog section for updates, banking tips, tools tutorials, and financial guides.
-      </p>
-    </div>
-  </section>
-
-  <!-- ===========================
-       FAQ (ADDED - GREAT FOR AdSense)
-  ============================ -->
-  <section id="faq" class="container reveal">
-    <h2 class="section-title">Frequently Asked Questions (FAQ)</h2>
-    <p class="section-sub">Quick answers to common banking and loan-related questions.</p>
-
-    <div style="max-width: 900px; margin: 0 auto; font-size: 18px; color: var(--subtext); line-height: 1.9;">
-      <h4 style="font-weight:700; color:var(--text); margin-top:20px;">1) Are these loan calculators accurate?</h4>
-      <p>Yes. The calculators on this website are built using practical banking formulas. However, final bank figures may vary slightly based on specific bank policies, fees, and rounding rules.</p>
-
-      <h4 style="font-weight:700; color:var(--text); margin-top:20px;">2) Can I use these tools for business loans?</h4>
-      <p>Yes. EMI and COF calculations are useful for both personal and business loans. You should always review your business cash flow and repayment capability before making decisions.</p>
-
-      <h4 style="font-weight:700; color:var(--text); margin-top:20px;">3) Do you provide financial advice?</h4>
-      <p>This website provides educational tools and guidance. It is not a substitute for professional financial consultation. Always verify details with your bank or financial advisor.</p>
-
-      <h4 style="font-weight:700; color:var(--text); margin-top:20px;">4) Will you add more tools in the future?</h4>
-      <p>Yes. I regularly update this website with new banking utilities such as loan eligibility calculators, business analysis tools, and customer documentation automation.</p>
-    </div>
-  </section>
-
-  <!-- ===========================
-       BANKING TOOLS (UPDATED TEXT)
-  ============================ -->
-  
-  <!-- ===========================
-       LATEST BLOG ARTICLES (AdSense Focus)
-  ============================ -->
-  <section id="articles" class="container reveal">
-    <h2 class="section-title">Latest Banking Articles (Bangladesh)</h2>
-    <p class="section-sub">Practical guides on loans, savings, credit score (CIB) and banking rules — written for Bangladesh.</p>
-
-    <div class="row tools-row">
-      <div class="col-sm-4">
-        <div class="modern-card">
-          <i class="fa fa-book modern-icon"></i>
-          <h4>BRPD Circular 15: NPL Reform Explained</h4>
-          <p>Detailed breakdown of the circular, what changes for borrowers & banks, and how to stay compliant.</p>
-          <a href="https://ablatif.com/blog/posts/brpd-circular-15-npl-reform.html" class="btn-outline">Read</a>
+      <div class="row" style="margin-top:14px;">
+        <div class="col-sm-4" style="margin-bottom:18px;">
+          <div class="cardx">
+            <i class="fa fa-book" style="font-size:28px;"></i>
+            <h4>Loan & EMI Basics</h4>
+            <p style="color:var(--sub);">
+              Learn the building blocks: principal, rate, tenor, reducing balance, and why “same EMI” can still mean very different total cost.
+            </p>
+            <a class="btn-pill btn-outline" href="/blog/" target="_blank" rel="noopener">Open guides</a>
+          </div>
+        </div>
+        <div class="col-sm-4" style="margin-bottom:18px;">
+          <div class="cardx">
+            <i class="fa fa-line-chart" style="font-size:28px;"></i>
+            <h4>Compare Loan Offers</h4>
+            <p style="color:var(--sub);">
+              Use calculators correctly: compare offers by total interest, schedule, fees, and early settlement rules—not just by the EMI number.
+            </p>
+            <a class="btn-pill btn-outline" href="#tools">Go to tools</a>
+          </div>
+        </div>
+        <div class="col-sm-4" style="margin-bottom:18px;">
+          <div class="cardx">
+            <i class="fa fa-shield" style="font-size:28px;"></i>
+            <h4>Safe Financial Planning</h4>
+            <p style="color:var(--sub);">
+              Practical habits: emergency fund, debt-to-income comfort range, and how to avoid borrowing traps when income changes.
+            </p>
+            <a class="btn-pill btn-outline" href="#articles">Read articles</a>
+          </div>
         </div>
       </div>
 
-      <div class="col-sm-4">
-        <div class="modern-card">
-          <i class="fa fa-shield modern-icon"></i>
-          <h4>Emergency Fund in Bangladesh</h4>
-          <p>Step-by-step method to calculate your emergency fund and where to keep it safely.</p>
-          <a href="https://ablatif.com/blog/posts/emergency-fund-bangladesh.html" class="btn-outline">Read</a>
-        </div>
-      </div>
-
-      <div class="col-sm-4">
-        <div class="modern-card">
-          <i class="fa fa-users modern-icon"></i>
-          <h4>Service Quality in Banking</h4>
-          <p>Common service issues, realistic expectations, and how banks can improve customer experience.</p>
-          <a href="https://ablatif.com/blog/posts/service-quality-bank-officer-bangladesh.html" class="btn-outline">Read</a>
-        </div>
-      </div>
-
-      <div class="col-sm-4">
-        <div class="modern-card">
-          <i class="fa fa-heartbeat modern-icon"></i>
-          <h4>Bank Staff Stress: Causes & Solutions</h4>
-          <p>Why bank employees face stress and practical steps for better workload and customer handling.</p>
-          <a href="https://ablatif.com/blog/posts/bank-staff-stress-bangladesh.html" class="btn-outline">Read</a>
-        </div>
-      </div>
-
-      <div class="col-sm-4">
-        <div class="modern-card">
-          <i class="fa fa-pie-chart modern-icon"></i>
-          <h4>How Much Should You Save?</h4>
-          <p>A simple savings percentage rule you can apply immediately, with Bangladesh examples.</p>
-          <a href="https://ablatif.com/blog/posts/savings-percentage-bangladesh.html" class="btn-outline">Read</a>
-        </div>
-      </div>
-
-      <div class="col-sm-4">
-        <div class="modern-card">
-          <i class="fa fa-external-link modern-icon"></i>
-          <h4>Browse All Articles</h4>
-          <p>See the full list of banking, loans, Islamic banking, and personal finance posts.</p>
-          <a href="https://ablatif.com/blog/" class="btn-outline">Open Blog</a>
+      <!-- OPTION A: Add a longer content block (you can fill later) -->
+      <div class="muted" style="margin-top:10px;">
+        <div style="font-weight:900;">Featured Guide (Write later)</div>
+        <div class="small-note" style="margin-top:8px;">
+          <!-- TODO: Replace this entire paragraph with your own writing later -->
+          <strong>TODO:</strong> Write a detailed guide here (250–400+ words). Suggested topic:
+          <em>“How banks evaluate a loan case in Bangladesh: eligibility, documentation, and common borrower mistakes.”</em>
+          <br><br>
+          You can cover: required documents, income verification, installment capacity, risk signals, and why banks sometimes reduce limits
+          even when the customer’s salary looks sufficient. Add one simple example: a borrower with monthly income, existing obligations,
+          and how a “safe EMI range” is estimated. This single block strengthens “publisher value” and improves AdSense review signals.
         </div>
       </div>
     </div>
   </section>
 
-<section id="tools" class="container reveal">
-    <h2 class="section-title">Banking &amp; Loan Tools</h2>
-    <p class="section-sub">Modern tools designed to provide accurate and reliable banking insights.</p>
+  <!-- TOOLS -->
+  <section id="tools" style="background:var(--muted);">
+    <div class="container">
+      <h2 class="section-title">Banking Tools</h2>
+      <p class="section-sub">
+        Calculators designed for practical use—supported by explanations. (For AdSense and user trust, each tool page should include:
+        what the tool does, how to use it, and an example.)
+      </p>
 
-    <div class="row tools-row">
-
-      <div class="col-sm-3">
-        <div class="modern-card">
-          <i class="fa fa-calculator modern-icon"></i>
-          <h4>COF Calculator</h4>
-          <p>Calculate cost of funds instantly.</p>
-          <a href="cof/index.html" target="_blank" class="btn-outline">Open</a>
+      <div class="row" style="margin-top:14px;">
+        <div class="col-sm-4" style="margin-bottom:18px;">
+          <div class="cardx">
+            <i class="fa fa-calculator" style="font-size:28px;"></i>
+            <h4>EMI Calculator</h4>
+            <p style="color:var(--sub);">Estimate monthly instalments and total interest with a clear breakdown.</p>
+            <a class="btn-pill btn-solid" href="/emi-calculator.html">Open EMI</a>
+          </div>
         </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="modern-card">
-          <i class="fa fa-check modern-icon"></i>
-          <h4>After vs before cob </h4>
-          <p>Transaction tracking between after vs before cob transfer register.</p>
-          <a href="https://ablatif.com/tools/transfer_audit.html" class="btn-outline">Read</a>
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="modern-card">
-          <i class="fa fa-area-chart modern-icon"></i>
-          <h4>EMI Calculator</h4>
-          <p>Compute monthly instalments instantly.</p>
-          <a href="/emi-calculator.html" class="btn-outline">Open</a>
 
+        <div class="col-sm-4" style="margin-bottom:18px;">
+          <div class="cardx">
+            <i class="fa fa-area-chart" style="font-size:28px;"></i>
+            <h4>COF Calculator</h4>
+            <p style="color:var(--sub);">Calculate cost of funds (COF) for banking analysis.</p>
+            <a class="btn-pill btn-solid" href="/cof/index.html">Open COF</a>
+          </div>
         </div>
-      </div>
 
-      <div class="col-sm-3">
-        <div class="modern-card">
-          <i class="fa fa-sliders modern-icon"></i>
-          <h4>Loan Eligibility</h4>
-          <p>Estimate your loan capacity.</p>
-          <a href="tools/Loan_Eligibility.html" target="_blank" class="btn-outline">Calculate Eligibility</a>
+        <div class="col-sm-4" style="margin-bottom:18px;">
+          <div class="cardx">
+            <i class="fa fa-sliders" style="font-size:28px;"></i>
+            <h4>Loan Eligibility</h4>
+            <p style="color:var(--sub);">Estimate affordability and a safer borrowing range.</p>
+            <a class="btn-pill btn-solid" href="/tools/Loan_Eligibility.html">Check Eligibility</a>
+          </div>
         </div>
       </div>
 
-      <div class="col-sm-3">
-        <div class="modern-card">
-          <i class="fa fa-paper-plane modern-icon"></i>
-          <h4>Loan Application</h4>
-          <p>Submit your loan application securely.</p>
-          <a href="https://www.moneymerchant.net/login?ReturnUrl=%2F" target="_blank" class="btn-outline">Apply</a>
-        </div>
+      <div class="small-note">
+        Recommended improvement: add internal links from each tool back to “Start Here” and to one related article.
       </div>
-
-      <div class="col-sm-3">
-        <div class="modern-card">
-          <div class="bank-icon-css modern-icon"></div>
-          <h4>SOA &amp; PL Sorting</h4>
-          <p>Automated financial reporting tool for Agrani Bank PLC.</p>
-          <a href="tools/SOA.html" target="_blank" class="btn-outline">Open</a>
-        </div>
-      </div>
-
-      <div class="col-sm-3">
-        <div class="modern-card">
-          <div class="bank-icon-css modern-icon"></div>
-          <h4>Transaction Tracking</h4>
-          <p>Monitor customer transactions efficiently.</p>
-          <a href="tools/transaction-tracking.html" class="btn-outline">Open</a>
-        </div>
-      </div>
-
-      <div class="col-sm-3">
-        <div class="modern-card">
-          <i class="fa fa-users modern-icon"></i>
-          <h4>Customer Application Tools</h4>
-          <p>Generate professional customer applications and letters.</p>
-          <a href="tools/bank-letter-v3.html" target="_blank" class="btn-outline">Open</a>
-        </div>
-      </div>
-
-      <div class="col-sm-3">
-        <div class="modern-card">
-          <i class="fa fa-envelope modern-icon"></i>
-          <h4>Notice Pad</h4>
-          <p>Generate bulk notices and letters for customers.</p>
-          <a href="agrani_notice/" target="_blank" class="btn-outline">Open</a>
-        </div>
-      </div>
-
-      <div class="col-sm-3">
-        <div class="modern-card">
-          <i class="fa fa-pencil-square-o modern-icon"></i>
-          <h4>Savings Scheme</h4>
-          <p>Online savings scheme form submission.</p>
-          <a href="nss/" target="_blank" class="btn-outline">Open</a>
-        </div>
-      </div>
-
-      <!-- Removed empty href tools for AdSense safety -->
     </div>
   </section>
 
-  <!-- ===========================
-       SOCIAL
-  ============================ -->
-  <section id="social" class="container reveal">
-    <h2 class="section-title">Connect With Me</h2>
-    <p class="section-sub">Follow for updates on banking insights, tools, and personal projects.</p>
+  <!-- ARTICLES -->
+  <section id="articles">
+    <div class="container">
+      <h2 class="section-title">Articles & Guides</h2>
+      <p class="section-sub">
+        I write clear, beginner-friendly explanations (with real banking context) so you can understand loan terms, repayment schedules,
+        and how choices today affect total cost tomorrow. If you’re a student, salaried professional, small business owner, or simply learning,
+        these guides are written for you.
+      </p>
 
-    <div class="row">
-      <div class="col-sm-3">
-        <a class="social-box" href="https://www.facebook.com/latifmirabdul/" target="_blank">
-          <i class="fa fa-facebook"></i><br>Facebook
-        </a>
+      <div class="row" style="margin-top:14px;">
+        <div class="col-sm-4" style="margin-bottom:18px;">
+          <div class="cardx">
+            <i class="fa fa-file-text-o" style="font-size:28px;"></i>
+            <h4>Browse the Blog</h4>
+            <p style="color:var(--sub);">All banking and personal finance posts in one place.</p>
+            <a class="btn-pill btn-outline" href="/blog/" target="_blank" rel="noopener">Open Blog</a>
+          </div>
+        </div>
+
+        <div class="col-sm-8" style="margin-bottom:18px;">
+          <div class="cardx">
+            <h4 style="margin-top:0;">Updates / Notes (Write later)</h4>
+            <p style="color:var(--sub); margin-bottom:6px;">
+              <!-- TODO: Replace later -->
+              <strong>TODO:</strong> Use this space for short updates—new posts, tool improvements, and explanations of changes in common banking practices.
+              You can also list 3–5 “popular links” here (for example: EMI Guide, Eligibility Guide, COF Guide, Documentation Checklist).
+            </p>
+            <div class="small-note">
+              Tip: a simple “Popular Guides” list helps AdSense reviewers see clear content pathways.
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="col-sm-3">
-        <a class="social-box" href="https://www.youtube.com/@DiptiYTV" target="_blank">
-          <i class="fa fa-youtube-play"></i><br>YouTube
-        </a>
-      </div>
-
-      <div class="col-sm-3">
-        <a class="social-box" href="https://www.instagram.com/ablatifshahin/" target="_blank">
-          <i class="fa fa-instagram"></i><br>Instagram
-        </a>
-      </div>
-
-      <div class="col-sm-3">
-        <a class="social-box" href="https://x.com/latifju" target="_blank">
-          <i class="fa fa-twitter"></i><br>X (Twitter)
-        </a>
+      <div class="muted">
+        <div style="font-weight:900;">Quick links</div>
+        <div class="small-note">
+          <a href="/privacy-policy.html">Privacy Policy</a> ·
+          <a href="/terms.html">Terms</a> ·
+          <a href="/cookie-policy.html">Cookie Policy</a> ·
+          <a href="/disclaimer.html">Disclaimer</a> ·
+          <a href="/contact.html">Contact</a>
+        </div>
       </div>
     </div>
   </section>
-<!-- ===========================
-     GAMES (NEW SECTION)
-=========================== -->
-<section id="games" class="container reveal">
-  <h2 class="section-title">Games & Fun Zone</h2>
-  <p class="section-sub">
-    Take a short break! Enjoy simple, lightweight games made for quick relaxation — playable directly in your browser.
-  </p>
 
-  <div class="row tools-row">
+  <!-- WHY TRUST (OPTION A: add 150–250 words trust block) -->
+  <section id="trust" style="background:var(--muted);">
+    <div class="container">
+      <h2 class="section-title">Why Trust This Site</h2>
+      <p class="section-sub">
+        Finance content is sensitive, so transparency matters. I’m a banking professional at <strong>Agrani Bank PLC</strong> in Bangladesh.
+        The guides and tools here are written to be understandable and practical—not promotional. I do not ask for your sensitive banking data,
+        and most tools run directly in your browser.
+      </p>
 
-    <div class="col-sm-3">
-      <div class="modern-card">
-        <i class="fa fa-gamepad modern-icon"></i>
-        <h4>Mini Games</h4>
-        <p>Explore fun browser games built for everyone.</p>
-        <a href="/games/index.html" class="btn-outline">Play Now</a>
+      <div class="cardx" style="margin-top:14px;">
+        <h4 style="margin-top:0;">How I create calculators and guides</h4>
+        <p style="color:var(--sub);">
+          I build calculators to reflect standard banking math (for example, reducing balance EMI). Then I add clear explanations:
+          what each input means, what outputs you should focus on, and which real-life factors can change final costs (fees, rounding,
+          insurance, documentation charges, prepayment rules, and changes in interest rates).
+        </p>
+        <p style="color:var(--sub); margin-bottom:0;">
+          <strong>TODO:</strong> Add your own short personal statement here (3–5 sentences) about your work experience,
+          what kind of cases you handled, and what you want to help people avoid (misunderstanding costs, over-borrowing, or wrong assumptions).
+        </p>
       </div>
     </div>
+  </section>
 
-    <div class="col-sm-3">
-      <div class="modern-card">
-        <i class="fa fa-puzzle-piece modern-icon"></i>
-        <h4>Puzzle Zone</h4>
-        <p>Brain games & puzzles to refresh your mind.</p>
-        <a href="/games/memory-flip.html" class="btn-outline">Memory Flip</a>
-      </div>
-    </div>
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <h2 class="section-title">About</h2>
+      <p class="section-sub">
+        I’m Abdul Latif — banker, developer, and technology enthusiast. My goal is to improve work style with modern tools and share
+        banking knowledge in a way anyone can understand. I also enjoy movies, music, and poems—those are available in the site’s personal section.
+      </p>
 
-    <div class="col-sm-3">
-      <div class="modern-card">
-        <i class="fa fa-bolt modern-icon"></i>
-        <h4>tic tac toe</h4>
-        <p>Fast-paced mini challenges for quick fun.</p>
-        <a href="/games/tic-tac-toe.html" class="btn-outline">Play</a>
-      </div>
-    </div>
-
-    <div class="col-sm-3">
-      <div class="modern-card">
-        <i class="fa fa-star modern-icon"></i>
-        <h4>reaction time</h4>
-        <p>New & popular games will appear here.</p>
-        <a href="/games/reaction-time.html" class="btn-outline">Explore</a>
-      </div>
-    </div>
-    <div class="col-sm-3">
-      <div class="modern-card">
-        <i class="fa fa-star modern-icon"></i>
-        <h4>daily number</h4>
-        <p>New & popular games will appear here.</p>
-        <a href="/games/daily-number.html" class="btn-outline">Explore</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-  <!-- ===========================
-       PROJECTS
-  ============================ -->
-  <section id="projects" class="container reveal">
-    <h2 class="section-title">Tech &amp; Projects</h2>
-    <p class="section-sub">Banking expertise enhanced through modern development.</p>
-
-    <div class="row">
-      <div class="col-sm-6">
-        <h4>ASP.NET &amp; NopCommerce</h4>
-        <ul>
-          <li>Loan calculators and financial workflow tools</li>
-          <li>Custom NopCommerce plugins &amp; modules</li>
-          <li>SQL Server data integration</li>
+      <div class="cardx" style="margin-top:14px;">
+        <div style="font-weight:900;">Credentials & Focus</div>
+        <ul style="margin-top:10px; color:var(--sub);">
+          <li>Banking professional at Agrani Bank PLC (Bangladesh)</li>
+          <li>Focus: loans, repayment planning, documentation, banking math</li>
+          <li>Also: building tools and automations to modernize workflows</li>
         </ul>
-      </div>
-
-      <div class="col-sm-6">
-        <h4>Focus Areas</h4>
-        <ul>
-          <li>Fintech application development</li>
-          <li>Loan process automation</li>
-          <li>Customer onboarding tools</li>
-        </ul>
+        <div class="small-note">
+          For AdSense review, finance education and tools are the primary focus of the homepage and navigation.
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ===========================
-       CONTACT
-  ============================ -->
-  <section id="contact" class="container reveal">
-    <h2 class="section-title">Contact Me</h2>
-    <p class="section-sub">Feel free to reach out for general banking guidance, tool support, or development collaboration.</p>
+  <!-- CONTACT -->
+  <section id="contact" style="background:var(--muted);">
+    <div class="container">
+      <h2 class="section-title">Contact</h2>
+      <p class="section-sub">For questions, tool feedback, or collaboration.</p>
 
-    <div class="text-center">
-      <p><strong>Email:</strong> <a href="mailto:latifshahin@gmail.com">latifshahin@gmail.com</a></p>
-      <a href="https://ablatif.com/blog/" target="_blank" rel="noopener" class="btn-modern">Visit Blog</a>
+      <div class="cardx" style="max-width:720px;">
+        <p style="margin:0;">
+          <strong>Email:</strong> <a href="mailto:latifshahin@gmail.com">latifshahin@gmail.com</a>
+        </p>
+        <div style="margin-top:10px;">
+          <a class="btn-pill btn-solid" href="/contact.html">Contact page</a>
+          <a class="btn-pill btn-outline" href="/blog/" target="_blank" rel="noopener">Visit Blog</a>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- ===========================
-       FOOTER
-  ============================ -->
-  <footer class="reveal">
-    <hr style="margin:15px auto; max-width:500px; border:0; border-top:1px solid rgba(255,255,255,0.2);">
+  <!-- FOOTER -->
+  <footer>
+    <div class="container" style="text-align:center;">
+      <div class="footer-links" style="margin-bottom:10px;">
+        <a href="https://www.facebook.com/latifmirabdul/" target="_blank" rel="noopener"><i class="fa fa-facebook"></i></a>
+        <a href="https://x.com/latifju" target="_blank" rel="noopener"><i class="fa fa-twitter"></i></a>
+        <a href="https://www.instagram.com/ablatifshahin/" target="_blank" rel="noopener"><i class="fa fa-instagram"></i></a>
+        <a href="https://www.youtube.com/@DiptiYTV" target="_blank" rel="noopener"><i class="fa fa-youtube-play"></i></a>
+      </div>
 
-    <div class="footer-links">
-      <a href="https://www.facebook.com/latifmirabdul/" target="_blank" rel="noopener"><i class="fa fa-facebook"></i></a>
-      <a href="https://x.com/latifju" target="_blank" rel="noopener"><i class="fa fa-twitter"></i></a>
-      <a href="https://www.instagram.com/ablatifshahin/" target="_blank" rel="noopener"><i class="fa fa-instagram"></i></a>
-      <a href="https://www.youtube.com/@DiptiYTV" target="_blank" rel="noopener"><i class="fa fa-youtube-play"></i></a>
+      <div style="font-size:14px; line-height:1.9;">
+        <a href="/privacy-policy.html">Privacy</a> ·
+        <a href="/terms.html">Terms</a> ·
+        <a href="/cookie-policy.html">Cookies</a> ·
+        <a href="/disclaimer.html">Disclaimer</a> ·
+        <a href="/blog/">Blog</a> ·
+        <a href="/tools/">Tools</a>
+        <span style="opacity:.7;"> · </span>
+        <!-- Keep games in footer only during review -->
+        <a href="/games/">Games</a>
+      </div>
+
+      <div style="margin-top:10px;">© 2026 Abdul Latif — All Rights Reserved.</div>
     </div>
-
-    <div style="margin-top:10px; font-size:14px; line-height:1.8;">
-        <a href="/terms.html">Terms</a> |
-        <a href="/cookie-policy.html">Cookie Policy</a>|
-      <a href="/privacy-policy.html">Privacy Policy</a> |
-      <a href="/disclaimer.html">Disclaimer</a> |
-      <a href="/contact.html">Contact</a> |
-      <a href="/blog/">Blog</a> |
-      <a href="/nss/">Savings Scheme</a> |
-      <a href="/agrani_notice/">Agrani Notice</a> |
-      <a href="/cof/">COF</a> |
-      <a href="/emi/">EMI</a> |
-      <a href="/tools/">Banking Tools</a> | 
-      <a href="/games/">Games</a>
-
-    </div>
-
-    <div style="margin-top:10px;">© 2025 Abdul Latif — All Rights Reserved.</div>
   </footer>
 
-  <!-- ===========================
-       SCRIPTS
-  ============================ -->
+  <!-- Scripts -->
   <script src="js/jquery.js"></script>
   <script src="js/bootstrap.min.js"></script>
 
+  <!-- Smooth scroll -->
   <script>
-    // PRELOADER
-    window.addEventListener("load", function () {
-      setTimeout(function () {
-        var pre = document.getElementById("preloader");
-        if (pre) pre.style.display = "none";
-      }, 700);
-    });
-
-    // THEME TOGGLER
-    function toggleTheme(e) {
-      if (e) e.preventDefault();
-      document.body.classList.toggle("fintech");
-      localStorage.setItem("theme", document.body.classList.contains("fintech") ? "fintech" : "minimal");
-    }
-    document.getElementById("themeToggle").onclick = toggleTheme;
-    document.getElementById("floatingThemeToggle").onclick = toggleTheme;
-
-    if (localStorage.getItem("theme") === "fintech") {
-      document.body.classList.add("fintech");
-    }
-
-    // NAV SHRINK
-    window.addEventListener("scroll", function () {
-      var nav = document.querySelector(".navbar");
-      if (window.pageYOffset > 40) nav.classList.add("nav-shrink");
-      else nav.classList.remove("nav-shrink");
-    });
-
-    // SMOOTH SCROLL
-    document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
-      anchor.addEventListener("click", function (e) {
-        var targetId = this.getAttribute("href");
-        if (targetId.length > 1 && document.querySelector(targetId)) {
+    document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+      a.addEventListener("click", function (e) {
+        var id = this.getAttribute("href");
+        if (id.length > 1 && document.querySelector(id)) {
           e.preventDefault();
-          var targetPos = document.querySelector(targetId).offsetTop - 60;
-          window.scrollTo({ top: targetPos, behavior: "smooth" });
+          window.scrollTo({ top: document.querySelector(id).offsetTop - 60, behavior: "smooth" });
         }
       });
     });
-
-    // REVEAL
-    function handleReveal() {
-      document.querySelectorAll(".reveal").forEach(function (el) {
-        if (el.getBoundingClientRect().top < window.innerHeight - 80) el.classList.add("visible");
-      });
-    }
-    window.addEventListener("scroll", handleReveal);
-    window.addEventListener("load", handleReveal);
-
-    // TYPEWRITER HERO SUBTITLE
-    var heroText = "Banking Professional · Loan Specialist · ASP.NET Developer";
-    var heroEl = document.getElementById("hero-subtitle");
-    var idx = 0;
-
-    function typeHero() {
-      if (!heroEl) return;
-      if (idx <= heroText.length) {
-        heroEl.textContent = heroText.substring(0, idx);
-        idx++;
-        setTimeout(typeHero, 55);
-      }
-    }
-    window.addEventListener("load", function () {
-      setTimeout(typeHero, 400);
-    });
   </script>
-
 </body>
 </html>
