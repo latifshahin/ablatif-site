@@ -103,6 +103,31 @@
       text-align:center;color:var(--sub);margin-top:40px;font-size:14px;
     }
   </style>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {
+        "@type":"Question",
+        "name":"What is EMI?",
+        "acceptedAnswer":{"@type":"Answer","text":"EMI (Equated Monthly Instalment) is the fixed monthly payment for a loan, consisting of principal and interest. In reducing-balance loans, interest is calculated on the outstanding balance."}
+      },
+      {
+        "@type":"Question",
+        "name":"Which is cheaper: Equal Principal or Declining EMI?",
+        "acceptedAnswer":{"@type":"Answer","text":"Often, Equal Principal reduces total interest because principal reduces faster. However, the early months can be heavier. Declining EMI can provide a smoother start but may change total cost depending on rate and schedule."}
+      },
+      {
+        "@type":"Question",
+        "name":"Why can bank EMI differ from calculator EMI?",
+        "acceptedAnswer":{"@type":"Answer","text":"Bank EMI can differ due to processing fees, insurance, rounding rules, grace periods, rate changes, and different schedule conventions. Always confirm final terms with your bank."}
+      }
+    ]
+  }
+  </script>
+
 </head>
 
 <body>
@@ -148,6 +173,53 @@
     </div>
 
     <div class="small" style="margin-top:10px;" id="heroNote"></div>
+  </div>
+</section>
+
+
+<!-- QUICK START (AdSense-friendly content block) -->
+<section class="container" id="quickstart" style="margin-top:22px;">
+  <div class="card-box" style="margin:0; max-width:100%;">
+    <h2 id="qsTitle"></h2>
+    <p class="muted" id="qsDesc" style="margin-bottom:14px;"></p>
+
+    <div class="row" style="margin-top:8px;">
+      <div class="col-sm-4" style="margin-bottom:14px;">
+        <div class="pill-good">
+          <div style="font-weight:800; margin-bottom:6px;" id="qsA1Title"></div>
+          <div id="qsA1Text" class="small"></div>
+          <div style="margin-top:10px;">
+            <a class="btn-modern" href="/emi/loan_emi_full.html" target="_blank" rel="noopener" id="qsA1Btn"></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4" style="margin-bottom:14px;">
+        <div class="pill-warn">
+          <div style="font-weight:800; margin-bottom:6px;" id="qsA2Title"></div>
+          <div id="qsA2Text" class="small"></div>
+          <div style="margin-top:10px;">
+            <a class="btn-outline" href="#compare" id="qsA2Btn"></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-4" style="margin-bottom:14px;">
+        <div class="pill-good" style="background:#f5f7fb;">
+          <div style="font-weight:800; margin-bottom:6px;" id="qsA3Title"></div>
+          <div id="qsA3Text" class="small"></div>
+          <div style="margin-top:10px;">
+            <a class="btn-outline" href="/blog/" target="_blank" rel="noopener" id="qsA3Btn"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WRITE LATER SPACE -->
+    <div class="muted" style="margin-top:6px;">
+      <div style="font-weight:800;" id="todoTitle"></div>
+      <div class="small" id="todoText" style="margin-top:8px;"></div>
+    </div>
   </div>
 </section>
 
@@ -285,6 +357,19 @@
 
 </div>
 
+<!-- ABOUT THE AUTHOR (E‑E‑A‑T) -->
+<section class="container" id="author" style="margin-top:18px;">
+  <div class="card-box" style="margin:0; max-width:100%;">
+    <h2 id="authorTitle"></h2>
+    <p class="muted" id="authorText"></p>
+    <div class="pill-good" style="margin-top:10px;">
+      <div style="font-weight:800; margin-bottom:6px;" id="authorCredTitle"></div>
+      <ul class="muted" id="authorCredList" style="margin-bottom:0;"></ul>
+    </div>
+    <div class="small" style="margin-top:10px;" id="authorNote"></div>
+  </div>
+</section>
+
 <footer>
   <a href="/privacy-policy.html">Privacy Policy</a> |
   <a href="/disclaimer.html">Disclaimer</a> |
@@ -344,6 +429,26 @@
       card5LeftList:["আপনি শুরুতে বেশি কিস্তি দিতে পারবেন","মোট সুদ কমাতে চান","দ্রুত মূলধন কমাতে চান"],
       card5RightTitle:"Declining EMI বেছে নিন যদি:",
       card5RightList:["আপনি স্থির EMI চান","বাজেট প্ল্যানিং সহজ রাখতে চান","শুরুর দিকে বেশি কিস্তি চান না"]
+      ,
+      qsTitle: "Quick Start — Calculator + Explanation",
+      qsDesc: "এই পেজটি দুই অংশে সাজানো: (১) দ্রুত EMI হিসাব করার টুল, (২) Equal Principal বনাম Declining EMI তুলনা এবং কোনটা আপনার জন্য উপযুক্ত—তার পরিষ্কার ব্যাখ্যা।",
+      qsA1Title: "1) EMI ক্যালকুলেট করুন",
+      qsA1Text: "ঋণের পরিমাণ, সুদের হার ও মেয়াদ দিয়ে Full EMI Calculator থেকে মাসিক কিস্তি এবং মোট সুদ দেখুন।",
+      qsA1Btn: "Open Full EMI Calculator",
+      qsA2Title: "2) দুই পদ্ধতি তুলনা করুন",
+      qsA2Text: "Equal Principal এবং Declining EMI—কোনটায় মোট খরচ কম হয় এবং প্রথম/শেষ মাসে কত পার্থক্য আসে তা দেখুন।",
+      qsA2Btn: "Jump to Comparison",
+      qsA3Title: "3) আরও গাইড পড়ুন",
+      qsA3Text: "ঋণ, ডকুমেন্টেশন, কস্ট, নিরাপদ ঋণ পরিকল্পনা—বাংলাদেশ-কেন্দ্রিক গাইড এখানে পাবেন।",
+      qsA3Btn: "Read Articles",
+      todoTitle: "TODO (আপনি পরে লিখবেন)",
+      todoText: "<strong>এই জায়গায় ২০০–৪০০+ শব্দ লিখুন:</strong> উদাহরণ দিন—একটি বাস্তব কেস (আয়, বিদ্যমান দায়, প্রস্তাবিত ঋণ) নিয়ে কিভাবে “safe EMI range” ঠিক করা যায়। এরপর টুলের ফলাফল কিভাবে পড়বেন তা বোঝান। এটি AdSense review এবং ইউজার ট্রাস্ট—দুটোর জন্যই খুব উপকারী।",
+      authorTitle: "About the Author",
+      authorText: "আমি Abdul Latif — Agrani Bank PLC-এ ব্যাংকিং প্রফেশনাল। আমি ব্যাংকিং গণিত, EMI, ঋণ পরিকল্পনা এবং প্রয়োজনীয় ডকুমেন্টেশনের বিষয়গুলো সহজভাবে ব্যাখ্যা করি এবং ব্যবহারযোগ্য টুল তৈরি করি।",
+      authorCredTitle: "Credentials & Focus",
+      authorCredList: "<li>Agrani Bank PLC (Bangladesh) — Banking Professional</li><li>Focus: EMI/loan math, affordability, documentation clarity</li><li>Goal: practical education + reliable tools</li>",
+      authorNote: "নোট: এটি শিক্ষামূলক কনটেন্ট। চূড়ান্ত চার্জ/ফি/রাউন্ডিং/নীতিমালা অনুযায়ী ব্যাংকভেদে ফল ভিন্ন হতে পারে।"
+
     },
 
     en: {
@@ -393,6 +498,26 @@
       card5LeftList:["You can afford higher installments in early months","You want lower total interest cost","You want principal to reduce faster"],
       card5RightTitle:"Choose Declining EMI if:",
       card5RightList:["You want a fixed EMI every month","You want easier budgeting","You prefer lower EMI in early months"]
+      ,
+      qsTitle: "Quick Start — Calculator + Explanation",
+      qsDesc: "This page is structured in two parts: (1) a quick EMI calculation tool, and (2) a clear comparison of Equal Principal vs Declining EMI so you can choose the more cost‑effective option.",
+      qsA1Title: "1) Calculate EMI",
+      qsA1Text: "Enter loan amount, interest rate and tenor to see monthly instalment and total interest in the Full EMI Calculator.",
+      qsA1Btn: "Open Full EMI Calculator",
+      qsA2Title: "2) Compare two methods",
+      qsA2Text: "See which option reduces total interest and how the first/last month payments differ between methods.",
+      qsA2Btn: "Jump to Comparison",
+      qsA3Title: "3) Read more guides",
+      qsA3Text: "Find Bangladesh‑focused guides on loans, documentation, cost and safer borrowing decisions.",
+      qsA3Btn: "Read Articles",
+      todoTitle: "TODO (Write later)",
+      todoText: "<strong>Write 200–400+ words here:</strong> add a real example (income, existing obligations, proposed loan) and explain how to decide a safe EMI range. Then explain how to read the tool outputs. This improves user trust and AdSense review signals.",
+      authorTitle: "About the Author",
+      authorText: "I’m Abdul Latif — a banking professional at Agrani Bank PLC. I write practical explanations about banking math (EMI), repayment planning and documentation, and I build tools that follow real‑world banking logic.",
+      authorCredTitle: "Credentials & Focus",
+      authorCredList: "<li>Agrani Bank PLC (Bangladesh) — Banking Professional</li><li>Focus: EMI/loan math, affordability, documentation clarity</li><li>Goal: practical education + reliable tools</li>",
+      authorNote: "Note: This page is educational. Results may differ due to bank fees, rounding, policy and rate changes."
+
     }
   };
 
@@ -420,6 +545,36 @@
     document.getElementById("heroTitle").innerText = L.heroTitle;
     document.getElementById("heroDesc").innerHTML = L.heroDesc;
     document.getElementById("heroNote").innerText = L.heroNote;
+
+    // Quick Start + Author blocks
+    const safeSet = (id, val, asHtml=false) => {
+      const el = document.getElementById(id);
+      if(!el) return;
+      if(asHtml) el.innerHTML = val;
+      else el.innerText = val;
+    };
+
+    safeSet("qsTitle", L.qsTitle);
+    safeSet("qsDesc", L.qsDesc);
+    safeSet("qsA1Title", L.qsA1Title);
+    safeSet("qsA1Text", L.qsA1Text);
+    safeSet("qsA1Btn", L.qsA1Btn);
+    safeSet("qsA2Title", L.qsA2Title);
+    safeSet("qsA2Text", L.qsA2Text);
+    safeSet("qsA2Btn", L.qsA2Btn);
+    safeSet("qsA3Title", L.qsA3Title);
+    safeSet("qsA3Text", L.qsA3Text);
+    safeSet("qsA3Btn", L.qsA3Btn);
+
+    safeSet("todoTitle", L.todoTitle);
+    safeSet("todoText", L.todoText, true);
+
+    safeSet("authorTitle", L.authorTitle);
+    safeSet("authorText", L.authorText);
+    safeSet("authorCredTitle", L.authorCredTitle);
+    safeSet("authorCredList", L.authorCredList, true);
+    safeSet("authorNote", L.authorNote);
+
 
     document.getElementById("tag1").innerText = L.tags[0];
     document.getElementById("tag2").innerText = L.tags[1];
