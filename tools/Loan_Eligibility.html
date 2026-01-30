@@ -149,6 +149,50 @@ h1{font-size:20px}
 .footer a{color:#2563eb;font-weight:800;text-decoration:none}
 .footer a:hover{text-decoration:underline}
 </style>
+
+<!-- FAQ Schema (helps Google understand intent) -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {
+      "@type":"Question",
+      "name":"What is loan eligibility?",
+      "acceptedAnswer":{"@type":"Answer","text":"Loan eligibility is an estimate of how much loan and EMI a borrower can safely carry based on income, existing obligations, tenure and interest rate. Final eligibility depends on bank policy and verification."}
+    },
+    {
+      "@type":"Question",
+      "name":"What does the 80% and 2/3 salary rule mean?",
+      "acceptedAnswer":{"@type":"Answer","text":"Many banks assess affordability by limiting EMI to a portion of monthly net salary. Some use up to 80% in special cases, while a safer assessment uses around two‑thirds (2/3). Policies vary by bank and borrower category."}
+    },
+    {
+      "@type":"Question",
+      "name":"Why can my bank's result differ from this calculator?",
+      "acceptedAnswer":{"@type":"Answer","text":"Bank results can differ due to fees, insurance, rounding rules, interest rate changes, retirement age policy, employer category, existing loans, and CIB/credit history. Always confirm final terms with the bank."}
+    }
+  ]
+}
+</script>
+
+<!-- Person Schema (E‑E‑A‑T for finance/YMYL) -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Person",
+  "name":"Abdul Latif",
+  "url":"https://ablatif.com/",
+  "jobTitle":"Banking Professional",
+  "worksFor":{"@type":"Organization","name":"Agrani Bank PLC"},
+  "sameAs":[
+    "https://www.facebook.com/latifmirabdul/",
+    "https://www.instagram.com/ablatifshahin/",
+    "https://x.com/latifju",
+    "https://www.youtube.com/@DiptiYTV"
+  ]
+}
+</script>
+
 </head>
 
 <body>
@@ -157,8 +201,8 @@ h1{font-size:20px}
   <!-- ✅ Top Bar -->
   <div class="topbar">
     <div class="brand">
-      <h1>Abdul Latif – NSS Tools</h1>
-      <p>Online NSS form → PDF → Print → Bank Submission</p>
+      <h1>Abdul Latif – Banking Tools</h1>
+      <p>Loan eligibility, EMI tools → PDF → Print → Banking guides</p>
     </div>
     <div>
       <a class="btn" href="https://ablatif.com/">&larr; Main Site</a>
@@ -167,46 +211,68 @@ h1{font-size:20px}
   </div>
 
   <!-- ✅ AdSense Friendly Content -->
+
+  <!-- ✅ Educational Intro (AdSense-friendly, content-first) -->
   <div class="card" style="margin-top:16px;">
-    <h2>Loan Eligibility Calculator (Bangladesh)</h2>
+    <h2>Loan Eligibility Calculator (Bangladesh) — How to Use & What It Means</h2>
     <p style="margin:0;color:#334155;font-size:15px;font-weight:600;">
-      This tool helps you estimate salary loan eligibility and EMI before applying in any bank in Bangladesh.
-      It uses standard banking affordability rules (80% and 2/3 salary policy) and warns if loan tenor exceeds retirement age.
+      This page is designed as an <strong>educational guide + calculator</strong>. It helps you estimate an affordable EMI and a rough maximum loan range
+      before you apply for a personal/salary loan in Bangladesh. Eligibility depends on multiple factors—income stability, existing obligations, bank policy,
+      retirement age rules, and verification. So treat this as a <strong>planning tool</strong>, not a guarantee of approval.
     </p>
 
-    <details class="acc">
-      <summary>Why people take loans?</summary>
+    <div class="highlight" style="margin-top:12px;">
+      <strong>Quick idea:</strong> Don’t judge a loan only by EMI. Also check <em>total interest</em>, fee/charges, and whether the EMI leaves enough money
+      for living expenses and emergencies.
+    </div>
+
+    <details class="acc" open>
+      <summary>How to use this calculator</summary>
       <div class="acc-body">
-        Loans help meet major financial needs such as home renovation, education, medical emergencies, business expansion, or personal investment.
-        A responsible loan strengthens your financial plan, but an excessive EMI can create long-term pressure.
+        <ol style="margin:0 0 0 16px;padding:0;">
+          <li>Select your bank to load an estimated rate.</li>
+          <li>Enter your date of birth to check retirement-age warning (if applicable).</li>
+          <li>Enter net salary, loan amount, tenure (months).</li>
+          <li>Review the EMI and the two maximum-loan estimates based on <strong>80%</strong> and <strong>2/3</strong> salary rules.</li>
+          <li>Download the PDF for a neat summary (useful for discussion, not official approval).</li>
+        </ol>
       </div>
     </details>
 
     <details class="acc">
-      <summary>For whom this calculator is useful?</summary>
+      <summary>What do “80% salary” and “2/3 salary” rules mean?</summary>
       <div class="acc-body">
-        This calculator is useful for salaried professionals, job holders, government employees, and private employees planning personal or salary loans.
-        If you are planning to apply for a loan, you should check EMI affordability first.
+        Many banks check affordability by limiting EMI to a portion of monthly net salary. In practice, some cases use up to <strong>80%</strong>,
+        while a safer evaluation often uses around <strong>two‑thirds (2/3)</strong>. Policies vary by bank, borrower category and internal risk assessment.
       </div>
     </details>
 
     <details class="acc">
-      <summary>Loan culture in Bangladesh (salary loans)</summary>
+      <summary>Why your bank may calculate differently</summary>
       <div class="acc-body">
-        In Bangladesh, banks commonly use income-based eligibility rules. Many banks allow a maximum EMI around 80% of net salary,
-        while conservative evaluation often applies 2/3 of salary for safer debt coverage.
-        Final approval depends on CIB history, job stability, and bank policy.
+        Your bank’s final figures can differ due to service charges, insurance, rounding, rate changes, employer category, existing loans, CIB/credit history,
+        and documentation verification. Always confirm the final EMI and eligible amount with your bank.
       </div>
     </details>
 
-    <details class="acc">
-      <summary>Important note about eligibility</summary>
-      <div class="acc-body">
-        This tool provides an estimate only. Actual bank eligibility may vary due to:
-        interest rate changes, service charges, insurance, employer category, CIB report, and bank-specific internal policy.
+    <!-- TODO (write later) -->
+    <div class="muted" style="margin-top:12px;">
+      <div style="font-weight:800;">TODO (Write later — 200–400+ words)</div>
+      <div style="margin-top:8px;">
+        Add a real example from your banking experience: borrower salary, existing obligations, proposed loan, and how to decide a safe EMI range.
+        Explain how you interpret “risk” when EMI is above 2/3 or 80% of salary. This improves user trust and AdSense review signals.
       </div>
-    </details>
+    </div>
+
+    <div style="margin-top:12px;font-weight:700;color:#0f172a;">
+      Helpful links:
+      <a href="/emi-calculator.html">EMI Guide</a> ·
+      <a href="/emi/loan_emi_full.html">Full EMI Schedule</a> ·
+      <a href="/blog/">Banking Articles</a> ·
+      <a href="/">Start Here</a>
+    </div>
   </div>
+
 
   <!-- CARD 1 (✅ Your original tool code kept) -->
   <div class="card">
@@ -268,6 +334,26 @@ h1{font-size:20px}
       <li>Collateral / Personal Guarantee</li>
     </ul>
   </div>
+
+
+  <!-- ✅ About the Author (E‑E‑A‑T / Trust) -->
+  <div class="card">
+    <h2>About the Author</h2>
+    <p style="margin:0;color:#334155;font-size:15px;font-weight:600;">
+      I’m <strong>Abdul Latif</strong>, a banking professional at <strong>Agrani Bank PLC</strong> (Bangladesh).
+      I work with real loan cases, repayment planning, and documentation. This calculator is built to reflect practical banking logic
+      and to help people make safer borrowing decisions.
+    </p>
+
+    <div class="highlight" style="margin-top:12px;">
+      <strong>Privacy note:</strong> This calculator runs in your browser. I do not collect your salary, DOB, or personal inputs from this page.
+    </div>
+
+    <div class="acc-body" style="margin-top:10px;">
+      <strong>Disclaimer:</strong> This is an educational estimate. Final eligibility depends on bank policy, verification, and changes in rates/fees.
+    </div>
+  </div>
+
 
   <!-- ✅ Footer (AdSense trust) -->
   <div class="footer">
@@ -365,7 +451,9 @@ applyPolicy();
 function calc(){
 let s=+salary.value,l=+loan.value,m=+months.value;
 let r=(+rate.value/100)/12;
-let emi=Math.round(l*r*Math.pow(1+r,m)/(Math.pow(1+r,m)-1));
+let emi=0;
+if(r===0){ emi=Math.round(l/m); }
+else{ emi=Math.round(l*r*Math.pow(1+r,m)/(Math.pow(1+r,m)-1)); }
 emiSpan.innerText=emi.toLocaleString();
 
 l80.innerText=Math.round((s*0.80/emi)*l).toLocaleString();
