@@ -3,217 +3,457 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tools | ablatif.com</title>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3608304969182163"
-     crossorigin="anonymous"></script>
-     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3608304969182163"
-     crossorigin="anonymous"></script>
+  <title>All Tools — ablatif.com</title>
+  <meta name="description" content="All banking tools from ablatif.com — EMI, eligibility, COF (Agrani Bank PLC), workflow helpers, and NSS utilities." />
+  <link rel="canonical" href="https://ablatif.com/tools/" />
+
+  <!-- AdSense -->
+  <script async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3608304969182163"
+    crossorigin="anonymous"></script>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X4YNW0E3XG"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-X4YNW0E3XG');
+  </script>
+
+  <!-- Bootstrap (relative to /tools/) -->
+  <link href="../css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Font Awesome -->
+  <link href="../font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+
   <style>
-    :root {
-      --bg: #0b1220;
-      --card: rgba(255, 255, 255, 0.06);
-      --text: #e8eefc;
-      --muted: rgba(232, 238, 252, 0.7);
-      --border: rgba(255, 255, 255, 0.12);
-      --accent: #4f8cff;
+    :root{
+      --bg:#ffffff;
+      --text:#0b1a33;
+      --sub:#33415c;
+      --muted:#f5f7fb;
+      --border:rgba(11,26,51,.10);
+      --accent:#0d6efd;
+      --shadow:0 12px 30px rgba(0,0,0,.08);
+      --shadow2:0 10px 26px rgba(0,0,0,.06);
+    }
+    body{
+      font-family:"Inter",sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.7;
+      padding-top:72px;
+    }
+    a{ color:var(--accent); text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+
+    .navbar{
+      background:rgba(255,255,255,.95);
+      box-shadow:0 1px 14px rgba(0,0,0,.06);
+      padding:12px 0;
+      border:none;
+    }
+    .navbar .navbar-brand{ font-weight:900; letter-spacing:.5px; }
+    .navbar .nav > li > a{ font-weight:800; color:var(--text) !important; }
+    .navbar .nav > li > a:hover{ color:var(--accent) !important; }
+
+    .hero{
+      background:linear-gradient(180deg, #f5f9ff 0%, #ffffff 70%);
+      padding:46px 0 24px;
+      border-bottom:1px solid var(--border);
+    }
+    .hero-card{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:22px;
+      box-shadow:var(--shadow);
+    }
+    .hero h1{ margin:0 0 8px; font-size:34px; font-weight:900; }
+    .hero p{ color:var(--sub); margin:0; font-size:16px; }
+    .search-row{ margin-top:14px; display:flex; flex-wrap:wrap; gap:10px; }
+    .search-input{
+      flex:1;
+      min-width:220px;
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:12px 14px;
+      font-weight:600;
+      outline:none;
+      background:#fff;
+    }
+    .chipbar{ display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
+    .chip{
+      border:1px solid var(--border);
+      background:var(--muted);
+      color:var(--sub);
+      border-radius:999px;
+      padding:7px 12px;
+      font-weight:800;
+      font-size:13px;
+      cursor:pointer;
+      user-select:none;
+    }
+    .chip.active{ background:var(--accent); border-color:var(--accent); color:#fff; }
+
+    .tool-card{
+      display:block;
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:18px;
+      box-shadow:var(--shadow2);
+      height:100%;
+      transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+      text-decoration:none !important;
+      color:inherit;
+    }
+    .tool-card:hover{
+      transform:translateY(-2px);
+      box-shadow:0 16px 38px rgba(0,0,0,.10);
+      border-color:rgba(13,110,253,.35);
+    }
+    .tool-top{ display:flex; gap:12px; align-items:flex-start; }
+    .tool-icon{
+      width:44px; height:44px;
+      border-radius:14px;
+      background:var(--muted);
+      border:1px solid var(--border);
+      display:flex; align-items:center; justify-content:center;
+      font-size:20px;
+      color:var(--text);
+      flex:0 0 auto;
+    }
+    .tool-tag{ font-size:12px; font-weight:900; color:var(--sub); }
+    .tool-title{ margin:2px 0 0; font-size:17px; font-weight:900; line-height:1.3; }
+    .tool-desc{ margin-top:10px; color:var(--sub); font-size:14px; }
+    .tool-cta{ margin-top:12px; font-weight:900; color:var(--accent); font-size:13px; }
+
+    .section-title{ font-size:26px; font-weight:900; margin:0 0 8px; }
+    .section-sub{ color:var(--sub); max-width:900px; font-size:16px; }
+
+    .note{
+      background:var(--muted);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:16px;
+      color:var(--sub);
+      margin-top:18px;
+      font-size:14px;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    footer{
+      border-top:1px solid var(--border);
+      padding:26px 0;
+      color:var(--sub);
+      margin-top:32px;
     }
+    .footer-links a{ margin:0 8px; font-size:18px; color:var(--sub); }
+    .footer-links a:hover{ color:var(--accent); }
 
-    body {
-      background: radial-gradient(circle at top, #141e36, var(--bg));
-      color: var(--text);
-      min-height: 100vh;
-      padding: 50px 18px;
-    }
-
-    .container {
-      max-width: 980px;
-      margin: auto;
-    }
-
-    header {
-      margin-bottom: 30px;
-    }
-
-    header h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      margin-bottom: 10px;
-    }
-
-    header p {
-      font-size: 1rem;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
-    .searchbox {
-      margin-top: 25px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    input[type="search"] {
-      flex: 1;
-      min-width: 240px;
-      padding: 12px 14px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text);
-      outline: none;
-      font-size: 0.95rem;
-    }
-
-    input[type="search"]::placeholder {
-      color: rgba(232, 238, 252, 0.5);
-    }
-
-    .grid {
-      margin-top: 25px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
-    }
-
-    .card {
-      padding: 18px;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: var(--card);
-      backdrop-filter: blur(10px);
-      transition: transform 0.2s ease, border-color 0.2s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(79, 140, 255, 0.5);
-    }
-
-    .card h2 {
-      font-size: 1.05rem;
-      font-weight: 650;
-      margin-bottom: 8px;
-    }
-
-    .card p {
-      font-size: 0.9rem;
-      color: var(--muted);
-      line-height: 1.4;
-      margin-bottom: 14px;
-      min-height: 38px;
-    }
-
-    .card a {
-      display: inline-block;
-      padding: 10px 12px;
-      background: var(--accent);
-      color: white;
-      text-decoration: none;
-      border-radius: 10px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      transition: opacity 0.2s ease;
-    }
-
-    .card a:hover {
-      opacity: 0.85;
-    }
-
-    footer {
-      margin-top: 45px;
-      text-align: center;
-      font-size: 0.85rem;
-      color: rgba(232, 238, 252, 0.55);
-    }
-
-    footer a {
-      color: rgba(232, 238, 252, 0.7);
-      text-decoration: none;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
+    @media (max-width: 767px){
+      body{ padding-top:70px; }
+      .hero h1{ font-size:28px; }
     }
   </style>
 </head>
+
 <body>
-  <div class="container">
-    <header>
-      <h1>Tools</h1>
-      <p>
-        Quick navigation for tools & web utilities inside <strong>ablatif.com/tools/</strong>.
-        Select a tool below or search by name.
+  <!-- NAV -->
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav">
+          <span class="icon-bar" style="background:#0b1a33"></span>
+          <span class="icon-bar" style="background:#0b1a33"></span>
+          <span class="icon-bar" style="background:#0b1a33"></span>
+        </button>
+        <a class="navbar-brand" href="/">AL</a>
+      </div>
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/">Home</a></li>
+          <li><a href="/blog/" target="_blank" rel="noopener">Blog</a></li>
+          <li><a href="/tools/">Tools</a></li>
+          <li><a href="/contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="container">
+      <div class="hero-card">
+        <h1>All Tools (One Place)</h1>
+        <p>
+          A single landing page for every tool across ablatif.com — even if the tool lives outside the <code>/tools</code> folder.
+          Use search or filter to find what you need.
+        </p>
+
+        <div class="search-row">
+          <input id="q" class="search-input" type="search" placeholder="Search tools (e.g., EMI, eligibility, COF, SOA)..." />
+        </div>
+
+        <div class="chipbar" id="chips">
+          <span class="chip active" data-tag="all">All</span>
+          <span class="chip" data-tag="Loans & EMI">Loans & EMI</span>
+          <span class="chip" data-tag="Loans & Eligibility">Eligibility</span>
+          <span class="chip" data-tag="Agrani Bank PLC">Agrani Bank PLC</span>
+          <span class="chip" data-tag="Banking Workflow">Workflow</span>
+          <span class="chip" data-tag="Productivity">Productivity</span>
+          <span class="chip" data-tag="NSS">NSS</span>
+          <span class="chip" data-tag="Reference">Reference</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- LIST -->
+  <section style="padding:34px 0;">
+    <div class="container">
+      <h2 class="section-title">Tools Directory</h2>
+      <p class="section-sub">
+        Each link includes a short description so you can quickly understand what it does.
+        If you need a customized version for a different bank or workflow, please visit
+        <a href="/professional-services.html">Professional Services</a>.
       </p>
 
-      <div class="searchbox">
-        <input id="search" type="search" placeholder="Search tools..." oninput="filterTools()" />
+      <div class="row" id="grid" style="margin-top:14px; display:flex; flex-wrap:wrap;">
+<div class="col-sm-6 col-md-4" style="margin-bottom:18px; display:flex;">
+          <a class="tool-card" href="/emi-calculator.html" target="_blank" rel="noopener" style="width:100%;">
+            <div class="tool-top">
+              <div class="tool-icon"><i class="fa fa-calculator"></i></div>
+              <div class="tool-meta">
+                <div class="tool-tag">Loans & EMI</div>
+                <h3 class="tool-title">EMI Calculator (Guide + Comparison)</h3>
+              </div>
+            </div>
+            <div class="tool-desc">Compare Declining Balance vs Equal Principal, learn EMI basics, and jump to full schedule.</div>
+            <div class="tool-cta">Open tool <span aria-hidden="true">→</span></div>
+          </a>
+        </div>
+<div class="col-sm-6 col-md-4" style="margin-bottom:18px; display:flex;">
+          <a class="tool-card" href="/emi/loan_emi_full.html" target="_blank" rel="noopener" style="width:100%;">
+            <div class="tool-top">
+              <div class="tool-icon"><i class="fa fa-table"></i></div>
+              <div class="tool-meta">
+                <div class="tool-tag">Loans & EMI</div>
+                <h3 class="tool-title">Full EMI Schedule (Amortization)</h3>
+              </div>
+            </div>
+            <div class="tool-desc">Generate complete month‑by‑month amortization schedule and print/export a clean summary.</div>
+            <div class="tool-cta">Open tool <span aria-hidden="true">→</span></div>
+          </a>
+        </div>
+<div class="col-sm-6 col-md-4" style="margin-bottom:18px; display:flex;">
+          <a class="tool-card" href="/tools/Loan_Eligibility.html" target="_blank" rel="noopener" style="width:100%;">
+            <div class="tool-top">
+              <div class="tool-icon"><i class="fa fa-sliders"></i></div>
+              <div class="tool-meta">
+                <div class="tool-tag">Loans & Eligibility</div>
+                <h3 class="tool-title">Loan Eligibility Calculator</h3>
+              </div>
+            </div>
+            <div class="tool-desc">Estimate safe affordability based on salary and rules (80% / 2⁄3) with PDF output.</div>
+            <div class="tool-cta">Open tool <span aria-hidden="true">→</span></div>
+          </a>
+        </div>
+<div class="col-sm-6 col-md-4" style="margin-bottom:18px; display:flex;">
+          <a class="tool-card" href="/cof/index.html" target="_blank" rel="noopener" style="width:100%;">
+            <div class="tool-top">
+              <div class="tool-icon"><i class="fa fa-area-chart"></i></div>
+              <div class="tool-meta">
+                <div class="tool-tag">Agrani Bank PLC</div>
+                <h3 class="tool-title">COF Calculator (Agrani Bank PLC)</h3>
+              </div>
+            </div>
+            <div class="tool-desc">Cost of Funds calculator built for Agrani Bank PLC CSB statement format.</div>
+            <div class="tool-cta">Open tool <span aria-hidden="true">→</span></div>
+          </a>
+        </div>
+<div class="col-sm-6 col-md-4" style="margin-bottom:18px; display:flex;">
+          <a class="tool-card" href="/cof/interest-waiver-circulars.html" target="_blank" rel="noopener" style="width:100%;">
+            <div class="tool-top">
+              <div class="tool-icon"><i class="fa fa-book"></i></div>
+              <div class="tool-meta">
+                <div class="tool-tag">Reference</div>
+                <h3 class="tool-title">Interest Waiver Circulars (Reference)</h3>
+              </div>
+            </div>
+            <div class="tool-desc">Quick reference page for interest waiver circulars (for study and compliance reading).</div>
+            <div class="tool-cta">Open tool <span aria-hidden="true">→</span></div>
+          </a>
+        </div>
+<div class="col-sm-6 col-md-4" style="margin-bottom:18px; display:flex;">
+          <a class="tool-card" href="/tools/SOA.html" target="_blank" rel="noopener" style="width:100%;">
+            <div class="tool-top">
+              <div class="tool-icon"><i class="fa fa-file-text-o"></i></div>
+              <div class="tool-meta">
+                <div class="tool-tag">Banking Workflow</div>
+                <h3 class="tool-title">Statement of Affairs (SOA) Helper</h3>
+              </div>
+            </div>
+            <div class="tool-desc">Prepare/format SOA quickly for internal use and cleaner presentation.</div>
+            <div class="tool-cta">Open tool <span aria-hidden="true">→</span></div>
+          </a>
+        </div>
+<div class="col-sm-6 col-md-4" style="margin-bottom:18px; display:flex;">
+          <a class="tool-card" href="/tools/transaction-tracking.html" target="_blank" rel="noopener" style="width:100%;">
+            <div class="tool-top">
+              <div class="tool-icon"><i class="fa fa-exchange"></i></div>
+              <div class="tool-meta">
+                <div class="tool-tag">Banking Workflow</div>
+                <h3 class="tool-title">Transaction Tracking</h3>
+              </div>
+            </div>
+            <div class="tool-desc">Track transactions, reconcile entries, and keep a clean working sheet for analysis.</div>
+            <div class="tool-cta">Open tool <span aria-hidden="true">→</span></div>
+          </a>
+        </div>
+<div class="col-sm-6 col-md-4" style="margin-bottom:18px; display:flex;">
+          <a class="tool-card" href="/tools/transfer_audit.html" target="_blank" rel="noopener" style="width:100%;">
+            <div class="tool-top">
+              <div class="tool-icon"><i class="fa fa-check-square-o"></i></div>
+              <div class="tool-meta">
+                <div class="tool-tag">Banking Workflow</div>
+                <h3 class="tool-title">Transfer Audit / Cross‑Matching</h3>
+              </div>
+            </div>
+            <div class="tool-desc">Audit transfers and cross‑match records to identify missing or mismatched items.</div>
+            <div class="tool-cta">Open tool <span aria-hidden="true">→</span></div>
+          </a>
+        </div>
+<div class="col-sm-6 col-md-4" style="margin-bottom:18px; display:flex;">
+          <a class="tool-card" href="/tools/bank-letter-v3.html" target="_blank" rel="noopener" style="width:100%;">
+            <div class="tool-top">
+              <div class="tool-icon"><i class="fa fa-envelope-o"></i></div>
+              <div class="tool-meta">
+                <div class="tool-tag">Productivity</div>
+                <h3 class="tool-title">Bank Letter Generator</h3>
+              </div>
+            </div>
+            <div class="tool-desc">Generate standard bank letters with a clean layout—save time on repetitive drafting.</div>
+            <div class="tool-cta">Open tool <span aria-hidden="true">→</span></div>
+          </a>
+        </div>
+<div class="col-sm-6 col-md-4" style="margin-bottom:18px; display:flex;">
+          <a class="tool-card" href="/nss/index.html" target="_blank" rel="noopener" style="width:100%;">
+            <div class="tool-top">
+              <div class="tool-icon"><i class="fa fa-folder-open-o"></i></div>
+              <div class="tool-meta">
+                <div class="tool-tag">NSS</div>
+                <h3 class="tool-title">NSS Tools (Index)</h3>
+              </div>
+            </div>
+            <div class="tool-desc">NSS utilities and helper pages (forms / print workflow support).</div>
+            <div class="tool-cta">Open tool <span aria-hidden="true">→</span></div>
+          </a>
+        </div>
+<div class="col-sm-6 col-md-4" style="margin-bottom:18px; display:flex;">
+          <a class="tool-card" href="/nss/coord-tool.html" target="_blank" rel="noopener" style="width:100%;">
+            <div class="tool-top">
+              <div class="tool-icon"><i class="fa fa-map-marker"></i></div>
+              <div class="tool-meta">
+                <div class="tool-tag">NSS</div>
+                <h3 class="tool-title">NSS Coordinate Tool</h3>
+              </div>
+            </div>
+            <div class="tool-desc">Coordinate helper tool for NSS-related form positioning and printing alignment.</div>
+            <div class="tool-cta">Open tool <span aria-hidden="true">→</span></div>
+          </a>
+        </div>
+<div class="col-sm-6 col-md-4" style="margin-bottom:18px; display:flex;">
+          <a class="tool-card" href="/agrani_notice/index.php" target="_blank" rel="noopener" style="width:100%;">
+            <div class="tool-top">
+              <div class="tool-icon"><i class="fa fa-bullhorn"></i></div>
+              <div class="tool-meta">
+                <div class="tool-tag">Agrani Bank PLC</div>
+                <h3 class="tool-title">Agrani Notice Generator (Web App)</h3>
+              </div>
+            </div>
+            <div class="tool-desc">Generate and manage notice templates for internal workflow (Agrani-specific).</div>
+            <div class="tool-cta">Open tool <span aria-hidden="true">→</span></div>
+          </a>
+        </div>
       </div>
-    </header>
 
-    <main class="grid" id="toolGrid">
-      <!-- Tools -->
-      <div class="card" data-name="Affairs Report Advanced">
-        <h2>Affairs Report (Advanced)</h2>
-        <p>Advanced reporting tool for affairs and analysis workflows.</p>
-        <a href="Affairs_Report_Advanced.html">Open Tool</a>
+      <div class="note" id="empty" style="display:none;">
+        No matching tools found. Try a different keyword or clear the filter.
       </div>
 
-      <div class="card" data-name="SOA">
-        <h2>SOA</h2>
-        <p>Statement of Affairs generator and viewer.</p>
-        <a href="SOA.html">Open Tool</a>
+      <div class="note">
+        <strong>Privacy note:</strong> Most tools run in your browser for convenience.
+        Please avoid entering sensitive information you wouldn’t want to share.
+        Always verify final terms and policies with your bank.
       </div>
+    </div>
+  </section>
 
-      <div class="card" data-name="Application">
-        <h2>Application</h2>
-        <p>Application form builder / workflow module.</p>
-        <a href="application.html">Open Tool</a>
+  <footer>
+    <div class="container" style="text-align:center;">
+      <div class="footer-links" style="margin-bottom:10px;">
+        <a href="https://www.facebook.com/latifmirabdul/" target="_blank" rel="noopener"><i class="fa fa-facebook"></i></a>
+        <a href="https://x.com/latifju" target="_blank" rel="noopener"><i class="fa fa-twitter"></i></a>
+        <a href="https://www.instagram.com/ablatifshahin/" target="_blank" rel="noopener"><i class="fa fa-instagram"></i></a>
+        <a href="https://www.youtube.com/@DiptiYTV" target="_blank" rel="noopener"><i class="fa fa-youtube-play"></i></a>
       </div>
+      <div style="font-size:14px; line-height:1.9;">
+        <a href="/privacy-policy.html">Privacy</a> ·
+        <a href="/terms.html">Terms</a> ·
+        <a href="/cookie-policy.html">Cookies</a> ·
+        <a href="/disclaimer.html">Disclaimer</a> ·
+        <a href="/blog/">Blog</a>
+      </div>
+      <div style="margin-top:10px;">© 2026 Abdul Latif — All Rights Reserved.</div>
+    </div>
+  </footer>
 
-      <div class="card" data-name="Bank Letter V2">
-        <h2>Bank Letter (v2)</h2>
-        <p>Generate a bank letter document using version 2 template.</p>
-        <a href="bank-letter-v2.html">Open Tool</a>
-      </div>
-
-      <div class="card" data-name="Bank Letter V3">
-        <h2>Bank Letter (v3)</h2>
-        <p>Latest bank letter generator with version 3 layout.</p>
-        <a href="bank-letter-v3.html">Open Tool</a>
-      </div>
-      <div class="card" data-name="Loan Eligibility">
-        <h2>Loan Eligibility</h2>
-        <p>By your bank and your capability</p>
-        <a href="Loan_Eligibility.html">Calculate</a>
-      </div>
-    </main>
-
-    <footer>
-      © <span id="year"></span> ablatif.com • Tools Directory • Built for clean navigation
-    </footer>
-  </div>
+  <script src="../js/jquery.js"></script>
+  <script src="../js/bootstrap.min.js"></script>
 
   <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
+    const cards = Array.from(document.querySelectorAll(".tool-card"));
+    const q = document.getElementById("q");
+    const chips = Array.from(document.querySelectorAll(".chip"));
+    const empty = document.getElementById("empty");
 
-    function filterTools() {
-      const query = document.getElementById("search").value.toLowerCase().trim();
-      const cards = document.querySelectorAll(".card");
+    let activeTag = "all";
+
+    function applyFilter() {
+      const term = (q.value || "").trim().toLowerCase();
+      let visible = 0;
 
       cards.forEach(card => {
-        const name = card.dataset.name.toLowerCase();
-        card.style.display = name.includes(query) ? "block" : "none";
+        const tag = card.querySelector(".tool-tag")?.innerText || "";
+        const title = card.querySelector(".tool-title")?.innerText || "";
+        const desc = card.querySelector(".tool-desc")?.innerText || "";
+        const hay = (tag + " " + title + " " + desc).toLowerCase();
+
+        const tagOk = (activeTag === "all") || (tag === activeTag);
+        const termOk = !term || hay.includes(term);
+
+        const show = tagOk && termOk;
+        card.parentElement.style.display = show ? "flex" : "none";
+        if(show) visible++;
       });
+
+      empty.style.display = visible ? "none" : "block";
     }
+
+    chips.forEach(chip => {
+      chip.addEventListener("click", () => {
+        chips.forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+        activeTag = chip.getAttribute("data-tag");
+        applyFilter();
+      });
+    });
+
+    q.addEventListener("input", applyFilter);
+    applyFilter();
   </script>
 </body>
 </html>
