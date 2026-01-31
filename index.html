@@ -58,6 +58,7 @@
   </script>
 
   <style>
+    
     :root{
       --bg:#ffffff;
       --text:#0b1a33;
@@ -174,6 +175,9 @@
       body{ padding-top:70px; }
       .hero h1{ font-size:30px; }
     }
+    .more-text { display:none; }
+        .read-more { color:#0066cc; cursor:pointer; font-size:0.9em; }
+        button { margin-right:6px; cursor:pointer; }
   </style>
 </head>
 
@@ -227,6 +231,7 @@
               I publish practical explanations about banking and personal finance—plus calculators that follow real-world banking logic.
               My focus is helping borrowers and professionals in Bangladesh understand costs, documentation, and decision-making clearly.
               If you’re comparing loans, planning repayments, or learning how banks evaluate cases, you’ll find step-by-step guides here.
+              If you want to work smart you can visit my site or can take any help you need.
             </p>
 
             <a class="btn-pill btn-solid" href="#start">Start Here</a>
@@ -238,7 +243,7 @@
         <div class="muted" style="margin-top:16px;">
           <div style="font-weight:900;">Important note</div>
           <div class="small-note">
-            This site provides educational content and tools. It is not a substitute for professional financial advice.
+            This site provides educational content and tools for bankers (specaily for Agrani Bank PLC). I have shared my work experience and tools here. It is not a substitute for professional financial advice.
             Please verify final terms, fees, and policies with your bank. (<a href="/disclaimer.html">Read full disclaimer</a>)
           </div>
         </div>
@@ -291,32 +296,132 @@
       <!-- OPTION A: Add a longer content block (you can fill later) -->
       <div class="muted" style="margin-top:10px;">
         <div style="font-weight:900;">Featured Guide</div>
-        <div class="small-note" style="margin-top:8px;">
-          <strong>How Banks Evaluate a Loan Case in Bangladesh: Eligibility, Documentation, and Common Borrower Mistakes</strong>
+
+        <!-- Language Toggle -->
+        <div style="margin:8px 0;">
+          <button onclick="showLang('bn')">বাংলা</button>
+          <button onclick="showLang('en')">English</button>
+        </div>
+
+        <!-- Bangla Content -->
+        
+        <div class="muted" style="margin-top:10px;">
+          <div style="font-weight:900;">
+            Featured Guide: Technology-Driven Banking Support in Bangladesh
+          </div>
+
+          <!-- Language Toggle -->
+          <div style="margin:8px 0;">
+            <button onclick="showLang('bn')">বাংলা</button>
+            <button onclick="showLang('en')">English</button>
+          </div>
+
+          <!-- Bangla Content -->
+          <div id="bn" class="small-note">
+            <strong>বাংলাদেশে ব্যাংকিং সেবা সহজ করার একটি প্রযুক্তিনির্ভর উদ্যোগ</strong><br><br>
+
+            এই ওয়েবসাইটটি একটি ব্যক্তিগত উদ্যোগ, যার লক্ষ্য হলো বাংলাদেশে ব্যাংকিং কাজকে আরও সহজ, নিরাপদ ও প্রযুক্তিনির্ভর করা। এখানে গ্রাহক, ব্যাংক অফিসার এবং নির্বাহীদের জন্য বাস্তব অভিজ্ঞতা থেকে তৈরি বিভিন্ন ব্যাংকিং টুলস, গাইড ও পরামর্শ শেয়ার করা হয়েছে।
+
+            <br><br>
+            <strong>গ্রাহক (Banking Customers)</strong><br>
+            গ্রাহক মূলত দুই ধরনের—ভাসমান গ্রাহক এবং হিসাবধারী গ্রাহক।
+            <span class="more-text">
+              ভাসমান গ্রাহকদের জন্য এখানে বিভিন্ন নমুনা আবেদন, জমা ভাউচার পূরণ, হিসাব খোলার ফরম এবং সঞ্চয়পত্র ক্রয়ের জটিল ফরম পূরণের সহজ নির্দেশনা রয়েছে।  
+              হিসাবধারী গ্রাহকদের জন্য ঋণ সংক্রান্ত পরামর্শ, ঋণ হিসাবায়ন, ব্যক্তিগত ও বাণিজ্যিক ঋণ সম্পর্কিত তুলনামূলক তথ্য দেওয়া হয়েছে।
+            </span>
+            <a href="javascript:void(0)" class="read-more" onclick="toggleMore(this)">Read more</a>
+
+            <br><br>
+            <strong>ব্যাংক অফিসার (Bank Officers)</strong><br>
+            ব্যাংকে ম্যানুয়ালি কাজ করতে গিয়ে অনেক মূল্যবান শ্রমঘন্ট নষ্ট হয়।
+            <span class="more-text">
+              এই সমস্যা সমাধানের জন্য এখানে অনলাইন ট্রান্সফার রেজিস্টার ক্রস-ম্যাচিং, অনলাইন ঋণ প্রস্তাব তৈরি, স্টেটমেন্ট অব অ্যাফেয়ার্স শর্ট করার টুল এবং অনলাইন মেইল মার্জ সুবিধা রাখা হয়েছে।  
+              এসব টুলস অফিসারদের কাজকে দ্রুত, নির্ভুল ও কাগজবিহীন করতে সহায়তা করে।
+            </span>
+            <a href="javascript:void(0)" class="read-more" onclick="toggleMore(this)">Read more</a>
+
+            <br><br>
+            <strong>নির্বাহী ও অ্যাডমিন (Authority / Admin)</strong><br>
+            নির্বাহীদের জন্য রিপোর্ট সংগ্রহ ও বিশ্লেষণ সহজ করার লক্ষ্যে এই প্ল্যাটফর্মে কাঠামোবদ্ধ তথ্য উপস্থাপনের ধারণা দেওয়া হয়েছে।
+
+            <br><br>
+            <strong>ভিজিটর ও শিক্ষানবিশ (General Visitors)</strong><br>
+            যারা ব্যাংকিং, সঞ্চয়, আর্থিক পরিকল্পনা এবং অর্থনৈতিক চিন্তাধারা জানতে চান, তারা এখানে ব্লগ, ভিডিও এবং বাস্তব অভিজ্ঞতা থেকে শেখার সুযোগ পাবেন।
+
+            <br><br>
+            <strong>গুরুত্বপূর্ণ ঘোষণা</strong><br>
+            এই সাইটটি সম্পূর্ণ ব্যক্তিগত উদ্যোগে তৈরি। এখানে প্রকাশিত তথ্য কোনো ব্যাংকের অফিসিয়াল নীতির প্রতিনিধিত্ব করে না। এটি মূলত গ্রাহক ও ব্যাংকারদের মধ্যে একটি জ্ঞানভিত্তিক যোগসূত্র তৈরির প্রচেষ্টা।
+          </div>
+
+          <!-- English Content -->
+          <div id="en" class="small-note" style="display:none;">
+            <strong>A Technology-Driven Banking Knowledge Platform in Bangladesh</strong><br><br>
+
+            This website is a personal initiative by a professional banker aimed at improving banking efficiency, reducing fraud, and promoting paperless banking practices in Bangladesh.
+
+            <span class="more-text">
+              It offers practical banking tools for customers, bank officers, and administrators, including online loan proposal systems, customer letter formats, transaction verification tools, and educational blogs.
+              The platform focuses on real-life banking problems and technology-based solutions, especially relevant to Agrani Bank PLC and other banks in Bangladesh.
+            </span>
+            <a href="javascript:void(0)" class="read-more" onclick="toggleMore(this)">Read more</a>
+          </div>
+        </div>
+
+        <script>
+        function showLang(lang) {
+          document.getElementById('bn').style.display = lang === 'bn' ? 'block' : 'none';
+          document.getElementById('en').style.display = lang === 'en' ? 'block' : 'none';
+        }
+
+        function toggleMore(el) {
+          const moreText = el.previousElementSibling;
+          if (moreText.style.display === "inline") {
+            moreText.style.display = "none";
+            el.innerText = "Read more";
+          } else {
+            moreText.style.display = "inline";
+            el.innerText = "Read less";
+          }
+        }
+        </script>
+        <!-- English Content -->
+        <div id="en" class="small-note" style="display:none;">
+          <strong>What This Platform Offers</strong><br><br>
+          This website is a personal initiative by a banker to support customers, officers, and banking professionals through practical tools and guidance.
+          <span class="more-text">
+            It includes online loan proposal tools, customer letter formats, fraud-reduction ideas, paperless workflows, and research-based banking insights.
+          </span>
+          <a href="javascript:void(0)" class="read-more" onclick="toggleMore(this)">Read more</a>
+
           <br><br>
-          In Bangladesh, banks follow a structured and risk-focused process when evaluating any loan proposal, whether it is for personal, SME, or corporate lending. Understanding this process helps borrowers prepare better and reduces unnecessary delays or rejections.
-          <br><br>
-          <strong>1. Eligibility and Basic Assessment</strong><br>
-          Banks first verify the borrower’s identity, profession, age, and banking history. For salaried individuals, job stability, length of service, and employer reputation matter. For business clients, trade license validity, business age, and transaction behavior are closely reviewed. A clean CIB (Credit Information Bureau) report is mandatory.
-          <br><br>
-          <strong>2. Required Documentation</strong><br>
-          Common documents include NID, photographs, bank statements (usually last 6–12 months), salary certificate or pay slips, TIN certificate, and utility bills. For business loans, banks require trade license, VAT registration (if applicable), financial statements, and account turnover evidence.
-          <br><br>
-          <strong>3. Income Verification and EMI Capacity</strong><br>
-          Banks do not consider gross income alone. Net disposable income after regular expenses and existing loan installments is crucial. Generally, banks prefer total monthly EMI to remain within a safe range (often 30–40% of verified net income).
-          <br><br>
-          <strong>Example:</strong><br>
-          If a borrower earns BDT 60,000 per month and already pays BDT 12,000 as EMI, the bank may allow a new EMI of only BDT 6,000–10,000, even if the salary seems sufficient. This ensures financial stability and reduces default risk.
-          <br><br>
-          <strong>4. Risk Signals Banks Watch Carefully</strong><br>
-          Irregular account transactions, frequent cash withdrawals, unpaid utility bills, over-dependence on loans, and multiple recent credit inquiries raise red flags. These factors can lead to reduced loan limits or rejection.
-          <br><br>
-          <strong>5. Why Banks Sometimes Reduce Loan Limits</strong><br>
-          Even when income appears adequate, banks may lower approved limits due to unstable income sources, short job tenure, weak business cash flow, or high household expenses. The goal is safe lending, not maximum lending.
-          <br><br>
-          A well-prepared loan proposal, transparent information, and realistic expectations significantly improve approval chances. Technology-driven tools and paperless processes can further make banking faster, safer, and more efficient for everyone.
+          The platform also shares educational blogs, videos, and personal experiences to help build a safer, more efficient, and technology-driven banking culture in Bangladesh.
         </div>
       </div>
+
+      <script>
+      function showLang(lang) {
+        document.getElementById('bn').style.display = lang === 'bn' ? 'block' : 'none';
+        document.getElementById('en').style.display = lang === 'en' ? 'block' : 'none';
+      }
+
+      function toggleMore(el) {
+        const moreText = el.previousElementSibling;
+        if (moreText.style.display === "inline") {
+          moreText.style.display = "none";
+          el.innerText = "Read more";
+        } else {
+          moreText.style.display = "inline";
+          el.innerText = "Read less";
+        }
+      }
+      </script>
+
+      <style>
+      .more-text { display:none; }
+      .read-more { color:#007bff; cursor:pointer; font-size:0.9em; }
+      button { margin-right:5px; cursor:pointer; }
+      </style>
+
 
     </div>
   </section>
