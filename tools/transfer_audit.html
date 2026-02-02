@@ -437,8 +437,8 @@ body.printing > *:not(#printArea){display:none !important;}
 <div class="row" style="margin-top:12px;">
 <div class="card w50 section" id="upload">
 <div class="sectionTitle"><h3>Step 1 — ফাইল Upload</h3><div class="right no-print"><button class="pillBtn ghost" onclick="printSection('upload')">PDF Preview</button></div></div>
-<div><b>Before COB (HTML register):</b> <input accept=".html,.htm,text/html" id="htmlFile" type="file"/></div>
-<div><b>After COB (TXT register):</b> <input accept=".txt,text/plain" id="txtFile" type="file"/></div>
+<div><b>Before COB (HTML register): Daily transfer register saved as .html</b> <input accept=".html,.htm,text/html" id="htmlFile" type="file"/></div>
+<div><b>After COB (TXT register): After COB transfer register saved as .txt</b> <input accept=".txt,text/plain" id="txtFile" type="file"/></div>
 <div class="btnRow">
 <button onclick="loadAll()">Load &amp; Compare</button>
 <span class="small muted" id="status"></span>
@@ -1546,24 +1546,28 @@ setSummaryStatic(hf, tf);  // ✅ after htmlMeta updated
 
 
 function injectHelpBoxes(){
-  const sections = Array.from(document.querySelectorAll('.card.section'));
+  // ✅ only one target section (change '#upload' to any section id you want)
+  const sec = document.querySelector('#upload');
+  if(!sec) return;
+
+  if(sec.querySelector('.helpBox')) return;
+
+  const title = sec.querySelector('.sectionTitle');
+  if(!title) return;
+
   const defaultHelp = `• Select <code>Before COB (HTML)</code> and <code>After COB (TXT)</code> files<br/>
 • Click <b>Load & Compare</b> to generate results<br/>
 • Use filters to narrow down by Inputter / Category / Amount range<br/>
 • Use <b>Compact view</b> for wide tables (audit section)<br/>
 • For PDF: open <b>🧾 One-page Audit Summary</b> → Print / Save PDF`;
-  sections.forEach(sec=>{
-    // Skip if already exists
-    if(sec.querySelector('.helpBox')) return;
-    const title = sec.querySelector('.sectionTitle');
-    if(!title) return;
-    const details = document.createElement('details');
-    details.className = 'helpBox';
-    details.innerHTML = `<summary>ℹ️ Help / Instruction</summary><div class="helpBody">${defaultHelp}</div>`;
-    // put just after header
-    title.insertAdjacentElement('afterend', details);
-  });
+
+  const details = document.createElement('details');
+  details.className = 'helpBox';
+  details.innerHTML = `<summary>ℹ️ Help / Instruction</summary><div class="helpBody">${defaultHelp}</div>`;
+
+  title.insertAdjacentElement('afterend', details);
 }
+
 
 function showCredit(){
   const o = document.getElementById('creditOverlay');
