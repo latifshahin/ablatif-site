@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <title>Professional Banking Services | ablatif.com</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>Professional Banking Services — Software, Research & Advisory | ablatif.com</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description"
-        content="Professional banking software, financial analysis, research, advisory, and custom tools developed under expert supervision. Paid services for banks, professionals, and institutions.">
-<!-- Google Analytics (keep your existing ID) -->
+        content="Paid professional services: banking software (web/desktop/access/excel), workflow automation, publications, economic research, advisory and requested review — delivered under expert supervision." />
+
+  <link rel="canonical" href="https://ablatif.com/services/" />
+
+  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-X4YNW0E3XG"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -14,248 +17,785 @@
     gtag('js', new Date());
     gtag('config', 'G-X4YNW0E3XG');
   </script>
-  <link rel="canonical" href="https://ablatif.com/services/">
-  <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Fonts (modern + Bangla) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Noto+Sans+Bengali:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
   <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
+  <!-- (Optional) Bootstrap if you use it site-wide -->
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+
   <style>
-    body{font-family:Arial,Helvetica,sans-serif;background:#f8fafc;color:#0f172a;line-height:1.75}
-    .container{max-width:1100px}
-    .cardx{background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:22px;margin-bottom:20px}
-    h1,h2,h3{font-weight:900}
-    .sub{color:#475569}
-    .group-title{margin-top:30px;margin-bottom:10px}
-    .pill{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700}
-    .cta{background:#0d6efd;color:#fff;padding:12px 18px;border-radius:999px;font-weight:900;text-decoration:none}
-    .cta:hover{color:#fff;opacity:.9}
-    footer{margin-top:40px;padding:26px 0;border-top:1px solid #e5e7eb;text-align:center;color:#64748b}
+    :root{
+      --bg:#f7f8fb;
+      --card:#ffffff;
+      --card2:#ffffff;
+      --text:#0f172a;
+      --sub:#475569;
+      --muted:#64748b;
+      --border:#e5e7eb;
+      --shadow: 0 18px 45px rgba(2,6,23,.08);
+      --shadow2: 0 12px 24px rgba(2,6,23,.06);
+      --radius: 18px;
+
+      --accent:#6d28d9;    /* violet */
+      --accent2:#0ea5e9;   /* sky */
+      --good:#16a34a;      /* green */
+    }
+
+    body{
+      margin:0;
+      background:
+        radial-gradient(900px 500px at 10% 0%, rgba(109,40,217,.10), transparent 60%),
+        radial-gradient(900px 500px at 90% 10%, rgba(14,165,233,.10), transparent 60%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Noto Sans Bengali", Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      line-height: 1.75;
+    }
+
+    a{ color: var(--accent); text-decoration:none; }
+    a:hover{ text-decoration: underline; }
+
+    .wrap{
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 20px 16px 64px;
+    }
+
+    /* Topbar */
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      background: rgba(255,255,255,.85);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      box-shadow: var(--shadow2);
+      position: sticky;
+      top: 12px;
+      z-index: 50;
+      backdrop-filter: blur(10px);
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      font-weight: 900;
+      letter-spacing:.2px;
+      font-family: Inter, sans-serif;
+    }
+    .brand-badge{
+      width:34px; height:34px;
+      border-radius: 12px;
+      display:flex; align-items:center; justify-content:center;
+      background: linear-gradient(135deg, rgba(109,40,217,.95), rgba(14,165,233,.85));
+      color:#fff;
+      box-shadow: 0 10px 18px rgba(109,40,217,.18);
+    }
+    .navlinks{
+      display:flex; flex-wrap:wrap;
+      gap: 8px;
+      font-family: Inter, sans-serif;
+      font-weight: 800;
+      font-size: 13px;
+    }
+    .navlinks a{
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+    }
+    .navlinks a:hover{
+      border-color: rgba(109,40,217,.35);
+      background: rgba(109,40,217,.06);
+      text-decoration:none;
+    }
+
+    /* Hero */
+    .hero{
+      margin-top: 14px;
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) + 8px);
+      background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.85));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .hero-inner{
+      padding: 24px 20px;
+      display:grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 18px;
+      align-items:center;
+    }
+    @media (max-width: 920px){ .hero-inner{ grid-template-columns: 1fr; } }
+
+    .hero h1{
+      margin:0 0 10px;
+      font-size: 34px;
+      line-height: 1.15;
+      font-weight: 900;
+      letter-spacing: -0.4px;
+    }
+    .hero p{
+      margin:0 0 12px;
+      color: var(--sub);
+      font-size: 16px;
+    }
+    .hero-meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-family: Inter, sans-serif;
+      font-weight: 800;
+      font-size: 12px;
+    }
+    .chip{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: #fff;
+    }
+
+    .cta-card{
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: #fff;
+      box-shadow: var(--shadow2);
+      padding: 16px;
+    }
+    .cta-card h3{
+      margin:0 0 8px;
+      font-size: 16px;
+      font-weight: 900;
+      font-family: Inter, sans-serif;
+    }
+    .cta-card p{
+      margin:0 0 12px;
+      color: var(--sub);
+      font-size: 14px;
+    }
+
+    .btn-primary{
+      display:inline-flex; align-items:center; gap:10px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(109,40,217,.22);
+      background: linear-gradient(135deg, rgba(109,40,217,.95), rgba(14,165,233,.90));
+      color:#fff;
+      font-family: Inter, sans-serif;
+      font-weight: 900;
+      text-decoration:none;
+      box-shadow: 0 14px 24px rgba(109,40,217,.14);
+      white-space: nowrap;
+    }
+    .btn-primary:hover{ opacity:.95; text-decoration:none; }
+
+    .btn-ghost{
+      display:inline-flex; align-items:center; gap:10px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      font-family: Inter, sans-serif;
+      font-weight: 900;
+      text-decoration:none;
+      white-space: nowrap;
+    }
+    .btn-ghost:hover{ background: rgba(109,40,217,.06); text-decoration:none; }
+
+    /* Section */
+    .section{ margin-top: 18px; }
+    .section-head{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap: 12px;
+      margin: 22px 2px 12px;
+    }
+    .section-head h2{
+      margin:0;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -.2px;
+    }
+    .section-head .hint{
+      color: var(--muted);
+      font-size: 13px;
+      font-family: Inter, sans-serif;
+      font-weight: 800;
+    }
+
+    /* Grid */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+
+    /* IMPORTANT FIX: overflow visible so footer badges never get clipped */
+    /* FIX: keep chips inside the card */
+    .card{
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--card);
+    box-shadow: var(--shadow2);
+    overflow: hidden;               /* ✅ important: chips won't go outside */
+    }
+
+    /* keep enough inner space */
+    .card-inner{
+    padding: 18px;
+    height: 100%;
+    display:flex;
+    flex-direction: column;
+    gap: 12px;
+    }
+
+    /* footer stays INSIDE and looks clean */
+    .card-foot{
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);   /* ✅ nice separation */
+    display:flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-start;           /* ✅ no corner pushing */
+    }
+    .card-foot .link{
+    margin-left: auto;   /* ✅ pushes link to right without breaking chips */
+    }
+
+    /* chips */
+    .badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: #fff;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 12px;
+    white-space: nowrap;
+    }
+
+    .card-top{ display:flex; gap:12px; align-items:flex-start; }
+
+    .icon{
+      width:44px; height:44px;
+      border-radius: 14px;
+      background: rgba(109,40,217,.08);
+      border: 1px solid rgba(109,40,217,.18);
+      display:flex; align-items:center; justify-content:center;
+      color: var(--accent);
+      flex: 0 0 auto;
+    }
+    .icon.sky{ background: rgba(14,165,233,.10); border-color: rgba(14,165,233,.22); color: var(--accent2); }
+    .icon.good{ background: rgba(22,163,74,.10); border-color: rgba(22,163,74,.20); color: var(--good); }
+    .icon.ora{ background: rgba(245,158,11,.10); border-color: rgba(245,158,11,.22); color: #b45309; }
+
+    .kicker{
+      font-family: Inter, sans-serif;
+      font-size: 12px;
+      font-weight: 900;
+      color: var(--muted);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+    }
+    .card h3{
+      margin:0;
+      font-size: 16px;
+      font-weight: 900;
+      line-height: 1.35;
+    }
+    .card p{
+      margin: 8px 0 0;
+      color: var(--sub);
+      font-size: 14px;
+    }
+    .list{
+      margin: 10px 0 0;
+      padding-left: 18px;
+      color: var(--sub);
+      font-size: 14px;
+    }
+    .list li{ margin: 4px 0; }
+
+    /* Footer badges/buttons */
+    .link{
+      color: var(--accent);
+      font-size: 13px;
+      text-decoration:none;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    .link:hover{ text-decoration: underline; }
+
+    /* Layout spans */
+    .span-12{ grid-column: span 12; }
+    .span-6{ grid-column: span 6; }
+    .span-4{ grid-column: span 4; }
+    .span-8{ grid-column: span 8; }
+    @media (max-width: 980px){
+      .span-6,.span-4,.span-8{ grid-column: span 12; }
+      .section-head{ flex-direction: column; align-items:flex-start; }
+    }
+
+    /* Mini form */
+    .form-row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    @media (max-width: 820px){ .form-row{ grid-template-columns: 1fr; } }
+
+    label{
+      display:block;
+      font-size: 12px;
+      color: var(--muted);
+      font-family: Inter, sans-serif;
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+    input, select, textarea{
+      width:100%;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 12px;
+      background: #fff;
+      color: var(--text);
+      outline: none;
+      font-size: 14px;
+    }
+    input:focus, select:focus, textarea:focus{
+      border-color: rgba(109,40,217,.35);
+      box-shadow: 0 0 0 4px rgba(109,40,217,.10);
+    }
+    textarea{ min-height: 120px; resize: vertical; }
+
+    .note{
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+    .footer{
+      margin-top: 26px;
+      padding: 22px 6px 34px;
+      color: var(--muted);
+      text-align:center;
+      border-top: 1px solid var(--border);
+    }
   </style>
+
+  <!-- Schema (Organization + Offer) -->
   <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "Abdul Latif – Professional Banking Services",
-  "url": "https://ablatif.com/services/",
-  "founder": {
-    "@type": "Person",
-    "name": "Abdul Latif"
-  },
-  "description": "Professional banking software, financial analysis, research, advisory and custom tools developed under expert supervision.",
-  "sameAs": [
-    "https://www.facebook.com/latifmirabdul/",
-    "https://x.com/latifju",
-    "https://www.youtube.com/@DiptiYTV"
-  ],
-  "makesOffer": {
-    "@type": "Offer",
-    "itemOffered": {
-      "@type": "Service",
-      "name": "Professional Banking & Financial Services",
-      "serviceType": [
-        "Banking Software Development",
-        "Financial & Economic Research",
-        "Professional Advisory",
-        "Requested Review & Analysis"
-      ],
-      "areaServed": "Bangladesh"
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Abdul Latif – Professional Banking Services",
+    "url": "https://ablatif.com/services/",
+    "founder": { "@type": "Person", "name": "Abdul Latif" },
+    "description": "Paid professional services: banking software, workflow automation, publications, economic research, advisory and requested review — delivered under expert supervision.",
+    "sameAs": [
+      "https://www.facebook.com/latifmirabdul/",
+      "https://x.com/latifju",
+      "https://www.youtube.com/@DiptiYTV"
+    ],
+    "makesOffer": {
+      "@type": "Offer",
+      "itemOffered": {
+        "@type": "Service",
+        "name": "Professional Banking & Financial Services",
+        "serviceType": [
+          "Banking Software Development",
+          "Workflow Automation",
+          "Banking Publications",
+          "Financial & Economic Research",
+          "Professional Advisory",
+          "Requested Review & Analysis"
+        ],
+        "areaServed": "Bangladesh"
+      }
     }
   }
-}
-</script>
-
+  </script>
 </head>
 
 <body>
-<div class="container">
+  <div class="wrap">
 
-  <!-- HERO -->
-  <div class="cardx">
-    <h1>Professional Banking & Financial Services</h1>
-    <p class="sub">
-      এই সেকশনটি তাদের জন্য যারা <strong>banking-grade, reliable এবং বাস্তব অভিজ্ঞতা-নির্ভর</strong>
-      সফটওয়্যার, বিশ্লেষণ ও পরামর্শ সেবা খুঁজছেন। এখানে উল্লিখিত সব সার্ভিস
-      <strong>পেইড ও প্রফেশনাল</strong>—যা আমি নিজে অথবা আমার তত্ত্বাবধানে
-      একদল অভিজ্ঞ আইটি ও ফাইন্যান্স বিশেষজ্ঞ দ্বারা প্রদান করা হয়।
-    </p>
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-badge">AL</div>
+        <div>Professional Services</div>
+      </div>
+
+      <div class="navlinks">
+        <a href="/">Home</a>
+        <a href="/tools/">Tools</a>
+        <a href="/blog/">Blog</a>
+        <a href="#inquiry">Service inquiry</a>
+      </div>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-inner">
+        <div>
+          <h1>Banking-grade software, research & advisory — paid, professional, reliable</h1>
+          <p>
+            এই পেজটি তাদের জন্য যারা <strong>ব্যাংকিং-স্ট্যান্ডার্ড</strong> সফটওয়্যার,
+            workflow automation, ডকুমেন্টেশন, অর্থনৈতিক গবেষণা এবং professional review/consultation
+            সেবা নিতে চান। কাজগুলো হবে <strong>পেইড</strong> এবং আমি নিজে বা আমার তত্ত্বাবধানে
+            <strong>একদল IT + finance specialist</strong> মানসম্মতভাবে ডেলিভার করবেন।
+          </p>
+
+          <div class="hero-meta">
+            <span class="chip"><i class="fa fa-lock"></i> Privacy-first</span>
+            <span class="chip"><i class="fa fa-check-circle"></i> Documented assumptions</span>
+            <span class="chip"><i class="fa fa-shield"></i> Audit-friendly outputs</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="cta-card">
+            <h3>Quick contact</h3>
+            <p>WhatsApp/Email-এ সরাসরি যোগাযোগ করুন অথবা নিচে mini form পূরণ করুন।</p>
+
+            <!-- REPLACE phone number below -->
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn-primary"
+                 href="https://wa.me/8801552358796?text=Hello%20Abdul%20Latif%2C%20I%20want%20professional%20banking%20service.%20My%20need%3A%20"
+                 target="_blank" rel="noopener">
+                <i class="fa fa-whatsapp"></i> WhatsApp
+              </a>
+
+              <a class="btn-ghost"
+                 href="mailto:latifshahin@gmail.com?subject=Professional%20Service%20Request%20from%20ablatif.com&body=Hello%20Abdul%20Latif,%0D%0A%0D%0AMy%20service%20need:%0D%0A-%20Service%20type:%0D%0A-%20Organization/Bank:%0D%0A-%20Timeline:%0D%0A-%20Notes:%0D%0A">
+                <i class="fa fa-envelope"></i> Email
+              </a>
+            </div>
+
+            <div class="note" style="margin-top:10px;">
+              Tip: আপনি চাইলে sample/anonymized data দিয়ে শুরু করতে পারেন।
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SERVICES -->
+    <div class="section" id="services">
+      <div class="section-head">
+        <h2>Service categories</h2>
+        <div class="hint">প্রকল্পভিত্তিক / সময়ভিত্তিকভাবে ডেলিভারি</div>
+      </div>
+
+      <div class="grid">
+
+        <!-- 1 -->
+        <div class="card span-6">
+          <div class="card-inner">
+            <div>
+              <div class="card-top">
+                <div class="icon"><i class="fa fa-code"></i></div>
+                <div>
+                  <div class="kicker">Software development</div>
+                  <h3>Web / Desktop / Access / Excel-based banking applications</h3>
+                  <p>
+                    ব্যাংকিং-এর manual/half-manual কাজগুলোকে <strong>automation, accuracy, audit-friendly</strong>
+                    করার জন্য কাস্টম অ্যাপ্লিকেশন ডেভেলপ করি—যাতে কাজের গতি ও রিপোর্টিং দুটোই উন্নত হয়।
+                  </p>
+                  <ul class="list">
+                    <li>Web tools (internal dashboards, calculators, reporting helpers)</li>
+                    <li>Desktop apps (lightweight workflow, offline-friendly)</li>
+                    <li>MS Access (structured data + forms + reports)</li>
+                    <li>Advanced Excel tools (validated inputs, protected logic)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-foot">
+              <span class="badge"><i class="fa fa-cogs"></i> Custom build</span>
+              <span class="badge"><i class="fa fa-file-text-o"></i> Documentation</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 -->
+        <div class="card span-6">
+          <div class="card-inner">
+            <div>
+              <div class="card-top">
+                <div class="icon sky"><i class="fa fa-random"></i></div>
+                <div>
+                  <div class="kicker">Workflow automation</div>
+                  <h3>Custom tools for officers & head office units</h3>
+                  <p>
+                    repetitive কাজ কমাতে এবং সিদ্ধান্ত দ্রুত করতে কাস্টম টুল তৈরি করি।
+                    এগুলো শুধু calculator নয়—<strong>decision-support</strong> হিসেবে কাজ করে।
+                  </p>
+                  <ul class="list">
+                    <li>Loan proposal builder, eligibility & affordability checks</li>
+                    <li>SOA/statement formatting & working paper helpers</li>
+                    <li>Transfer/reconciliation audit & cross-matching tools</li>
+                    <li>Interest / EMI / COF / risk-analysis utilities</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-foot">
+              <span class="badge"><i class="fa fa-check"></i> Validation rules</span>
+              <span class="badge"><i class="fa fa-shield"></i> Audit-friendly</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 -->
+        <div class="card span-6">
+          <div class="card-inner">
+            <div>
+              <div class="card-top">
+                <div class="icon good"><i class="fa fa-book"></i></div>
+                <div>
+                  <div class="kicker">Publications</div>
+                  <h3>Banking manuals, training notes & technical documentation</h3>
+                  <p>
+                    training এবং internal reference-এর জন্য পরিষ্কার, কাঠামোবদ্ধ এবং ব্যবহারযোগ্য
+                    ডকুমেন্ট তৈরি করি।
+                  </p>
+                  <ul class="list">
+                    <li>Internal manuals & SOP documents</li>
+                    <li>Training materials for officers</li>
+                    <li>Policy interpretation guides</li>
+                    <li>Circular-based explanatory publications</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-foot">
+              <span class="badge"><i class="fa fa-graduation-cap"></i> Training-ready</span>
+              <span class="badge"><i class="fa fa-list-alt"></i> Structured</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 -->
+        <div class="card span-6">
+          <div class="card-inner">
+            <div>
+              <div class="card-top">
+                <div class="icon ora"><i class="fa fa-line-chart"></i></div>
+                <div>
+                  <div class="kicker">Advisory & research</div>
+                  <h3>Consultation, economic research & requested review</h3>
+                  <p>
+                    বাস্তব ব্যাংকিং অভিজ্ঞতা + বিশ্লেষণী চিন্তা প্রয়োজন হলে research-based support দিই।
+                    প্রতিটি রিভিউ/পরামর্শ <strong>documented assumptions</strong> সহ প্রদান করা হয়।
+                  </p>
+                  <ul class="list">
+                    <li>Process review & improvement suggestions</li>
+                    <li>Requested document / calculation review</li>
+                    <li>Economic & financial research support</li>
+                    <li>Policy impact and risk analysis</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-foot">
+              <span class="badge"><i class="fa fa-pencil"></i> Written notes</span>
+              <span class="badge"><i class="fa fa-balance-scale"></i> Disclaimer</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pricing -->
+        <div class="card span-4" id="pricing">
+          <div class="card-inner">
+            <div>
+              <div class="card-top">
+                <div class="icon sky"><i class="fa fa-tags"></i></div>
+                <div>
+                  <div class="kicker">Engagement</div>
+                  <h3>Pricing & engagement model</h3>
+                  <p>
+                    fixed price list প্রকাশ করা হয় না—কারণ কাজের scope আলাদা।
+                    সাধারণত:
+                  </p>
+                  <ul class="list">
+                    <li><strong>Fixed-scope:</strong> নির্দিষ্ট deliverable</li>
+                    <li><strong>Hourly/Daily:</strong> research/review/consulting</li>
+                    <li><strong>Retainer:</strong> ongoing support</li>
+                  </ul>
+                  <p style="margin-top:10px; color:var(--sub); font-size:14px;">
+                    কাজ শুরুর আগে scope, timeline ও cost লিখিতভাবে নিশ্চিত করা হয়।
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-foot">
+              <span class="badge"><i class="fa fa-file-text"></i> Written proposal</span>
+              <a class="link" href="#inquiry">Request quote →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- How we work -->
+        <div class="card span-8">
+          <div class="card-inner">
+            <div>
+              <div class="card-top">
+                <div class="icon"><i class="fa fa-sitemap"></i></div>
+                <div>
+                  <div class="kicker">Delivery process</div>
+                  <h3>How we work (clear, documented, accountable)</h3>
+                  <p>
+                    এটি কোনো “instant tool” নয়—এটি একটি <strong>professional paid service</strong>।
+                    scope, timeline, deliverables লিখিতভাবে নির্ধারণ করা হয়।
+                    কাজ চলাকালীন update, test/validation এবং handover documentation প্রদান করা হয়।
+                  </p>
+                  <p style="margin-top:10px; color:var(--sub); font-size:14px;">
+                    <strong>Privacy note:</strong> আমরা core banking system বা sensitive internal data-তে সরাসরি প্রবেশ করি না।
+                    প্রয়োজনীয় ইনপুট ক্লায়েন্ট নিজ দায়িত্বে প্রদান করেন; প্রয়োজনে anonymized sample ব্যবহার করা হয়।
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-foot">
+              <span class="badge"><i class="fa fa-handshake-o"></i> Transparent scope</span>
+              <span class="badge"><i class="fa fa-check-square-o"></i> Validation</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- MINI INQUIRY FORM -->
+    <div class="section" id="inquiry">
+      <div class="section-head">
+        <h2>Service inquiry (mini form)</h2>
+        <div class="hint">এই পেজ থেকেই request পাঠান</div>
+      </div>
+
+      <div class="card span-12">
+        <div class="card-inner">
+          <div class="card-top">
+            <div class="icon good"><i class="fa fa-paper-plane"></i></div>
+            <div style="flex:1;">
+              <div class="kicker">Request</div>
+              <h3>আপনার প্রয়োজন লিখুন — আমরা proposal দিয়ে রিপ্লাই করবো</h3>
+              <p>
+                কাজের ধরন, scope, timeline এবং আপনার বর্তমান format/inputs (যদি থাকে) উল্লেখ করুন।
+                feasibility review শেষে আমরা deliverables ও pricing জানাব।
+              </p>
+
+              <!-- Simple form (mailto) -->
+              <form action="mailto:latifshahin@gmail.com" method="post" enctype="text/plain">
+                <div class="form-row">
+                  <div>
+                    <label for="name">আপনার নাম</label>
+                    <input id="name" name="Name" required placeholder="Name">
+                  </div>
+                  <div>
+                    <label for="phone">ফোন / WhatsApp</label>
+                    <input id="phone" name="Phone" placeholder="+8801XXXXXXXXX">
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div>
+                    <label for="org">প্রতিষ্ঠান / ব্যাংক</label>
+                    <input id="org" name="Organization" placeholder="Bank / Institution">
+                  </div>
+                  <div>
+                    <label for="stype">Service type</label>
+                    <select id="stype" name="ServiceType" required>
+                      <option value="">Select…</option>
+                      <option>Software development (Web/Desktop/Access/Excel)</option>
+                      <option>Workflow automation / custom tool</option>
+                      <option>Publication / documentation</option>
+                      <option>Research / advisory / requested review</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div>
+                    <label for="timeline">Expected timeline</label>
+                    <input id="timeline" name="Timeline" placeholder="e.g., 7 days / 2 weeks / 1 month">
+                  </div>
+                  <div>
+                    <label for="budget">Budget range (optional)</label>
+                    <input id="budget" name="Budget" placeholder="Optional">
+                  </div>
+                </div>
+
+                <div style="margin-top:12px;">
+                  <label for="details">Details (scope / output expectation)</label>
+                  <textarea id="details" name="Details" required
+                    placeholder="What do you need? What output do you expect? Any sample/anonymized data format?"></textarea>
+                </div>
+
+                <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; margin-top:12px;">
+                  <a class="btn-ghost"
+                     href="https://wa.me/8801552358796?text=Hello%20Abdul%20Latif%2C%20I%20want%20professional%20banking%20service.%20My%20need%3A%20"
+                     target="_blank" rel="noopener">
+                    <i class="fa fa-whatsapp"></i> WhatsApp
+                  </a>
+                  <button class="btn-primary" type="submit">
+                    Send inquiry <span aria-hidden="true">→</span>
+                  </button>
+                </div>
+
+                <div class="note">
+                  Note: আমরা সংবেদনশীল ব্যাংক ডেটা চাই না। প্রয়োজনে anonymized sample দিন।
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="card-foot">
+            <span class="badge"><i class="fa fa-info-circle"></i> Paid service only</span>
+            <span class="badge"><i class="fa fa-shield"></i> Privacy-first</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div style="margin-bottom:10px;">
+        <a href="/privacy-policy.html">Privacy</a> ·
+        <a href="/terms.html">Terms</a> ·
+        <a href="/cookie-policy.html">Cookies</a> ·
+        <a href="/disclaimer.html">Disclaimer</a>
+      </div>
+      © 2026 Abdul Latif — Professional Banking Services
+    </div>
+
   </div>
-
-  <!-- GROUP 1 -->
-  <h2 class="group-title">১. Banking Software & Application Development</h2>
-
-  <div class="cardx">
-    <span class="pill">Software Solutions</span>
-    <h3>Web-based, Desktop, Access & Excel-based Banking Applications</h3>
-    <p class="sub">
-      ব্যাংকিং কার্যক্রমে ব্যবহৃত অনেক কাজ এখনো ম্যানুয়াল বা আধা-ম্যানুয়াল।
-      আমরা সেই কাজগুলোকে <strong>automation, accuracy এবং audit-friendly</strong>
-      করার জন্য কাস্টম সফটওয়্যার ডেভেলপ করি।
-    </p>
-    <p>
-      এর মধ্যে রয়েছে:
-      Web-based internal tools, Desktop applications,
-      Microsoft Access solutions, advanced Excel-based calculators ও workflow systems।
-      প্রতিটি সমাধান তৈরি হয় বাস্তব ব্যাংকিং প্রসেস,
-      সার্কুলার, রিপোর্টিং ও অডিট প্রয়োজনীয়তা বিবেচনায় রেখে।
-    </p>
-  </div>
-
-  <!-- GROUP 2 -->
-  <h2 class="group-title">২. Custom Banking Tools & Workflow Automation</h2>
-
-  <div class="cardx">
-    <span class="pill">Workflow & Automation</span>
-    <h3>Internal Tools for Banking Professionals</h3>
-    <p class="sub">
-      এই সার্ভিসটি মূলত ব্যাংকার, শাখা কর্মকর্তা ও হেড অফিস ইউনিটের জন্য।
-      আমরা প্রয়োজন অনুযায়ী কাস্টম টুল তৈরি করি যেমন:
-    </p>
-    <ul>
-      <li>Loan proposal & eligibility analysis tools</li>
-      <li>Statement of Affairs (SOA) preparation systems</li>
-      <li>Transfer & reconciliation audit tools</li>
-      <li>Interest, EMI, COF ও risk-analysis calculators</li>
-    </ul>
-    <p>
-      প্রতিটি টুল ডেভেলপ করা হয় ব্যবহারকারীর বাস্তব কাজের ধরণ বিশ্লেষণ করে,
-      যাতে সেটি শুধু “calculator” না হয়ে
-      <strong>একটি decision-support system</strong> হিসেবে কাজ করে।
-    </p>
-  </div>
-
-  <!-- GROUP 3 -->
-  <h2 class="group-title">৩. Banking Publications & Technical Documentation</h2>
-
-  <div class="cardx">
-    <span class="pill">Publications</span>
-    <h3>Banking Manuals, Notes & Training Materials</h3>
-    <p class="sub">
-      ব্যাংকিং-সংক্রান্ত মানসম্মত লেখা ও ডকুমেন্টেশন তৈরি করা একটি আলাদা দক্ষতা।
-      আমরা প্রস্তুত করি:
-    </p>
-    <ul>
-      <li>Internal banking manuals</li>
-      <li>Training notes for officers</li>
-      <li>Policy interpretation guides</li>
-      <li>Regulatory & circular-based explanatory publications</li>
-    </ul>
-    <p>
-      এসব কনটেন্ট ব্যবহারযোগ্য হয় training,
-      internal reference এবং professional development-এর জন্য।
-    </p>
-  </div>
-
-  <!-- GROUP 4 -->
-  <h2 class="group-title">৪. Advisory, Research & Professional Review</h2>
-
-  <div class="cardx">
-    <span class="pill">Advisory & Research</span>
-    <h3>Consultation, Economic Research & Requested Reviews</h3>
-    <p class="sub">
-      আমরা প্রদান করি professional advisory ও research-based support,
-      যেখানে প্রয়োজন হয় বাস্তব ব্যাংকিং অভিজ্ঞতা + analytical thinking।
-    </p>
-    <p>
-      এই সার্ভিসের মধ্যে রয়েছে:
-    </p>
-    <ul>
-      <li>Banking process review & improvement suggestions</li>
-      <li>Requested document / calculation review</li>
-      <li>Economic & financial research support</li>
-      <li>Policy-impact and risk analysis</li>
-    </ul>
-    <p>
-      প্রতিটি রিভিউ ও পরামর্শ দেওয়া হয়
-      <strong>professional disclaimer ও documented assumptions</strong> সহ।
-    </p>
-  </div>
-<!-- PRICING & ENGAGEMENT -->
-<div class="cardx">
-  <h2>Pricing & Engagement Model</h2>
-  <p class="sub">
-    প্রতিটি কাজের প্রকৃতি, জটিলতা ও সময়সীমা ভিন্ন হওয়ায়
-    নির্দিষ্ট কোনো “fixed price list” প্রকাশ করা হয় না।
-    তবে নিচের মডেলগুলো সাধারণত অনুসরণ করা হয়।
-  </p>
-
-  <ul>
-    <li>
-      <strong>Fixed-scope project:</strong>
-      নির্দিষ্ট কাজ ও আউটপুটের জন্য এককালীন মূল্য নির্ধারণ।
-    </li>
-    <li>
-      <strong>Hourly / daily engagement:</strong>
-      গবেষণা, রিভিউ বা পরামর্শমূলক কাজে সময়ভিত্তিক চার্জ।
-    </li>
-    <li>
-      <strong>Retainer model:</strong>
-      নিয়মিত সাপোর্ট বা চলমান প্রকল্পের জন্য মাসিক চুক্তি।
-    </li>
-  </ul>
-
-  <p class="sub">
-    কাজ শুরুর আগে scope, timeline এবং cost লিখিতভাবে
-    নিশ্চিত করা হয়—কোনো লুকানো চার্জ নেই।
-  </p>
-</div>
-
-  <!-- TRUST -->
-  <div class="cardx">
-    <h2>How We Work</h2>
-    <p class="sub">
-      এই সার্ভিসগুলো আমি নিজে অথবা আমার তত্ত্বাবধানে
-      একদল অভিজ্ঞ IT ও finance professionals দ্বারা প্রদান করা হয়।
-      কাজের পরিধি, সময় ও মূল্য নির্ধারণ করা হয়
-      কাজ শুরুর আগেই স্বচ্ছভাবে।
-    </p>
-    <p>
-      এটি কোনো “instant online tool” নয়—
-      বরং একটি <strong>professional paid service</strong>,
-      যেখানে গুণগত মান, নির্ভুলতা ও দায়িত্বশীলতা সর্বোচ্চ অগ্রাধিকার পায়।
-    </p>
-  </div>
-<!-- FAQ -->
-<div class="cardx">
-  <h2>Frequently Asked Questions (FAQ)</h2>
-
-  <h4>এই সার্ভিসগুলো কি ফ্রি?</h4>
-  <p class="sub">
-    না। এটি একটি <strong>professional paid service</strong>।
-    ফ্রি টুল ও আর্টিকেল আলাদা সেকশনে দেওয়া আছে।
-  </p>
-
-  <h4>আমি কি অন্য ব্যাংকের কর্মকর্তা হিসেবে এই সার্ভিস নিতে পারি?</h4>
-  <p class="sub">
-    হ্যাঁ। তবে যেহেতু ব্যাংকভেদে সিস্টেম ও নীতিমালা ভিন্ন,
-    তাই কাজের scope অনুযায়ী কাস্টমাইজেশন প্রয়োজন হতে পারে।
-  </p>
-
-  <h4>আপনি কি সরাসরি ব্যাংকের ডেটা অ্যাক্সেস করেন?</h4>
-  <p class="sub">
-    না। আমরা কখনোই core banking system বা সংবেদনশীল ডেটায়
-    সরাসরি প্রবেশ করি না। প্রয়োজনীয় তথ্য ক্লায়েন্ট নিজ দায়িত্বে প্রদান করেন।
-  </p>
-
-  <h4>এই সার্ভিস কি কোনো ব্যাংকের অফিসিয়াল সিদ্ধান্তের বিকল্প?</h4>
-  <p class="sub">
-    না। সব পরামর্শ ও বিশ্লেষণ <strong>educational ও professional guidance</strong> হিসেবে দেওয়া হয়।
-    চূড়ান্ত সিদ্ধান্ত সংশ্লিষ্ট কর্তৃপক্ষের।
-  </p>
-</div>
-
-  <!-- CTA -->
-  <div class="cardx" style="text-align:center">
-    <h2>Interested in Professional Services?</h2>
-    <p class="sub">
-      আপনার প্রয়োজন, কাজের পরিধি ও সময়সীমা উল্লেখ করে যোগাযোগ করুন।
-      প্রাথমিক আলোচনা ও feasibility review-এর পর আমরা আপনাকে পরবর্তী ধাপ জানাব।
-    </p>
-    <a class="cta" href="/contact.html">Request Professional Service</a>
-  </div>
-
-</div>
-
-<footer>
-  © 2026 Abdul Latif — Professional Banking Services
-</footer>
 </body>
 </html>
