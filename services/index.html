@@ -400,6 +400,9 @@
       text-align:center;
       border-top: 1px solid var(--border);
     }
+    .cta-card { position: relative; z-index: 2; }
+    .btn-ghost, .btn-primary { position: relative; z-index: 3; cursor: pointer; }
+
   </style>
 
   <!-- Schema (Organization + Offer) -->
@@ -487,11 +490,15 @@
               </a>
 
               <a class="btn-ghost"
-                 href="mailto:latifshahin@gmail.com?subject=Professional%20Service%20Request%20from%20ablatif.com&body=Hello%20Abdul%20Latif,%0D%0A%0D%0AMy%20service%20need:%0D%0A-%20Service%20type:%0D%0A-%20Organization/Bank:%0D%0A-%20Timeline:%0D%0A-%20Notes:%0D%0A">
-                <i class="fa fa-envelope"></i> Email
-              </a>
-            </div>
+            href="mailto:latifshahin@gmail.com?subject=Professional%20Service%20Request%20from%20ablatif.com&body=Hello%20Abdul%20Latif,%0D%0A%0D%0AMy%20service%20need:%0D%0A-%20Service%20type:%0D%0A-%20Organization/Bank:%0D%0A-%20Timeline:%0D%0A-%20Notes:%0D%0A"
+            onclick="window.location.href=this.href; return true;">
+            <i class="fa fa-envelope"></i> Email
+            </a>
 
+            </div>
+            <div class="note">
+            Email button কাজ না করলে পেজটি ব্রাউজারে (Chrome) ওপেন করে আবার চেষ্টা করুন।
+            </div>
             <div class="note" style="margin-top:10px;">
               Tip: আপনি চাইলে sample/anonymized data দিয়ে শুরু করতে পারেন।
             </div>
