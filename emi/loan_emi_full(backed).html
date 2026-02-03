@@ -6,14 +6,6 @@
 
   <title>Loan EMI Calculator (Bangladesh) | Declining Balance vs Equal Principal – Schedule</title>
   <meta name="description" content="Free EMI calculator for Bangladesh: generate full loan amortization schedule with Declining Balance (reducing) EMI and Equal Principal methods. Compare total interest, monthly breakdown, and print/download."/>
-
-  <!-- Open Graph / Social (SEO) -->
-  <meta property="og:type" content="website"/>
-  <meta property="og:title" content="Loan EMI Calculator (Bangladesh) — Declining Balance vs Equal Principal"/>
-  <meta property="og:description" content="Compare EMI methods and generate full amortization schedules. Designed with real banking practice in mind."/>
-  <meta property="og:url" content="https://ablatif.com/emi/loan_emi_full.html"/>
-  <meta property="og:site_name" content="ablatif.com"/>
-  <meta name="twitter:card" content="summary"/>
   <meta name="robots" content="index, follow"/>
   <link rel="canonical" href="https://ablatif.com/emi/loan_emi_full.html"/>
 
@@ -80,83 +72,39 @@
       .chart-container{ display:none !important; }
     }
 
-    /* ===== Floating Topbar (Light, SEO-friendly) ===== */
+    /* ===== AdSense-friendly Floating Topbar (Matched Width) ===== */
     :root{ --maxw:1100px; --card:#fff; --muted:#64748b; --ink:#0f172a; --bd:rgba(0,0,0,.10); }
-    html{ scroll-behavior:smooth; }
-    [id]{ scroll-margin-top: 86px; }
-
     .page-wrap{ max-width:var(--maxw); margin:0 auto; padding:14px 14px 0; }
-
     .topbar{
-      position: sticky;
-      top: 10px;
-      z-index: 9999;
-      background: rgba(255,255,255,.92);
-      border: 1px solid var(--bd);
-      box-shadow: 0 10px 24px rgba(2,6,23,.08);
-      border-radius: 16px;
-      padding: 10px 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      backdrop-filter: blur(10px);
+      position:sticky; top:10px; z-index:9999;
+      background:var(--card);
+      border:1px solid var(--bd);
+      box-shadow:0 6px 18px rgba(0,0,0,.06);
+      border-radius:16px;
+      padding:12px 14px;
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
     }
-    .brand{ display:flex; align-items:center; gap:10px; }
-    .brand-badge{
-      width:36px; height:36px;
-      border-radius: 14px;
-      display:flex; align-items:center; justify-content:center;
-      font-weight: 900;
-      letter-spacing: .2px;
-      color: #fff;
-      background: linear-gradient(135deg, rgba(109,40,217,.95), rgba(14,165,233,.90));
-      box-shadow: 0 12px 22px rgba(109,40,217,.20);
-      flex: 0 0 auto;
-    }
-    .brand-title{
-      font-weight: 900;
-      font-size: 14px;
-      line-height: 1.15;
-      color: var(--ink);
-    }
-    .brand-sub{
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.2;
-    }
-
+    .brand h1{ margin:0; font-size:16px; font-weight:900; color:var(--ink); }
+    .brand p{ margin:0; font-size:12px; color:var(--muted); }
     .top-actions{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
     .tbtn{
-      border: 1px solid rgba(15,23,42,.12);
-      background: #fff;
-      padding: 10px 12px;
-      border-radius: 12px;
-      cursor: pointer;
-      font-weight: 900;
-      font-size: 13px;
-      color: var(--ink);
-      text-decoration: none;
-      line-height: 1;
-      white-space: nowrap;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
+      border:1px solid var(--bd);
+      background:#fff;
+      padding:10px 12px;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:800;
+      font-size:13px;
+      color:var(--ink);
+      text-decoration:none;
+      line-height:1;
     }
-    .tbtn.primary{
-      background: var(--ink);
-      color: #fff;
-      border-color: var(--ink);
-    }
-    .tbtn:hover{ opacity:.92; text-decoration:none; }
-
+    .tbtn.primary{ background:var(--ink); color:#fff; border-color:var(--ink); }
+    .tbtn:hover{ opacity:.92; }
     @media(max-width:700px){
-      .topbar{ top: 6px; }
-      .brand-sub{ display:none; }
-      .tbtn{ padding: 9px 10px; font-size: 12px; }
-    }
+      .topbar{ top:6px; }
       .brand p{ display:none; }
-
+    }
 
     /* Footer trust links */
     .footer-trust{
@@ -172,87 +120,6 @@
     
     
   </style>
-<style>
-  /* ==== Premium Callouts (design-only) ==== */
-  .callouts{
-    margin-top: 16px;
-    display: grid;
-    gap: 12px;
-    grid-template-columns: 1fr;
-  }
-  @media (min-width: 900px){
-    .callouts{ grid-template-columns: 1fr 1fr; }
-    .callouts .callout.warn{ grid-column: 1 / -1; }
-  }
-
-  .callout{
-    position: relative;
-    border: 1px solid rgba(15,23,42,.10);
-    background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
-    border-radius: 16px;
-    padding: 14px 14px 12px;
-    box-shadow: 0 10px 24px rgba(2,6,23,.06);
-    overflow: hidden;
-    transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
-  }
-  .callout:hover{
-    transform: translateY(-1px);
-    box-shadow: 0 16px 32px rgba(2,6,23,.08);
-    border-color: rgba(15,23,42,.14);
-  }
-  .callout:before{
-    content:"";
-    position:absolute;
-    left:0; top:0; bottom:0;
-    width: 6px;
-    background: #e2e8f0;
-  }
-  .callout h4{
-    margin: 0 0 8px;
-    font-size: 14px;
-    font-weight: 900;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #0f172a;
-    line-height: 1.35;
-  }
-  .callout p{
-    margin: 0;
-    color: #475569;
-    font-size: 14px;
-    line-height: 1.75;
-  }
-  .callout .small{
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px dashed rgba(15,23,42,.12);
-    color: #64748b;
-    font-size: 13px;
-  }
-  .badge-ico{
-    width: 36px;
-    height: 36px;
-    border-radius: 14px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 900;
-    border: 1px solid transparent;
-    flex: 0 0 auto;
-    box-shadow: 0 10px 18px rgba(2,6,23,.06);
-    background:#fff;
-  }
-  .info:before{ background: rgba(14,165,233,.55); }
-  .good:before{ background: rgba(22,163,74,.55); }
-  .agrani:before{ background: rgba(109,40,217,.55); }
-  .warn:before{ background: rgba(245,158,11,.60); }
-
-  .info .badge-ico{ background: rgba(14,165,233,.10); border-color: rgba(14,165,233,.22); color: #0369a1; }
-  .good .badge-ico{ background: rgba(22,163,74,.10); border-color: rgba(22,163,74,.22); color: #166534; }
-  .agrani .badge-ico{ background: rgba(109,40,217,.10); border-color: rgba(109,40,217,.22); color: #5b21b6; }
-  .warn .badge-ico{ background: rgba(245,158,11,.12); border-color: rgba(245,158,11,.22); color: #92400e; }
-</style>
 
   <script type="application/ld+json">
   {
@@ -282,26 +149,11 @@
 
 <body class="py-4">
 
-    <!-- Floating Topbar -->
+  <!-- Floating Topbar -->
   <div class="page-wrap">
-    <div class="topbar" role="navigation" aria-label="Page navigation">
-      <div class="brand">
-        <div class="brand-badge">EMI</div>
-        <div class="brand-txt">
-          <div class="brand-title">Loan EMI Calculator</div>
-          <div class="brand-sub">Bangladesh • Declining Balance vs Equal Principal</div>
-        </div>
-      </div>
-
-      <div class="top-actions">
-        <a class="tbtn" id="tbMain" href="/">← মেইন সাইট</a>
-        <a class="tbtn" id="tbBlog" href="/blog/">ব্লগ</a>
-        <a class="tbtn" href="#inputSection">Calculator</a>
-        <button class="tbtn primary" type="button" onclick="window.print()">Print</button>
-        <button class="tbtn primary" id="langToggleBtn" type="button" aria-label="Toggle language">EN</button>
-      </div>
-    </div>
-  </div>
+    <div class="topbar"
+</div>
+</div>
 
   <!-- EDUCATIONAL INTRO (AdSense-friendly) -->
   <section class="page-wrap" id="intro-education">
@@ -378,7 +230,19 @@
     </div>
   </section>
 
-
+<div class="page-wrap">
+    <div class="topbar" role="navigation" aria-label="Top navigation">
+      <div class="brand">
+        <h1 id="tbTitle">Loan EMI Calculator</h1>
+        <p id="tbSub">বাংলাদেশ • Declining Balance বনাম Equal Principal</p>
+      </div>
+      <div class="top-actions">
+        <a class="tbtn" id="tbMain" href="/">← মেইন সাইট</a>
+        <a class="tbtn" id="tbBlog" href="/blog/">ব্লগ</a>
+        <button class="tbtn primary" id="langToggleBtn" type="button" aria-label="Toggle language">EN</button>
+      </div>
+    </div>
+  </div>
 
   <div class="page-wrap">
     <div class="container">
