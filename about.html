@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <title>About — Abdul Latif | ablatif.com</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+        content="About Abdul Latif — banker at Agrani Bank PLC (Bangladesh) and a technology enthusiast building practical banking tools, guides, and professional services." />
+  <link rel="canonical" href="https://ablatif.com/about.html" />
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X4YNW0E3XG"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-X4YNW0E3XG');
+  </script>
+
+  <!-- Google AdSense (keep if your site uses AdSense site-wide) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3608304969182163"
+    crossorigin="anonymous"></script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Noto+Sans+Bengali:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome (optional) -->
+  <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#f7f8fb;
+      --card:#ffffff;
+      --text:#0f172a;
+      --sub:#475569;
+      --muted:#64748b;
+      --border:#e5e7eb;
+      --shadow: 0 18px 45px rgba(2,6,23,.08);
+      --shadow2: 0 12px 24px rgba(2,6,23,.06);
+      --radius: 18px;
+
+      --accent:#6d28d9;
+      --accent2:#0ea5e9;
+      --good:#16a34a;
+      --warn:#b45309;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      background:
+        radial-gradient(900px 500px at 10% 0%, rgba(109,40,217,.10), transparent 60%),
+        radial-gradient(900px 500px at 90% 10%, rgba(14,165,233,.10), transparent 60%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Noto Sans Bengali", Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      line-height: 1.75;
+    }
+
+    a{ color: var(--accent); text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+
+    .wrap{ max-width: 1100px; margin:0 auto; padding: 20px 16px 64px; }
+
+    /* Topbar */
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding: 12px 14px;
+      background: rgba(255,255,255,.85);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      box-shadow: var(--shadow2);
+      position: sticky; top: 12px; z-index: 50;
+      backdrop-filter: blur(10px);
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight: 900; letter-spacing:.2px; font-family: Inter, sans-serif;
+    }
+    .brand-badge{
+      width:34px; height:34px; border-radius: 12px;
+      display:flex; align-items:center; justify-content:center;
+      background: linear-gradient(135deg, rgba(109,40,217,.95), rgba(14,165,233,.85));
+      color:#fff;
+      box-shadow: 0 10px 18px rgba(109,40,217,.18);
+    }
+    .navlinks{ display:flex; flex-wrap:wrap; gap:8px; font-family: Inter, sans-serif; font-weight:800; font-size:13px; }
+    .navlinks a{
+      padding: 8px 12px; border-radius: 999px;
+      border: 1px solid var(--border); background:#fff; color: var(--text);
+    }
+    .navlinks a:hover{ border-color: rgba(109,40,217,.35); background: rgba(109,40,217,.06); text-decoration:none; }
+
+    /* Cards / layout */
+    .hero{
+      margin-top: 14px;
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) + 8px);
+      background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.85));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .hero-inner{
+      padding: 24px 20px;
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 18px;
+      align-items:center;
+    }
+    @media (max-width: 920px){ .hero-inner{ grid-template-columns: 1fr; } }
+
+    h1{ margin:0 0 10px; font-size: 34px; line-height:1.15; font-weight: 900; letter-spacing:-.4px; }
+    .lead{ color: var(--sub); font-size:16px; margin:0 0 12px; }
+
+    .chips{ display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
+    .chip{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: #fff;
+      font-family: Inter, sans-serif;
+      font-weight: 800;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .profile{
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: #fff;
+      box-shadow: var(--shadow2);
+      padding: 16px;
+    }
+    .profile-top{ display:flex; gap:14px; align-items:center; }
+    .avatar{
+      width:64px; height:64px; border-radius: 18px;
+      background: linear-gradient(135deg, rgba(109,40,217,.12), rgba(14,165,233,.10));
+      border: 1px solid rgba(109,40,217,.18);
+      display:flex; align-items:center; justify-content:center;
+      color: var(--accent);
+      font-family: Inter, sans-serif;
+      font-weight: 900;
+      flex: 0 0 auto;
+      overflow:hidden;
+    }
+    .avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .who{ font-family: Inter, sans-serif; }
+    .who .name{ font-weight: 900; font-size: 16px; margin:0; }
+    .who .role{ margin:2px 0 0; color: var(--muted); font-size: 13px; font-weight: 800; }
+
+    .btns{ display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
+    .btn-primary{
+      display:inline-flex; align-items:center; gap:10px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(109,40,217,.22);
+      background: linear-gradient(135deg, rgba(109,40,217,.95), rgba(14,165,233,.90));
+      color:#fff;
+      font-family: Inter, sans-serif;
+      font-weight: 900;
+      text-decoration:none;
+      box-shadow: 0 14px 24px rgba(109,40,217,.14);
+      white-space: nowrap;
+    }
+    .btn-primary:hover{ opacity:.95; text-decoration:none; }
+    .btn-ghost{
+      display:inline-flex; align-items:center; gap:10px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      font-family: Inter, sans-serif;
+      font-weight: 900;
+      text-decoration:none;
+      white-space: nowrap;
+    }
+    .btn-ghost:hover{ background: rgba(109,40,217,.06); text-decoration:none; }
+
+    .section{ margin-top: 18px; }
+    .section-head{
+      display:flex; align-items:flex-end; justify-content:space-between; gap:12px;
+      margin: 22px 2px 12px;
+    }
+    .section-head h2{ margin:0; font-size: 20px; font-weight: 900; letter-spacing: -.2px; }
+    .section-head .hint{ color: var(--muted); font-size: 13px; font-family: Inter, sans-serif; font-weight: 800; }
+
+    .grid{ display:grid; grid-template-columns: repeat(12, 1fr); gap: 14px; }
+    .card{
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: var(--shadow2);
+      overflow: hidden;
+    }
+    .card-inner{ padding: 18px; display:flex; flex-direction:column; gap: 10px; }
+    .span-12{ grid-column: span 12; }
+    .span-8{ grid-column: span 8; }
+    .span-6{ grid-column: span 6; }
+    .span-4{ grid-column: span 4; }
+    @media (max-width: 980px){
+      .span-8,.span-6,.span-4{ grid-column: span 12; }
+      .section-head{ flex-direction: column; align-items:flex-start; }
+    }
+
+    .kicker{
+      font-family: Inter, sans-serif;
+      font-size: 12px;
+      font-weight: 900;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      margin:0;
+    }
+    .card h3{ margin:0; font-size: 16px; font-weight: 900; line-height:1.35; }
+    .card p{ margin:0; color: var(--sub); font-size: 14px; }
+    .list{ margin: 6px 0 0; padding-left: 18px; color: var(--sub); font-size: 14px; }
+    .list li{ margin: 4px 0; }
+
+    .hr{ height:1px; background: var(--border); margin: 6px 0; }
+
+    .quote{
+      padding: 14px 14px;
+      border-radius: 16px;
+      background: rgba(109,40,217,.05);
+      border: 1px solid rgba(109,40,217,.14);
+      color: var(--sub);
+      font-size: 14px;
+    }
+    .quote strong{ color: var(--text); }
+
+    .footer{
+      margin-top: 26px;
+      padding: 22px 6px 34px;
+      color: var(--muted);
+      text-align:center;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Small note */
+    .note{ font-size: 13px; color: var(--muted); }
+
+    /* Use on-page anchors */
+    html{ scroll-behavior:smooth; }
+  </style>
+
+  <!-- Schema: Person -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Abdul Latif",
+    "url": "https://ablatif.com/about.html",
+    "jobTitle": "Banker",
+    "worksFor": { "@type": "Organization", "name": "Agrani Bank PLC" },
+    "address": { "@type": "PostalAddress", "addressCountry": "BD" },
+    "description": "Banker at Agrani Bank PLC (Bangladesh) and technology enthusiast building practical banking tools, guides and professional services.",
+    "sameAs": [
+      "https://www.facebook.com/latifmirabdul/",
+      "https://x.com/latifju",
+      "https://www.youtube.com/@DiptiYTV"
+    ]
+  }
+  </script>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-badge">AL</div>
+        <div>About</div>
+      </div>
+
+      <div class="navlinks">
+        <a href="/">Home</a>
+        <a href="/tools/">Tools</a>
+        <a href="/blog/">Blog</a>
+        <a href="/services/">Services</a>
+        <a href="/contact.html">Contact</a>
+      </div>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-inner">
+        <div>
+          <h1>আমি আব্দুল লতিফ — ব্যাংকার, টেক-এনথুসিয়াস্ট, আর প্র্যাকটিক্যাল ব্যাংকিং টুলমেকার</h1>
+          <p class="lead">
+            আমি <strong>Agrani Bank PLC</strong> (Bangladesh)–এ কর্মরত একজন ব্যাংকার। ব্যাংকিং-এর দৈনন্দিন কাজকে আরও দ্রুত, নির্ভুল এবং আধুনিক করতে
+            আমি প্রযুক্তি ব্যবহার করি—আর সেই অভিজ্ঞতা থেকেই তৈরি করি <strong>tools</strong>, <strong>guides</strong> এবং <strong>professional services</strong>।
+          </p>
+
+          <div class="chips">
+            <span class="chip"><i class="fa fa-university"></i> Banking experience</span>
+            <span class="chip"><i class="fa fa-code"></i> Tools & automation</span>
+            <span class="chip"><i class="fa fa-file-text-o"></i> Publications & guides</span>
+            <span class="chip"><i class="fa fa-line-chart"></i> Research & review</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="profile">
+            <div class="profile-top">
+              <div class="avatar" aria-label="Profile">
+                <!-- Optional: replace with your photo -->
+                <!-- <img src="/img/latif.jpg" alt="Abdul Latif"> -->
+                AL
+              </div>
+              <div class="who">
+                <p class="name">Abdul Latif</p>
+                <p class="role">Banker • Agrani Bank PLC • Bangladesh</p>
+              </div>
+            </div>
+
+            <div class="hr"></div>
+
+            <div class="quote">
+              <strong>Goal:</strong> ব্যাংকিং কাজের স্টাইলকে আধুনিক টুল ও টেকনোলজি দিয়ে উন্নত করা—যাতে সময় বাঁচে, ভুল কমে এবং সিদ্ধান্ত আরও ভালো হয়।
+            </div>
+
+            <div class="btns">
+              <a class="btn-primary" href="/tools/">
+                <i class="fa fa-wrench"></i> Explore Tools
+              </a>
+              <a class="btn-ghost" href="/blog/">
+                <i class="fa fa-book"></i> Read Blog
+              </a>
+              <a class="btn-ghost" href="/services/">
+                <i class="fa fa-briefcase"></i> Professional Services
+              </a>
+            </div>
+
+            <div class="note" style="margin-top:10px;">
+              Want to collaborate? <a href="/contact.html">Send a message</a>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION: WHAT I DO -->
+    <div class="section" id="what">
+      <div class="section-head">
+        <h2>What I do</h2>
+        <div class="hint">ব্যাংকিং + টেক = practical solutions</div>
+      </div>
+
+      <div class="grid">
+        <div class="card span-6">
+          <div class="card-inner">
+            <p class="kicker">Tools</p>
+            <h3>ব্যাংকার ও গ্রাহকের জন্য practical calculators & utilities</h3>
+            <p>
+              EMI, loan eligibility, COF–এর মতো টুল তৈরি করি যাতে ইনপুট ভ্যালিডেশন, ব্যাখ্যা এবং ফলাফল বোঝা সহজ হয়।
+              লক্ষ্য একটাই—<strong>সঠিক সিদ্ধান্ত দ্রুত নেওয়া</strong>।
+            </p>
+            <ul class="list">
+              <li>EMI: Declining balance vs Equal principal comparison</li>
+              <li>Loan eligibility: income/asset/liability based estimate</li>
+              <li>COF: Agrani Bank specific workflow support</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card span-6">
+          <div class="card-inner">
+            <p class="kicker">Writing</p>
+            <h3>বাংলাদেশ-কেন্দ্রিক ব্যাংকিং ও personal finance গাইড</h3>
+            <p>
+              বাংলাদেশে ঋণ, ডকুমেন্টেশন, সার্কুলার আপডেট, আর্থিক পরিকল্পনা—এসব নিয়ে বিস্তারিত লেখা প্রকাশ করি।
+              আমার লক্ষ্য কনফিউজিং বিষয়গুলোকে <strong>ভাষা ও উদাহরণ দিয়ে সহজ করা</strong>।
+            </p>
+            <ul class="list">
+              <li>Regulatory / circular-based explainers</li>
+              <li>Borrower guidance: repayment strategy, documentation</li>
+              <li>Banking math: practical calculations with context</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card span-8">
+          <div class="card-inner">
+            <p class="kicker">Professional services</p>
+            <h3>পেইড সার্ভিস: banking software, automation, publication, research, review</h3>
+            <p>
+              কিছু কাজ প্রতিষ্ঠানভিত্তিক বা কাস্টমাইজড হয়—সেখানে আমি নিজে বা আমার তত্ত্বাবধানে
+              IT + finance specialists নিয়ে <strong>professional paid service</strong> প্রদান করি।
+              আপনার ফরম্যাট/প্রসেস অনুযায়ী solution ডেভেলপ করে ডকুমেন্টেশনসহ handover দেওয়া হয়।
+            </p>
+            <p class="note">
+              Details: <a href="/services/">Services page</a>
+            </p>
+          </div>
+        </div>
+
+        <div class="card span-4">
+          <div class="card-inner">
+            <p class="kicker">Interests</p>
+            <h3>Creative mind, practical outputs</h3>
+            <p>
+              কাজের বাইরে সিনেমা দেখা, গান শোনা, কবিতা—এসবও ভালো লাগে। কিন্তু শেষ পর্যন্ত আমি যা করি তা সবসময় practical output-এর দিকে—
+              যাতে মানুষ সত্যিই উপকৃত হয়।
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION: VALUES -->
+    <div class="section" id="values">
+      <div class="section-head">
+        <h2>Values & working style</h2>
+        <div class="hint">quality + clarity + responsibility</div>
+      </div>
+
+      <div class="grid">
+        <div class="card span-4">
+          <div class="card-inner">
+            <p class="kicker">Clarity</p>
+            <h3>ব্যাখ্যাযোগ্য ফলাফল</h3>
+            <p>শুধু “result” নয়—result কীভাবে এল, assumptions কী—সব clear করে দিই।</p>
+          </div>
+        </div>
+
+        <div class="card span-4">
+          <div class="card-inner">
+            <p class="kicker">Accuracy</p>
+            <h3>Validation-first</h3>
+            <p>ব্যাংকিং কাজে ভুলের খরচ বেশি। তাই input validation, cross-check এবং test—এসবকে গুরুত্ব দিই।</p>
+          </div>
+        </div>
+
+        <div class="card span-4">
+          <div class="card-inner">
+            <p class="kicker">Privacy</p>
+            <h3>Data respect</h3>
+            <p>Core banking access চাই না; প্রয়োজন হলে anonymized/sample data দিয়ে কাজ শুরু করা যায়।</p>
+          </div>
+        </div>
+
+        <div class="card span-12">
+          <div class="card-inner">
+            <div class="quote">
+              <strong>Note:</strong> আমার লেখা ও টুলগুলো শিক্ষামূলক/প্রফেশনাল গাইডেন্স হিসেবে তৈরি।
+              চূড়ান্ত সিদ্ধান্ত/অনুমোদন/নীতিগত ব্যাখ্যার দায়িত্ব সংশ্লিষ্ট কর্তৃপক্ষের।
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION: QUICK LINKS -->
+    <div class="section" id="links">
+      <div class="section-head">
+        <h2>Quick links</h2>
+        <div class="hint">important pages</div>
+      </div>
+
+      <div class="grid">
+        <div class="card span-6">
+          <div class="card-inner">
+            <p class="kicker">Tools</p>
+            <h3>সব টুল একসাথে</h3>
+            <p>একসাথে সব utility দেখতে: <a href="/tools/">Tools landing</a></p>
+            <ul class="list">
+              <li><a href="/emi-calculator.html">EMI calculator</a></li>
+              <li><a href="/tools/Loan_Eligibility.html">Loan eligibility</a></li>
+              <li><a href="/cof/index.html">COF calculator</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card span-6">
+          <div class="card-inner">
+            <p class="kicker">Policies</p>
+            <h3>Trust & compliance</h3>
+            <p class="note">
+              AdSense ও user trust-এর জন্য policy pages গুরুত্বপূর্ণ:
+            </p>
+            <ul class="list">
+              <li><a href="/privacy-policy.html">Privacy Policy</a></li>
+              <li><a href="/terms.html">Terms</a></li>
+              <li><a href="/cookie-policy.html">Cookie Policy</a></li>
+              <li><a href="/disclaimer.html">Disclaimer</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div style="margin-bottom:10px;">
+        <a href="/privacy-policy.html">Privacy</a> ·
+        <a href="/terms.html">Terms</a> ·
+        <a href="/cookie-policy.html">Cookies</a> ·
+        <a href="/disclaimer.html">Disclaimer</a> ·
+        <a href="/contact.html">Contact</a>
+      </div>
+      © 2026 Abdul Latif — ablatif.com
+    </div>
+
+  </div>
+</body>
+</html>
