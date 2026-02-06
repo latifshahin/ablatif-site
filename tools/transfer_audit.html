@@ -124,6 +124,34 @@ pre{
   table{page-break-inside:avoid; break-inside:avoid}
   #onePage{page-break-after:always}
 }
+
+/* Help icon + tooltip */
+.helpIcon{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:16px; height:16px; margin-left:6px;
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:999px;
+  font-size:11px; line-height:1;
+  cursor:help;
+  color: rgba(255,255,255,.8);
+  user-select:none;
+  position:relative;
+}
+.helpIcon:hover{ border-color: rgba(255,255,255,.45); color:#fff; }
+.helpIcon:hover::after{
+  content: attr(data-help);
+  position:absolute;
+  top: 20px; left: 0;
+  min-width: 220px; max-width: 360px;
+  padding:10px 12px;
+  background:#0b1020;
+  color:#e8ecff;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  z-index: 9999;
+  white-space: normal;
+}
 </style>
 </head>
 
@@ -180,21 +208,8 @@ pre{
     </div>
   </div>
 
-  <div class="grid3" style="margin-top:12px">
-    <div class="card" style="margin:0">
-      <div class="small muted">Inputter ≠ Authoriser (Filtered)</div>
-      <div class="small">HTML: <b id="exHtml">—</b> &nbsp; | &nbsp; TXT: <b id="exTxt">—</b></div>
-    </div>
-    <div class="card" style="margin:0">
-      <div class="small muted">Orphan Debit/Credit (Filtered)</div>
-      <div class="small">HTML: <b id="orHtml">—</b> &nbsp; | &nbsp; TXT: <b id="orTxt">—</b></div>
-    </div>
-    <div class="card" style="margin:0">
-      <div class="small muted">System leakage (TXT)</div>
-      <div class="small">Detected: <b id="sysLeakN">—</b></div>
-      <div class="small muted" id="sysLeakList">—</div>
-    </div>
-  </div>
+  
+
 
   <div class="hr"></div>
 
@@ -240,21 +255,8 @@ pre{
     </div>
   </div>
 
-  <div class="grid3" style="margin-top:12px">
-    <div class="card" style="margin:0">
-      <div class="small muted">Inputter ≠ Authoriser (Filtered)</div>
-      <div class="small">HTML: <b id="exHtml">—</b> &nbsp; | &nbsp; TXT: <b id="exTxt">—</b></div>
-    </div>
-    <div class="card" style="margin:0">
-      <div class="small muted">Orphan Debit/Credit (Filtered)</div>
-      <div class="small">HTML: <b id="orHtml">—</b> &nbsp; | &nbsp; TXT: <b id="orTxt">—</b></div>
-    </div>
-    <div class="card" style="margin:0">
-      <div class="small muted">System leakage (TXT)</div>
-      <div class="small">Detected: <b id="sysLeakN">—</b></div>
-      <div class="small muted" id="sysLeakList">—</div>
-    </div>
-  </div>
+  
+
 
   <div class="hr"></div>
 
@@ -269,21 +271,8 @@ pre{
     </div>
   </div>
 
-  <div class="grid3" style="margin-top:12px">
-    <div class="card" style="margin:0">
-      <div class="small muted">Inputter ≠ Authoriser (Filtered)</div>
-      <div class="small">HTML: <b id="exHtml">—</b> &nbsp; | &nbsp; TXT: <b id="exTxt">—</b></div>
-    </div>
-    <div class="card" style="margin:0">
-      <div class="small muted">Orphan Debit/Credit (Filtered)</div>
-      <div class="small">HTML: <b id="orHtml">—</b> &nbsp; | &nbsp; TXT: <b id="orTxt">—</b></div>
-    </div>
-    <div class="card" style="margin:0">
-      <div class="small muted">System leakage (TXT)</div>
-      <div class="small">Detected: <b id="sysLeakN">—</b></div>
-      <div class="small muted" id="sysLeakList">—</div>
-    </div>
-  </div>
+  
+
 
   <div class="hr"></div>
 
@@ -316,21 +305,8 @@ pre{
     </div>
   </div>
 
-  <div class="grid3" style="margin-top:12px">
-    <div class="card" style="margin:0">
-      <div class="small muted">Inputter ≠ Authoriser (Filtered)</div>
-      <div class="small">HTML: <b id="exHtml">—</b> &nbsp; | &nbsp; TXT: <b id="exTxt">—</b></div>
-    </div>
-    <div class="card" style="margin:0">
-      <div class="small muted">Orphan Debit/Credit (Filtered)</div>
-      <div class="small">HTML: <b id="orHtml">—</b> &nbsp; | &nbsp; TXT: <b id="orTxt">—</b></div>
-    </div>
-    <div class="card" style="margin:0">
-      <div class="small muted">System leakage (TXT)</div>
-      <div class="small">Detected: <b id="sysLeakN">—</b></div>
-      <div class="small muted" id="sysLeakList">—</div>
-    </div>
-  </div>
+  
+
 
   <div class="hr"></div>
 
@@ -345,21 +321,8 @@ pre{
     </div>
   </div>
 
-  <div class="grid3" style="margin-top:12px">
-    <div class="card" style="margin:0">
-      <div class="small muted">Inputter ≠ Authoriser (Filtered)</div>
-      <div class="small">HTML: <b id="exHtml">—</b> &nbsp; | &nbsp; TXT: <b id="exTxt">—</b></div>
-    </div>
-    <div class="card" style="margin:0">
-      <div class="small muted">Orphan Debit/Credit (Filtered)</div>
-      <div class="small">HTML: <b id="orHtml">—</b> &nbsp; | &nbsp; TXT: <b id="orTxt">—</b></div>
-    </div>
-    <div class="card" style="margin:0">
-      <div class="small muted">System leakage (TXT)</div>
-      <div class="small">Detected: <b id="sysLeakN">—</b></div>
-      <div class="small muted" id="sysLeakList">—</div>
-    </div>
-  </div>
+  
+
 
   <div class="hr"></div>
 
@@ -396,6 +359,40 @@ pre{
 </div>
 
 <script>
+
+// ------------------------ Help tooltips ----------------------
+const HELP_MAP = {
+  "Inputter ≠ Authoriser (Filtered)":
+    "Counts transactions (after current filters) where the inputter user and authoriser user are different. Useful to spot maker-checker breaches or unusual approvals.",
+  "Orphan Debit/Credit (Filtered)":
+    "Counts unmatched legs after pairing debit and credit by Reference. A non-zero value means some rows could not be paired (missing leg, parsing issue, or incomplete extract).",
+  "System leakage (TXT)":
+    "Lists system IDs detected in TXT (based on your system list). If this number is > 0 while 'Exclude system' is ON, it means some system rows are still present or not recognized by the pattern."
+};
+
+function attachHelpIcons(){
+  document.querySelectorAll(".card").forEach(card=>{
+    // find the title line (most cards use .small.muted as the title)
+    const titleEl = card.querySelector(".small.muted");
+    if(!titleEl) return;
+
+    // avoid duplicate icons
+    if(titleEl.querySelector(".helpIcon")) return;
+
+    const title = (titleEl.textContent || "").trim();
+    const help = HELP_MAP[title] || "This card shows a summary metric for the current filters / files loaded.";
+
+    const ico = document.createElement("span");
+    ico.className = "helpIcon";
+    ico.textContent = "?";
+    ico.setAttribute("aria-label", "Help");
+    ico.setAttribute("data-help", help);
+
+    titleEl.appendChild(ico);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", attachHelpIcons);
 // --------------------------- State ---------------------------
 const state = {
   htmlTxns: [],
