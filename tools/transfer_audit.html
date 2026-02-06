@@ -125,33 +125,22 @@ pre{
   #onePage{page-break-after:always}
 }
 
-/* Help icon + tooltip */
 .helpIcon{
-  display:inline-flex; align-items:center; justify-content:center;
-  width:16px; height:16px; margin-left:6px;
-  border:1px solid rgba(255,255,255,.25);
-  border-radius:999px;
-  font-size:11px; line-height:1;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:18px;
+  height:18px;
+  margin-left:8px;
+  border:1px solid var(--border);
+  border-radius:50%;
+  font-size:12px;
+  line-height:1;
+  color:var(--muted);
   cursor:help;
-  color: rgba(255,255,255,.8);
   user-select:none;
-  position:relative;
 }
-.helpIcon:hover{ border-color: rgba(255,255,255,.45); color:#fff; }
-.helpIcon:hover::after{
-  content: attr(data-help);
-  position:absolute;
-  top: 20px; left: 0;
-  min-width: 220px; max-width: 360px;
-  padding:10px 12px;
-  background:#0b1020;
-  color:#e8ecff;
-  border:1px solid rgba(255,255,255,.18);
-  border-radius:12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.35);
-  z-index: 9999;
-  white-space: normal;
-}
+.helpIcon:hover{ border-color:var(--blue); color:var(--blue); }
 </style>
 </head>
 
@@ -210,7 +199,6 @@ pre{
 
   
 
-
   <div class="hr"></div>
 
   <div class="grid3">
@@ -257,7 +245,6 @@ pre{
 
   
 
-
   <div class="hr"></div>
 
   <div class="grid2">
@@ -272,7 +259,6 @@ pre{
   </div>
 
   
-
 
   <div class="hr"></div>
 
@@ -307,7 +293,6 @@ pre{
 
   
 
-
   <div class="hr"></div>
 
   <div class="grid2">
@@ -322,7 +307,6 @@ pre{
   </div>
 
   
-
 
   <div class="hr"></div>
 
@@ -359,40 +343,6 @@ pre{
 </div>
 
 <script>
-
-// ------------------------ Help tooltips ----------------------
-const HELP_MAP = {
-  "Inputter ≠ Authoriser (Filtered)":
-    "Counts transactions (after current filters) where the inputter user and authoriser user are different. Useful to spot maker-checker breaches or unusual approvals.",
-  "Orphan Debit/Credit (Filtered)":
-    "Counts unmatched legs after pairing debit and credit by Reference. A non-zero value means some rows could not be paired (missing leg, parsing issue, or incomplete extract).",
-  "System leakage (TXT)":
-    "Lists system IDs detected in TXT (based on your system list). If this number is > 0 while 'Exclude system' is ON, it means some system rows are still present or not recognized by the pattern."
-};
-
-function attachHelpIcons(){
-  document.querySelectorAll(".card").forEach(card=>{
-    // find the title line (most cards use .small.muted as the title)
-    const titleEl = card.querySelector(".small.muted");
-    if(!titleEl) return;
-
-    // avoid duplicate icons
-    if(titleEl.querySelector(".helpIcon")) return;
-
-    const title = (titleEl.textContent || "").trim();
-    const help = HELP_MAP[title] || "This card shows a summary metric for the current filters / files loaded.";
-
-    const ico = document.createElement("span");
-    ico.className = "helpIcon";
-    ico.textContent = "?";
-    ico.setAttribute("aria-label", "Help");
-    ico.setAttribute("data-help", help);
-
-    titleEl.appendChild(ico);
-  });
-}
-
-document.addEventListener("DOMContentLoaded", attachHelpIcons);
 // --------------------------- State ---------------------------
 const state = {
   htmlTxns: [],
@@ -405,6 +355,34 @@ const state = {
 };
 
 // --------------------------- Utilities ---------------------------
+
+// --------------------------- Help tooltips ---------------------------
+function addHelpIcons(){
+  const HELP = {
+    "Inputter ≠ Authoriser (Filtered)":
+      "Count of transactions where the (normalized) inputter and authoriser are different, after applying your current filters (date/inputter/system exclude). Used to spot maker-checker exceptions.",
+    "Orphan Debit/Credit (Filtered)":
+      "Count of debit-only or credit-only entries (missing the opposite side) after applying filters. Often indicates missing lines, parsing issues, or incomplete export.",
+    "System leakage (TXT)":
+      "Lists user IDs in TXT that look like system users but still appear in filtered results (usually because of inconsistent IDs). Useful to validate the system-exclusion list."
+  };
+
+  document.querySelectorAll(".card").forEach(card=>{
+    // choose the first title line in the card
+    const title = card.querySelector(".small.muted");
+    if(!title) return;
+    if(title.querySelector(".helpIcon")) return;
+
+    const key = title.textContent.trim();
+    const tip = HELP[key] || "This card shows a summary for the current filtered dataset (HTML vs TXT). Hover this icon for meaning.";
+    const icon = document.createElement("span");
+    icon.className = "helpIcon";
+    icon.textContent = "?";
+    icon.title = tip;
+    title.appendChild(icon);
+  });
+}
+
 function log(msg){
   const el = document.getElementById('debug');
   el.textContent = (el.textContent + "\n" + msg).trim();
@@ -1107,6 +1085,7 @@ async function runAudit(){
 }
 
 window.addEventListener('load', ()=>{
+  addHelpIcons();
   loadSysList();
   setHtml("tblSearch","");
 });
