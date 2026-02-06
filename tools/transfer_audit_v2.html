@@ -64,7 +64,7 @@ h2{margin:0 0 6px; font-size:22px; letter-spacing:.2px;}
 h3{margin:0 0 10px; font-size:16px;}
 h4{margin:0 0 6px; font-size:14px;}
 .muted{color:var(--muted);}
-.small{font-size:12px; color:var(--muted);}
+.small{font-size:14px; color:var(--muted);}
 
 /* Cards */
 .card{
@@ -386,7 +386,7 @@ body.printing > *:not(#printArea){display:none !important;}
 
 @media print{
   .sumManualGap{border-color:#999;}
-  .sumFootnote{color:#333;}
+  .sumFootnote{color:#000000;}
 }
 
 /* Disable credit popup overlay (credit is shown as footnote in summary) */
@@ -402,14 +402,14 @@ body.printing > *:not(#printArea){display:none !important;}
   max-width: none !important;
 }
 #onePageSummary #sumObservation{
-  font-size: 1.08rem !important;
+  font-size: 1.20rem !important;
   line-height: 1.35 !important;
   word-break: break-word;
 }
 
 /* Status colors */
-#onePageSummary #sumObservation .status-matched{ color:#1b7f3b; font-weight:800; }
-#onePageSummary #sumObservation .status-not-matched{ color:#b00020; font-weight:800; }
+#onePageSummary #sumObservation .status-matched{ color:#0aa13a; font-weight:800; }
+#onePageSummary #sumObservation .status-not-matched{ color:#8c041d; font-weight:900; }
 
 /* Delta colors (GREEN only when BOTH debit+credit deltas are zero) */
 #onePageSummary #sumObservation .delta-good{ color:#1b7f3b; font-weight:900; }
@@ -574,10 +574,7 @@ body.printing > *:not(#printArea){display:none !important;}
 <div class="small">TXT duplicate FT refs: <b><span id="sumDupTxt">0</span></b></div>
 <div class="small">Blank/invalid refs: <b><span id="sumBlankRefs">0</span></b></div>
 </div>
-<div class="sumFootnote">
-<div class="small muted">Observation</div>
-<div class="small" id="sumObservation">—</div>
-</div>
+
 </div>
 <div class="grid2" style="gap:12px; margin-top:12px;">
 <div class="card summaryCard">
@@ -591,7 +588,10 @@ body.printing > *:not(#printArea){display:none !important;}
 <div class="small" id="sumTxtInputterTable" style="margin-top:6px;"></div>
 </div>
 </div>
-
+<div class="sumFootnote">
+<div class="small muted">Observation</div>
+<div class="small" id="sumObservation">—</div>
+</div>
 <div class="sumFootnote">
 <div class="sumPreparedTitle">Prepared by</div>
 <div class="sumPreparedBody">
