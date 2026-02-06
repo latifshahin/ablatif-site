@@ -161,15 +161,15 @@ pre{
   </div>
 
   <div class="grid3" style="margin-top:12px">
-    <div class="card" style="margin:0">
+    <div class="card" style="margin:0" data-help="Counts rows where Inputter and Authoriser are different (after applying filters and 7-character normalization). Useful to spot segregation-of-duty issues.">
       <div class="small muted">Inputter ≠ Authoriser (Filtered)</div>
       <div class="small">HTML: <b id="exHtml">—</b> &nbsp; | &nbsp; TXT: <b id="exTxt">—</b></div>
     </div>
-    <div class="card" style="margin:0">
+    <div class="card" style="margin:0" data-help="Counts debit or credit entries that have no matching opposite-side entry for the same reference (after filters). Helps find missing legs / incomplete postings.">
       <div class="small muted">Orphan Debit/Credit (Filtered)</div>
       <div class="small">HTML: <b id="orHtml">—</b> &nbsp; | &nbsp; TXT: <b id="orTxt">—</b></div>
     </div>
-    <div class="card" style="margin:0">
+    <div class="card" style="margin:0" data-help="Lists TXT rows that still look like system-user activity even when 'Exclude system' is enabled (after normalization).">
       <div class="small muted">System leakage (TXT)</div>
       <div class="small">Detected: <b id="sysLeakN">—</b></div>
       <div class="small muted" id="sysLeakList">—</div>
@@ -357,31 +357,48 @@ const state = {
 // --------------------------- Utilities ---------------------------
 
 // --------------------------- Help tooltips ---------------------------
+
 function addHelpIcons(){
+  // Default help text by visible card title (optional). If a card has data-help="...",
+  // that manual text always wins (easiest way to customize per card).
   const HELP = {
     "Inputter ≠ Authoriser (Filtered)":
-      "Count of transactions where the (normalized) inputter and authoriser are different, after applying your current filters (date/inputter/system exclude). Used to spot maker-checker exceptions.",
+      "Counts rows where Inputter and Authoriser are different (after applying filters and 7-character normalization). Useful to spot segregation-of-duty issues.",
     "Orphan Debit/Credit (Filtered)":
-      "Count of debit-only or credit-only entries (missing the opposite side) after applying filters. Often indicates missing lines, parsing issues, or incomplete export.",
+      "Counts debit or credit entries that have no matching opposite-side entry for the same reference (after filters). Helps find missing legs / incomplete postings.",
     "System leakage (TXT)":
-      "Lists user IDs in TXT that look like system users but still appear in filtered results (usually because of inconsistent IDs). Useful to validate the system-exclusion list."
+      "Lists TXT rows that still look like system-user activity even when 'Exclude system' is enabled (after normalization)."
   };
 
-  document.querySelectorAll(".card").forEach(card=>{
-    // choose the first title line in the card
-    const title = card.querySelector(".small.muted");
-    if(!title) return;
-    if(title.querySelector(".helpIcon")) return;
+  const normalizeTitle = (s)=> (s||"").replace(/\s+/g," ").trim();
 
-    const key = title.textContent.trim();
-    const tip = HELP[key] || "This card shows a summary for the current filtered dataset (HTML vs TXT). Hover this icon for meaning.";
+  document.querySelectorAll(".card").forEach(card=>{
+    // Pick a place to attach the icon: prefer the small muted title, otherwise first heading.
+    const titleEl =
+      card.querySelector(".small.muted") ||
+      card.querySelector("h2,h3,strong");
+
+    if(!titleEl) return;
+    if(titleEl.querySelector(".helpIcon")) return;
+
+    // Manual per-card help (editable in HTML): <div class="card" data-help="...">
+    const manual = (card.getAttribute("data-help") || "").trim();
+
+    const title = normalizeTitle(titleEl.textContent);
+    const tip =
+      manual ||
+      HELP[title] ||
+      "Shows a summary for this card based on the current filters (HTML vs TXT).";
+
     const icon = document.createElement("span");
     icon.className = "helpIcon";
     icon.textContent = "?";
     icon.title = tip;
-    title.appendChild(icon);
+
+    titleEl.appendChild(icon);
   });
 }
+
 
 function log(msg){
   const el = document.getElementById('debug');
