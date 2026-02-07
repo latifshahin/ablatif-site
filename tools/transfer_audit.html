@@ -3,7 +3,62 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Transfer Audit Tool v2.0</title>
+<title>Professional Banking & Financial Services | Abdul Latif</title>
+<meta name="description" content="Professional banking services by Abdul Latif — banking software, workflow automation, audit tools, financial research and advisory services in Bangladesh." />
+<link rel="canonical" href="https://ablatif.com/services/" />
+<!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X4YNW0E3XG"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-X4YNW0E3XG');
+  </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://ablatif.com/#person",
+      "name": "Abdul Latif",
+      "url": "https://ablatif.com/",
+      "jobTitle": "Banking & Financial Systems Specialist",
+      "sameAs": [
+        "https://www.facebook.com/latifmirabdul/",
+        "https://x.com/latifju",
+        "https://www.youtube.com/@DiptiYTV"
+      ]
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://ablatif.com/#organization",
+      "name": "Abdul Latif – Professional Banking Services",
+      "url": "https://ablatif.com/services/",
+      "founder": { "@id": "https://ablatif.com/#person" },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Bangladesh"
+      }
+    },
+    {
+      "@type": "Service",
+      "name": "Professional Banking & Financial Services",
+      "provider": { "@id": "https://ablatif.com/#organization" },
+      "serviceType": [
+        "Banking Software Development",
+        "Audit & Compliance Tools",
+        "Workflow Automation",
+        "Financial & Economic Research",
+        "Professional Advisory",
+        "Requested Review & Analysis"
+      ],
+      "areaServed": "Bangladesh"
+    }
+  ]
+}
+</script>
+
 
 <style>
 :root{
@@ -149,15 +204,32 @@ pre{
 
 <div class="card no-print">
   <h2>1) Load registers</h2>
-  <div class="grid2">
-    <div>
-      <div class="small muted">Before COB (HTML)</div>
+  <div class="grid3" style="margin-top:12px">
+    <div class="card" style="margin:0" data-help=" Here you upload the HTML transfer register (Before COB). This is used as the baseline for totals, inputter summary and FT reference list. The tool dynamically detects the header row, so it should work even if column positions vary.">
+      <div class="small muted">Before COB (HTML format transfer register)</div>
       <input type="file" id="fileHtml" accept=".html,.htm"/>
     </div>
-    <div>
-      <div class="small muted">After COB (TXT)</div>
+    <div class="card" style="margin:0" data-help="Here you upload the TXT transfer register (After COB). This is used to compare with HTML (system users can be excluded, and 7-character normalization is applied).">
+      <div class="small muted">After COB (TXT format transfer register)</div>
       <input type="file" id="fileTxt" accept=".txt"/>
     </div>
+    <div class="card" style="margin:0" data-help="Opens the short/quick audit page (simplified workflow focusing on key risk indicators). Use it when you want a fast check, then return here for full matching and deep review.">
+  <div class="row" style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+    <div>
+      <div class="small muted">Quick audit shortcut</div>
+      <div class="small" style="margin-top:4px;">
+        Open the simplified tool for a fast review of key red flags.
+      </div>
+    </div>
+
+    <a href="/tools/transfer_short.html" target="_blank" rel="noopener"
+       class="btn"
+       style="text-decoration:none; white-space:nowrap; padding:8px 12px; border-radius:10px; border:1px solid #ccc;">
+      Open quick audit →
+    </a>
+  </div>
+</div>
+
   </div>
 
   <div class="grid3" style="margin-top:12px">
@@ -359,32 +431,62 @@ const state = {
 // --------------------------- Help tooltips ---------------------------
 
 function addHelpIcons(){
-  // Default help text by visible card title (optional). If a card has data-help="...",
-  // that manual text always wins (easiest way to customize per card).
+  // EASIEST FUTURE EDIT:
+  // Put help text directly on a card:
+  //   <div class="card" data-help="My text...">
+  // That always wins.
+  //
+  // Optional fallback map by card title (the visible .small.muted text).
   const HELP = {
     "Inputter ≠ Authoriser (Filtered)":
       "Counts rows where Inputter and Authoriser are different (after applying filters and 7-character normalization). Useful to spot segregation-of-duty issues.",
     "Orphan Debit/Credit (Filtered)":
       "Counts debit or credit entries that have no matching opposite-side entry for the same reference (after filters). Helps find missing legs / incomplete postings.",
     "System leakage (TXT)":
-      "Lists TXT rows that still look like system-user activity even when 'Exclude system' is enabled (after normalization)."
+      "Lists TXT rows that still look like system-user activity even when 'Exclude system' is enabled (after normalization).",
+
+    // Upload cards (optional – only used if data-help is missing)
+    "Before COB (HTML format transfer register)":
+      "Upload the HTML transfer register (Before COB). Used as the baseline for totals, inputter summary and FT reference list.",
+    "After COB (TXT format transfer register)":
+      "Upload the TXT transfer register (After COB). Used to compare with HTML (system users can be excluded).",
+    "For easy audit you can bist this link":
+      "Opens the short/quick audit page in a new tab."
   };
 
   const normalizeTitle = (s)=> (s||"").replace(/\s+/g," ").trim();
 
   document.querySelectorAll(".card").forEach(card=>{
-    // Pick a place to attach the icon: prefer the small muted title, otherwise first heading.
-    const titleEl =
-      card.querySelector(".small.muted") ||
-      card.querySelector("h2,h3,strong");
-
+    // IMPORTANT BUGFIX:
+    // Cards are nested inside other cards. If we do card.querySelector(".small.muted"),
+    // the *outer* card can "see" a nested title and attach the tooltip to the wrong place,
+    // causing your inner card to end up with the DEFAULT text.
+    //
+    // So: only pick a title element that belongs to THIS card (not a nested card).
+    const candidates = card.querySelectorAll(".small.muted, h2, h3, strong");
+    let titleEl = null;
+    for(const el of candidates){
+      const ownerCard = el.closest(".card");
+      if(ownerCard === card){
+        titleEl = el;
+        break;
+      }
+    }
     if(!titleEl) return;
-    if(titleEl.querySelector(".helpIcon")) return;
+
+    // Don't add twice
+    if(titleEl.querySelector(":scope > .helpIcon")) return;
 
     // Manual per-card help (editable in HTML): <div class="card" data-help="...">
     const manual = (card.getAttribute("data-help") || "").trim();
 
-    const title = normalizeTitle(titleEl.textContent);
+    // Read only the *text nodes* of the title (so previously added "?" never pollutes the title)
+    const rawTitle = Array.from(titleEl.childNodes)
+      .filter(n => n.nodeType === Node.TEXT_NODE)
+      .map(n => n.textContent)
+      .join("");
+
+    const title = normalizeTitle(rawTitle);
     const tip =
       manual ||
       HELP[title] ||
@@ -398,7 +500,6 @@ function addHelpIcons(){
     titleEl.appendChild(icon);
   });
 }
-
 
 function log(msg){
   const el = document.getElementById('debug');
