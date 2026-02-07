@@ -341,10 +341,26 @@ pre{
 <div class="card">
   <h2>2) Transaction & Inputter Analytics</h2>
   <div class="grid3">
-    <div class="card" style="margin:0">
-      <div class="small muted">Highest transaction (Filtered)</div>
-      <div id="hiTxn" class="small">—</div>
+    <div class="card" style="margin-top:12px" data-help="For each inputter (first 7 chars), shows the top N biggest transactions (by max(debit,credit)) from HTML and TXT after filters.">
+  <div class="row" style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+    <div>
+      <div class="small muted">Top transactions per inputter</div>
+      <div class="small">Shows biggest transactions for each inputter (detail view)</div>
     </div>
+
+    <div class="row" style="display:flex; align-items:center; gap:8px;">
+      <div class="small muted">Top N</div>
+      <select id="topNPerUser" style="padding:6px 8px; border-radius:10px; border:1px solid #ccc;">
+        <option value="5">5</option>
+        <option value="10" selected>10</option>
+        <option value="20">20</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="topPerUserWrap" style="margin-top:10px">—</div>
+</div>
+
     <div class="card" style="margin:0">
       <div class="small muted">Missing in HTML (TXT refs)</div>
       <div class="scroll"><div id="listMissingTxt"></div></div>
@@ -581,6 +597,107 @@ function downloadHtml(filename, refs){
 }
 function escapeHtml(s){
   return String(s||"").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+// --------------------------- Top transactions per inputter (detail view) ---------------------------
+function topTxnsPerInputterBoth(htmlFiltered, txtFiltered, perN = 10){
+  const m = new Map(); // inputter7 -> array of txns
+
+  function pushTxn(t, src){
+    const inputter = ((t.inputter || "") + "").slice(0,7);
+    const debit = num(t.debitAmt);
+    const credit = num(t.creditAmt);
+    const amt = Math.max(debit, credit);
+    if(!inputter || !amt) return;
+
+    const arr = m.get(inputter) || [];
+    arr.push({
+      inputter,
+      amt,
+      ref: t.ref || "",
+      debit,
+      credit,
+      side: debit >= credit ? "DEBIT" : "CREDIT",
+      src
+    });
+    m.set(inputter, arr);
+  }
+
+  htmlFiltered.forEach(t => pushTxn(t, "HTML"));
+  txtFiltered.forEach(t => pushTxn(t, "TXT"));
+
+  // sort each inputter group and keep top N
+  for(const [k, arr] of m){
+    arr.sort((a,b) => b.amt - a.amt);
+    m.set(k, arr.slice(0, perN));
+  }
+  return m;
+}
+
+function renderTopPerUser(map){
+  const wrap = document.getElementById("topPerUserWrap");
+  if(!wrap) return;
+
+  const inputters = Array.from(map.keys()).sort((a,b)=> a.localeCompare(b));
+  if(inputters.length === 0){
+    wrap.textContent = "—";
+    return;
+  }
+
+  wrap.innerHTML = inputters.map(inp => {
+    const rows = map.get(inp) || [];
+    const totalShown = rows.reduce((s,r)=> s + (r.amt||0), 0);
+
+    const table = `
+      <table style="width:100%; border-collapse:collapse; margin-top:8px">
+        <thead>
+          <tr>
+            <th style="text-align:left; padding:6px;">#</th>
+            <th style="text-align:left; padding:6px;">Src</th>
+            <th style="text-align:left; padding:6px;">Ref</th>
+            <th style="text-align:left; padding:6px;">Side</th>
+            <th style="text-align:right; padding:6px;">Debit</th>
+            <th style="text-align:right; padding:6px;">Credit</th>
+            <th style="text-align:right; padding:6px;">Max</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows.map((r, i) => `
+            <tr>
+              <td style="padding:6px;">${i+1}</td>
+              <td style="padding:6px;">${escapeHtml(r.src)}</td>
+              <td style="padding:6px; font-family:monospace;">${escapeHtml(r.ref)}</td>
+              <td style="padding:6px;">${escapeHtml(r.side)}</td>
+              <td style="padding:6px; text-align:right;">${fmt(r.debit)}</td>
+              <td style="padding:6px; text-align:right;">${fmt(r.credit)}</td>
+              <td style="padding:6px; text-align:right;"><b>${fmt(r.amt)}</b></td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    `;
+
+    return `
+      <details class="card" style="margin-top:10px; padding:10px; border:1px solid var(--border); border-radius:14px; box-shadow:none;">
+        <summary style="cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:12px;">
+          <span><b>${escapeHtml(inp)}</b> <span class="small muted">(top ${rows.length})</span></span>
+          <span class="small muted">sum shown: <b>${fmt(totalShown)}</b></span>
+        </summary>
+        ${table}
+      </details>
+    `;
+  }).join("");
+}
+
+function updateTopPerUser(){
+  const perN = Number(document.getElementById("topNPerUser")?.value || 10);
+  if(!state.stats){
+    const wrap = document.getElementById("topPerUserWrap");
+    if(wrap) wrap.textContent = "—";
+    return;
+  }
+  const m = topTxnsPerInputterBoth(state.stats.htmlFiltered, state.stats.txtFiltered, perN);
+  renderTopPerUser(m);
 }
 
 // --------------------------- Parsers ---------------------------
@@ -919,18 +1036,18 @@ function runCompare(opts){
   const resultBadge = (missingTxt.length===0 && missingHtml.length===0 && bothZero && onlyHtml.length===0 && onlyTxt.length===0)
     ? {text:"MATCHED", cls:"ok"} : {text:"DISCREPANCY", cls:"bad"};
 
-  // highest transaction (filtered)
+  // Highest transaction (filtered)
   let hi = null;
-  function consider(list){
+  function considerHi(list, src){
     for(const t of list){
       const amt = Math.max(num(t.debitAmt), num(t.creditAmt));
       if(!hi || amt > hi.amt){
-        hi = {amt, ref:t.ref, inputter:t.inputter, src:t.src};
+        hi = {amt, ref:t.ref, inputter:t.inputter, src};
       }
     }
   }
-  consider(htmlFiltered.map(t=>({...t, src:"HTML"})));
-  consider(txtFiltered.map(t=>({...t, src:"TXT"})));
+  considerHi(htmlFiltered, "HTML");
+  considerHi(txtFiltered, "TXT");
 
   // build stats for render
   return {
@@ -1109,6 +1226,8 @@ function renderAll(){
   // Per inputter detailed (filtered, respects its own side filter rules)
   setHtml("tblHtmlPerInputter", renderTableInputterSummary(summarizeByInputter(filtered.htmlFiltered, {excludeSystem:false})));
   setHtml("tblTxtPerInputter", renderTableInputterSummary(summarizeByInputter(filtered.txtFiltered, {excludeSystem: filtered.excludeSystem})));
+
+  updateTopPerUser();
 }
 
 function renderSearch(rows){
@@ -1206,6 +1325,8 @@ window.addEventListener('load', ()=>{
   addHelpIcons();
   loadSysList();
   setHtml("tblSearch","");
+  document.getElementById("topNPerUser")?.addEventListener("change", updateTopPerUser);
+
 });
 </script>
 
