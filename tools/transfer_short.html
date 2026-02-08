@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Bank Audit: Precise Match v9.0</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 20px; font-size: 11px; }
+        .header { background: #002147; color: white; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .full-width { grid-column: span 2; }
+        .card { background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 15px; border-top: 4px solid #002147; }
+        .forensic-card { border-top-color: #d32f2f; }
+        .filter-box { background: #fff; padding: 10px; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 20px; max-height: 100px; overflow-y: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #eee; padding: 6px; text-align: right; }
+        th { background: #f8f9fa; text-align: center; }
+        tfoot { background: #e3f2fd; font-weight: bold; color: #002147; }
+        .alert { padding: 10px; margin-bottom: 8px; border-radius: 4px; border-left: 5px solid; font-weight: bold; background: #ffebee; border-left-color: #c62828; color: #b71c1c; }
+        .success-msg { color: #2e7d32; font-weight: bold; font-size: 14px; padding: 10px; background: #e8f5e9; border-radius: 4px; border-left: 5px solid #2e7d32; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h2 style="margin:0">🔍 Audit Pro v9.0 (Target: HTML to TXT Integrity)</h2>
+    <div style="margin-top:10px;">
+        HTML (Register): <input type="file" id="fileHtml" accept=".html" onchange="initAudit()"> 
+        TXT (System): <input type="file" id="fileTxt" accept=".txt" onchange="initAudit()">
+    </div>
+</div>
+
+<div class="card" style="margin-bottom:20px;">
+    <strong>Filter by Inputter (7-Char)</strong>
+    <div id="userFilters" class="filter-box">Upload files to begin...</div>
+</div>
+
+<div class="main-grid">
+    <div class="card forensic-card full-width">
+        <h3>🚩 Integrity Failures</h3>
+        <div id="forensicLogs">Verification status will appear here.</div>
+    </div>
+    
+    <div class="card">
+        <h3>Register (HTML) Summary</h3>
+        <table>
+            <thead><tr><th>Inputter</th><th>Count</th><th>Total Dr</th><th>Total Cr</th></tr></thead>
+            <tbody id="bodyHtml"></tbody>
+            <tfoot id="footHtml"></tfoot>
+        </table>
+    </div>
+
+    <div class="card">
+        <h3>System (TXT) Summary</h3>
+        <table>
+            <thead><tr><th>Inputter</th><th>Count</th><th>Total Dr</th><th>Total Cr</th></tr></thead>
+            <tbody id="bodyTxt"></tbody>
+            <tfoot id="footTxt"></tfoot>
+        </table>
+    </div>
+</div>
+
+<script>
+let appState = { htmlMap: {}, txtMap: {}, allUsers: new Set() };
+
+async function initAudit() {
+    const fH = document.getElementById('fileHtml').files[0];
+    const fT = document.getElementById('fileTxt').files[0];
+    if (!fH || !fT) return;
+    const [hText, tText] = await Promise.all([fH.text(), fT.text()]);
+    
+    appState.htmlMap = parseHtml(hText);
+    appState.txtMap = parseTxt(tText);
+    
+    appState.allUsers.clear();
+    Object.values(appState.htmlMap).forEach(tx => appState.allUsers.add(tx.user));
+    Object.values(appState.txtMap).forEach(tx => appState.allUsers.add(tx.user));
+    
+    renderUserFilters();
+}
+
+function parseNum(s) { 
+    return Math.round((parseFloat(s?.replace(/,/g, '')) || 0) * 100) / 100; 
+}
+
+function parseHtml(html) {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    const rows = Array.from(doc.querySelectorAll('tr'));
+    let data = {};
+    rows.forEach(tr => {
+        const tds = tr.querySelectorAll('td');
+        if (tds.length < 17) return;
+        const ref = tds[14]?.innerText.trim();
+        if (ref && ref.startsWith('FT')) {
+            const user = (tds[16]?.innerText.trim() || "UNKNOWN").substring(0, 7);
+            if (!data[ref]) data[ref] = { ref, user, dr: 0, cr: 0 };
+            data[ref].dr += parseNum(tds[4]?.innerText);
+            data[ref].cr += parseNum(tds[11]?.innerText);
+        }
+    });
+    return data;
+}
+
+function parseTxt(text) {
+    const lines = text.split('\n');
+    let data = {};
+    lines.forEach(line => {
+        const refMatch = line.match(/FT[A-Z0-9]{8,}/);
+        if (!refMatch) return;
+        
+        const ref = refMatch[0];
+        // The 7-char user ID is always between the FT number and the Timestamp
+        const postRef = line.substring(line.indexOf(ref) + ref.length).trim();
+        const user = postRef.split(/\s+/)[0].substring(0, 7);
+        
+        // Find all currency-formatted numbers on the line
+        const amounts = line.match(/[0-9,]+\.[0-9]{2}/g) || [];
+        
+        // Logic: In TXT, Debit usually appears before Credit.
+        // If only 1 amount exists, we must determine if it's Dr or Cr based on column position.
+        let dr = 0, cr = 0;
+        if (amounts.length >= 2) {
+            dr = parseNum(amounts[0]);
+            cr = parseNum(amounts[amounts.length-1]);
+        } else if (amounts.length === 1) {
+            // If amount is in the first half of the line, it's Debit
+            if (line.indexOf(amounts[0]) < 100) dr = parseNum(amounts[0]);
+            else cr = parseNum(amounts[0]);
+        }
+        
+        if (!data[ref]) data[ref] = { ref, user, dr: 0, cr: 0 };
+        data[ref].dr += dr;
+        data[ref].cr += cr;
+    });
+    return data;
+}
+
+function renderUserFilters() {
+    const container = document.getElementById('userFilters');
+    let html = '';
+    Array.from(appState.allUsers).sort().forEach(u => {
+        const isSys = u.includes('SMART') || u.includes('EFTHO');
+        html += `<label style="margin-right:12px;"><input type="checkbox" class="user-chk" value="${u}" onchange="runAnalysis()" ${isSys?'':'checked'}> ${u}</label>`;
+    });
+    container.innerHTML = html;
+    runAnalysis();
+}
+
+function runAnalysis() {
+    const selectedUsers = new Set(Array.from(document.querySelectorAll('.user-chk:checked')).map(c => c.value));
+    const logContainer = document.getElementById('forensicLogs');
+    let logsHtml = "";
+
+    // 1. Check Missing Records
+    Object.keys(appState.htmlMap).forEach(ref => {
+        const h = appState.htmlMap[ref];
+        if (selectedUsers.has(h.user) && !appState.txtMap[ref]) {
+            logsHtml += `<div class="alert">❌ MISSING RECORD: ${ref} (Inputter: ${h.user}) is in HTML but missing from System TXT.</div>`;
+        }
+    });
+
+    // 2. Validate User Totals
+    selectedUsers.forEach(u => {
+        const hSum = Object.values(appState.htmlMap).filter(x => x.user === u).reduce((a, b) => ({dr: a.dr+b.dr, cr: a.cr+b.cr}), {dr:0, cr:0});
+        const tSum = Object.values(appState.txtMap).filter(x => x.user === u).reduce((a, b) => ({dr: a.dr+b.dr, cr: a.cr+b.cr}), {dr:0, cr:0});
+
+        if (Math.abs(hSum.dr - tSum.dr) > 1 || Math.abs(hSum.cr - tSum.cr) > 1) {
+            logsHtml += `<div class="alert">⚠️ TOTAL MISMATCH [${u}]:<br>
+                Debit: HTML(${hSum.dr.toFixed(2)}) vs TXT(${tSum.dr.toFixed(2)})<br>
+                Credit: HTML(${hSum.cr.toFixed(2)}) vs TXT(${tSum.cr.toFixed(2)})</div>`;
+        }
+    });
+
+    logContainer.innerHTML = logsHtml || `<div class="success-msg">✅ AUDIT PASSED: All HTML records for selected users exist in the system and totals match.</div>`;
+    
+    renderSummary('Html', appState.htmlMap, selectedUsers);
+    renderSummary('Txt', appState.txtMap, selectedUsers);
+}
+
+function renderSummary(suffix, map, selectedUsers) {
+    const body = document.getElementById(`body${suffix}`);
+    const foot = document.getElementById(`foot${suffix}`);
+    let users = {};
+    let gCount = 0, gDr = 0, gCr = 0;
+
+    Object.values(map).forEach(tx => {
+        if (!selectedUsers.has(tx.user)) return;
+        if (!users[tx.user]) users[tx.user] = { count: 0, dr: 0, cr: 0 };
+        users[tx.user].count++;
+        users[tx.user].dr += tx.dr;
+        users[tx.user].cr += tx.cr;
+    });
+
+    let html = "";
+    Object.keys(users).sort().forEach(u => {
+        const s = users[u];
+        html += `<tr><td>${u}</td><td>${s.count}</td><td>${s.dr.toLocaleString(undefined,{minimumFractionDigits:2})}</td><td>${s.cr.toLocaleString(undefined,{minimumFractionDigits:2})}</td></tr>`;
+        gCount += s.count; gDr += s.dr; gCr += s.cr;
+    });
+    body.innerHTML = html;
+    foot.innerHTML = `<tr><td>TOTAL</td><td>${gCount}</td><td>${gDr.toLocaleString(undefined,{minimumFractionDigits:2})}</td><td>${gCr.toLocaleString(undefined,{minimumFractionDigits:2})}</td></tr>`;
+}
+</script>
+</body>
+</html>
