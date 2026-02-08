@@ -208,10 +208,12 @@ pre{
     <div class="card" style="margin:0" data-help=" Here you upload the HTML transfer register (Before COB). This is used as the baseline for totals, inputter summary and FT reference list. The tool dynamically detects the header row, so it should work even if column positions vary.">
       <div class="small muted">Before COB (HTML format transfer register)</div>
       <input type="file" id="fileHtml" accept=".html,.htm"/>
+      <button class="btn" id="dlHtmlCsv" type="button" disabled style="margin-top:8px; padding:8px 10px; border-radius:10px; border:1px solid #ccc; background:#fff; cursor:pointer;">Download HTML as CSV</button>
     </div>
     <div class="card" style="margin:0" data-help="Here you upload the TXT transfer register (After COB). This is used to compare with HTML (system users can be excluded, and 7-character normalization is applied).">
       <div class="small muted">After COB (TXT format transfer register)</div>
       <input type="file" id="fileTxt" accept=".txt"/>
+      <button class="btn" id="dlTxtCsv" type="button" disabled style="margin-top:8px; padding:8px 10px; border-radius:10px; border:1px solid #ccc; background:#fff; cursor:pointer;">Download TXT as CSV</button>
     </div>
     <div class="card" style="margin:0" data-help="Opens the short/quick audit page (simplified workflow focusing on key risk indicators). Use it when you want a fast check, then return here for full matching and deep review.">
   <div class="row" style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
@@ -429,6 +431,51 @@ pre{
     </div>
   </div>
 </div>
+
+
+  <!-- Advanced Checks (bottom) -->
+  <div class="card" style="margin-top:12px" data-help="Additional red-flag checks (do not prove fraud alone). These highlight references that are unbalanced, repeated patterns, and possible threshold-splitting behaviour.">
+    <div class="small muted">Advanced checks (bottom)</div>
+    <div class="small">These checks help you prioritize review. They do not change the existing layout above.</div>
+
+    <div class="row" style="display:flex; gap:12px; align-items:flex-end; flex-wrap:wrap; margin-top:10px">
+      <div>
+        <div class="small muted">Threshold limit</div>
+        <input id="thrLimit" type="number" value="500000" style="padding:6px 8px; border-radius:10px; border:1px solid var(--border); width:160px" />
+      </div>
+      <div>
+        <div class="small muted">Window below limit (%)</div>
+        <input id="thrWindowPct" type="number" value="5" min="1" max="20" style="padding:6px 8px; border-radius:10px; border:1px solid var(--border); width:160px" />
+      </div>
+      <div>
+        <button class="btn" id="btnAdvRefresh" type="button" style="padding:8px 12px; border-radius:10px; border:1px solid var(--border); background:#fff; cursor:pointer">
+          Refresh advanced checks
+        </button>
+      </div>
+      <div class="small muted" id="advHint" style="flex:1; min-width:220px"></div>
+    </div>
+
+    <div class="grid3" style="margin-top:12px; grid-template-columns:1fr;">
+      <div class="card" style="margin:0">
+        <div class="small muted">1) Unbalanced reference (Debit sum ≠ Credit sum)</div>
+        <div class="small" id="advUnbalSummary">—</div>
+        <div class="scroll" style="max-height:240px; margin-top:8px"><table id="advUnbalTbl"></table></div>
+      </div>
+
+      <div class="card" style="margin:0; margin-top:12px">
+        <div class="small muted">2) Duplicate reference / amount patterns</div>
+        <div class="small" id="advDupSummary">—</div>
+        <div class="scroll" style="max-height:240px; margin-top:8px"><table id="advDupTbl"></table></div>
+      </div>
+
+      <div class="card" style="margin:0; margin-top:12px">
+        <div class="small muted">3) Threshold splitting detection (possible structuring)</div>
+        <div class="small" id="advSplitSummary">—</div>
+        <div class="scroll" style="max-height:240px; margin-top:8px"><table id="advSplitTbl"></table></div>
+      </div>
+    </div>
+  </div>
+
 
 <script>
 // --------------------------- State ---------------------------
@@ -720,6 +767,238 @@ function updateTopPerUser(){
   const m = topTxnsPerInputterBoth(state.stats.htmlFiltered, state.stats.txtFiltered, perN);
   renderTopPerUser(m);
 }
+// --------------------------- Advanced Checks ---------------------------
+function aggByRef(list){
+  const m = new Map(); // ref -> {debit, credit, dCount, cCount, rows:[]}
+  for(const t of (list||[])){
+    const ref = (t.ref||"").trim();
+    if(!ref) continue;
+    const debit = num(t.debitAmt);
+    const credit = num(t.creditAmt);
+    const side = debit>0 ? "DEBIT" : (credit>0 ? "CREDIT" : "");
+    const amt = Math.max(debit, credit);
+
+    if(!m.has(ref)){
+      m.set(ref, {ref, debit:0, credit:0, dCount:0, cCount:0, rows:[]});
+    }
+    const r = m.get(ref);
+    if(debit>0){ r.debit += debit; r.dCount += 1; }
+    if(credit>0){ r.credit += credit; r.cCount += 1; }
+    r.rows.push({
+      src: t.src || "",
+      inputter: t.inputter || "",
+      authoriser: t.authoriser || "",
+      side,
+      amt,
+      drAcc: t.drAcc || "",
+      drTitle: t.drTitle || "",
+      crAcc: t.crAcc || "",
+      crTitle: t.crTitle || ""
+    });
+  }
+  return m;
+}
+
+function renderSimpleTable(elId, header, rowsHtml){
+  const el = document.getElementById(elId);
+  if(!el) return;
+  if(!rowsHtml){
+    el.innerHTML = "";
+    return;
+  }
+  el.innerHTML = `<thead><tr>${header.map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>${rowsHtml}</tbody>`;
+}
+
+function updateAdvancedChecks(){
+  if(!state.stats){
+    setText("advUnbalSummary","—");
+    setText("advDupSummary","—");
+    setText("advSplitSummary","—");
+    renderSimpleTable("advUnbalTbl",[], "");
+    renderSimpleTable("advDupTbl",[], "");
+    renderSimpleTable("advSplitTbl",[], "");
+    return;
+  }
+
+  const html = state.stats.htmlFiltered || [];
+  const txt  = state.stats.txtFiltered || [];
+
+  // ---------- 1) Unbalanced refs ----------
+  function buildUnbal(list, srcLabel){
+    const m = aggByRef(list);
+
+    function pickDebitInfo(r){
+      // best-effort: find a debit-side row with debit account details
+      const row = (r.rows||[]).find(x => x.side==="DEBIT" && (x.drAcc || x.drTitle));
+      return {
+        dAcc: row?.drAcc || "",
+        dName: row?.drTitle || ""
+      };
+    }
+    function pickCreditInfo(r){
+      // best-effort: find a credit-side row with credit account details
+      const row = (r.rows||[]).find(x => x.side==="CREDIT" && (x.crAcc || x.crTitle));
+      return {
+        cAcc: row?.crAcc || "",
+        cName: row?.crTitle || ""
+      };
+    }
+
+    const out = [];
+    for(const [ref, r] of m){
+      const diff = (r.debit - r.credit);
+      if(Math.abs(diff) > 0.0001){
+        const d = pickDebitInfo(r);
+        const c = pickCreditInfo(r);
+        const inps = Array.from(new Set((r.rows||[]).map(x=>(x.inputter||"").trim()).filter(Boolean))).join(", ");
+        const auths = Array.from(new Set((r.rows||[]).map(x=>(x.authoriser||"").trim()).filter(Boolean))).join(", ");
+        out.push({
+          src: srcLabel,
+          ref,
+          inputters: inps,
+          authorisers: auths,
+          debit: r.debit,
+          credit: r.credit,
+          diff,
+          dAcc: d.dAcc,
+          dName: d.dName,
+          cAcc: c.cAcc,
+          cName: c.cName
+        });
+      }
+    }
+    out.sort((a,b)=> Math.abs(b.diff)-Math.abs(a.diff));
+    return out;
+  }
+  const unHtml = buildUnbal(html, "HTML");
+  const unTxt  = buildUnbal(txt, "TXT");
+  const unAll = unHtml.concat(unTxt);
+
+  setText("advUnbalSummary", `Found: ${unAll.length} (HTML ${unHtml.length}, TXT ${unTxt.length})`);
+  renderSimpleTable(
+    "advUnbalTbl",
+    ["Src","Ref","Inputter(s)","Authoriser(s)","Debit sum","Credit sum","Δ Difference","Debit Ac No","Debit Account","Credit Ac No","Credit Account"],
+    unAll.slice(0,150).map(r=>`
+      <tr>
+        <td>${escapeHtml(r.src)}</td>
+        <td style="font-family:monospace">${escapeHtml(r.ref)}</td>
+        <td>${escapeHtml(r.inputters||"") || '<span class="muted">—</span>'}</td>
+        <td>${escapeHtml(r.authorisers||"") || '<span class="muted">—</span>'}</td>
+        <td style="text-align:right">${fmt(r.debit)}</td>
+        <td style="text-align:right">${fmt(r.credit)}</td>
+        <td style="text-align:right" class="${r.diff===0?'':'delta-bad'}">${fmt(r.diff)}</td>
+        <td style="font-family:monospace">${escapeHtml(r.dAcc || "") || '<span class="muted">—</span>'}</td>
+        <td>${escapeHtml(r.dName || "") || '<span class="muted">—</span>'}</td>
+        <td style="font-family:monospace">${escapeHtml(r.cAcc || "") || '<span class="muted">—</span>'}</td>
+        <td>${escapeHtml(r.cName || "") || '<span class="muted">—</span>'}</td>
+      </tr>`).join("")
+  );
+
+  // ---------- 2) Duplicate reference/amount patterns ----------
+  // Flag refs where more than one DEBIT line or more than one CREDIT line exists (per source),
+  // OR unusually many lines overall for the same ref.
+  function buildDup(list, srcLabel){
+    const m = aggByRef(list);
+    const out = [];
+    for(const [ref, r] of m){
+      const totalLines = r.rows.length;
+      const suspicious = (r.dCount > 1) || (r.cCount > 1) || (totalLines > 2);
+      if(!suspicious) continue;
+
+      // also show the most common amount(s)
+      const amtMap = new Map();
+      for(const row of r.rows){
+        const key = String(row.amt || 0);
+        amtMap.set(key, (amtMap.get(key)||0) + 1);
+      }
+      const topAmt = Array.from(amtMap.entries()).sort((a,b)=>b[1]-a[1])[0];
+      const inps = Array.from(new Set((r.rows||[]).map(x=>(x.inputter||"").trim()).filter(Boolean))).join(", ");
+      const auths = Array.from(new Set((r.rows||[]).map(x=>(x.authoriser||"").trim()).filter(Boolean))).join(", ");
+      out.push({
+        src: srcLabel, ref,
+        inputters: inps,
+        authorisers: auths,
+        totalLines,
+        dCount: r.dCount, cCount: r.cCount,
+        topAmt: topAmt ? Number(topAmt[0]) : 0,
+        topAmtN: topAmt ? topAmt[1] : 0
+      });
+    }
+    out.sort((a,b)=> (b.totalLines-a.totalLines) || (b.topAmtN-a.topAmtN));
+    return out;
+  }
+  const dupHtml = buildDup(html, "HTML");
+  const dupTxt  = buildDup(txt, "TXT");
+  const dupAll = dupHtml.concat(dupTxt);
+
+  setText("advDupSummary", `Found: ${dupAll.length} (HTML ${dupHtml.length}, TXT ${dupTxt.length})`);
+  renderSimpleTable(
+    "advDupTbl",
+    ["Src","Ref","Inputter(s)","Authoriser(s)","Lines","Debits","Credits","Most common amount (n)"],
+    dupAll.slice(0,200).map(r=>`
+      <tr>
+        <td>${escapeHtml(r.src)}</td>
+        <td style="font-family:monospace">${escapeHtml(r.ref)}</td>
+        <td>${escapeHtml(r.inputters||"") || '<span class="muted">—</span>'}</td>
+        <td>${escapeHtml(r.authorisers||"") || '<span class="muted">—</span>'}</td>
+        <td style="text-align:right">${r.totalLines}</td>
+        <td style="text-align:right">${r.dCount}</td>
+        <td style="text-align:right">${r.cCount}</td>
+        <td style="text-align:right">${fmt(r.topAmt)} <span class="small muted">(${r.topAmtN})</span></td>
+      </tr>`).join("")
+  );
+
+  // ---------- 3) Threshold splitting detection ----------
+  // Detect inputters with many transactions just below a chosen limit (structuring).
+  const limit = Number(document.getElementById("thrLimit")?.value || 500000);
+  const pct = Number(document.getElementById("thrWindowPct")?.value || 5);
+  const low = limit * (1 - (pct/100));
+  setText("advHint", `Window: ${fmt(low)} to ${fmt(limit)} (inclusive). Showing filtered data (respecting dropdown + exclude-system).`);
+
+  function buildSplit(list, srcLabel){
+    const m = new Map(); // inputter -> {count,total,refs:[]}
+    for(const t of list){
+      const inputter = (t.inputter||"").trim();
+      const debit = num(t.debitAmt), credit = num(t.creditAmt);
+      const amt = Math.max(debit, credit);
+      if(!inputter || !amt) continue;
+      if(amt < low || amt > limit) continue;
+
+      if(!m.has(inputter)){
+        m.set(inputter, {src:srcLabel, inputter, authorisers:new Set(), count:0, total:0, max:0, refs:[]});
+      }
+      const r = m.get(inputter);
+      if(t.authoriser) r.authorisers.add((t.authoriser||"").trim());
+      r.count += 1;
+      r.total += amt;
+      if(amt > r.max) r.max = amt;
+      if(r.refs.length < 6) r.refs.push(t.ref || "");
+    }
+    const out = Array.from(m.values()).filter(r=> r.count >= 3).map(r=>({...r, authorisers: Array.from(r.authorisers||[]).join(", ")})); // require 3+ near-limit txns
+    out.sort((a,b)=> (b.total-a.total) || (b.count-a.count));
+    return out;
+  }
+  const spHtml = buildSplit(html, "HTML");
+  const spTxt  = buildSplit(txt, "TXT");
+  const spAll = spHtml.concat(spTxt);
+
+  setText("advSplitSummary", `Found: ${spAll.length} (requires ≥ 3 txns in window). HTML ${spHtml.length}, TXT ${spTxt.length}.`);
+  renderSimpleTable(
+    "advSplitTbl",
+    ["Src","Inputter","Authoriser(s)","Count","Total in window","Max","Sample refs"],
+    spAll.slice(0,200).map(r=>`
+      <tr>
+        <td>${escapeHtml(r.src)}</td>
+        <td class="rowhdr">${escapeHtml(r.inputter)}</td>
+        <td>${escapeHtml(r.authorisers||"") || '<span class="muted">—</span>'}</td>
+        <td style="text-align:right">${r.count}</td>
+        <td style="text-align:right">${fmt(r.total)}</td>
+        <td style="text-align:right">${fmt(r.max)}</td>
+        <td style="font-family:monospace">${escapeHtml(r.refs.filter(Boolean).join(", "))}</td>
+      </tr>`).join("")
+  );
+}
+
 
 // --------------------------- Parsers ---------------------------
 // HTML: detect header indices dynamically from the "Daily Transfer Register" table
@@ -1331,6 +1610,7 @@ function renderAll(){
   setHtml("tblTxtPerInputter", renderTableInputterSummary(summarizeByInputter(filtered.txtFiltered, {excludeSystem: filtered.excludeSystem})));
 
   updateTopPerUser();
+  updateAdvancedChecks();
 }
 
 function renderSearch(rows){
@@ -1412,6 +1692,12 @@ async function runAudit(){
     log(`HTML txns parsed: ${state.htmlTxns.length}`);
     log(`TXT txns parsed: ${state.txtTxns.length}`);
 
+    // enable CSV downloads
+    const bH = document.getElementById("dlHtmlCsv");
+    const bT = document.getElementById("dlTxtCsv");
+    if(bH) bH.disabled = !(state.htmlTxns && state.htmlTxns.length);
+    if(bT) bT.disabled = !(state.txtTxns && state.txtTxns.length);
+
     fillInputterSelectors();
     renderAll();
     log("✅ Done.");
@@ -1420,7 +1706,77 @@ async function runAudit(){
     log("❌ Error: " + (e && e.message ? e.message : String(e)));
     alert("Error while processing. Check Debug box.");
   }finally{
-    document.getElementById('btnRun').disabled = false;
+    document.getElementBy
+// --------------------------- CSV export ---------------------------
+function txnsToCsv(list){
+  const cols = [
+    "src","ref","side","amount",
+    "debitAmt","creditAmt",
+    "drAcc","drTitle","crAcc","crTitle",
+    "inputter","authoriser",
+    "time","date"
+  ];
+  const esc = (v)=>{
+    const s = (v===null || v===undefined) ? "" : String(v);
+    // escape quotes
+    const q = s.replace(/"/g,'""');
+    return /[",\n]/.test(q) ? `"${q}"` : q;
+  };
+
+  const lines = [];
+  lines.push(cols.join(","));
+  for(const t of (list||[])){
+    const debit = num(t.debitAmt), credit = num(t.creditAmt);
+    const side = t.side || (debit>0 ? "DEBIT" : (credit>0 ? "CREDIT" : ""));
+    const amount = side==="DEBIT" ? debit : (side==="CREDIT" ? credit : Math.max(debit,credit));
+    const row = {
+      src: t.src || "",
+      ref: t.ref || "",
+      side,
+      amount: amount || 0,
+      debitAmt: debit || 0,
+      creditAmt: credit || 0,
+      drAcc: t.drAcc || "",
+      drTitle: t.drTitle || "",
+      crAcc: t.crAcc || "",
+      crTitle: t.crTitle || "",
+      inputter: t.inputter || "",
+      authoriser: t.authoriser || "",
+      time: t.time || "",
+      date: t.date || ""
+    };
+    lines.push(cols.map(c=>esc(row[c])).join(","));
+  }
+  return lines.join("\n");
+}
+
+function downloadCsv(filename, csvText){
+  try{
+    const blob = new Blob([csvText], {type:"text/csv;charset=utf-8"});
+    // IE / old Edge
+    if(window.navigator && window.navigator.msSaveOrOpenBlob){
+      window.navigator.msSaveOrOpenBlob(blob, filename);
+      return;
+    }
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.style.display = "none";
+    document.body.appendChild(a);
+
+    // Some browsers require the element to be in the DOM and a user gesture.
+    a.click();
+
+    document.body.removeChild(a);
+    setTimeout(()=>URL.revokeObjectURL(url), 2500);
+  }catch(e){
+    console.error("CSV download failed:", e);
+    alert("CSV download failed. If your browser blocks downloads from local files, please run this tool from a web server (http/https) or try another browser.");
+  }
+}
+Id('btnRun').disabled = false;
   }
 }
 
@@ -1428,8 +1784,29 @@ window.addEventListener('load', ()=>{
   addHelpIcons();
   loadSysList();
   setHtml("tblSearch","");
+
   document.getElementById("topNPerUser")?.addEventListener("change", updateTopPerUser);
 
+  // CSV download buttons
+  document.getElementById("dlHtmlCsv")?.addEventListener("click", ()=>{
+    if(!state.htmlTxns || !state.htmlTxns.length) return;
+    const csv = txnsToCsv(state.htmlTxns.map(x=>({...x, src: x.src || "HTML"})));
+    log("Preparing HTML CSV download…");
+    downloadCsv("html_register.csv", csv);
+  });
+  document.getElementById("dlTxtCsv")?.addEventListener("click", ()=>{
+    if(!state.txtTxns || !state.txtTxns.length) return;
+    const csv = txnsToCsv(state.txtTxns.map(x=>({...x, src: x.src || "TXT"})));
+    log("Preparing TXT CSV download…");
+    downloadCsv("txt_register.csv", csv);
+  });
+
+  // Advanced checks controls (bottom)
+  document.getElementById("btnAdvRefresh")?.addEventListener("click", updateAdvancedChecks);
+  document.getElementById("thrLimit")?.addEventListener("change", updateAdvancedChecks);
+  document.getElementById("thrWindowPct")?.addEventListener("change", updateAdvancedChecks);
+
+  updateAdvancedChecks();
 });
 </script>
 
