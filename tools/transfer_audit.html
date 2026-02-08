@@ -340,8 +340,8 @@ pre{
 
 <div class="card">
   <h2>2) Transaction & Inputter Analytics</h2>
-  <div class="grid3">
-    <div class="card" style="margin-top:12px" data-help="For each inputter (first 7 chars), shows the top N biggest transactions (by max(debit,credit)) from HTML and TXT after filters.">
+  <div class="grid3" style="grid-template-columns:2fr 1fr 1fr;">
+    <div class="card" style="margin-top:12px" data-help="For each inputter (first 7 chars), shows the top N biggest transactions (by side amount) from HTML and TXT after filters.">
   <div class="row" style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
     <div>
       <div class="small muted">Top transactions per inputter</div>
@@ -607,18 +607,27 @@ function topTxnsPerInputterBoth(htmlFiltered, txtFiltered, perN = 10){
     const inputter = ((t.inputter || "") + "").slice(0,7);
     const debit = num(t.debitAmt);
     const credit = num(t.creditAmt);
-    const amt = Math.max(debit, credit);
-    if(!inputter || !amt) return;
+
+    // Decide "side" for display and pick the corresponding amount.
+    // If both present (HTML often has both), we prefer DEBIT when equal.
+    const side = (debit >= credit) ? "DEBIT" : "CREDIT";
+    const amount = (side === "DEBIT") ? debit : credit;
+
+    if(!inputter || !amount) return;
 
     const arr = m.get(inputter) || [];
     arr.push({
       inputter,
-      amt,
       ref: t.ref || "",
-      debit,
-      credit,
-      side: debit >= credit ? "DEBIT" : "CREDIT",
-      src
+      side,
+      amount,
+      src,
+
+      // Account info (best effort: present for HTML; for TXT only the side-specific one may exist)
+      drAcc: t.drAcc || "",
+      crAcc: t.crAcc || "",
+      drTitle: t.drTitle || "",
+      crTitle: t.crTitle || ""
     });
     m.set(inputter, arr);
   }
@@ -628,7 +637,7 @@ function topTxnsPerInputterBoth(htmlFiltered, txtFiltered, perN = 10){
 
   // sort each inputter group and keep top N
   for(const [k, arr] of m){
-    arr.sort((a,b) => b.amt - a.amt);
+    arr.sort((a,b) => (b.amount||0) - (a.amount||0));
     m.set(k, arr.slice(0, perN));
   }
   return m;
@@ -644,9 +653,14 @@ function renderTopPerUser(map){
     return;
   }
 
+  function showOrNA(v, na){
+    const x = (v||"").trim();
+    return x ? escapeHtml(x) : `<span class="muted">${escapeHtml(na)}</span>`;
+  }
+
   wrap.innerHTML = inputters.map(inp => {
     const rows = map.get(inp) || [];
-    const totalShown = rows.reduce((s,r)=> s + (r.amt||0), 0);
+    const totalShown = rows.reduce((s,r)=> s + (r.amount||0), 0);
 
     const table = `
       <table style="width:100%; border-collapse:collapse; margin-top:8px">
@@ -656,23 +670,30 @@ function renderTopPerUser(map){
             <th style="text-align:left; padding:6px;">Src</th>
             <th style="text-align:left; padding:6px;">Ref</th>
             <th style="text-align:left; padding:6px;">Side</th>
-            <th style="text-align:right; padding:6px;">Debit</th>
-            <th style="text-align:right; padding:6px;">Credit</th>
-            <th style="text-align:right; padding:6px;">Max</th>
+            <th style="text-align:right; padding:6px;">Amount</th>
+            <th style="text-align:left; padding:6px;">Debit Ac No</th>
+            <th style="text-align:left; padding:6px;">Debit Account</th>
+            <th style="text-align:left; padding:6px;">Credit Ac No</th>
+            <th style="text-align:left; padding:6px;">Credit Account</th>
           </tr>
         </thead>
         <tbody>
-          ${rows.map((r, i) => `
+          ${rows.map((r, i) => {
+            const debitNA  = (r.side === "DEBIT")  ? "—" : "Debit account not found";
+            const creditNA = (r.side === "CREDIT") ? "—" : "Credit account not found";
+            return `
             <tr>
               <td style="padding:6px;">${i+1}</td>
               <td style="padding:6px;">${escapeHtml(r.src)}</td>
               <td style="padding:6px; font-family:monospace;">${escapeHtml(r.ref)}</td>
               <td style="padding:6px;">${escapeHtml(r.side)}</td>
-              <td style="padding:6px; text-align:right;">${fmt(r.debit)}</td>
-              <td style="padding:6px; text-align:right;">${fmt(r.credit)}</td>
-              <td style="padding:6px; text-align:right;"><b>${fmt(r.amt)}</b></td>
+              <td style="padding:6px; text-align:right;"><b>${fmt(r.amount)}</b></td>
+              <td style="padding:6px; font-family:monospace;">${showOrNA(r.drAcc, debitNA)}</td>
+              <td style="padding:6px;">${showOrNA(r.drTitle, debitNA)}</td>
+              <td style="padding:6px; font-family:monospace;">${showOrNA(r.crAcc, creditNA)}</td>
+              <td style="padding:6px;">${showOrNA(r.crTitle, creditNA)}</td>
             </tr>
-          `).join("")}
+          `}).join("")}
         </tbody>
       </table>
     `;
@@ -806,27 +827,28 @@ function parseTxtRegister(txtText){
     // TXT register is *usually* 2-line per transaction (one debit-side line + one credit-side line),
     // each line often contains only ONE amount. If we treat that single amount as both debit+credit,
     // totals become doubled. So:
-    // - if we see 2+ decimal amounts on the same line => assume it's a combined debit+credit line
+    // - if we see 2+ decimal amounts on the same line => treat as a combined line containing BOTH legs
     // - if we see exactly 1 amount => classify the line as debit-side or credit-side and set the other side to 0
     const decs = parts.filter(p => /^[0-9,]+\.[0-9]{2}$/.test(p));
     let debitAmt = 0, creditAmt = 0;
+    let isDebitSide = true;
+    let combinedLine = false;
 
     if(decs.length >= 2){
+      combinedLine = true;
       debitAmt  = num(decs[0]);
       creditAmt = num(decs[decs.length-1]);
+      // For combined lines we will later SPLIT into two records (one debit, one credit),
+      // but we still keep these here for reference.
+      isDebitSide = true;
     }else if(decs.length === 1){
       const amt = num(decs[0]);
 
-      // Heuristic side detection:
-      // debit-side lines typically have a full debit account number as token[1] (10+ digits),
-      // whereas credit-side lines often start with blanks and token[1] is short (e.g., "39").
-      // Decide side for single-amount TXT lines using FIXED columns (not token length).
-      // In this register layout:
+      // Heuristic side detection using fixed columns (more reliable than token length):
       // - If the LEFT account field is present (after the line serial), it is a DEBIT-side line.
-      // - If the LEFT field is blank and the details start later (after the repeated mid-serial),
-      //   it is a CREDIT-side line.
+      // - If the LEFT field is blank and the details start later, it is a CREDIT-side line.
       const leftAcctField = line.slice(3, 28).trim(); // chars right after serial
-      const isDebitSide = leftAcctField.length > 0;
+      isDebitSide = leftAcctField.length > 0;
 
       if(isDebitSide){
         debitAmt = amt;
@@ -836,7 +858,6 @@ function parseTxtRegister(txtText){
         creditAmt = amt;
       }
     }
-
     // USER EXTRACTION RULE (bank culture):
     // - If inputter id is 9 chars -> a SPACE exists before authoriser id (separate tokens)
     // - If inputter id is 10 chars -> it may be ATTACHED with authoriser in the same token
@@ -867,19 +888,101 @@ function parseTxtRegister(txtText){
       }
     }
 
+
+    // Extract account no/title from fixed-width layout (best-effort).
+    // IMPORTANT: Some TXT rows contain BOTH legs on the same line (debit+credit together).
+    // In that case we extract BOTH debit and credit accounts/titles and SPLIT into two records
+    // so auditors can see if any leg is missing.
+    let drAcc = "", crAcc = "", drTitle = "", crTitle = "";
+
+    // Grab first+last amount positions so we can parse left (debit) and right (credit) blocks reliably
+    const amtRe = /[0-9,]+\.[0-9]{2}/g;
+    const allAmt = Array.from(line.matchAll(amtRe));
+    const firstAmtIdx = allAmt.length ? allAmt[0].index : -1;
+    const lastAmtIdx  = allAmt.length ? allAmt[allAmt.length-1].index : -1;
+
+    function extractAcctTitle(preText, which){
+    // which: "first" or "last" TR occurrence inside preText tokens
+    const pre = (preText || "").trimEnd();
+    const toks = pre.trim().split(/\s+/).filter(Boolean);
+    const trTok = (parts[0] || "").trim();
+    if(!trTok || toks.length < 4) return {acc:"", title:""};
+
+    let trPos = -1;
+    if(which === "first"){
+    trPos = toks.indexOf(trTok);
+    }else{
+    for(let i=toks.length-1; i>=0; i--){
+    if(toks[i] === trTok){ trPos = i; break; }
+    }
+    }
+    if(trPos < 0) return {acc:"", title:""};
+
+    const accNo = toks[trPos+1] || "";
+    const title = toks.slice(trPos+3).join(" ").trim(); // skip legacy/code token at +2
+    return {acc:accNo, title};
+    }
+
+    if(firstAmtIdx > 0){
+    // Debit-side fields come before the FIRST amount
+    const debitPre = line.slice(0, firstAmtIdx);
+    const d = extractAcctTitle(debitPre, "first");
+    drAcc = d.acc; drTitle = d.title;
+    }
+    if(lastAmtIdx > 0 && lastAmtIdx !== firstAmtIdx){
+    // Credit-side fields are best extracted using the text before the LAST amount
+    const creditPre = line.slice(0, lastAmtIdx);
+    const c = extractAcctTitle(creditPre, "last");
+    crAcc = c.acc; crTitle = c.title;
+    }else if(!isDebitSide && firstAmtIdx > 0){
+    // Single-amount credit-side line
+    const creditPre = line.slice(0, firstAmtIdx);
+    const c = extractAcctTitle(creditPre, "last");
+    crAcc = c.acc; crTitle = c.title;
+    }
+
+    // Push records:
+    // - combined line => split into 2 records (DEBIT and CREDIT)
+    // - single-side line => one record
+    const base = {
+    src:"TXT",
+    tr: parts[0] || "",
+    ref,
+    inputterRaw: (inputter||"").trim(),
+    authoriserRaw: (authoriser||"").trim(),
+    inputter: norm7(inputter),
+    authoriser: norm7(authoriser),
+    time: (time||"").trim(),
+    raw: line
+    };
+
+    if(combinedLine){
     out.push({
-      src:"TXT",
-      tr: parts[0] || "",
-      ref,
-      debitAmt,
-      creditAmt,
-      inputterRaw: (inputter||"").trim(),
-      authoriserRaw: (authoriser||"").trim(),
-      inputter: norm7(inputter),
-      authoriser: norm7(authoriser),
-      time: (time||"").trim(),
-      raw: line
+    ...base,
+    debitAmt: debitAmt,
+    creditAmt: 0,
+    drAcc, drTitle,
+    crAcc: "", crTitle: ""
     });
+    out.push({
+    ...base,
+    debitAmt: 0,
+    creditAmt: creditAmt,
+    drAcc: "", drTitle: "",
+    crAcc, crTitle
+    });
+    }else{
+    out.push({
+    ...base,
+    debitAmt,
+    creditAmt,
+    drAcc: isDebitSide ? drAcc : "",
+    drTitle: isDebitSide ? drTitle : "",
+    crAcc: isDebitSide ? "" : crAcc,
+    crTitle: isDebitSide ? "" : crTitle
+    });
+    }
+
   }
   return out;
 }
