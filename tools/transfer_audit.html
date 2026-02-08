@@ -1659,45 +1659,131 @@ function clearSearch(){
 }
 
 // --------------------------- Main Actions ---------------------------
-async function readFileAsText(file){
+function setCsvButtonsEnabled(){
+  const bH = document.getElementById("dlHtmlCsv");
+  const bT = document.getElementById("dlTxtCsv");
+  if(bH) bH.disabled = !(state.htmlTxns && state.htmlTxns.length);
+  if(bT) bT.disabled = !(state.txtTxns && state.txtTxns.length);
+}
+
+function txnsToCsv(txns){
+  const header = [
+    "src","ref","side","amount",
+    "debitAmt","creditAmt",
+    "drAcc","drTitle",
+    "crAcc","crTitle",
+    "inputter","authoriser",
+    "time"
+  ];
+  const esc = (v)=>{
+    const s = (v==null) ? "" : String(v);
+    const out = s.replace(/"/g,'""');
+    return /[",\n\r]/.test(out) ? `"${out}"` : out;
+  };
+
+  const lines = [header.join(",")];
+  for(const t of (txns||[])){
+    const debit = num(t.debitAmt);
+    const credit = num(t.creditAmt);
+    const side = (debit>0) ? "DEBIT" : ((credit>0) ? "CREDIT" : "");
+    const amount = side==="CREDIT" ? credit : debit;
+
+    lines.push([
+      esc(t.src || ""),
+      esc(t.ref || ""),
+      esc(side),
+      esc(amount ? fmt(amount) : ""),
+      esc(debit ? fmt(debit) : ""),
+      esc(credit ? fmt(credit) : ""),
+      esc(t.drAcc || ""),
+      esc(t.drTitle || ""),
+      esc(t.crAcc || ""),
+      esc(t.crTitle || ""),
+      esc(t.inputter || ""),
+      esc(t.authoriser || ""),
+      esc(t.time || "")
+    ].join(","));
+  }
+  return lines.join("\n");
+}
+
+function downloadCsv(filename, csvText){
+  try{
+    const blob = new Blob([csvText], {type:"text/csv;charset=utf-8"});
+    // IE / old Edge fallback
+    if(window.navigator && window.navigator.msSaveOrOpenBlob){
+      window.navigator.msSaveOrOpenBlob(blob, filename);
+      return;
+    }
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.style.display = "none";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 1500);
+  }catch(e){
+    console.error(e);
+    alert("CSV download failed. Some bank PCs block downloads from local HTML (file://). If blocked, run this page via a local server (http://localhost).");
+  }
+}
+
+function downloadCurrentHtmlCsv(){
+  if(!state.htmlTxns || !state.htmlTxns.length) return;
+  const csv = txnsToCsv(state.htmlTxns.map(t=>({...t, src:"HTML"})));
+  log("⬇️ Downloading HTML CSV…");
+  downloadCsv("transfer_html.csv", csv);
+}
+function downloadCurrentTxtCsv(){
+  if(!state.txtTxns || !state.txtTxns.length) return;
+  const csv = txnsToCsv(state.txtTxns.map(t=>({...t, src:"TXT"})));
+  log("⬇️ Downloading TXT CSV…");
+  downloadCsv("transfer_txt.csv", csv);
+}
+
+function readFileAsText(file){
   return new Promise((resolve,reject)=>{
     const r = new FileReader();
     r.onload = ()=>resolve(String(r.result||""));
-    r.onerror = reject;
+    r.onerror = ()=>reject(r.error || new Error("File read error"));
     r.readAsText(file);
   });
 }
 
 async function runAudit(){
+  const btn = document.getElementById('btnRun');
   try{
-    document.getElementById('btnRun').disabled = true;
+    if(btn) btn.disabled = true;
     log("Loading files…");
 
-    const fH = document.getElementById('fileHtml').files[0];
-    const fT = document.getElementById('fileTxt').files[0];
+    const fH = document.getElementById('fileHtml')?.files?.[0];
+    const fT = document.getElementById('fileTxt')?.files?.[0];
     if(!fH || !fT){
       alert("Please select both HTML and TXT files.");
-      document.getElementById('btnRun').disabled = false;
       return;
     }
 
     loadSysList();
 
-    const [htmlText, txtText] = await Promise.all([readFileAsText(fH), readFileAsText(fT)]);
+    const [htmlText, txtText] = await Promise.all([
+      readFileAsText(fH),
+      readFileAsText(fT)
+    ]);
+
     log("Parsing HTML…");
-    state.htmlTxns = parseHtmlRegister(htmlText);
+    state.htmlTxns = parseHtmlRegister(htmlText) || [];
+    state.htmlTxns.forEach(t=>t.src="HTML");
+
     log("Parsing TXT…");
-    state.txtTxns = parseTxtRegister(txtText);
+    state.txtTxns = parseTxtRegister(txtText) || [];
+    state.txtTxns.forEach(t=>t.src="TXT");
 
     log(`HTML txns parsed: ${state.htmlTxns.length}`);
     log(`TXT txns parsed: ${state.txtTxns.length}`);
 
-    // enable CSV downloads
-    const bH = document.getElementById("dlHtmlCsv");
-    const bT = document.getElementById("dlTxtCsv");
-    if(bH) bH.disabled = !(state.htmlTxns && state.htmlTxns.length);
-    if(bT) bT.disabled = !(state.txtTxns && state.txtTxns.length);
-
+    setCsvButtonsEnabled();
     fillInputterSelectors();
     renderAll();
     log("✅ Done.");
@@ -1706,108 +1792,28 @@ async function runAudit(){
     log("❌ Error: " + (e && e.message ? e.message : String(e)));
     alert("Error while processing. Check Debug box.");
   }finally{
-    document.getElementBy
-// --------------------------- CSV export ---------------------------
-function txnsToCsv(list){
-  const cols = [
-    "src","ref","side","amount",
-    "debitAmt","creditAmt",
-    "drAcc","drTitle","crAcc","crTitle",
-    "inputter","authoriser",
-    "time","date"
-  ];
-  const esc = (v)=>{
-    const s = (v===null || v===undefined) ? "" : String(v);
-    // escape quotes
-    const q = s.replace(/"/g,'""');
-    return /[",\n]/.test(q) ? `"${q}"` : q;
-  };
-
-  const lines = [];
-  lines.push(cols.join(","));
-  for(const t of (list||[])){
-    const debit = num(t.debitAmt), credit = num(t.creditAmt);
-    const side = t.side || (debit>0 ? "DEBIT" : (credit>0 ? "CREDIT" : ""));
-    const amount = side==="DEBIT" ? debit : (side==="CREDIT" ? credit : Math.max(debit,credit));
-    const row = {
-      src: t.src || "",
-      ref: t.ref || "",
-      side,
-      amount: amount || 0,
-      debitAmt: debit || 0,
-      creditAmt: credit || 0,
-      drAcc: t.drAcc || "",
-      drTitle: t.drTitle || "",
-      crAcc: t.crAcc || "",
-      crTitle: t.crTitle || "",
-      inputter: t.inputter || "",
-      authoriser: t.authoriser || "",
-      time: t.time || "",
-      date: t.date || ""
-    };
-    lines.push(cols.map(c=>esc(row[c])).join(","));
-  }
-  return lines.join("\n");
-}
-
-function downloadCsv(filename, csvText){
-  try{
-    const blob = new Blob([csvText], {type:"text/csv;charset=utf-8"});
-    // IE / old Edge
-    if(window.navigator && window.navigator.msSaveOrOpenBlob){
-      window.navigator.msSaveOrOpenBlob(blob, filename);
-      return;
-    }
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    a.style.display = "none";
-    document.body.appendChild(a);
-
-    // Some browsers require the element to be in the DOM and a user gesture.
-    a.click();
-
-    document.body.removeChild(a);
-    setTimeout(()=>URL.revokeObjectURL(url), 2500);
-  }catch(e){
-    console.error("CSV download failed:", e);
-    alert("CSV download failed. If your browser blocks downloads from local files, please run this tool from a web server (http/https) or try another browser.");
-  }
-}
-Id('btnRun').disabled = false;
+    if(btn) btn.disabled = false;
   }
 }
 
+// --------------------------- Init ---------------------------
 window.addEventListener('load', ()=>{
-  addHelpIcons();
-  loadSysList();
-  setHtml("tblSearch","");
+  try{ addHelpIcons(); }catch(e){}
+  try{ loadSysList(); }catch(e){}
+
+  // Wire CSV buttons once
+  document.getElementById("dlHtmlCsv")?.addEventListener("click", downloadCurrentHtmlCsv);
+  document.getElementById("dlTxtCsv")?.addEventListener("click", downloadCurrentTxtCsv);
 
   document.getElementById("topNPerUser")?.addEventListener("change", updateTopPerUser);
 
-  // CSV download buttons
-  document.getElementById("dlHtmlCsv")?.addEventListener("click", ()=>{
-    if(!state.htmlTxns || !state.htmlTxns.length) return;
-    const csv = txnsToCsv(state.htmlTxns.map(x=>({...x, src: x.src || "HTML"})));
-    log("Preparing HTML CSV download…");
-    downloadCsv("html_register.csv", csv);
-  });
-  document.getElementById("dlTxtCsv")?.addEventListener("click", ()=>{
-    if(!state.txtTxns || !state.txtTxns.length) return;
-    const csv = txnsToCsv(state.txtTxns.map(x=>({...x, src: x.src || "TXT"})));
-    log("Preparing TXT CSV download…");
-    downloadCsv("txt_register.csv", csv);
-  });
-
-  // Advanced checks controls (bottom)
   document.getElementById("btnAdvRefresh")?.addEventListener("click", updateAdvancedChecks);
   document.getElementById("thrLimit")?.addEventListener("change", updateAdvancedChecks);
   document.getElementById("thrWindowPct")?.addEventListener("change", updateAdvancedChecks);
 
-  updateAdvancedChecks();
+  setCsvButtonsEnabled();
 });
+
 </script>
 
 </body>
