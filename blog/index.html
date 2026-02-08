@@ -81,14 +81,11 @@
       <div class="brand-title">Abdul Latif Blog</div>
       <div class="brand-subtitle">Banking Loans Fintech Personal Finance</div>
     </div>
-    \1
-      <a class="btn" href="/">Home</a>
-      <a class="btn" href="/tools/">Tools</a>
-      <a class="btn" href="/blog/">Blog</a>
-      <a class="btn" href="/about.html">About</a>
-      <a class="btn" href="/contact.html">Contact</a>
+    <div class="top-actions">
+      <a class="btn" href="../index.html">&larr; Main Site</a>
       <button class="btn" type="button" onclick="toggleTheme()" aria-label="Toggle theme">&#127769;</button>
-    \3
+    </div>
+  </header>
 
   <!-- HERO -->
   <section class="hero">
@@ -143,7 +140,7 @@
         </a>
       </h2>
       <p class="featured-desc">
-        Core risk areas banks consider before approving a loan — explained simply with practical context.
+        Core risk areas banks consider before approving a loan — explained in simple language.
       </p>
 
       <p class="meta">Loans • Banking • ⏱ ~8 min</p>
@@ -559,18 +556,8 @@
 <script>
 (function(){
   const grid = document.getElementById('postGrid');
-  \1
-  // Sort cards by newest first (data-date="YYYY-MM-DD")
-  cards.sort((a, b) => {
-    const da = (a.getAttribute('data-date') || '').trim();
-    const db = (b.getAttribute('data-date') || '').trim();
-    // string compare works for ISO dates
-    return db.localeCompare(da);
-  });
-  // Re-append in sorted order so pagination follows the same order
-  cards.forEach(c => grid.appendChild(c));
-
-const perPageEl = document.getElementById('perPage');
+  const cards = Array.from(grid ? grid.querySelectorAll('.post-card') : []);
+  const perPageEl = document.getElementById('perPage');
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
   const pageInfo = document.getElementById('pageInfo');
