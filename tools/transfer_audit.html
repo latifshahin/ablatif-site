@@ -6,6 +6,8 @@
 <title>Professional Banking & Financial Services | Abdul Latif</title>
 <meta name="description" content="Professional banking services by Abdul Latif — banking software, workflow automation, audit tools, financial research and advisory services in Bangladesh." />
 <link rel="canonical" href="https://ablatif.com/services/" />
+<link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+
 <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-X4YNW0E3XG"></script>
   <script>
@@ -71,6 +73,46 @@
   --bad:#b00020;
   --warn:#b26a00;
   --blue:#1f4fd8;
+}
+ /* Section */
+    .section{ margin-top: 18px; }
+    .section-head{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap: 12px;
+      margin: 22px 2px 12px;
+    }
+    .section-head h2{
+      margin:0;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -.2px;
+    }
+    .section-head .hint{
+      color: var(--muted);
+      font-size: 13px;
+      font-family: Inter, sans-serif;
+      font-weight: 800;
+    }
+
+
+.top-right-button {
+    position: fixed; /* Positions relative to the browser window */
+    top: 10px;      /* Distance from the top edge */
+    right: 15px;    /* Distance from the right edge */
+    /* Add other styling as needed */
+    padding: 10px 20px;
+    background-color: #ffffff;
+    color: rgb(10, 94, 63);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+.top-right-button:hover {
+  background-color: #4CAF50; /* Green */
+  color: white;
 }
 
 *{box-sizing:border-box}
@@ -195,12 +237,124 @@ pre{
   cursor:help;
   user-select:none;
 }
+  .toolsFooterRow{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-top:12px;
+    align-items:stretch; /* makes cards same height */
+  }
+  .toolsFooterColWide{ flex:1 1 520px; min-width:320px; }
+  .toolsFooterColNarrow{ flex:1 1 260px; min-width:240px; }
+
+  .socialBtns{
+    margin-top:10px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:center;
+  }
+  .socialBtn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:38px;
+    height:38px;
+    border:1px solid rgba(0,0,0,.12);
+    border-radius:12px;
+    text-decoration:none;
+    font-size:18px;
+    line-height:1;
+  }
+  .socialBtn:hover{ text-decoration:none; opacity:.9; }
+
+  .footerSmallLinks a{
+    font-size:14px;
+    font-weight:600;
+    text-decoration:none;
+  }
+  .footerSmallLinks a:hover{ text-decoration:underline; }
+.toolsFooterRow > .card{
+  flex: 1 1 320px;   /* or 520px if you want wider */
+  min-width: 240px;
+}
+
 .helpIcon:hover{ border-color:var(--blue); color:var(--blue); }
 </style>
 </head>
 
 <body>
-<h1>Transfer Audit Tool v2.0</h1>
+<h1>Transfer Audit Tool v2.0</h1><button class="top-right-button"><a href="../index.html">&larr; Main Site</a></button>
+<!-- ===================== Audit Tool: About (Paste on Top) ===================== -->
+<section class="card" style="margin:12px 0; padding:12px;"
+  data-help="About this tool: purpose, focus, functionality, users, and why it matters.">
+  <details open>
+    <summary style="cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:12px;">
+      <span><b>About this Audit Tool</b> <span class="small muted">Purpose • Focus • Functionality</span></span>
+      <span class="small muted">Click to expand/collapse</span>
+    </summary>
+
+    <div style="margin-top:10px" class="small">
+      <p style="margin:8px 0;">
+        This audit tool is designed to <b>compare and analyze bank transfer transactions recorded before and after Close of Business (COB)</b>.
+        It supports audit and control review by comparing two independent sources:
+        <b>HTML register (Before COB)</b> and <b>TXT register (After COB)</b>.
+      </p>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:10px;">
+        <div style="border:1px solid #e5e5e5; border-radius:12px; padding:10px;">
+          <div class="small muted"><b>Purpose</b></div>
+          <div style="margin-top:6px;">
+            Identify inconsistencies, missing legs, control weaknesses, and unusual patterns in transfer processing.
+          </div>
+        </div>
+
+        <div style="border:1px solid #e5e5e5; border-radius:12px; padding:10px;">
+          <div class="small muted"><b>Focus</b></div>
+          <div style="margin-top:6px;">
+            Integrity and completeness of postings, reference-level balance, segregation-of-duty, and system-user leakage.
+          </div>
+        </div>
+
+        <div style="border:1px solid #e5e5e5; border-radius:12px; padding:10px;">
+          <div class="small muted"><b>For Whom</b></div>
+          <div style="margin-top:6px;">
+            Internal Audit, Compliance/Risk, Operations Control, and supervisors reviewing daily transfer activity.
+          </div>
+        </div>
+
+        <div style="border:1px solid #e5e5e5; border-radius:12px; padding:10px;">
+          <div class="small muted"><b>Why It Matters</b></div>
+          <div style="margin-top:6px;">
+            Speeds up review, improves consistency, reduces manual error, and strengthens audit evidence.
+          </div>
+        </div>
+      </div>
+
+      <details style="margin-top:10px;">
+        <summary style="cursor:pointer;"><b>Key Functionality (What it checks)</b></summary>
+        <ul style="margin:8px 0 0 18px;">
+          <li><b>HTML vs TXT comparison</b> (totals, counts, references)</li>
+          <li><b>Unbalanced reference</b> (debit sum ≠ credit sum per FT ref)</li>
+          <li><b>Orphan debit/credit</b> (missing opposite-side legs)</li>
+          <li><b>Inputter & Authoriser analysis</b> (segregation-of-duty risks)</li>
+          <li><b>System leakage</b> (system IDs appearing when excluded)</li>
+          <li><b>Top transactions per inputter</b> (focus review on high-value items)</li>
+          <li><b>Advanced indicators</b> (duplicate patterns, threshold splitting/structuring)</li>
+        </ul>
+      </details>
+
+      <details style="margin-top:10px;">
+        <summary style="cursor:pointer;"><b>Important Note</b></summary>
+        <p style="margin:8px 0;">
+          This tool does not “prove fraud” by itself. It highlights <b>exceptions and red flags</b> for professional judgment,
+          supporting follow-up testing and evidence collection.
+        </p>
+      </details>
+    </div>
+  </details>
+</section>
+<!-- ===================== /Audit Tool: About ===================== -->
 
 <div class="card no-print">
   <h2>1) Load registers</h2>
@@ -1815,6 +1969,90 @@ window.addEventListener('load', ()=>{
 });
 
 </script>
+<!-- ===================== /tools/ Footer (Optimized for Tools Pages) ===================== -->
+<footer style="margin-top:16px; border-top:1px solid rgba(0,0,0,.12); padding:16px 0;">
+  <div style="max-width:1100px; margin:0 auto; padding:0 12px;">
+
+    <!-- Ads & Privacy Notice (full width) -->
+    <div class="card" style="margin:0; padding:12px;"
+         data-help="Ads disclosure and privacy notice for tools pages.">
+      <div class="small muted"><b>Ads & Privacy Notice</b></div>
+      <div class="small" style="margin-top:8px;">
+        This page may display advertisements served by Google and its partners. Ads help support the maintenance of these free tools.
+        Google may use cookies or similar technologies to serve and measure ads, and (where permitted) personalize ads.
+      </div>
+    </div>
+
+    <!-- Quick links + Social -->
+    <div class="toolsFooterRow">
+
+      <!-- Quick Links (make it wide / flexible) -->
+      <div class="card toolsFooterColWide" style="margin:0; padding:12px;"
+           data-help="Essential policy and contact links for tools pages.">
+        <div class="small muted"><b>Quick Links</b></div>
+
+        <div class="small" style="margin-top:8px; line-height:1.9;">
+          <a href="/privacy-policy.html" target="_blank" rel="noopener">Privacy</a> ·
+          <a href="/terms.html" target="_blank" rel="noopener">Terms</a> ·
+          <a href="/cookie-policy.html" target="_blank" rel="noopener">Cookies</a> ·
+          <a href="/disclaimer.html" target="_blank" rel="noopener">Disclaimer</a> ·
+          <a href="/contact.html" target="_blank" rel="noopener">Contact</a> ·
+          <a href="/" target="_blank" rel="noopener">Home</a>
+        </div>
+      </div>
+
+      <!-- Connect (narrow) -->
+      <div class="card toolsFooterColNarrow" style="margin:0; padding:12px;"
+           data-help="Official social profiles for Abdul Latif / ablatif.com.">
+        <div class="small muted"><b>Connect</b></div>
+
+        <div class="socialBtns">
+          <a class="socialBtn" href="https://www.facebook.com/latifmirabdul/" target="_blank" rel="noopener"
+             title="Facebook" aria-label="Facebook">
+            <i class="fa fa-facebook"></i>
+          </a>
+
+          <a class="socialBtn" href="https://x.com/latifju" target="_blank" rel="noopener"
+             title="X" aria-label="X">
+            <span style="font-weight:800; font-size:16px;">X</span>
+          </a>
+
+          <a class="socialBtn" href="https://www.instagram.com/ablatifshahin/" target="_blank" rel="noopener"
+             title="Instagram" aria-label="Instagram">
+            <i class="fa fa-instagram"></i>
+          </a>
+
+          <a class="socialBtn" href="https://www.youtube.com/@DiptiYTV" target="_blank" rel="noopener"
+             title="YouTube" aria-label="YouTube">
+            <i class="fa fa-youtube-play"></i>
+          </a>
+        </div>
+
+        <div class="small muted" style="margin-top:10px;">
+          Email: <a href="mailto:latifshahin@gmail.com">latifshahin@gmail.com</a>
+        </div>
+      </div>
+
+    </div><!-- /.toolsFooterRow -->
+
+    <!-- Short tool disclaimer -->
+    <div class="card" style="margin-top:12px; padding:12px;"
+         data-help="Short disclaimer for audit tools: indicates it highlights exceptions, not proof of fraud.">
+      <div class="small muted"><b>Tool Disclaimer</b></div>
+      <div class="small" style="margin-top:8px;"> This note for Agrani Bank PLC officers and auditors: who are using this tool to analyze transfer registers. Please read carefully before interpreting results. This tool is designed to assist auditors in identifying potential discrepancies in transfer registers. It highlights exceptions and anomalies but does not provide conclusive evidence of fraud or error. All findings should be further investigated with supporting documentation and context. Use this tool as part of a comprehensive audit process, not as a standalone proof of wrongdoing. it is recommended to consult with audit professionals for interpretation and next steps based on the results generated by this tool. remember, the absence of discrepancies does not guarantee the absence of fraud, and the presence of discrepancies does not confirm fraud. Always consider the broader context and supporting evidence when evaluating audit findings.
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="small muted" style="margin-top:12px; text-align:center;">
+      © 2026 Abdul Latif · <a href="/blog/" target="_blank" rel="noopener">Blog</a>
+    </div>
+
+  </div><!-- /max-width wrapper -->
+</footer>
+
+<!-- ===================== /tools/ Footer End ===================== -->
+
 
 </body>
 </html>
