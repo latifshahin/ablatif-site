@@ -1450,23 +1450,45 @@ function ftQuality(txns){
 function summarizeByInputter(txns, opts){
   const {excludeSystem=false} = opts||{};
   const m = new Map();
-  for(const t of txns){
+  for(const t of (txns||[])){
     const raw = (t.inputterRaw!=null ? t.inputterRaw : t.inputter) || "";
     const key = (t.inputter||"").trim() || norm7(raw);
     if(excludeSystem && isSystemInputter(raw)) continue;
-    if(!m.has(key)) m.set(key, {inputter:key, tx:0, debit:0, credit:0, maxAmt:0, maxRef:""});
+
+    if(!m.has(key)){
+      // tx = UNIQUE FT reference count per inputter (not debit/credit line count)
+      m.set(key, {inputter:key, tx:0, debit:0, credit:0, maxAmt:0, maxRef:"", _refs:new Set()});
+    }
     const r = m.get(key);
-    r.tx += 1;
-    r.debit += num(t.debitAmt);
+
+    // totals stay line-based (so debit/credit totals remain correct)
+    r.debit  += num(t.debitAmt);
     r.credit += num(t.creditAmt);
+
+    // unique ref counting
+    const ref = (t.ref||"").trim();
+    if(ref && !r._refs.has(ref)){
+      r._refs.add(ref);
+      r.tx = r._refs.size;
+    }
+
+    // max transaction amount (line-based)
     const amt = Math.max(num(t.debitAmt), num(t.creditAmt));
     if(amt > r.maxAmt){
       r.maxAmt = amt;
       r.maxRef = t.ref;
     }
   }
-  return Array.from(m.values()).sort((a,b)=>b.tx-a.tx);
+
+  // remove internal sets before rendering
+  const out = Array.from(m.values()).map(r=>{
+    delete r._refs;
+    return r;
+  });
+
+  return out.sort((a,b)=>b.tx-a.tx);
 }
+
 
 function countExceptions(txns){
   // inputter != authoriser (both present, case-insensitive)
