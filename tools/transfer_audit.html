@@ -1277,11 +1277,25 @@ function parseTxtRegister(txtText){
     }else if(decs.length === 1){
       const amt = num(decs[0]);
 
-      // Heuristic side detection using fixed columns (more reliable than token length):
-      // - If the LEFT account field is present (after the line serial), it is a DEBIT-side line.
-      // - If the LEFT field is blank and the details start later, it is a CREDIT-side line.
-      const leftAcctField = line.slice(3, 28).trim(); // chars right after serial
-      isDebitSide = leftAcctField.length > 0;
+            // Side detection by POSITION of the single amount in the fixed-width TXT row.
+      // In this TXT layout, debit amounts appear in the left-half of the row,
+      // while credit-only rows often "shift left" and still have text in the left area.
+      // So the old leftAcctField heuristic can misclassify credit-only rows as debit.
+      // We detect debit vs credit by where the amount text appears in the line.
+      const mAmt = line.match(/[0-9,]+\.[0-9]{2}/);
+      const pos = mAmt ? line.indexOf(mAmt[0]) : -1;
+
+      // Tunable threshold: if the amount starts before this column => treat as DEBIT,
+      // otherwise treat as CREDIT. (110 works for the provided 20260210 TXT.)
+      const THRESH = 110;
+
+      if(pos >= 0){
+        isDebitSide = (pos < THRESH);
+      }else{
+        // Fallback to legacy heuristic if position not found
+        const leftAcctField = line.slice(3, 28).trim();
+        isDebitSide = leftAcctField.length > 0;
+      }
 
       if(isDebitSide){
         debitAmt = amt;
