@@ -285,7 +285,7 @@ pre{
 
 <body>
 <h1>Transfer Audit Tool v2.1(Beta)</h1><button class="top-right-button"><a href="../index.html">&larr; Main Site</a></button>
-<h1>এটি এখনো ডেভেলপমেন্ট পর্যায়ে রয়েছে, যদি আপনি এটি ব্যবহারের সময় কোন সমস্যা অনুভব করেন তবে html এবং txt ফাইল দুটি latifshahin@gamil.com এ মেইল করবেন এবং সমস্যা উল্লেখ করে যদি সম্ভব স্ক্রিন শটসহ। এর ফলে এই সফ্‌টওয়ারটি আর উন্নত করা সম্ভব হবে। আপনার সহযোগীতার জন্য ধন্যবাদ।  </h1>
+<h1>এটি এখনো ডেভেলপমেন্ট পর্যায়ে রয়েছে, যদি আপনি ব্যবহারের সময় কোন সমস্যা অনুভব করেন তবে html এবং txt ফাইল দুটি latifshahin@gmail.com এ মেইল সমস্যা উল্লেখ করে মেইল করবেন। যে কোন পরামর্শের জন্য কল করতে পারেন।</h1>
 <!-- ===================== Audit Tool: About (Paste on Top) ===================== -->
 <section class="card" style="margin:12px 0; padding:12px;"
   data-help="About this tool: purpose, focus, functionality, users, and why it matters.">
@@ -735,10 +735,15 @@ function num(s){
   return isNaN(v) ? 0 : v;
 }
 function uniq(arr){ return Array.from(new Set(arr)); }
+// Configure user ID parsing here
+const USER_ID_MIN = 5;
+const USER_ID_MAX = 12;
+const USER_SPLIT_PREFER = [10, 9, 8, 7, 6, 5];
+const USER_COMPARE_PREFIX = 7;
 
 function norm7(s){
   const t = String(s||"").trim().toUpperCase();
-  return t ? t.slice(0,7) : "(BLANK)";
+  return t ? t.slice(0, USER_COMPARE_PREFIX) : "(BLANK)";
 }
 
 function saveSysList(){
@@ -1239,13 +1244,14 @@ function parseTxtRegister(txtText){
   function looksUserId(x){
   const s = String(x || "").trim().toUpperCase();
   if(!s) return false;
+  if(s.length < USER_ID_MIN || s.length > USER_ID_MAX) return false;
   if(!/^[A-Z0-9]+$/.test(s)) return false;
 
   // human IDs with letters+digits
   if(/[A-Z]/.test(s) && /\d/.test(s)) return true;
 
   // allow known system-only alphabetic IDs like SMARTBANK
-  if(/^[A-Z]{6,12}$/.test(s)) return true;
+  if(/^[A-Z]+$/.test(s)) return true;
 
   return false;
 }
@@ -1326,12 +1332,22 @@ function cleanUserToken(x){
 
 function splitMergedUsers(token){
   const s = cleanUserToken(token);
-  if(!s || s.length < 8) return null;
+  if(!s || s.length < USER_ID_MIN * 2) return null;
 
-  // try split points biased toward 9/10-char inputter
-  const cuts = [9,10,8,11,7,12];
-  for(const cut of cuts){
-    if(cut >= s.length) continue;
+  // try preferred split points first
+  for(const cut of USER_SPLIT_PREFER){
+    if(cut <= 0 || cut >= s.length) continue;
+    const left = s.slice(0, cut);
+    const right = s.slice(cut);
+
+    if(looksUserId(left) && looksUserId(right)){
+      return { inputter:left, authoriser:right };
+    }
+  }
+
+  // fallback: try every configured split length
+  for(let cut = USER_ID_MIN; cut <= USER_ID_MAX; cut++){
+    if(cut <= 0 || cut >= s.length) continue;
     const left = s.slice(0, cut);
     const right = s.slice(cut);
 
