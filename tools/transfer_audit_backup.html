@@ -284,8 +284,7 @@ pre{
 </head>
 
 <body>
-<h1>Transfer Audit Tool v2.1(Beta)</h1><button class="top-right-button"><a href="../index.html">&larr; Main Site</a></button>
-<h1>এটি এখনো ডেভেলপমেন্ট পর্যায়ে রয়েছে, যদি আপনি এটি ব্যবহারের সময় কোন সমস্যা অনুভব করেন তবে html এবং txt ফাইল দুটি latifshahin@gamil.com এ মেইল করবেন এবং সমস্যা উল্লেখ করে যদি সম্ভব স্ক্রিন শটসহ। এর ফলে এই সফ্‌টওয়ারটি আর উন্নত করা সম্ভব হবে। আপনার সহযোগীতার জন্য ধন্যবাদ।  </h1>
+<h1>Transfer Audit Tool v2.0</h1><button class="top-right-button"><a href="../index.html">&larr; Main Site</a></button>
 <!-- ===================== Audit Tool: About (Paste on Top) ===================== -->
 <section class="card" style="margin:12px 0; padding:12px;"
   data-help="About this tool: purpose, focus, functionality, users, and why it matters.">
@@ -1237,18 +1236,8 @@ function parseTxtRegister(txtText){
   const out = [];
 
   function looksUserId(x){
-  const s = String(x || "").trim().toUpperCase();
-  if(!s) return false;
-  if(!/^[A-Z0-9]+$/.test(s)) return false;
-
-  // human IDs with letters+digits
-  if(/[A-Z]/.test(s) && /\d/.test(s)) return true;
-
-  // allow known system-only alphabetic IDs like SMARTBANK
-  if(/^[A-Z]{6,12}$/.test(s)) return true;
-
-  return false;
-}
+    return /^[A-Z0-9]+$/i.test(x||"") && /[A-Z]/i.test(x||"") && /\d/.test(x||"");
+  }
 
   for(const line of lines){
     if(!/\bFT[0-9A-Z]{4,}\b/i.test(line)) continue;
@@ -1316,62 +1305,36 @@ function parseTxtRegister(txtText){
         creditAmt = amt;
       }
     }
-    // USER EXTRACTION (patched: do not promote authoriser to inputter)
+    // USER EXTRACTION RULE (bank culture):
+    // - If inputter id is 9 chars -> a SPACE exists before authoriser id (separate tokens)
+    // - If inputter id is 10 chars -> it may be ATTACHED with authoriser in the same token
+    // Therefore we inspect the first token after FT.
     const after = parts.slice(ftIdx+1, end).filter(Boolean);
-let inputter = "", authoriser = "";
+    let inputter = "", authoriser = "";
 
-function cleanUserToken(x){
-  return String(x || "").trim().toUpperCase().replace(/[^A-Z0-9]/g, "");
-}
+    if(after.length){
+      const t0 = after[0];
+      // If attached: long token that starts with 10-char inputter
+      if(t0.length > 10 && looksUserId(t0.slice(0,10))){
+        inputter = t0.slice(0,10);
+        authoriser = t0.slice(10);
+        // If authoriser didn't come out clean (e.g., trailing junk), fallback to next token
+        if(!looksUserId(authoriser) && after.length>=2 && looksUserId(after[1])){
+          authoriser = after[1];
+        }
+      }else{
+        // Separate tokens (typically 9-char inputter followed by authoriser)
+        inputter = t0;
+        if(after.length>=2) authoriser = after[1];
+      }
 
-function splitMergedUsers(token){
-  const s = cleanUserToken(token);
-  if(!s || s.length < 8) return null;
-
-  // try split points biased toward 9/10-char inputter
-  const cuts = [9,10,8,11,7,12];
-  for(const cut of cuts){
-    if(cut >= s.length) continue;
-    const left = s.slice(0, cut);
-    const right = s.slice(cut);
-
-    if(looksUserId(left) && looksUserId(right)){
-      return { inputter:left, authoriser:right };
+      // Extra safety: if inputter token looks like garbage but second token looks like user id
+      if(!looksUserId(inputter) && after.length>=2 && looksUserId(after[1])){
+        inputter = after[1];
+        authoriser = after.length>=3 ? after[2] : authoriser;
+      }
     }
-  }
-  return null;
-}
 
-if(after.length){
-  const t0 = cleanUserToken(after[0] || "");
-  const t1 = cleanUserToken(after[1] || "");
-  const t2 = cleanUserToken(after[2] || "");
-
-  // Case 1: separate tokens
-  if(looksUserId(t0) && looksUserId(t1)){
-    inputter = t0;
-    authoriser = t1;
-  }
-  // Case 2: merged token
-  else if(t0){
-    const sp = splitMergedUsers(t0);
-    if(sp){
-      inputter = sp.inputter;
-      authoriser = sp.authoriser;
-    }else if(looksUserId(t0)){
-      inputter = t0;
-      if(looksUserId(t1)) authoriser = t1;
-    }
-  }
-
-  // IMPORTANT:
-  // never auto-promote second token to inputter
-  // unless first token is empty and second is clearly the first user field
-  if(!inputter && !t0 && looksUserId(t1)){
-    inputter = t1;
-    if(looksUserId(t2)) authoriser = t2;
-  }
-}
 
     // Extract account no/title from fixed-width layout (best-effort).
     // IMPORTANT: Some TXT rows contain BOTH legs on the same line (debit+credit together).
