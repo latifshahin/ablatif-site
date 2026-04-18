@@ -58,8 +58,29 @@
   </script>
 
   <style>
-    body, * {
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif !important;
+    html, body {
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+
+body,
+p,
+h1, h2, h3, h4, h5, h6,
+a,
+div,
+span,
+small,
+strong,
+li,
+ul,
+ol,
+button,
+input,
+textarea,
+select {
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+button, input, textarea, select {
+  font: inherit;
 }
     :root{
       --bg:#f7f9fc;
@@ -483,11 +504,12 @@
       <div class="container hero-wrap">
         <div class="hero-main">
           <div class="hero-kicker">Educational content • Practical tools • Bangladesh focus</div>
-          <h1>Clear banking and finance knowledge for readers in Bangladesh</h1>
+          <h1>Banking and finance guides for readers in Bangladesh</h1>
           <p>
-            This website publishes educational articles and practical calculators related to banking,
-            loans, credit understanding, repayment planning, and banking workflows.
-          </p>
+          This website publishes <a href="/blog/">educational articles</a> and
+          <a href="/tools/">practical calculators</a> related to banking,
+          loans, credit understanding, repayment planning, and banking workflows.
+        </p>
           <p>
             The goal is simple: make complex banking topics easier to understand through useful guides,
             plain-language explanations, and supporting tools.
@@ -592,12 +614,30 @@
             <span class="read-more">Read guide →</span>
           </a>
         </div>
-        <h2>Recent articles</h2>
-            <ul>
-              <li><a href="/blog/posts/excel-vs-python-for-bankers.html">Excel vs Python for Bankers</a></li>
-              <li><a href="/blog/posts/how-much-programming-does-a-banker-need.html">How Much Programming Does a Banker Need</a></li>
-              <li><a href="/blog/posts/cib-report-bangladesh-explained.html">CIB Report in Bangladesh Explained</a></li>
-            </ul>
+        <div class="section-head" style="margin-top:22px;">
+          <h2>Recent articles</h2>
+          <p>Latest educational posts on banking, loans, and finance topics.</p>
+        </div>
+        <div class="card-grid">
+          <a class="guide-card" href="/blog/posts/excel-vs-python-for-bankers.html">
+            <span class="eyebrow">Banking skills</span>
+            <h3>Excel vs Python for Bankers</h3>
+            <p>A practical comparison of when Excel is enough and when Python becomes useful.</p>
+            <span class="read-more">Read guide →</span>
+          </a>
+          <a class="guide-card" href="/blog/posts/how-much-programming-does-a-banker-need.html">
+            <span class="eyebrow">Career</span>
+            <h3>How Much Programming Does a Banker Need</h3>
+            <p>A realistic guide to the level of programming that actually helps in banking work.</p>
+            <span class="read-more">Read guide →</span>
+          </a>
+          <a class="guide-card" href="/blog/posts/excel-vs-python-for-bankers.html">
+            <span class="eyebrow">Finance learning</span>
+            <h3>More recent posts</h3>
+            <p>Visit the blog to browse more practical articles and updated guides.</p>
+            <span class="read-more">Visit blog →</span>
+          </a>
+        </div>
       </div>
       
     </section>
