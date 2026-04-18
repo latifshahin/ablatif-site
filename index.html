@@ -3,20 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Abdul Latif — Banking Tools & Finance Guides (Bangladesh)</title>
-  <meta name="description" content="Practical banking and personal finance guides for Bangladesh by Abdul Latif (Agrani Bank PLC). EMI, COF, eligibility tools and explainers." />
+  <title>Abdul Latif — Banking & Finance Guides for Bangladesh</title>
+  <meta name="description" content="Educational banking, loan, credit, and finance guides for Bangladesh by Abdul Latif. Practical articles and useful calculators for readers and banking professionals." />
   <link rel="canonical" href="https://ablatif.com/" />
+  <meta name="robots" content="index, follow" />
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="Abdul Latif — Banking Tools & Finance Guides (Bangladesh)" />
-  <meta property="og:description" content="Finance explainers and calculators built from real banking experience." />
+  <meta property="og:title" content="Abdul Latif — Banking & Finance Guides for Bangladesh" />
+  <meta property="og:description" content="Educational banking and finance guides with practical tools for Bangladesh." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://ablatif.com/" />
   <meta property="og:image" content="https://ablatif.com/img/profile.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- Google Analytics (keep your existing ID) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-X4YNW0E3XG"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -25,14 +23,20 @@
     gtag('config', 'G-X4YNW0E3XG');
   </script>
 
-  <!-- Bootstrap -->
-  <link href="css/bootstrap.min.css" rel="stylesheet" />
-  <!-- Font Awesome -->
-  <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-  <!-- Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "ablatif.com",
+    "url": "https://ablatif.com/",
+    "description": "Educational banking and finance guides for Bangladesh.",
+    "publisher": {
+      "@type": "Person",
+      "name": "Abdul Latif"
+    }
+  }
+  </script>
 
-  <!-- Structured data: Person + Website (legitimacy + E‑E‑A‑T signals) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -41,789 +45,622 @@
     "url": "https://ablatif.com/",
     "image": "https://ablatif.com/img/profile.jpg",
     "jobTitle": "Banking Professional",
-    "worksFor": { "@type": "Organization", "name": "Agrani Bank PLC" },
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Agrani Bank PLC"
+    },
     "sameAs": [
       "https://www.facebook.com/latifmirabdul/",
-      "https://www.instagram.com/ablatifshahin/",
       "https://x.com/latifju",
-      "https://www.youtube.com/@DiptiYTV"
+      "https://www.instagram.com/ablatifshahin/"
     ]
   }
   </script>
 
   <style>
-    
+    body, * {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif !important;
+}
     :root{
-      --bg:#ffffff;
-      --text:#0b1a33;
-      --sub:#33415c;
-      --card:#ffffff;
-      --muted:#f5f7fb;
-      --border:rgba(11,26,51,.10);
-      --accent:#0d6efd;
-      --shadow:0 12px 30px rgba(0,0,0,.08);
+      --bg:#f7f9fc;
+      --surface:#ffffff;
+      --surface-2:#f3f6fb;
+      --text:#142033;
+      --muted:#536076;
+      --line:#e4eaf2;
+      --accent:#1d4ed8;
+      --accent-soft:#e8f0ff;
+      --max:1120px;
+      --shadow:0 12px 34px rgba(15, 23, 42, .07);
+      --radius:20px;
     }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
     body{
-      font-family:"Inter",sans-serif;
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       background:var(--bg);
       color:var(--text);
       line-height:1.7;
-      padding-top:72px;
     }
-    a{ color:var(--accent); text-decoration:none; }
-    a:hover{ text-decoration:underline; }
+    img{max-width:100%;display:block}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:var(--max);margin:0 auto;padding:0 20px}
 
-    .navbar{
-      background:rgba(255,255,255,.95);
-      box-shadow:0 1px 14px rgba(0,0,0,.06);
-      padding:12px 0;
-      border:none;
+    .site-header{
+      position:sticky;
+      top:0;
+      z-index:100;
+      backdrop-filter:saturate(180%) blur(10px);
+      background:rgba(247,249,252,.86);
+      border-bottom:1px solid rgba(228,234,242,.9);
     }
-    .navbar .navbar-brand{ font-weight:800; letter-spacing:.5px; }
-    .navbar .nav > li > a{ font-weight:700; color:var(--text) !important; }
-    .navbar .nav > li > a:hover{ color:var(--accent) !important; }
+    .nav{
+      min-height:72px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+    .brand{
+      font-size:22px;
+      font-weight:800;
+      color:var(--text);
+      letter-spacing:.2px;
+    }
+    .brand small{
+      display:block;
+      font-size:12px;
+      color:var(--muted);
+      font-weight:600;
+      letter-spacing:0;
+    }
+    .nav-links{
+      display:flex;
+      gap:18px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .nav-links a{
+      color:var(--text);
+      font-weight:700;
+      font-size:15px;
+    }
 
     .hero{
-      background:linear-gradient(180deg, #f5f9ff 0%, #ffffff 70%);
-      padding:60px 0 30px;
-      border-bottom:1px solid var(--border);
+      padding:56px 0 30px;
+      background:
+        radial-gradient(circle at top right, rgba(29,78,216,.09), transparent 30%),
+        linear-gradient(180deg, #f8fbff 0%, #f7f9fc 100%);
     }
-    .hero-card{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:18px;
-      padding:28px;
+    .hero-wrap{
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:22px;
+      align-items:stretch;
+    }
+    .hero-main,
+    .hero-side{
+      background:var(--surface);
+      border:1px solid var(--line);
+      border-radius:24px;
       box-shadow:var(--shadow);
     }
-    .hero-photo{
-      width:110px;height:110px;border-radius:50%;
+    .hero-main{padding:34px}
+    .hero-kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:var(--accent-soft);
+      color:var(--accent);
+      font-size:13px;
+      font-weight:800;
+      margin-bottom:16px;
+    }
+    .hero h1{
+      margin:0 0 14px;
+      font-size:44px;
+      line-height:1.12;
+      letter-spacing:-.03em;
+    }
+    .hero p{
+      margin:0 0 14px;
+      color:var(--muted);
+      font-size:18px;
+    }
+    .chip-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin:18px 0 24px;
+    }
+    .chip{
+      padding:8px 12px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:var(--surface-2);
+      color:var(--muted);
+      font-size:13px;
+      font-weight:800;
+    }
+    .cta-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:48px;
+      padding:0 18px;
+      border-radius:14px;
+      border:1px solid var(--accent);
+      font-weight:800;
+      font-size:15px;
+      text-decoration:none;
+      transition:.18s ease;
+    }
+    .btn-primary{
+      background:var(--accent);
+      color:#fff;
+    }
+    .btn-primary:hover{
+      color:#fff;
+      text-decoration:none;
+      transform:translateY(-1px);
+    }
+    .btn-secondary{
+      background:#fff;
+      color:var(--accent);
+    }
+    .btn-secondary:hover{
+      text-decoration:none;
+      background:var(--accent-soft);
+    }
+
+    .hero-side{
+      padding:26px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      gap:18px;
+    }
+    .author-card{
+      display:flex;
+      gap:14px;
+      align-items:center;
+    }
+    .author-photo{
+      width:88px;
+      height:88px;
+      border-radius:50%;
       object-fit:cover;
       border:3px solid #fff;
-      box-shadow:0 8px 22px rgba(0,0,0,.14);
+      box-shadow:0 8px 22px rgba(15,23,42,.12);
+      background:#eef2f7;
     }
-    .hero h1{ margin:10px 0 6px; font-size:38px; font-weight:800; }
-    .hero .subtitle{ color:var(--sub); font-weight:700; }
-    .badge-line{
-      margin-top:10px;
-      display:flex; flex-wrap:wrap; gap:10px;
-    }
-    .mini-badge{
-      background:var(--muted);
-      border:1px solid var(--border);
-      border-radius:999px;
-      padding:6px 12px;
-      font-weight:700;
-      color:var(--sub);
-      font-size:13px;
-    }
-    .btn-pill{
-      border-radius:999px;
-      padding:12px 18px;
+    .author-name{
+      font-size:22px;
       font-weight:800;
-      border:1px solid var(--accent);
-      display:inline-block;
-      margin:6px 6px 0 0;
+      line-height:1.2;
+      margin:0 0 4px;
     }
-    .btn-solid{ background:var(--accent); color:#fff; }
-    .btn-solid:hover{ color:#fff; opacity:.92; text-decoration:none; }
-    .btn-outline{ background:transparent; color:var(--accent); }
-    .btn-outline:hover{ background:var(--accent); color:#fff; text-decoration:none; }
-
-    section{ padding:44px 0; }
-    .section-title{
-      font-size:30px;
-      font-weight:900;
+    .author-role{
+      color:var(--muted);
+      font-size:14px;
+      margin:0;
+    }
+    .mini-panel{
+      background:var(--surface-2);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:16px;
+    }
+    .mini-panel h2{
       margin:0 0 8px;
-    }
-    .section-sub{
-      color:var(--sub);
-      max-width:900px;
       font-size:17px;
     }
-    .cardx{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:20px;
-      height:100%;
-      box-shadow:0 10px 26px rgba(0,0,0,.05);
+    .mini-panel p{
+      margin:0;
+      font-size:14px;
+      color:var(--muted);
     }
-    .cardx h4{ font-weight:900; margin-top:8px; }
-    .muted{
-      background:var(--muted);
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:18px;
+    .stat-list{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
     }
-    .small-note{ color:var(--sub); font-size:14px; }
+    .stat{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:14px;
+      text-align:center;
+    }
+    .stat strong{
+      display:block;
+      font-size:20px;
+      line-height:1.1;
+    }
+    .stat span{
+      display:block;
+      margin-top:6px;
+      font-size:12px;
+      color:var(--muted);
+      font-weight:700;
+    }
 
-    footer{
-      border-top:1px solid var(--border);
+    section{
       padding:28px 0;
-      color:var(--sub);
     }
-    .footer-links a{ margin:0 8px; font-size:18px; color:var(--sub); }
-    .footer-links a:hover{ color:var(--accent); }
+    .section-head{
+      margin-bottom:16px;
+    }
+    .section-head h2{
+      margin:0 0 8px;
+      font-size:30px;
+      line-height:1.2;
+    }
+    .section-head p{
+      margin:0;
+      color:var(--muted);
+      max-width:800px;
+    }
 
-    @media (max-width: 767px){
-      body{ padding-top:70px; }
-      .hero h1{ font-size:30px; }
+    .trust-grid,
+    .card-grid,
+    .link-grid{
+      display:grid;
+      gap:18px;
     }
-    .more-text { display:none; }
-        .read-more { color:#0066cc; cursor:pointer; font-size:0.9em; }
-        button { margin-right:6px; cursor:pointer; }
+    .trust-grid{grid-template-columns:repeat(3,1fr)}
+    .card-grid{grid-template-columns:repeat(3,1fr)}
+    .link-grid{grid-template-columns:repeat(3,1fr)}
+
+    .card,
+    .guide-card,
+    .tool-card,
+    .note-box{
+      background:var(--surface);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+    .card{padding:22px}
+    .card h3,
+    .guide-card h3,
+    .tool-card h3{
+      margin:0 0 10px;
+      font-size:21px;
+      line-height:1.3;
+    }
+    .card p,
+    .guide-card p,
+    .tool-card p{
+      margin:0;
+      color:var(--muted);
+    }
+
+    .guide-card,
+    .tool-card{
+      padding:22px;
+      transition:.18s ease;
+    }
+    .guide-card:hover,
+    .tool-card:hover{
+      transform:translateY(-2px);
+      border-color:#cdd8ee;
+      text-decoration:none;
+    }
+    .eyebrow{
+      display:inline-block;
+      margin-bottom:10px;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      color:var(--accent);
+      background:var(--accent-soft);
+      padding:6px 10px;
+      border-radius:999px;
+    }
+    .read-more{
+      display:inline-block;
+      margin-top:14px;
+      font-weight:800;
+      font-size:14px;
+    }
+
+    .two-col{
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:18px;
+      align-items:start;
+    }
+
+    .list-box{
+      background:var(--surface);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:22px;
+    }
+    .list-box h3{
+      margin:0 0 12px;
+      font-size:22px;
+    }
+    .clean-list{
+      margin:0;
+      padding-left:18px;
+    }
+    .clean-list li{margin:8px 0;color:var(--muted)}
+
+    .note-box{
+      padding:22px;
+    }
+    .note-box strong{display:block;margin-bottom:8px;font-size:18px}
+    .note-box p{margin:0;color:var(--muted)}
+
+    .site-footer{
+      margin-top:12px;
+      border-top:1px solid var(--line);
+      padding:28px 0 42px;
+      color:var(--muted);
+    }
+    .footer-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+    .footer-links{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+    .footer-links a{
+      font-weight:700;
+    }
+
+    @media (max-width: 980px){
+      .hero-wrap,
+      .two-col,
+      .trust-grid,
+      .card-grid,
+      .link-grid{
+        grid-template-columns:1fr;
+      }
+      .hero h1{font-size:36px}
+      .stat-list{grid-template-columns:1fr 1fr 1fr}
+    }
+
+    @media (max-width: 640px){
+      .nav{padding:12px 0}
+      .brand{font-size:20px}
+      .brand small{font-size:11px}
+      .nav-links{gap:12px}
+      .hero{padding-top:34px}
+      .hero-main,
+      .hero-side,
+      .card,
+      .guide-card,
+      .tool-card,
+      .list-box,
+      .note-box{padding:18px}
+      .hero h1{font-size:30px}
+      .hero p{font-size:16px}
+      .author-card{align-items:flex-start}
+      .author-photo{width:74px;height:74px}
+      .stat-list{grid-template-columns:1fr}
+    }
   </style>
 </head>
-
 <body>
-
-  <!-- NAV -->
-  <nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mainNavbar">
-          <span class="icon-bar" style="background:#0b1a33"></span>
-          <span class="icon-bar" style="background:#0b1a33"></span>
-          <span class="icon-bar" style="background:#0b1a33"></span>
-        </button>
-        <a class="navbar-brand" href="/">AL</a>
+  <header class="site-header">
+    <div class="container nav">
+      <div class="brand">
+        Abdul Latif
+        <small>Banking & finance guides for Bangladesh</small>
       </div>
-
-      <div class="collapse navbar-collapse" id="mainNavbar">
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="#start">Start Here</a></li>
-          <li><a href="#tools">Tools</a></li>
-          <li><a href="#articles">Articles</a></li>
-          <li><a href="#trust">Why Trust</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#contact">Contact</a></li>
-          <!-- Games intentionally removed from top nav during AdSense review -->
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <!-- HERO -->
-  <header class="hero">
-    <div class="container">
-      <div class="hero-card">
-        <div class="row" style="display:flex; align-items:center; gap:16px;">
-          <div class="col-sm-2" style="text-align:center;">
-            <img src="img/profile.jpg" alt="Abdul Latif" class="hero-photo" />
-          </div>
-          <div class="col-sm-10">
-            <h1>Abdul Latif</h1>
-            <div class="subtitle">Banking professional (Agrani Bank PLC) · Finance tools & guides for Bangladesh</div>
-
-            <div class="badge-line">
-              <span class="mini-badge"><i class="fa fa-university"></i> Banking & Loans</span>
-              <span class="mini-badge"><i class="fa fa-calculator"></i> EMI · COF · Eligibility</span>
-              <span class="mini-badge"><i class="fa fa-code"></i> Modern tools & automation</span>
-            </div>
-
-            <p style="margin-top:14px; color:var(--sub); font-size:17px;">
-              I publish practical explanations about banking and personal finance—plus calculators that follow real-world banking logic.
-              My focus is helping borrowers and professionals in Bangladesh understand costs, documentation, and decision-making clearly.
-              If you’re comparing loans, planning repayments, or learning how banks evaluate cases, you’ll find step-by-step guides here.
-              If you want to work smart you can visit my site or can take any help you need.
-            </p>
-
-            <a class="btn-pill btn-solid" href="#start">Start Here</a>
-            <a class="btn-pill btn-outline" href="/blog/" target="_blank" rel="noopener">Read Articles</a>
-            <a class="btn-pill btn-outline" href="#tools">Use Calculators</a>
-          </div>
-        </div>
-
-        <div class="muted" style="margin-top:16px;">
-          <div style="font-weight:900;">Important note</div>
-          <div class="small-note">
-            This site provides educational content and tools for bankers (specaily for Agrani Bank PLC). I have shared my work experience and tools here. It is not a substitute for professional financial advice.
-            Please verify final terms, fees, and policies with your bank. (<a href="/disclaimer.html">Read full disclaimer</a>)
-          </div>
-        </div>
-      </div>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="/">Home</a>
+        <a href="/blog/">Blog</a>
+        <a href="/tools/">Tools</a>
+        <a href="/about.html">About</a>
+        <a href="/contact.html">Contact</a>
+      </nav>
     </div>
   </header>
 
-  <!-- START HERE -->
-  <section id="start">
-    <div class="container">
-      <h2 class="section-title">Start Here</h2>
-      <p class="section-sub">
-        New visitor? Start with one the following. They guide you where to begin based on your needs.
-      </p>
-
-      <div class="row" style="margin-top:14px;">
-        <div class="col-sm-4" style="margin-bottom:18px;">
-          <div class="cardx">
-            <i class="fa fa-suitcase" style="font-size:28px;"></i>
-            <h4>Banker</h4>
-            <p style="color:var(--sub);">
-              If you work in a bank, explore tools and ideas to modernize workflows, reduce fraud risk, and improve productivity. You can also read guides to help customers better. Your work will be easier and faster.
-            </p>
-            <a class="btn-pill btn-outline" href="/tools/" target="_blank" rel="noopener">Open it</a>
-          </div>
-        </div>
-        <div class="col-sm-4" style="margin-bottom:18px;">
-          <div class="cardx">
-            <i class="fa fa-users" style="font-size:28px;"></i>
-            <h4>Smart Customer</h4>
-            <p style="color:var(--sub);">
-              If you’re a banking customer, want to deposit money, don't know how? Seeking a loan or planning repayments, start here. Learn practical tips to choose wisely, understand costs, and avoid common pitfalls.
-            </p>
-            <a class="btn-pill btn-outline" href="/tools/" target="_blank" rel="noopener">Visit</a>
-          </div>
-        </div>
-        <div class="col-sm-4" style="margin-bottom:18px;">
-          <div class="cardx">
-            <i class="fa fa-comments" style="font-size:28px;"></i>
-            <h4>Professional Services</h4>
-            <p style="color:var(--sub);">
-              If your need is specific, I offer customized advisory services and tool development to help you simplify and improve your banking operations. Reach out to discuss your requirements.
-            </p>
-            <a class="btn-pill btn-outline" href="/services/" target="_blank" rel="noopener">Explore Services</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- OPTION A: Add a longer content block (you can fill later) -->
-      <div class="muted" style="margin-top:10px;">
-        <div style="font-weight:900;">Featured Guide</div>
-
-        <!-- Language Toggle -->
-        <div style="margin:8px 0;">
-          <button onclick="showLang('bn')">বাংলা</button>
-          <button onclick="showLang('en')">English</button>
-        </div>
-
-        <!-- Bangla Content -->
-        
-        <div class="muted" style="margin-top:10px;">
-    
-          <!-- Bangla Content -->
-          <div id="bn" class="small-note">
-            <strong>বাংলাদেশে ব্যাংকিং সেবা সহজ করার একটি প্রযুক্তিনির্ভর উদ্যোগ</strong><br><br>
-
-            এই ওয়েবসাইটটি একটি ব্যক্তিগত উদ্যোগ, যার লক্ষ্য হলো বাংলাদেশে ব্যাংকিং কাজকে আরও সহজ, নিরাপদ ও প্রযুক্তিনির্ভর করা। এখানে গ্রাহক, ব্যাংক অফিসার এবং নির্বাহীদের জন্য বাস্তব অভিজ্ঞতা থেকে তৈরি বিভিন্ন ব্যাংকিং টুলস, গাইড ও পরামর্শ শেয়ার করা হয়েছে।
-
-            <br><br>
-            <strong>গ্রাহক (Banking Customers)</strong><br>
-            গ্রাহক মূলত দুই ধরনের—ভাসমান গ্রাহক এবং হিসাবধারী গ্রাহক।
-            <span class="more-text">
-              ভাসমান গ্রাহকদের জন্য এখানে বিভিন্ন নমুনা আবেদন, জমা ভাউচার পূরণ, হিসাব খোলার ফরম এবং সঞ্চয়পত্র ক্রয়ের জটিল ফরম পূরণের সহজ নির্দেশনা রয়েছে।  
-              হিসাবধারী গ্রাহকদের জন্য ঋণ সংক্রান্ত পরামর্শ, ঋণ হিসাবায়ন, ব্যক্তিগত ও বাণিজ্যিক ঋণ সম্পর্কিত তুলনামূলক তথ্য দেওয়া হয়েছে।
-            </span>
-            <a href="javascript:void(0)" class="read-more" onclick="toggleMore(this)">Read more</a>
-
-            <br><br>
-            <strong>ব্যাংক অফিসার (Bank Officers)</strong><br>
-            ব্যাংকে ম্যানুয়ালি কাজ করতে গিয়ে অনেক মূল্যবান শ্রমঘন্ট নষ্ট হয়।
-            <span class="more-text">
-              এই সমস্যা সমাধানের জন্য এখানে অনলাইন ট্রান্সফার রেজিস্টার ক্রস-ম্যাচিং, অনলাইন ঋণ প্রস্তাব তৈরি, স্টেটমেন্ট অব অ্যাফেয়ার্স শর্ট করার টুল এবং অনলাইন মেইল মার্জ সুবিধা রাখা হয়েছে।  
-              এসব টুলস অফিসারদের কাজকে দ্রুত, নির্ভুল ও কাগজবিহীন করতে সহায়তা করে।
-            </span>
-            <a href="javascript:void(0)" class="read-more" onclick="toggleMore(this)">Read more</a>
-
-            <br><br>
-            <strong>নির্বাহী ও অ্যাডমিন (Authority / Admin)</strong><br>
-            নির্বাহীদের জন্য রিপোর্ট সংগ্রহ ও বিশ্লেষণ সহজ করার লক্ষ্যে এই প্ল্যাটফর্মে কাঠামোবদ্ধ তথ্য উপস্থাপনের ধারণা দেওয়া হয়েছে।
-
-            <br><br>
-            <strong>ভিজিটর ও শিক্ষানবিশ (General Visitors)</strong><br>
-            যারা ব্যাংকিং, সঞ্চয়, আর্থিক পরিকল্পনা এবং অর্থনৈতিক চিন্তাধারা জানতে চান, তারা এখানে ব্লগ, ভিডিও এবং বাস্তব অভিজ্ঞতা থেকে শেখার সুযোগ পাবেন।
-
-            <br><br>
-            <strong>গুরুত্বপূর্ণ ঘোষণা</strong><br>
-            এই সাইটটি সম্পূর্ণ ব্যক্তিগত উদ্যোগে তৈরি। এখানে প্রকাশিত তথ্য কোনো ব্যাংকের অফিসিয়াল নীতির প্রতিনিধিত্ব করে না। এটি মূলত গ্রাহক ও ব্যাংকারদের মধ্যে একটি জ্ঞানভিত্তিক যোগসূত্র তৈরির প্রচেষ্টা।
-          </div>
-
-          <!-- English Content -->
-          <div id="en" class="small-note" style="display:none;">
-            <strong>A Technology-Driven Initiative to Improve Banking Services in Bangladesh</strong><br><br>
-
-            This website is a personal initiative aimed at making banking services in Bangladesh simpler, safer, and more technology-driven. It shares practical banking tools, guides, and real-life insights developed from professional experience to support customers, bank officers, and banking authorities.
-
-            <br><br>
-            <strong>Customers</strong><br>
-            Banking customers can broadly be divided into two categories: walk-in customers and account holders.
-            <span class="more-text">
-              Walk-in customers usually do not maintain an account and visit banks to deposit money or complete tasks on behalf of others. Many of them lack basic banking knowledge. For them, this website provides sample applications, guidance, and simplified instructions—especially for completing complex savings certificate purchase forms, which are very common in Bangladesh.  
-              <br><br>
-              Account holders may be depositors or loan borrowers. For them, the site offers loan-related guidance, loan calculation tools, comparative views of different loan products, and repayment calculations—particularly for salaried personal loans from Agrani Bank PLC. Commercial loan concepts, eligibility criteria, and application guidance are also available in the Tools section.
-            </span>
-            <a href="javascript:void(0)" class="read-more" onclick="toggleMore(this)">Read more</a>
-
-            <br><br>
-            <strong>Bank Officers</strong><br>
-            Manual banking processes often consume a significant amount of working hours.
-            <span class="more-text">
-              To reduce this workload, the website shares productivity ideas and provides online banking tools. These include cross-matching systems for daily transfer registers and after-cover registers to detect manual alterations, online loan proposal preparation tools to replace handwritten proposals, and utilities to shorten long Statement of Affairs reports by removing unnecessary items.  
-              <br><br>
-              An online mail merge system is also available, allowing officers to generate hundreds of official letters instantly using predefined formats.
-            </span>
-            <a href="javascript:void(0)" class="read-more" onclick="toggleMore(this)">Read more</a>
-
-            <br><br>
-            <strong>Authority / Admin</strong><br>
-            Banking executives often lose valuable time collecting manual reports from officers.
-            <span class="more-text">
-              This platform attempts to simplify reporting and information presentation so that management-level users can access structured and meaningful data more efficiently.
-            </span>
-            <a href="javascript:void(0)" class="read-more" onclick="toggleMore(this)">Read more</a>
-
-            <br><br>
-            <strong>Visitors and Learners</strong><br>
-            Visitors who are interested in banking but lack clear guidance can explore blog content on savings, financial planning, and responsible money management practices in Bangladesh.
-
-            <br><br>
-            <strong>Videos</strong><br>
-            The video section includes practical, step-by-step demonstrations of various banking tasks.
-            <span class="more-text">
-              These videos—created by the author as well as selected useful resources—are designed for both customers and bank officers to understand banking processes more clearly.
-            </span>
-            <a href="javascript:void(0)" class="read-more" onclick="toggleMore(this)">Read more</a>
-
-            <br><br>
-            <strong>Personal Experience</strong><br>
-            Real-life professional and social experiences from the author’s banking career are shared to help readers learn from practical situations.
-
-            <br><br>
-            <strong>Professional Advisory / Services</strong><br>
-            Customized advisory services and banking tool development are available based on specific requirements, helping users simplify and improve their banking operations.
-
-            <br><br>
-            <strong>Gallery</strong><br>
-            The gallery showcases personal works and activities, most of which are related to banking and professional development, offering learning value to visitors.
-
-            <br><br>
-            <strong>Disclaimer</strong><br>
-            This website is developed as a personal initiative. None of the content represents official approval or policy of any bank. The platform aims to act as a knowledge bridge between banking professionals and customers.
-          </div>
-
-        </div>
-
-        <script>
-        function showLang(lang) {
-          document.getElementById('bn').style.display = lang === 'bn' ? 'block' : 'none';
-          document.getElementById('en').style.display = lang === 'en' ? 'block' : 'none';
-        }
-
-        function toggleMore(el) {
-          const moreText = el.previousElementSibling;
-          if (moreText.style.display === "inline") {
-            moreText.style.display = "none";
-            el.innerText = "Read more";
-          } else {
-            moreText.style.display = "inline";
-            el.innerText = "Read less";
-          }
-        }
-        </script>
-        <!-- English Content -->
-        <div id="en" class="small-note" style="display:none;">
-          <strong>What This Platform Offers</strong><br><br>
-          This website is a personal initiative by a banker to support customers, officers, and banking professionals through practical tools and guidance.
-          <span class="more-text">
-            It includes online loan proposal tools, customer letter formats, fraud-reduction ideas, paperless workflows, and research-based banking insights.
-          </span>
-          <a href="javascript:void(0)" class="read-more" onclick="toggleMore(this)">Read more</a>
-
-          <br><br>
-          The platform also shares educational blogs, videos, and personal experiences to help build a safer, more efficient, and technology-driven banking culture in Bangladesh.
-        </div>
-      </div>
-
-      <script>
-      function showLang(lang) {
-        document.getElementById('bn').style.display = lang === 'bn' ? 'block' : 'none';
-        document.getElementById('en').style.display = lang === 'en' ? 'block' : 'none';
-      }
-
-      function toggleMore(el) {
-        const moreText = el.previousElementSibling;
-        if (moreText.style.display === "inline") {
-          moreText.style.display = "none";
-          el.innerText = "Read more";
-        } else {
-          moreText.style.display = "inline";
-          el.innerText = "Read less";
-        }
-      }
-      </script>
-
-      <style>
-      .more-text { display:none; }
-      .read-more { color:#007bff; cursor:pointer; font-size:0.9em; }
-      button { margin-right:5px; cursor:pointer; }
-      </style>
-
-
-    </div>
-  </section>
-
-  <!-- TOOLS -->
-<section id="tools" style="background:var(--muted);">
-  <div class="container">
-    <h2 class="section-title">Banking Tools</h2>
-    <p class="section-sub">
-      I offer free online productivity tools developed from real banking experience in Bangladesh.
-      Most tools are useful for bankers and customers across the country, while some are
-      specifically designed for Agrani Bank PLC based on internal workflows and statement formats.
-      Below are three of the most widely used tools.
-    </p>
-
-    <!-- Equal-height cards -->
-    <div class="row" style="margin-top:14px; display:flex; flex-wrap:wrap;">
-
-      <!-- EMI Calculator -->
-      <div class="col-sm-4" style="margin-bottom:18px; display:flex;">
-        <div class="cardx" style="height:100%; width:100%; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <i class="fa fa-calculator" style="font-size:28px;"></i>
-            <h4>EMI Calculator</h4>
-            <p style="color:var(--sub);">
-              Compare <strong>Declining Balance</strong> and <strong>Equal Principal</strong> methods,
-              view full amortization schedules, and understand how interest and instalments change
-              over time. Designed for borrowers, bankers, and finance learners.
-            </p>
-          </div>
-          <a class="btn-pill btn-solid" href="/emi-calculator.html">Open EMI Calculator</a>
-        </div>
-      </div>
-
-      <!-- COF Calculator (Polished & Professional Version kept) -->
-      <div class="col-sm-4" style="margin-bottom:18px; display:flex;">
-        <div class="cardx" style="height:100%; width:100%; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <i class="fa fa-area-chart" style="font-size:28px;"></i>
-            <h4>COF Calculator</h4>
-
-            <p style="color:var(--sub);">
-              This Cost of Funds (COF) calculator is specifically designed for
-              <strong>Agrani Bank PLC</strong>, based on the CSV statement format
-              used in the bank’s internal software system.
-            </p>
-
-            <p style="color:var(--sub);">
-              Other banks use different core banking systems and statement structures.
-              Therefore, this tool may not produce accurate results for institutions
-              outside Agrani Bank.
-            </p>
-
-            <p style="color:var(--sub); margin-bottom:0;">
-              If you are a banking professional from another bank and require assistance
-              with COF calculation, statement analysis, or customized tools,
-              please visit my
-              <a href="/professional-services.html">Professional Services</a>
-              section for tailored support.
-            </p>
-          </div>
-
-          <a class="btn-pill btn-solid" href="/cof/index.html">Open COF Calculator</a>
-        </div>
-      </div>
-
-      <!-- Loan Eligibility -->
-      <div class="col-sm-4" style="margin-bottom:18px; display:flex;">
-        <div class="cardx" style="height:100%; width:100%; display:flex; flex-direction:column; justify-content:space-between;">
-          <div>
-            <i class="fa fa-sliders" style="font-size:28px;"></i>
-            <h4>Loan Eligibility</h4>
-            <p style="color:var(--sub);">
-              Estimate loan eligibility based on income, existing obligations, and
-              safe affordability rules. Useful for both banking professionals and
-              customers to understand borrowing limits before applying.
-            </p>
-          </div>
-          <a class="btn-pill btn-solid" href="/tools/Loan_Eligibility.html">Check Eligibility</a>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Other tools note -->
-    <div class="small-note">
-      Many other tools are available, including: Savings Calculator, Fixed Deposit Calculator,
-      EMI Prepayment, Loan Comparison, Documentation Checklist, Online Letter Merge,
-      Transfer Register Cross-Matching, Loan Proposal Builder, Statement of Affairs Shortener, and more.
-      <a class="btn-pill btn-outline" href="/tools/" target="_blank" rel="noopener">See all tools</a>
-    </div>
-  </div>
-</section>
-
-
-  <!-- ARTICLES -->
-  <!-- ARTICLES -->
-<section id="articles">
-  <div class="container">
-    <h2 class="section-title">Articles & Guides</h2>
-    <p class="section-sub">
-      I use technology and real banking experience to publish practical banking and personal finance guides for Bangladesh.
-      My focus is on loans, eligibility, repayment planning, documentation, and banking math — written from real-world experience
-      at Agrani Bank PLC.
-    </p>
-
-    <div class="row" style="margin-top:14px; display:flex; flex-wrap:wrap;">
-
-      <!-- LEFT: Publisher / Trust / AdSense-friendly card -->
-      <div class="col-sm-4" style="margin-bottom:18px; display:flex;">
-        <div class="cardx" style="height:100%; width:100%; display:flex; flex-direction:column; justify-content:space-between;">
-
-          <div>
-            <i class="fa fa-shield" style="font-size:28px;"></i>
-            <h4 style="margin-top:10px;">Publisher Note</h4>
-
-            <p style="color:var(--sub);">
-              This website is maintained by <strong>Abdul Latif</strong>, a banking professional at
-              <strong>Agrani Bank PLC (Bangladesh)</strong>. The content here is educational and based on
-              real banking practice, not promotional advice.
-            </p>
-
-            <div style="background:var(--muted); border:1px solid var(--border); border-radius:14px; padding:12px; font-size:13px; color:var(--sub);">
-              <strong>Trust & Privacy:</strong><br>
-              All calculators run in your browser. No salary, loan, or personal data is stored.
-              Final loan terms may vary due to bank policy, fees, rounding, and rate changes.
-            </div>
-
-            <!-- Reserved Ad / Feature Space -->
-            <div style="margin-top:12px; padding:12px; border:1px dashed var(--border); border-radius:14px; font-size:13px; color:var(--sub);">
-              <strong>Reserved space</strong><br>
-              Future ad placement / featured educational banner
-            </div>
-          </div>
-
-          <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
-            <a class="btn-pill btn-outline" href="/about.html" style="padding:10px 12px; font-size:13px; font-weight:900;">About</a>
-            <a class="btn-pill btn-outline" href="/disclaimer.html" style="padding:10px 12px; font-size:13px; font-weight:900;">Disclaimer</a>
-            <a class="btn-pill btn-outline" href="/privacy-policy.html" style="padding:10px 12px; font-size:13px; font-weight:900;">Privacy</a>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- RIGHT: Updates / Notes -->
-      <div class="col-sm-8" style="margin-bottom:18px; display:flex;">
-        <div class="cardx" style="height:100%; width:100%;">
-          <h4 style="margin-top:0;">Updates / Notes</h4>
-          <p style="color:var(--sub); margin-bottom:10px;">
-            <strong>Important published updates</strong>
+  <main>
+    <section class="hero">
+      <div class="container hero-wrap">
+        <div class="hero-main">
+          <div class="hero-kicker">Educational content • Practical tools • Bangladesh focus</div>
+          <h1>Clear banking and finance knowledge for readers in Bangladesh</h1>
+          <p>
+            This website publishes educational articles and practical calculators related to banking,
+            loans, credit understanding, repayment planning, and banking workflows.
           </p>
+          <p>
+            The goal is simple: make complex banking topics easier to understand through useful guides,
+            plain-language explanations, and supporting tools.
+          </p>
+          <div class="chip-row" aria-label="Site topics">
+            <span class="chip">Loans & EMI</span>
+            <span class="chip">Credit & CIB basics</span>
+            <span class="chip">Banking processes</span>
+            <span class="chip">Finance tools</span>
+            <span class="chip">Banking career learning</span>
+          </div>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="/blog/">Read the blog</a>
+            <a class="btn btn-secondary" href="/tools/">Use the tools</a>
+          </div>
+        </div>
 
-          <div style="border-top:1px solid var(--border); margin:10px 0 14px;"></div>
-
-          <div style="display:flex; flex-direction:column; gap:14px;">
-
-            <!-- Post 1 -->
-            <article style="display:flex; gap:12px;">
-              <div style="min-width:38px; height:38px; border-radius:12px; background:var(--muted); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--sub);">
-                01
-              </div>
-              <div>
-                <a href="https://ablatif.com/blog/posts/brpd-circular-15-npl-reform.html"
-                   target="_blank" rel="noopener"
-                   style="font-weight:900; color:var(--text); text-decoration:none; line-height:1.35;">
-                  BRPD সার্কুলার নং ১৫ (২৭ নভেম্বর ২০২৪): বাংলাদেশের ব্যাংকিং খাতে বড় NPL রিফর্ম — পরিসংখ্যানভিত্তিক বিশ্লেষণ
-                </a>
-                <div style="margin-top:6px; color:var(--sub); font-size:14px;">
-                  Regulatory update • NPL reform • Data-driven analysis
-                  <span style="opacity:.7;"> · </span>
-                  <a href="https://ablatif.com/blog/posts/brpd-circular-15-npl-reform.html"
-                     target="_blank" rel="noopener"
-                     style="font-weight:800; color:var(--accent); text-decoration:none;">
-                    Read more →
-                  </a>
-                </div>
-              </div>
-            </article>
-
-            <!-- Post 2 -->
-            <article style="display:flex; gap:12px;">
-              <div style="min-width:38px; height:38px; border-radius:12px; background:var(--muted); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--sub);">
-                02
-              </div>
-              <div>
-                <a href="https://ablatif.com/blog/posts/emergency-fund-bangladesh.html"
-                   target="_blank" rel="noopener"
-                   style="font-weight:900; color:var(--text); text-decoration:none; line-height:1.35;">
-                  Emergency Fund in Bangladesh: How Much You Need & Where to Keep It
-                </a>
-                <div style="margin-top:6px; color:var(--sub); font-size:14px;">
-                  Personal finance • Safety planning • Practical guidance
-                  <span style="opacity:.7;"> · </span>
-                  <a href="https://ablatif.com/blog/posts/emergency-fund-bangladesh.html"
-                     target="_blank" rel="noopener"
-                     style="font-weight:800; color:var(--accent); text-decoration:none;">
-                    Read more →
-                  </a>
-                </div>
-              </div>
-            </article>
-
-            <!-- Post 3 -->
-            <article style="display:flex; gap:12px;">
-              <div style="min-width:38px; height:38px; border-radius:12px; background:var(--muted); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--sub);">
-                03
-              </div>
-              <div>
-                <a href="https://ablatif.com/blog/posts/loan-eligibility-common-mistakes.html"
-                   target="_blank" rel="noopener"
-                   style="font-weight:900; color:var(--text); text-decoration:none; line-height:1.35;">
-                  Common Loan Eligibility Mistakes in Bangladesh & How to Avoid Them
-                </a>
-                <div style="margin-top:6px; color:var(--sub); font-size:14px;">
-                  Eligibility • Documentation • Mistakes to avoid
-                  <span style="opacity:.7;"> · </span>
-                  <a href="https://ablatif.com/blog/posts/loan-eligibility-common-mistakes.html"
-                     target="_blank" rel="noopener"
-                     style="font-weight:800; color:var(--accent); text-decoration:none;">
-                    Read more →
-                  </a>
-                </div>
-              </div>
-            </article>
-
+        <aside class="hero-side">
+          <div class="author-card">
+            <img class="author-photo" src="img/profile.jpg" alt="Abdul Latif" />
+            <div>
+              <p class="author-name">Abdul Latif</p>
+              <p class="author-role">Banking professional and educational publisher focused on practical finance topics in Bangladesh.</p>
+            </div>
           </div>
 
-          <div style="border-top:1px solid var(--border); margin:16px 0 0;"></div>
-          <div style="margin-top:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
-            <div style="color:var(--sub); font-size:13px;">
-              More finance & banking articles are available in the blog.
+          <div class="mini-panel">
+            <h2>Editorial focus</h2>
+            <p>
+              Articles and tools on this website are created to help readers understand banking topics more clearly.
+              Content is educational and should be verified with the relevant bank or institution before making decisions.
+            </p>
+          </div>
+
+          <div class="stat-list" aria-label="Site highlights">
+            <div class="stat">
+              <strong>Blog</strong>
+              <span>Practical guides</span>
             </div>
-            <a class="btn-pill btn-solid"
-               href="https://ablatif.com/blog/"
-               target="_blank" rel="noopener"
-               style="padding:10px 14px; font-size:13px; font-weight:900;">
-              Visit Blog →
+            <div class="stat">
+              <strong>Tools</strong>
+              <span>Useful calculators</span>
+            </div>
+            <div class="stat">
+              <strong>Focus</strong>
+              <span>Bangladesh banking</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <h2>Why readers use this site</h2>
+          <p>Everything on the homepage should support trust, clarity, and a focused topic. These are the signals you want a reviewer to see immediately.</p>
+        </div>
+        <div class="trust-grid">
+          <div class="card">
+            <h3>Focused topic</h3>
+            <p>The website is centered on banking, loans, credit understanding, and finance-related learning for Bangladesh.</p>
+          </div>
+          <div class="card">
+            <h3>Plain-language guidance</h3>
+            <p>Articles explain common financial topics in simpler language so ordinary readers can understand them more easily.</p>
+          </div>
+          <div class="card">
+            <h3>Supporting tools</h3>
+            <p>Useful calculators and helpers are included to support the educational articles rather than distract from them.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <h2>Featured guides</h2>
+          <p>Start with these core topics to understand how the site helps readers.</p>
+        </div>
+        <div class="card-grid">
+          <a class="guide-card" href="/blog/posts/cib-report-bangladesh-explained.html">
+            <span class="eyebrow">Credit basics</span>
+            <h3>CIB Report in Bangladesh Explained</h3>
+            <p>A beginner-friendly guide to what a CIB report is, why it matters, and how borrowers should think about credit behavior.</p>
+            <span class="read-more">Read guide →</span>
+          </a>
+          <a class="guide-card" href="/blog/posts/loan-eligibility-common-mistakes-avoid.html">
+            <span class="eyebrow">Loans</span>
+            <h3>Loan Eligibility Mistakes People Make</h3>
+            <p>Common borrower mistakes, documentation gaps, and practical ways to improve approval chances.</p>
+            <span class="read-more">Read guide →</span>
+          </a>
+          <a class="guide-card" href="/blog/posts/banking-jobs-changing-technology.html">
+            <span class="eyebrow">Banking career</span>
+            <h3>How Banking Jobs Are Changing Because of Technology</h3>
+            <p>An educational look at how digital workflows, compliance, and automation are changing banking work.</p>
+            <span class="read-more">Read guide →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container two-col">
+        <div>
+          <div class="section-head">
+            <h2>Useful banking tools</h2>
+            <p>These tools should support your main articles and help readers with practical calculations.</p>
+          </div>
+          <div class="link-grid">
+            <a class="tool-card" href="/emi-calculator.html">
+              <span class="eyebrow">Calculator</span>
+              <h3>EMI Calculator</h3>
+              <p>Estimate monthly installment amounts for loan planning and repayment understanding.</p>
+              <span class="read-more">Open tool →</span>
+            </a>
+            <a class="tool-card" href="/tools/Loan_Eligibility.html">
+              <span class="eyebrow">Calculator</span>
+              <h3>Loan Eligibility Tool</h3>
+              <p>A supporting utility for understanding approximate borrowing capacity.</p>
+              <span class="read-more">Open tool →</span>
+            </a>
+            <a class="tool-card" href="/tools/">
+              <span class="eyebrow">Directory</span>
+              <h3>All Tools</h3>
+              <p>Browse tools related to banking and finance topics covered across the website.</p>
+              <span class="read-more">Browse tools →</span>
             </a>
           </div>
+        </div>
 
+        <div>
+          <div class="list-box">
+            <h3>What this website covers</h3>
+            <ul class="clean-list">
+              <li>Loan basics and repayment understanding</li>
+              <li>Credit behavior and common borrower mistakes</li>
+              <li>Banking workflow and financial understanding</li>
+              <li>Selected tools connected to the educational content</li>
+              <li>Simple explanations written for Bangladesh readers</li>
+            </ul>
+          </div>
+          <div style="height:18px"></div>
+          <div class="note-box">
+            <strong>Editorial note</strong>
+            <p>
+              This website provides educational information and tools related to banking and finance.
+              It is not legal, tax, investment, or personalized financial advice. Readers should confirm
+              official terms, fees, and policies with the relevant institution.
+            </p>
+          </div>
         </div>
       </div>
+    </section>
+  </main>
 
-    </div>
-
-    <!-- Footer Quick Links -->
-    <div class="muted">
-      <div style="font-weight:900;">Quick links</div>
-      <div class="small-note">
-        <a href="/privacy-policy.html">Privacy Policy</a> ·
-        <a href="/terms.html">Terms</a> ·
-        <a href="/cookie-policy.html">Cookie Policy</a> ·
-        <a href="/disclaimer.html">Disclaimer</a> ·
+  <footer class="site-footer">
+    <div class="container footer-top">
+      <div>
+        <strong style="display:block;color:var(--text);margin-bottom:6px">ablatif.com</strong>
+        <div>© 2026 Abdul Latif</div>
+      </div>
+      <div class="footer-links">
+        <a href="/about.html">About</a>
         <a href="/contact.html">Contact</a>
+        <a href="/privacy-policy.html">Privacy Policy</a>
+        <a href="/terms.html">Terms</a>
+        <a href="/disclaimer.html">Disclaimer</a>
+        <a href="/cookie-policy.html">Cookie Policy</a>
       </div>
-    </div>
-  </div>
-</section>
-
-
-  <!-- WHY TRUST (OPTION A: add 150–250 words trust block) -->
-  <section id="trust" style="background:var(--muted);">
-    <div class="container">
-      <h2 class="section-title">Why Trust This Site</h2>
-      <p class="section-sub">
-        Finance content is sensitive, so transparency matters. I’m a banking professional at <strong>Agrani Bank PLC</strong> in Bangladesh.
-        The guides and tools here are written to be understandable and practical—not promotional. I do not ask for your sensitive banking data,
-        and most tools run directly in your browser.
-      </p>
-
-      <div class="cardx" style="margin-top:14px;">
-        <h4 style="margin-top:0;">How I create calculators and guides</h4>
-        <p style="color:var(--sub);">
-          I build calculators to reflect standard banking math (for example, reducing balance EMI). Then I add clear explanations:
-          what each input means, what outputs you should focus on, and which real-life factors can change final costs (fees, rounding,
-          insurance, documentation charges, prepayment rules, and changes in interest rates).
-        </p>
-        <p style="color:var(--sub); margin-bottom:0;">
-          <strong>How:</strong> All tools run in your browser—no data is sent to my server. I do not store your salary, loan, or personal data. I developed these tools from real banking experience to help borrowers and professionals in Bangladesh understand costs, documentation, and decision-making clearly. specaily for Agrani Bank PLC.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="container">
-      <h2 class="section-title">About</h2>
-      <p class="section-sub">
-        I’m Abdul Latif — banker, developer, and technology enthusiast. My goal is to improve work style with modern tools and share
-        banking knowledge in a way anyone can understand. I also enjoy movies, music, and poems—those are available in the site’s personal section.
-      </p>
-
-      <div class="cardx" style="margin-top:14px;">
-        <div style="font-weight:900;">Credentials & Focus</div>
-        <ul style="margin-top:10px; color:var(--sub);">
-          <li>Banking professional at Agrani Bank PLC (Bangladesh)</li>
-          <li>Focus: loans, repayment planning, documentation, banking math</li>
-          <li>Also: building tools and automations to modernize workflows</li>
-        </ul>
-        <div class="small-note">
-          if you want to know more about me, please visit the <a href="/about.html">About page</a>. You can also connect with me on <a href="https://www.facebook.com/latifmirabdul/" target="_blank" rel="noopener">Facebook</a>, or can Email me at
-          <a href="mailto:latifshahin@gmail.com"><span c>latifshahin@gmail.com</span>. I can expecting your valuable feedback.
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact" style="background:var(--muted);">
-    <div class="container">
-      <h2 class="section-title">Contact</h2>
-      <p class="section-sub">For questions, tool feedback, or collaboration.</p>
-
-      <div class="cardx" style="max-width:720px;">
-        <p style="margin:0;">
-          <strong>Email:</strong> <a href="mailto:latifshahin@gmail.com">latifshahin@gmail.com</a>
-        </p>
-        <div style="margin-top:10px;">
-          <a class="btn-pill btn-solid" href="/contact.html">Contact page</a>
-          <a class="btn-pill btn-outline" href="/blog/" target="_blank" rel="noopener">Visit Blog</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="container" style="text-align:center;">
-      <div class="footer-links" style="margin-bottom:10px;">
-        <a href="https://www.facebook.com/latifmirabdul/" target="_blank" rel="noopener"><i class="fa fa-facebook"></i></a>
-        <a href="https://x.com/latifju" target="_blank" rel="noopener"><i class="fa fa-twitter"></i></a>
-        <a href="https://www.instagram.com/ablatifshahin/" target="_blank" rel="noopener"><i class="fa fa-instagram"></i></a>
-        <a href="https://www.youtube.com/@DiptiYTV" target="_blank" rel="noopener"><i class="fa fa-youtube-play"></i></a>
-      </div>
-
-      <div style="font-size:14px; line-height:1.9;">
-        <a href="/privacy-policy.html">Privacy</a> ·
-        <a href="/terms.html">Terms</a> ·
-        <a href="/cookie-policy.html">Cookies</a> ·
-        <a href="/disclaimer.html">Disclaimer</a> ·
-        <a href="/blog/">Blog</a> ·
-        <a href="/tools/">Tools</a>
-        <span style="opacity:.7;"> · </span>
-        <!-- Keep games in footer only during review -->
-        <a href="/games/">Games</a>
-      </div>
-
-      <div style="margin-top:10px;">© 2026 Abdul Latif — All Rights Reserved.</div>
     </div>
   </footer>
-
-  <!-- Scripts -->
-  <script src="js/jquery.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-
-  <!-- Smooth scroll -->
-  <script>
-    document.querySelectorAll('a[href^="#"]').forEach(function (a) {
-      a.addEventListener("click", function (e) {
-        var id = this.getAttribute("href");
-        if (id.length > 1 && document.querySelector(id)) {
-          e.preventDefault();
-          window.scrollTo({ top: document.querySelector(id).offsetTop - 60, behavior: "smooth" });
-        }
-      });
-    });
-  </script>
 </body>
 </html>
