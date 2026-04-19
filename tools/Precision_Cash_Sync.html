@@ -45,16 +45,82 @@
         }
 
         #protected-footer { position: absolute; bottom: 0; left: 0; width: 100%; background: #2c3e50; color: #fff; text-align: center; padding: 10px 0; font-size: 11px; }
+    
+
+        .hero{
+            background: linear-gradient(180deg, #f5f9ff 0%, #ffffff 70%);
+            padding: 26px 0 18px;
+            border-bottom: 1px solid rgba(11,26,51,.10);
+            margin-bottom: 14px;
+        }
+
+        .pcs-hero-card{
+            background:#fff;
+            border:1px solid rgba(11,26,51,.10);
+            border-radius:18px;
+            padding:22px;
+            box-shadow:0 12px 30px rgba(0,0,0,.08);
+        }
+
+        .pcs-kicker{
+            display:inline-block;
+            padding:6px 12px;
+            border-radius:999px;
+            background:#f5f7fb;
+            color:#33415c;
+            font-size:12px;
+            font-weight:800;
+            margin-bottom:10px;
+        }
+
+        .pcs-hero-title{
+            margin:0 0 8px;
+            color:#0b1a33;
+            font-size:32px;
+            font-weight:900;
+            line-height:1.2;
+        }
+
+        .pcs-hero-text{
+            margin:0;
+            color:#33415c;
+            font-size:16px;
+            line-height:1.75;
+        }
+
+        .pcs-hero-subtext{
+            margin:8px 0 0;
+            color:#5b677a;
+            font-size:14px;
+            font-weight:600;
+        }
+
+        @media (max-width: 767px){
+            .pcs-hero-title{ font-size:26px; }
+            .pcs-hero-card{ padding:18px; }
+        }
+
     </style>
 </head>
 <body oncontextmenu="return false;">
 
 <div class="container">
     <div class="app-header no-print">
-        <div class="app-title">Precision Cash Sync</div>
-        <div class="bank-brand">AGRANI BANK PLC | JAMALPUR BRANCH</div>
+    <div class="app-title">Precision Cash Sync</div>
+    <div class="bank-brand">
+        <a href="https://ablatif.com/" target="_blank" rel="noopener">ablatif.com</a>
+        <span style="margin:0 6px;">|</span>
+        <a href="/tools/">All Tools</a>
     </div>
-    
+</div>
+    <div class="app-header no-print">
+        <p class="pcs-hero-text">
+        A browser-based cash reconciliation and tally support tool designed to help
+        compare manual entries with bank data, identify mismatches, and simplify
+        day-to-day operational checking. Built for practical workflow efficiency, audit visibility, and cleaner daily reconciliation.
+      </p>
+      
+    </div>
     <div class="controls no-print">
         <input type="text" id="accName" placeholder="নাম">
         <input type="text" id="accNo" placeholder="হিসাব (শেষ ৫)">
@@ -110,7 +176,75 @@
         <div id="print-content" class="print-grid"></div>
         <div id="print-gt" style="text-align:right; font-weight:bold; margin-top:10px;"></div>
     </div>
+<section style="padding:40px 0; border-top:1px solid rgba(0,0,0,.08);">
+  <div class="container">
+    <h2 class="section-title">About Precision Cash Sync</h2>
 
+    <p>
+      Precision Cash Sync is a practical cash reconciliation and tally assistance tool 
+      designed to help users compare manually recorded payment entries with software-generated 
+      bank data in a faster and more organized way. It is especially useful in routine banking 
+      operations where matching amounts, identifying extra entries, and spotting mismatches 
+      quickly can save time and reduce manual checking effort.
+    </p>
+
+    <p>
+      The tool allows users to enter their own working-sheet records, import CSV-based input data, 
+      and compare them against an HTML-based bank list. It then highlights matched and unmatched 
+      items, provides a quick audit summary, and supports print-friendly output for operational use. 
+      The goal is to simplify repetitive reconciliation work through a clear and structured interface.
+    </p>
+
+    <h3 style="margin-top:28px; font-weight:800;">Who This Tool Is For</h3>
+    <ul>
+      <li>Banking professionals handling daily cash or payment reconciliation</li>
+      <li>Office users maintaining internal tally sheets</li>
+      <li>Operational staff who need to identify missing, extra, or mismatched entries</li>
+      <li>Users who prefer simple browser-based tools without complex installation</li>
+    </ul>
+
+    <h3 style="margin-top:28px; font-weight:800;">How It Works</h3>
+    <p>
+      Precision Cash Sync works primarily inside the user’s browser. It compares locally entered 
+      records with imported file-based records and generates a visual reconciliation view. 
+      Depending on the selected tally mode, matching can be based on amount only or on amount 
+      combined with account suffix checking. This makes the process flexible for different 
+      operational needs.
+    </p>
+
+    <h3 style="margin-top:28px; font-weight:800;">Local Use & Data Handling</h3>
+    <p>
+      This tool is intended mainly as a local productivity utility. In many cases, user-entered 
+      working data is stored locally in the browser for convenience so that ongoing work is not 
+      lost immediately after refresh. Users should avoid entering highly sensitive confidential 
+      information unless they fully understand their own device and browser security environment.
+    </p>
+
+    <p>
+      Precision Cash Sync is built to assist workflow efficiency, but it should not be treated as 
+      a replacement for official banking software, internal verification procedures, or institutional 
+      controls. Final reconciliation, approval, and operational decisions should always be verified 
+      through official records and authorized processes.
+    </p>
+
+    <h3 style="margin-top:28px; font-weight:800;">Important Notice</h3>
+    <p>
+      This page is provided for productivity, educational, and workflow-support purposes only. 
+      It does not constitute financial advice, legal advice, or an official statement of policy 
+      from any bank or institution. Users are responsible for reviewing outputs and confirming 
+      final accuracy before relying on any result in a professional setting.
+    </p>
+
+    <div style="margin-top:24px; padding:18px; background:#f5f7fb; border-radius:12px; border:1px solid rgba(0,0,0,.08);">
+      <strong>Helpful Links:</strong>
+      <a href="/privacy-policy.html">Privacy Policy</a> ·
+      <a href="/terms.html">Terms</a> ·
+      <a href="/cookie-policy.html">Cookie Policy</a> ·
+      <a href="/disclaimer.html">Disclaimer</a> ·
+      <a href="/blog/">Blog</a>
+    </div>
+  </div>
+</section>
     <div id="protected-footer">আব্দুল লতিফ, এসপিও, অগ্রণী ব্যাংক পিএলসি, জামালপুর শাখা | latif@ablatif.com</div>
 </div>
 
