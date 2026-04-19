@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <title>Precision Cash Sync - Agrani Bank</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 10px; background-color: #f0f2f5; font-size: 13px; }
+        .container { max-width: 1400px; margin: auto; background: white; padding: 15px; border-radius: 10px; min-height: 95vh; position: relative; padding-bottom: 70px; }
+        
+        /* হেডার স্টাইল */
+        .app-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 2px solid #ff8400; padding-bottom: 10px; }
+        .app-title { margin: 0; color: #2c3e50; font-size: 24px; font-weight: bold; }
+        .bank-brand { color: #ff8400; font-size: 14px; font-weight: bold; }
+
+        .controls { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 8px; background: #fff3e0; padding: 15px; border-radius: 6px; margin-bottom: 10px; border: 1px solid #ffd180; }
+        input, select { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        button { cursor: pointer; padding: 8px 15px; border: none; border-radius: 4px; font-weight: bold; background: #ff8400; color: white; }
+        
+        .action-row { grid-column: span 4; display: flex; align-items: center; gap: 10px; border-top: 1px solid #ffd180; padding-top: 10px; flex-wrap: wrap; }
+        
+        .main-view { display: flex; gap: 10px; }
+        .table-box { flex: 1; border: 1px solid #ddd; padding: 8px; border-radius: 6px; background: #fff; }
+        
+        table { width: 100%; border-collapse: collapse; font-size: 11px; table-layout: fixed; }
+        th, td { border: 1px solid #ccc; padding: 0 5px; text-align: left; height: 30px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+        th { background: #2c3e50; color: white; cursor: pointer; }
+        
+        .match-success { background-color: #d4edda !important; }
+        .match-fail { background-color: #f8d7da !important; }
+
+        .audit-section { margin-top: 20px; padding: 15px; background: #eef2f7; border-radius: 8px; border-left: 5px solid #2c3e50; }
+        .audit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 10px; }
+        .audit-card { background: white; padding: 10px; border-radius: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .diff-text { color: #e74c3c; font-weight: bold; }
+        .extra-my { color: #e67e22; font-weight: bold; margin-bottom: 5px; }
+        .extra-bank { color: #2980b9; font-weight: bold; }
+
+        @media print {
+            .no-print, .controls, .audit-section, .app-header, h3 { display: none !important; }
+            #print-area { display: block !important; }
+            .print-grid { display: flex; flex-wrap: wrap; gap: 4px; }
+            .col-4 { width: 24.2%; }
+            table { font-size: 9px; }
+            td, th { height: 20px; border: 1px solid #000; }
+        }
+
+        #protected-footer { position: absolute; bottom: 0; left: 0; width: 100%; background: #2c3e50; color: #fff; text-align: center; padding: 10px 0; font-size: 11px; }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+
+<div class="container">
+    <div class="app-header no-print">
+        <div class="app-title">Precision Cash Sync</div>
+        <div class="bank-brand">AGRANI BANK PLC | JAMALPUR BRANCH</div>
+    </div>
+    
+    <div class="controls no-print">
+        <input type="text" id="accName" placeholder="নাম">
+        <input type="text" id="accNo" placeholder="হিসাব (শেষ ৫)">
+        <input type="number" id="amount" placeholder="টাকার পরিমাণ *">
+        <button onclick="addEntry()">এন্ট্রি দিন</button>
+        
+        <div class="action-row">
+            <select id="reconMode" onchange="renderAll()">
+                <option value="amt">টালি মোড: শুধু টাকা</option>
+                <option value="both">টালি মোড: টাকা + হিসাব (৫ সংখ্যা)</option>
+            </select>
+            
+            <span style="font-weight:bold; font-size:11px;">ব্যাংক ফাইল:</span>
+            <input type="file" id="bankFile" accept=".html" onchange="processBankFile()">
+            
+            <span style="font-weight:bold; font-size:11px; margin-left:10px;">খাতা ইমপোর্ট (CSV):</span>
+            <input type="file" id="csvFile" accept=".csv" onchange="processCSVFile()">
+            
+            <button style="background:#27ae60" onclick="preparePrint()">৪ কলাম প্রিন্ট</button>
+            <button style="background:#e74c3c" onclick="clearData()">সব মুছুন</button>
+        </div>
+    </div>
+
+    <div class="main-view no-print">
+        <div class="table-box">
+            <h3>খাতার লিস্ট (Input Data)</h3>
+            <table id="myTable">
+                <thead>
+                    <tr><th style="width:30%">নাম</th><th style="width:20%">হিসাব</th><th style="width:30%" onclick="sortData('my')">টাকা ⇅</th><th style="width:20%">অ্যাকশন</th></tr>
+                </thead>
+                <tbody id="myTableBody"></tbody>
+            </table>
+        </div>
+        <div class="table-box">
+            <h3>সফটওয়্যার লিস্ট (Bank Data)</h3>
+            <table id="bankTable">
+                <thead>
+                    <tr><th style="width:15%">SL</th><th style="width:25%">হিসাব</th><th style="width:30%">নাম</th><th style="width:30%" onclick="sortData('bank')">টাকা ⇅</th></tr>
+                </thead>
+                <tbody id="bankTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="audit-section no-print" id="auditReport">
+        <h3 style="border-bottom:none">📊 স্মার্ট অডিট ও গরমিল বিশ্লেষণ</h3>
+        <div id="auditSummary">ডাটা ইনপুট দিলে এখানে বিশ্লেষণ দেখা যাবে।</div>
+        <div class="audit-grid" id="auditDetails"></div>
+    </div>
+
+    <div id="print-area">
+        <div style="text-align:center; font-weight:bold; margin-bottom:10px;">CASH PAYMENT REGISTER - PRECISION CASH SYNC</div>
+        <div id="print-content" class="print-grid"></div>
+        <div id="print-gt" style="text-align:right; font-weight:bold; margin-top:10px;"></div>
+    </div>
+
+    <div id="protected-footer">আব্দুল লতিফ, এসপিও, অগ্রণী ব্যাংক পিএলসি, জামালপুর শাখা | latif@ablatif.com</div>
+</div>
+
+<script>
+    const STORAGE_KEYS = {
+        my: 'pcs_myEntries_v11',
+        bank: 'pcs_bankEntries_v11',
+        settings: 'pcs_settings_v1'
+    };
+
+    function safeLoad(key) {
+        try {
+            return JSON.parse(localStorage.getItem(key)) || [];
+        } catch (e) {
+            console.warn('Storage parse failed for', key, e);
+            return [];
+        }
+    }
+
+    let myEntries = safeLoad(STORAGE_KEYS.my);
+    let bankEntries = safeLoad(STORAGE_KEYS.bank);
+    let myOrder = true, bankOrder = true;
+
+    function formatInr(n) { return new Intl.NumberFormat('en-IN', { minimumFractionDigits: 2 }).format(n); }
+
+    function addEntry() {
+        const amt = document.getElementById('amount').value;
+        if(!amt) return;
+        myEntries.push({ name: document.getElementById('accName').value || "-", acc: document.getElementById('accNo').value || "-", amount: parseFloat(amt).toFixed(2) });
+        save(); renderAll();
+        document.getElementById('accName').value = ''; document.getElementById('accNo').value = ''; 
+        document.getElementById('amount').value = ''; document.getElementById('amount').focus();
+    }
+
+    function processCSVFile() {
+        const file = document.getElementById('csvFile').files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const rows = e.target.result.split("\n");
+            rows.forEach(row => {
+                const cols = row.split(",");
+                if(cols.length >= 3) {
+                    const amt = parseFloat(cols[2]);
+                    if(!isNaN(amt)) {
+                        myEntries.push({ name: cols[0].trim() || "-", acc: cols[1].trim() || "-", amount: amt.toFixed(2) });
+                    }
+                }
+            });
+            save(); renderAll();
+            alert("খাতার ডাটা ইমপোর্ট সফল হয়েছে!");
+        };
+        reader.readAsText(file);
+    }
+
+    function processBankFile() {
+        const file = document.getElementById('bankFile').files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const doc = new DOMParser().parseFromString(e.target.result, 'text/html');
+            bankEntries = [];
+            doc.querySelectorAll('tr').forEach(row => {
+                const c = row.querySelectorAll('td');
+                if(c.length >= 6) {
+                    const sl = c[0].innerText.trim();
+                    const rawAmt = parseFloat(c[5].innerText.trim().replace(/,/g, ''));
+                    const parsedSl = parseInt(sl, 10);
+                    if(!isNaN(rawAmt) && !isNaN(parsedSl) && sl !== "" && sl !== "SL NO") {
+                        bankEntries.push({ sl: parsedSl, name: c[4].innerText.trim(), acc: c[3].innerText.trim(), amt: rawAmt.toFixed(2) });
+                    }
+                }
+            });
+            save(); renderAll();
+        };
+        reader.readAsText(file);
+    }
+
+    function sortData(target) {
+        if(target === 'my') { myOrder = !myOrder; myEntries.sort((a,b) => myOrder ? b.amount-a.amount : a.amount-b.amount); }
+        else { bankOrder = !bankOrder; bankEntries.sort((a,b) => bankOrder ? b.amt-a.amt : a.amt-b.amt); }
+        renderAll();
+    }
+
+    function renderAll() {
+        const mode = document.getElementById('reconMode').value;
+        let tempBankForTable = [...bankEntries];
+        let myTotal = 0, bankTotal = 0;
+        const myTbody = document.getElementById('myTableBody');
+        myTbody.innerHTML = '';
+        let unmatchedMy = [];
+        
+        myEntries.forEach((e, i) => {
+            myTotal += parseFloat(e.amount);
+            const matchIdx = tempBankForTable.findIndex(b => mode === 'amt' ? b.amt === e.amount : (b.amt === e.amount && b.acc.endsWith(e.acc.slice(-5))));
+            let isMatch = false;
+            if(matchIdx !== -1) { isMatch = true; tempBankForTable.splice(matchIdx, 1); }
+            else { unmatchedMy.push(e); }
+            const row = myTbody.insertRow();
+            row.className = isMatch ? 'match-success' : (bankEntries.length > 0 ? 'match-fail' : '');
+            row.innerHTML = `<td>${e.name}</td><td>${e.acc}</td><td>${formatInr(e.amount)}</td>
+            <td><button style="color:blue; background:none; border:1px solid blue; padding:2px 5px;" onclick="editE(${i})">✎</button> 
+            <button style="color:red; background:none; border:1px solid red; padding:2px 5px;" onclick="del(${i})">✖</button></td>`;
+        });
+
+        const bTbody = document.getElementById('bankTableBody');
+        bTbody.innerHTML = '';
+        bankEntries.forEach(b => {
+            bankTotal += parseFloat(b.amt);
+            bTbody.insertRow().innerHTML = `<td>${b.sl}</td><td>${b.acc}</td><td>${b.name}</td><td>${formatInr(b.amt)}</td>`;
+        });
+        generateAudit(myTotal, bankTotal, unmatchedMy, tempBankForTable);
+    }
+
+    function generateAudit(mTotal, bTotal, unmatchedMy, unmatchedBank) {
+        const summary = document.getElementById('auditSummary');
+        const details = document.getElementById('auditDetails');
+        if(myEntries.length === 0 && bankEntries.length === 0) {
+            summary.innerHTML = "ডাটা ইনপুট দিলে এখানে বিশ্লেষণ দেখা যাবে।";
+            details.innerHTML = "";
+            return;
+        }
+        summary.innerHTML = `
+            <p>১. খাতার মোট: <b>${formatInr(mTotal)}</b> | সফটওয়্যার মোট: <b>${formatInr(bTotal)}</b> | পার্থক্য: <span class="diff-text">${formatInr(Math.abs(mTotal - bTotal))}</span></p>
+            <p>২. খাতার এন্ট্রি: <b>${myEntries.length} টি</b> | সফটওয়্যার এন্ট্রি: <b>${bankEntries.length} টি</b> | পার্থক্য: <span class="diff-text">${Math.abs(myEntries.length - bankEntries.length)} টি</span></p>
+        `;
+        let myFreq = {}, bankFreq = {};
+        myEntries.forEach(e => myFreq[e.amount] = (myFreq[e.amount] || 0) + 1);
+        bankEntries.forEach(b => bankFreq[b.amt] = (bankFreq[b.amt] || 0) + 1);
+        let freqHtml = `<div class="audit-card"><h4>📍 আইটেম ভিত্তিক সংখ্যায় গরমিল</h4><ul>`;
+        let hasFreqDiff = false;
+        let allAmts = new Set([...Object.keys(myFreq), ...Object.keys(bankFreq)]);
+        allAmts.forEach(amt => {
+            let mCount = myFreq[amt] || 0; let bCount = bankFreq[amt] || 0;
+            if(mCount !== bCount) { hasFreqDiff = true; freqHtml += `<li><b>${formatInr(amt)}</b> টাকা: খাতায় <b>${mCount}</b>টি, সফটওয়্যারে <b>${bCount}</b>টি।</li>`; }
+        });
+        freqHtml += hasFreqDiff ? `</ul></div>` : `<li>সব অংকের এন্ট্রির সংখ্যা উভয় দিকে সমান।</li></ul></div>`;
+        let extraHtml = `<div class="audit-card"><h4>⚠️ অমিল বা অতিরিক্ত এন্ট্রি শনাক্তকরণ</h4>`;
+        if(unmatchedMy.length > 0) extraHtml += `<p class="extra-my">খাতায় অতিরিক্ত (${unmatchedMy.length}টি): <br><small>${unmatchedMy.map(x => formatInr(x.amount)).join(', ')}</small></p>`;
+        if(unmatchedBank.length > 0) extraHtml += `<p class="extra-bank">সফটওয়্যারে অতিরিক্ত (${unmatchedBank.length}টি): <br><small>${unmatchedBank.map(x => formatInr(x.amt)).join(', ')}</small></p>`;
+        if(unmatchedMy.length === 0 && unmatchedBank.length === 0) extraHtml += `<p style="color:green">সব এন্ট্রি সঠিকভাবে মিলেছে।</p>`;
+        extraHtml += `</div>`;
+        details.innerHTML = freqHtml + extraHtml;
+    }
+
+    function editE(i) {
+        const e = myEntries[i];
+        const n = prompt("নাম:", e.name); const a = prompt("হিসাব:", e.acc); const t = prompt("টাকা:", e.amount);
+        if(t) { myEntries[i] = { name: n, acc: a, amount: parseFloat(t).toFixed(2) }; save(); renderAll(); }
+    }
+
+    function preparePrint() {
+        const container = document.getElementById('print-content');
+        container.innerHTML = ''; let rt = 0;
+        for (let i = 0; i < myEntries.length; i += 45) {
+            const chunk = myEntries.slice(i, i + 45);
+            let ct = 0;
+            let html = `<div class="col-4"><table><thead><tr><th>SL</th><th>Amount</th></tr></thead><tbody>`;
+            chunk.forEach((e, idx) => { ct += parseFloat(e.amount); rt += parseFloat(e.amount);
+                html += `<tr><td>${i+idx+1}</td><td style="text-align:right">${formatInr(e.amount)}</td></tr>`;
+            });
+            html += `<tr style="background:#eee"><td>CT:</td><td style="text-align:right">${formatInr(ct)}</td></tr>
+                     <tr style="background:#eee"><td>RT:</td><td style="text-align:right">${formatInr(rt)}</td></tr></tbody></table></div>`;
+            container.innerHTML += html;
+        }
+        document.getElementById('print-gt').innerText = `Grand Total: ${formatInr(rt)}`;
+        window.print();
+    }
+
+    function save() {
+        localStorage.setItem(STORAGE_KEYS.my, JSON.stringify(myEntries));
+        localStorage.setItem(STORAGE_KEYS.bank, JSON.stringify(bankEntries));
+    }
+    function del(i) { myEntries.splice(i, 1); save(); renderAll(); }
+    function clearData() {
+        if(!confirm("সব ডাটা মুছবেন?")) return;
+        myEntries = [];
+        bankEntries = [];
+        localStorage.removeItem(STORAGE_KEYS.my);
+        localStorage.removeItem(STORAGE_KEYS.bank);
+        renderAll();
+    }
+    renderAll();
+</script>
+</body>
+</html>
