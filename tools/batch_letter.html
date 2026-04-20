@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Smart Notice Generator</title>
+
+<style>
+body{font-family:Segoe UI;margin:0;background:#f4f6f9}
+
+.container{max-width:1100px;margin:auto;padding:20px}
+
+h2{margin-top:0}
+
+.section{
+background:white;
+padding:15px;
+margin-bottom:15px;
+border-radius:10px;
+box-shadow:0 2px 6px rgba(0,0,0,0.1)
+}
+
+label{font-weight:bold;font-size:13px}
+
+input,textarea{
+width:100%;
+padding:8px;
+margin-top:4px;
+margin-bottom:10px;
+border:1px solid #ccc;
+border-radius:6px;
+}
+
+textarea{height:70px}
+
+button{
+background:#ff8400;
+color:white;
+border:none;
+padding:8px 12px;
+margin:5px 3px;
+border-radius:6px;
+cursor:pointer;
+}
+
+.small-btn{
+padding:4px 8px;
+font-size:12px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+border:1px solid #ddd;
+padding:6px;
+text-align:left;
+}
+
+th{background:#eee}
+
+/* preview */
+.preview{
+width:794px;
+min-height:1123px;
+background:white;
+margin:30px auto;
+padding:60px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+.right{text-align:right}
+
+.step{
+background:#eaf3ff;
+padding:8px;
+border-left:4px solid #007bff;
+margin-bottom:10px;
+font-size:13px
+}
+
+@media print{
+body *{visibility:hidden}
+.preview,.preview *{visibility:visible}
+.preview{position:absolute;left:0;top:0;width:100%}
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>📄 Smart Notice Generator</h2>
+
+<div class="step">
+Step 1: Template লিখুন → Step 2: নিচে ডাটা দিন → Step 3: Generate → Print/PDF
+</div>
+
+<!-- TEMPLATE -->
+<div class="section">
+
+<h3>Template Setup</h3>
+
+<label>Letterhead Image</label>
+<input type="file" id="img">
+
+<label>Address (Use {{name}}, {{address}})</label>
+<textarea id="address">To  
+{{name}}  
+{{address}}</textarea>
+
+<div style="display:flex;gap:10px">
+<div style="flex:1">
+<label>Memo</label>
+<input id="memo" placeholder="Memo: {{memo}}">
+</div>
+
+<div style="flex:1">
+<label>Date</label>
+<input id="date" placeholder="Date: {{date}}">
+</div>
+</div>
+
+<label>Subject</label>
+<input id="subject" placeholder="Subject: {{placeholder1}}">
+
+<label>Salutation</label>
+<input id="salutation" value="Dear Sir,">
+
+<label>Body Paragraph 1</label>
+<textarea id="body1">This is to inform {{name}} regarding {{placeholder1}}</textarea>
+
+<label>Body Paragraph 2</label>
+<textarea id="body2">Please clear within {{placeholder2}} days</textarea>
+
+<label>Signature Name</label>
+<input id="sign" value="Abdul Latif">
+
+<label>Designation</label>
+<input id="desig" value="Senior Principal Officer">
+
+</div>
+
+<!-- DATA TABLE -->
+<div class="section">
+
+<h3>Data Input (Each Row = One Letter)</h3>
+
+<table>
+<tr>
+<th>Name</th>
+<th>Address</th>
+<th>Memo</th>
+<th>Date</th>
+<th>Placeholder1</th>
+<th>Placeholder2</th>
+<th>Placeholder3</th>
+<th>Action</th>
+</tr>
+
+<tbody id="rows">
+<tr>
+<td><input></td>
+<td><input></td>
+<td><input></td>
+<td><input></td>
+<td><input></td>
+<td><input></td>
+<td><input></td>
+<td>
+<button class="small-btn" onclick="delRow(this)">-</button>
+</td>
+</tr>
+</tbody>
+</table>
+
+<button onclick="addRow()">+ Add Row</button>
+
+</div>
+
+<!-- ACTION -->
+<div class="section">
+
+<h3>Generate & Export</h3>
+
+<button onclick="generate()">Generate Letters</button>
+<button onclick="window.print()">Print / Save PDF</button>
+
+</div>
+
+<!-- PREVIEW -->
+<div id="preview"></div>
+
+</div>
+
+<script>
+
+let imgData="";
+
+document.getElementById("img").onchange=e=>{
+let reader=new FileReader();
+reader.onload=()=>imgData=reader.result;
+reader.readAsDataURL(e.target.files[0]);
+}
+
+function addRow(){
+let r=document.querySelector("#rows tr").cloneNode(true);
+r.querySelectorAll("input").forEach(i=>i.value="");
+document.getElementById("rows").appendChild(r);
+}
+
+function delRow(btn){
+if(document.querySelectorAll("#rows tr").length>1)
+btn.closest("tr").remove();
+}
+
+function replace(t,d){
+return t.replace(/{{(.*?)}}/g,(m,p)=>d[p.trim()]||"");
+}
+
+function generate(){
+
+let rows=document.querySelectorAll("#rows tr");
+let html="";
+
+rows.forEach(r=>{
+
+let d={
+name:r.cells[0].querySelector("input").value,
+address:r.cells[1].querySelector("input").value,
+memo:r.cells[2].querySelector("input").value,
+date:r.cells[3].querySelector("input").value,
+placeholder1:r.cells[4].querySelector("input").value,
+placeholder2:r.cells[5].querySelector("input").value,
+placeholder3:r.cells[6].querySelector("input").value
+};
+
+if(Object.values(d).every(v=>v==="")) return;
+
+html+=`
+<div class="preview">
+
+${imgData ? `<img src="${imgData}" style="width:100%;margin-bottom:20px">` : ""}
+
+<div style="display:flex;justify-content:space-between">
+<div>${replace(address.value,d).replace(/\n/g,"<br>")}</div>
+<div class="right">${replace(memo.value,d)}<br>${replace(date.value,d)}</div>
+</div>
+
+<h3>${replace(subject.value,d)}</h3>
+
+<p>${salutation.value}</p>
+
+<p>${replace(body1.value,d)}</p>
+<p>${replace(body2.value,d)}</p>
+
+<div class="right" style="margin-top:40px">
+${sign.value}<br>${desig.value}
+</div>
+
+</div>
+`;
+
+});
+
+document.getElementById("preview").innerHTML=html;
+
+}
+
+</script>
+
+</body>
+</html>
