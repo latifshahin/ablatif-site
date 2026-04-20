@@ -1,276 +1,460 @@
 <!DOCTYPE html>
-<html>
+<html lang="bn">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Smart Notice Generator</title>
-
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=lbp_n9As1nSNZXqxBdfkTlYlddBGA7GCpzz7IXG64xJUfIzkJ1ALS-F-1FCUeeOvsueBp3J_rr1lMPUV1SYUv7pSD9hZDpuBQyJhLM5CiIjrr-7CZgXGW8Yh2gIkZCLFaRb1qWeSvtRQqHTEkMliIQDbBWS4S8n-VWliL48c0UVFm3BWLC4jSOFQFGTScjBBjOHM8MygaHPQnawnenWAYpeTGefQyCLzqF0AhuoYwG7FbqHDeI6rPFziV_24bKZzdwubztC708G4MXkxNmBUrA" charset="UTF-8"></script><script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 <style>
-body{font-family:Segoe UI;margin:0;background:#f4f6f9}
-
-.container{max-width:1100px;margin:auto;padding:20px}
-
-h2{margin-top:0}
-
+:root{
+  --bg:#f4f6f9; --card:#ffffff; --text:#1f2d3d; --sub:#5b677a;
+  --accent:#ff8400; --accent-dark:#e27100; --border:#dfe6ee;
+  --blue:#eaf3ff; --shadow:0 8px 24px rgba(0,0,0,.07);
+}
+*{box-sizing:border-box}
+body{
+  font-family:"Noto Sans Bengali","SolaimanLipi","Kalpurush","Segoe UI",Arial,sans-serif;
+  margin:0;background:var(--bg);color:var(--text)
+}
+.container{max-width:1320px;margin:auto;padding:20px}
+h1,h2,h3{margin-top:0}
 .section{
-background:white;
-padding:15px;
-margin-bottom:15px;
-border-radius:10px;
-box-shadow:0 2px 6px rgba(0,0,0,0.1)
+  background:var(--card);padding:18px;margin-bottom:16px;border-radius:14px;
+  box-shadow:var(--shadow);border:1px solid var(--border)
 }
-
-label{font-weight:bold;font-size:13px}
-
-input,textarea{
-width:100%;
-padding:8px;
-margin-top:4px;
-margin-bottom:10px;
-border:1px solid #ccc;
-border-radius:6px;
+label{font-weight:700;font-size:13px;display:block;margin-bottom:5px}
+input,textarea,select{
+  width:100%;padding:10px 12px;border:1px solid #cfd7e3;border-radius:8px;background:#fff;font:inherit
 }
-
-textarea{height:70px}
-
+textarea{height:84px;resize:vertical}
 button{
-background:#ff8400;
-color:white;
-border:none;
-padding:8px 12px;
-margin:5px 3px;
-border-radius:6px;
-cursor:pointer;
+  background:var(--accent);color:white;border:none;padding:10px 14px;margin:4px 4px 0 0;
+  border-radius:8px;cursor:pointer;font-weight:700
 }
-
-.small-btn{
-padding:4px 8px;
-font-size:12px;
+button:hover{background:var(--accent-dark)}
+.small-btn{padding:6px 10px;font-size:12px}
+.secondary{background:#eef2f7;color:var(--text);border:1px solid var(--border)}
+.secondary:hover{background:#e6ebf2}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.step{background:var(--blue);padding:10px 12px;border-left:4px solid #0d6efd;margin-bottom:12px;font-size:13px;border-radius:8px}
+.note{color:var(--sub);font-size:12px;margin-top:4px}
+.table-wrap{overflow:auto}
+.data-wrap{min-width:1560px}
+.line-labels{display:grid;gap:8px;padding:10px;font-size:12px;font-weight:800;color:#33415c;background:#eef2f7;border:1px solid var(--border)}
+.line-labels.fixed{grid-template-columns:1fr 1.4fr 1fr 1fr;border-radius:12px 12px 0 0;border-bottom:none}
+.line-labels.placeholders{grid-template-columns:repeat(7,minmax(120px,1fr)) 150px;border-radius:0;margin-bottom:10px}
+.row-card{border:1px solid var(--border);border-radius:12px;margin-bottom:12px;overflow:hidden;background:#fff}
+.row-line{display:grid;gap:8px;padding:10px}
+.row-line.fixed{grid-template-columns:1fr 1.4fr 1fr 1fr;background:#f8fbff;border-bottom:1px solid var(--border)}
+.row-line.placeholders{grid-template-columns:repeat(7,minmax(120px,1fr)) 150px;background:#fff}
+.actions{display:flex;gap:6px;align-items:center;justify-content:flex-start;flex-wrap:wrap}
+.radio-row{display:flex;gap:18px;flex-wrap:wrap;margin-top:6px}
+.radio-row label{display:flex;align-items:center;gap:6px;font-weight:600}
+.radio-row input[type="radio"]{width:auto;padding:0;margin:0}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap}
+.preview{width:794px;min-height:1123px;background:white;margin:20px auto;padding:42px 48px 56px;box-shadow:0 0 10px rgba(0,0,0,.12);color:#111;overflow:hidden}
+.letterhead-wrap{margin-bottom:16px}
+.letterhead-wrap img{width:100%;max-height:170px;object-fit:contain;display:block}
+.letter-top{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;width:100%}
+.letter-top .left{width:50%;max-width:50%;white-space:pre-line;line-height:1.75;overflow-wrap:anywhere}
+.letter-top .right{width:50%;max-width:50%;line-height:1.75;text-align:right;overflow-wrap:anywhere}
+.table-head{width:100%;border-collapse:collapse;margin:0 0 14px 0;table-layout:fixed}
+.table-head td{border:1px solid #111;padding:8px 10px;vertical-align:top;overflow-wrap:anywhere}
+.table-head td.right-cell{text-align:right}
+.subject-row{width:100%;border-collapse:collapse;margin:0 0 14px 0;table-layout:fixed}
+.subject-row td{border:1px solid #111;padding:8px 10px;vertical-align:top;overflow-wrap:anywhere}
+.subject-label{width:72px;font-weight:700}
+.salutation-block{margin-top:8px;margin-bottom:12px}
+.body-content{line-height:2.1;text-align:justify}
+.body-content p{margin:0 0 14px 0;text-align:justify}
+.signature{margin-top:42px;line-height:1.9}
+.signature.right{width:30%;margin-left:auto;text-align:center}
+.signature.left{width:100%;text-align:left}
+.instructions{background:#fff7ec;border:1px solid #ffd7a3;padding:12px 14px;border-radius:10px;margin-top:10px;font-size:13px;line-height:1.7}
+hr.soft{border:none;border-top:1px solid var(--border);margin:18px 0}
+@media (max-width:900px){
+  .grid-2,.grid-3{grid-template-columns:1fr}
+  .preview{width:100%;min-height:auto;padding:24px 18px}
+  .letter-top{flex-direction:column}
+  .letter-top .left,.letter-top .right{width:100%;max-width:100%}
+  .line-labels.fixed,.row-line.fixed{grid-template-columns:1fr}
 }
-
-table{
-width:100%;
-border-collapse:collapse;
-}
-
-th,td{
-border:1px solid #ddd;
-padding:6px;
-text-align:left;
-}
-
-th{background:#eee}
-
-/* preview */
-.preview{
-width:794px;
-min-height:1123px;
-background:white;
-margin:30px auto;
-padding:60px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
-}
-
-.right{text-align:right}
-
-.step{
-background:#eaf3ff;
-padding:8px;
-border-left:4px solid #007bff;
-margin-bottom:10px;
-font-size:13px
-}
-
 @media print{
-body *{visibility:hidden}
-.preview,.preview *{visibility:visible}
-.preview{position:absolute;left:0;top:0;width:100%}
+  @page{
+    size:A4;
+    margin:12mm;
+  }
+  body{
+    background:#fff;
+  }
+  body *{visibility:hidden}
+  #preview,#preview *{visibility:visible}
+  #preview{
+    position:absolute;
+    left:0;
+    top:0;
+    width:100%;
+  }
+  .preview{
+    width:186mm;
+    min-height:273mm;
+    box-shadow:none;
+    margin:0 auto 0 auto;
+    padding:12mm 12mm 14mm;
+    overflow:hidden;
+    page-break-after:always;
+    break-after:page;
+    page-break-inside:avoid;
+    break-inside:avoid-page;
+  }
+  .preview:last-child{
+    page-break-after:auto;
+    break-after:auto;
+  }
 }
 </style>
-
 </head>
-
 <body>
-
 <div class="container">
+  <h1>📄 স্মার্ট নোটিশ জেনারেটর</h1>
 
-<h2>📄 Smart Notice Generator</h2>
+  <div class="step">Step 1: টেমপ্লেট ঠিক করুন → Step 2: row-তে data দিন অথবা Excel import করুন → Step 3: Generate → Print / Save as PDF</div>
 
-<div class="step">
-Step 1: Template লিখুন → Step 2: নিচে ডাটা দিন → Step 3: Generate → Print/PDF
-</div>
+  <div class="section">
+    <div class="toolbar">
+      <button type="button" onclick="loadDemoTemplate()">Demo Template Load</button>
+      <button type="button" class="secondary" onclick="loadDemoData()">Demo Data Load</button>
+    </div>
 
-<!-- TEMPLATE -->
-<div class="section">
+    <h2 style="margin-top:12px;">Template Setup</h2>
 
-<h3>Template Setup</h3>
+    <label>চিঠির ধরণ</label>
+    <select id="letterStyle">
+      <option value="traditional">Traditional</option>
+      <option value="standard">Standard</option>
+    </select>
 
-<label>Letterhead Image</label>
-<input type="file" id="img">
+    <label>Language</label>
+    <div class="radio-row">
+      <label><input type="radio" name="langMode" value="bn" checked> বাংলা</label>
+      <label><input type="radio" name="langMode" value="en"> English</label>
+    </div>
 
-<label>Address (Use {{name}}, {{address}})</label>
-<textarea id="address">To  
-{{name}}  
+    <label>Letterhead Image</label>
+    <input type="file" id="img" accept="image/*">
+    <div class="note">প্রতিটি letter-এর উপরে একই image ব্যবহার হবে।</div>
+
+    <hr class="soft">
+
+    <label>ঠিকানা / Address Block</label>
+    <textarea id="address">প্রাপক
+{{name}}
 {{address}}</textarea>
 
-<div style="display:flex;gap:10px">
-<div style="flex:1">
-<label>Memo</label>
-<input id="memo" placeholder="Memo: {{memo}}">
-</div>
+    <label>Subject</label>
+    <input id="subject" value="জনাব {{placeholder1}} এর বিষয়ে তথ্য প্রদান প্রসঙ্গে।">
 
-<div style="flex:1">
-<label>Date</label>
-<input id="date" placeholder="Date: {{date}}">
-</div>
-</div>
+    <label>Salutation</label>
+    <input id="salutation" value="প্রিয় মহোদয়,">
 
-<label>Subject</label>
-<input id="subject" placeholder="Subject: {{placeholder1}}">
+    <label>Body Paragraph 1</label>
+    <div id="body1"></div>
 
-<label>Salutation</label>
-<input id="salutation" value="Dear Sir,">
+    <label style="margin-top:12px;">Body Paragraph 2</label>
+    <div id="body2"></div>
 
-<label>Body Paragraph 1</label>
-<textarea id="body1">This is to inform {{name}} regarding {{placeholder1}}</textarea>
+    <label style="margin-top:12px;">সমাধান / Closing Text</label>
+    <input id="closingText" value="ধন্যবাদান্তে,">
 
-<label>Body Paragraph 2</label>
-<textarea id="body2">Please clear within {{placeholder2}} days</textarea>
+    <div class="grid-3">
+      <div><label>স্বাক্ষরকারীর নাম</label><input id="sign" value="মোঃ আব্দুল লতিফ"></div>
+      <div><label>পদবী</label><input id="desig" value="সিনিয়র প্রিন্সিপাল অফিসার"></div>
+      <div><label>অতিরিক্ত লাইন</label><input id="extraLine" value="অগ্রণী ব্যাংক পিএলসি"></div>
+    </div>
+  </div>
 
-<label>Signature Name</label>
-<input id="sign" value="Abdul Latif">
+  <div class="section">
+    <h2>Data Input (Each row = one letter)</h2>
+    <div class="note">এখানে fixed 4 field: name, address, memo, date। আর placeholder1–placeholder7। মোট ৯টি data field Excel থেকেও আসবে।</div>
 
-<label>Designation</label>
-<input id="desig" value="Senior Principal Officer">
+    <div class="table-wrap">
+      <div class="data-wrap">
+        <div class="line-labels fixed">
+          <div>নাম / Name</div><div>ঠিকানা / Address</div><div>মেমো / Memo</div><div>তারিখ / Date</div>
+        </div>
+        <div class="line-labels placeholders">
+          <div>Placeholder1</div><div>Placeholder2</div><div>Placeholder3</div>
+          <div>Placeholder4</div><div>Placeholder5</div><div>Placeholder6</div><div>Placeholder7</div><div>Action</div>
+        </div>
+        <div id="rows"></div>
+      </div>
+    </div>
 
-</div>
+    <button type="button" onclick="addRow()">+ Add Row</button>
+    <label style="margin-top:12px;">Excel Import (.xlsx/.xls)</label>
+    <input type="file" id="excelFile" accept=".xlsx,.xls">
 
-<!-- DATA TABLE -->
-<div class="section">
+    <div class="instructions">
+      <strong>সংক্ষিপ্ত নির্দেশনা:</strong><br>
+      Excel-এর প্রথম row-তে header হিসেবে ব্যবহার করুন:
+      <code>name, address, memo, date, placeholder1, placeholder2, placeholder3, placeholder4, placeholder5, placeholder6, placeholder7</code><br>
+      বাংলা header হিসেবেও <code>নাম</code>, <code>ঠিকানা</code>, <code>মেমো</code>, <code>তারিখ</code> কাজ করবে।
+    </div>
+  </div>
 
-<h3>Data Input (Each Row = One Letter)</h3>
+  <div class="section">
+    <h2>Generate & Export</h2>
+    <button type="button" onclick="generate()">Generate Letters</button>
+    <button type="button" class="secondary" onclick="window.print()">Print / Save PDF</button>
+  </div>
 
-<table>
-<tr>
-<th>Name</th>
-<th>Address</th>
-<th>Memo</th>
-<th>Date</th>
-<th>Placeholder1</th>
-<th>Placeholder2</th>
-<th>Placeholder3</th>
-<th>Action</th>
-</tr>
-
-<tbody id="rows">
-<tr>
-<td><input></td>
-<td><input></td>
-<td><input></td>
-<td><input></td>
-<td><input></td>
-<td><input></td>
-<td><input></td>
-<td>
-<button class="small-btn" onclick="delRow(this)">-</button>
-</td>
-</tr>
-</tbody>
-</table>
-
-<button onclick="addRow()">+ Add Row</button>
-
-</div>
-
-<!-- ACTION -->
-<div class="section">
-
-<h3>Generate & Export</h3>
-
-<button onclick="generate()">Generate Letters</button>
-<button onclick="window.print()">Print / Save PDF</button>
-
-</div>
-
-<!-- PREVIEW -->
-<div id="preview"></div>
-
+  <div id="preview"></div>
 </div>
 
 <script>
+let imgData = "";
+const q1 = new Quill('#body1', { theme:'snow' });
+const q2 = new Quill('#body2', { theme:'snow' });
 
-let imgData="";
-
-document.getElementById("img").onchange=e=>{
-let reader=new FileReader();
-reader.onload=()=>imgData=reader.result;
-reader.readAsDataURL(e.target.files[0]);
+function setBanglaDefaults(){
+  document.getElementById('subject').value = 'জনাব {{placeholder1}} এর বিষয়ে তথ্য প্রদান প্রসঙ্গে।';
+  document.getElementById('salutation').value = 'প্রিয় মহোদয়,';
+  document.getElementById('closingText').value = 'ধন্যবাদান্তে,';
+  document.getElementById('address').value = 'প্রাপক\\n{{name}}\\n{{address}}';
+  document.getElementById('sign').value = 'মোঃ আব্দুল লতিফ';
+  document.getElementById('desig').value = 'সিনিয়র প্রিন্সিপাল অফিসার';
+  document.getElementById('extraLine').value = 'অগ্রণী ব্যাংক পিএলসি';
+  q1.root.innerHTML = '<p>উপর্যুক্ত বিষয়ে আপনাকে অবগতির জন্য জানানো যাচ্ছে যে {{placeholder1}} সংক্রান্ত বিষয়ে প্রয়োজনীয় তথ্য প্রদান করার অনুরোধ করা হচ্ছে।</p>';
+  q2.root.innerHTML = '<p>অনুগ্রহ করে {{placeholder2}} দিনের মধ্যে প্রয়োজনীয় ব্যবস্থা গ্রহণ করে আমাদের অবহিত করবেন। রেফারেন্স: {{placeholder3}}।</p>';
 }
 
-function addRow(){
-let r=document.querySelector("#rows tr").cloneNode(true);
-r.querySelectorAll("input").forEach(i=>i.value="");
-document.getElementById("rows").appendChild(r);
+function setEnglishDefaults(){
+  document.getElementById('subject').value = 'Subject: Information regarding {{placeholder1}}.';
+  document.getElementById('salutation').value = 'Dear Sir,';
+  document.getElementById('closingText').value = 'Sincerely,';
+  document.getElementById('address').value = 'To\\n{{name}}\\n{{address}}';
+  document.getElementById('sign').value = 'Md. Abdul Latif';
+  document.getElementById('desig').value = 'Senior Principal Officer';
+  document.getElementById('extraLine').value = 'Agrani Bank PLC';
+  q1.root.innerHTML = '<p>You are hereby requested to provide the required information regarding {{placeholder1}}.</p>';
+  q2.root.innerHTML = '<p>Please take necessary action within {{placeholder2}} days and inform us accordingly. Reference: {{placeholder3}}.</p>';
 }
 
+setBanglaDefaults();
+
+document.getElementById("img").addEventListener("change", function(e){
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(){ imgData = reader.result; };
+  reader.readAsDataURL(file);
+});
+
+document.querySelectorAll('input[name="langMode"]').forEach(function(radio){
+  radio.addEventListener('change', function(){
+    if (radio.value === 'bn') setBanglaDefaults();
+    else setEnglishDefaults();
+  });
+});
+
+function loadDemoTemplate(){
+  document.getElementById('letterStyle').value = 'traditional';
+  document.querySelector('input[name="langMode"][value="bn"]').checked = true;
+  setBanglaDefaults();
+  q1.root.innerHTML = '<p>উপর্যুক্ত বিষয়ে আপনাকে অবগতির জন্য জানানো যাচ্ছে যে {{placeholder1}}, {{placeholder4}}, {{placeholder5}} সম্পর্কিত প্রয়োজনীয় তথ্য এই পত্রের মাধ্যমে জানতে চাওয়া হচ্ছে।</p>';
+  q2.root.innerHTML = '<p>অনুগ্রহ করে {{placeholder2}} দিনের মধ্যে বিষয়টি সম্পর্কে ব্যাখ্যা প্রদান করে আমাদের অবহিত করবেন। রেফারেন্স: {{placeholder3}}। অতিরিক্ত তথ্য: {{placeholder6}}, {{placeholder7}}।</p>';
+}
+
+function loadDemoData(){
+  document.getElementById('rows').innerHTML = '';
+  addRow({
+    name:'প্রধান শিক্ষক',
+    address:'জরিনা মিয়ারা উদ্দিন উচ্চ বিদ্যালয়\\nফুলবাড়িয়া ইউনিয়ন\\nজামালপুর সদর, জামালপুর',
+    memo:'অজা/শে/দাদা/১৪৯/২৫',
+    date:'২২/১২/২০২৫',
+    placeholder1:'জনাব নির্মলা রানী দাস',
+    placeholder2:'৭',
+    placeholder3:'খতিয়ান-২৫/২০২৫',
+    placeholder4:'ঋণ তথ্য',
+    placeholder5:'ব্যাংক হিসাব',
+    placeholder6:'সংশ্লিষ্ট দলিল',
+    placeholder7:'বর্তমান অবস্থা'
+  });
+}
+
+function escapeAttr(text){
+  return (text || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function escHtml(text){
+  return (text || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function nl2br(text){
+  return escHtml(text).replace(/\\n/g, '<br>');
+}
+function replaceTemplate(text, data){
+  return (text || '').replace(/{{(.*?)}}/g, function(_, key){ return data[key.trim()] || ''; });
+}
+
+function getRowTemplate(values){
+  values = values || {};
+  function v(k){ return values[k] || ''; }
+  return `
+    <div class="row-card">
+      <div class="row-line fixed">
+        <input data-key="name" placeholder="নাম / Name" value="${escapeAttr(v('name'))}">
+        <input data-key="address" placeholder="ঠিকানা / Address" value="${escapeAttr(v('address'))}">
+        <input data-key="memo" placeholder="মেমো / Memo" value="${escapeAttr(v('memo'))}">
+        <input data-key="date" placeholder="তারিখ / Date" value="${escapeAttr(v('date'))}">
+      </div>
+      <div class="row-line placeholders">
+        <input data-key="placeholder1" placeholder="Placeholder1" value="${escapeAttr(v('placeholder1'))}">
+        <input data-key="placeholder2" placeholder="Placeholder2" value="${escapeAttr(v('placeholder2'))}">
+        <input data-key="placeholder3" placeholder="Placeholder3" value="${escapeAttr(v('placeholder3'))}">
+        <input data-key="placeholder4" placeholder="Placeholder4" value="${escapeAttr(v('placeholder4'))}">
+        <input data-key="placeholder5" placeholder="Placeholder5" value="${escapeAttr(v('placeholder5'))}">
+        <input data-key="placeholder6" placeholder="Placeholder6" value="${escapeAttr(v('placeholder6'))}">
+        <input data-key="placeholder7" placeholder="Placeholder7" value="${escapeAttr(v('placeholder7'))}">
+        <div class="actions">
+          <button type="button" class="small-btn" onclick="copyRow(this)">Copy</button>
+          <button type="button" class="small-btn secondary" onclick="delRow(this)">Delete</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function addRow(values){
+  document.getElementById('rows').insertAdjacentHTML('beforeend', getRowTemplate(values || {}));
+}
+function rowData(row){
+  const data = {};
+  row.querySelectorAll('input[data-key]').forEach(function(input){
+    data[input.dataset.key] = input.value.trim();
+  });
+  return data;
+}
+function isEmptyRow(data){
+  return Object.values(data).every(function(v){ return v === ''; });
+}
 function delRow(btn){
-if(document.querySelectorAll("#rows tr").length>1)
-btn.closest("tr").remove();
+  const row = btn.closest('.row-card');
+  const allRows = document.querySelectorAll('.row-card');
+  if (allRows.length > 1) row.remove();
+  else row.querySelectorAll('input').forEach(function(i){ i.value = ''; });
+}
+function copyRow(btn){
+  addRow(rowData(btn.closest('.row-card')));
 }
 
-function replace(t,d){
-return t.replace(/{{(.*?)}}/g,(m,p)=>d[p.trim()]||"");
+function renderTraditional(addressHtml, memoDateHtml, subjectHtml) {
+  return `
+    <table class="table-head">
+      <tr>
+        <td>${addressHtml}</td>
+        <td class="right-cell">${memoDateHtml}</td>
+      </tr>
+    </table>
+    <table class="subject-row">
+      <tr>
+        <td class="subject-label">বিষয়ঃ</td>
+        <td>${subjectHtml}</td>
+      </tr>
+    </table>
+  `;
+}
+function renderStandard(addressHtml, memoDateHtml, subjectHtml) {
+  return `
+    <div class="letter-top">
+      <div class="left">${addressHtml}</div>
+      <div class="right">${memoDateHtml}</div>
+    </div>
+    <div style="margin-top:14px;font-weight:700;">${subjectHtml}</div>
+  `;
 }
 
 function generate(){
+  const rows = document.querySelectorAll('.row-card');
+  let html = '';
+  const style = document.getElementById('letterStyle').value;
+  const sigPos = style === 'traditional' ? 'right' : 'left';
 
-let rows=document.querySelectorAll("#rows tr");
-let html="";
+  rows.forEach(function(row){
+    const data = rowData(row);
+    if (isEmptyRow(data)) return;
 
-rows.forEach(r=>{
+    const address = replaceTemplate(document.getElementById('address').value, data);
+    const memoDate = replaceTemplate('পত্র নং: {{memo}}\\nতারিখ: {{date}}', data);
+    const subject = replaceTemplate(document.getElementById('subject').value, data);
+    const salutation = replaceTemplate(document.getElementById('salutation').value, data);
+    const body1 = replaceTemplate(q1.root.innerHTML, data);
+    const body2 = replaceTemplate(q2.root.innerHTML, data);
+    const sign = document.getElementById('sign').value;
+    const desig = document.getElementById('desig').value;
+    const extraLine = document.getElementById('extraLine').value;
+    const closingText = document.getElementById('closingText').value;
 
-let d={
-name:r.cells[0].querySelector("input").value,
-address:r.cells[1].querySelector("input").value,
-memo:r.cells[2].querySelector("input").value,
-date:r.cells[3].querySelector("input").value,
-placeholder1:r.cells[4].querySelector("input").value,
-placeholder2:r.cells[5].querySelector("input").value,
-placeholder3:r.cells[6].querySelector("input").value
-};
+    const topBlock = style === 'traditional'
+      ? renderTraditional(nl2br(address), nl2br(memoDate), escHtml(subject))
+      : renderStandard(nl2br(address), nl2br(memoDate), escHtml(subject));
 
-if(Object.values(d).every(v=>v==="")) return;
+    html += `
+      <div class="preview">
+        ${imgData ? `<div class="letterhead-wrap"><img src="${imgData}" alt="Letterhead"></div>` : ''}
+        ${topBlock}
+        <div class="salutation-block">${escHtml(salutation)}</div>
+        <div class="body-content">
+          ${body1}
+          ${body2}
+        </div>
+        <div style="margin-top:22px;">${escHtml(closingText)}</div>
+        <div class="signature ${sigPos}">
+          ${escHtml(sign)}<br>
+          ${escHtml(desig)}
+          ${extraLine ? `<br>${escHtml(extraLine)}` : ''}
+        </div>
+      </div>
+    `;
+  });
 
-html+=`
-<div class="preview">
-
-${imgData ? `<img src="${imgData}" style="width:100%;margin-bottom:20px">` : ""}
-
-<div style="display:flex;justify-content:space-between">
-<div>${replace(address.value,d).replace(/\n/g,"<br>")}</div>
-<div class="right">${replace(memo.value,d)}<br>${replace(date.value,d)}</div>
-</div>
-
-<h3>${replace(subject.value,d)}</h3>
-
-<p>${salutation.value}</p>
-
-<p>${replace(body1.value,d)}</p>
-<p>${replace(body2.value,d)}</p>
-
-<div class="right" style="margin-top:40px">
-${sign.value}<br>${desig.value}
-</div>
-
-</div>
-`;
-
-});
-
-document.getElementById("preview").innerHTML=html;
-
+  document.getElementById('preview').innerHTML =
+    html || '<div class="section">কোন data row পূরণ করা হয়নি। অন্তত একটি row-তে data দিন।</div>';
 }
 
-</script>
+document.getElementById('excelFile').addEventListener('change', function(e){
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    const data = new Uint8Array(ev.target.result);
+    const wb = XLSX.read(data, {type:'array'});
+    const sheet = wb.Sheets[wb.SheetNames[0]];
+    const json = XLSX.utils.sheet_to_json(sheet, {defval:''});
 
+    document.getElementById('rows').innerHTML = '';
+    json.forEach(function(r){
+      addRow({
+        name: r.name || r.Name || r['নাম'] || '',
+        address: r.address || r.Address || r['ঠিকানা'] || '',
+        memo: r.memo || r.Memo || r['মেমো'] || '',
+        date: r.date || r.Date || r['তারিখ'] || '',
+        placeholder1: r.placeholder1 || r.Placeholder1 || '',
+        placeholder2: r.placeholder2 || r.Placeholder2 || '',
+        placeholder3: r.placeholder3 || r.Placeholder3 || '',
+        placeholder4: r.placeholder4 || r.Placeholder4 || '',
+        placeholder5: r.placeholder5 || r.Placeholder5 || '',
+        placeholder6: r.placeholder6 || r.Placeholder6 || '',
+        placeholder7: r.placeholder7 || r.Placeholder7 || ''
+      });
+    });
+    if (json.length === 0) addRow();
+  };
+  reader.readAsArrayBuffer(file);
+});
+
+addRow();
+</script>
 </body>
 </html>
